@@ -1,0 +1,31 @@
+<idea-plugin>
+    <id>com.star.easydoc.easy-javadoc</id>
+    <name>easy-javadoc</name>
+    <vendor email="wangchao.star@gmail.com" url="https://github.com/starcwang">wangchao</vendor>
+
+    <description><![CDATA[
+      本插件能帮助你快速完成javadoc文档注释<br>
+      目前支持方法级别，更多功能敬请期待<br>
+      <a href="https://github.com/starcwang/easy_javadoc">插件使用入门文档</a><br>
+    ]]></description>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <applicationService serviceImplementation="com.star.easydoc.service.DocService"/>
+        <applicationService serviceImplementation="com.star.easydoc.service.DocWriterService"/>
+        <applicationService serviceImplementation="com.star.easydoc.service.TranslatorService"/>
+        <applicationService serviceImplementation="com.star.easydoc.component.TranslatorComponent"/>
+        <applicationConfigurable instance="com.star.easydoc.config.EasyJavadocConfigurable"/>
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+        <group id="com.star.javadoc" text="EasyJavadoc" description="EasyJavadoc" popup="true">
+            <separator/>
+            <group id="EasyJavadocSubGroup"/>
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <action id="javadoc.generator" class="com.star.easydoc.action.GeneratorJavadocAction" text="GenerateJavadoc"
+                    description="GenerateJavadoc"/>
+        </group>
+    </actions>
+</idea-plugin>
