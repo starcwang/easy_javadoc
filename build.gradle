@@ -20,9 +20,10 @@ dependencies {
 intellij {
     plugins 'java'
     version "2019.2"
+    pluginName 'easy-javadoc'
 }
 patchPluginXml {
     changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
+      本插件能帮助你快速完成javadoc文档注释<br>
+      <a href="https://github.com/starcwang/easy_javadoc">插件使用入门文档</a><br>"""
 }

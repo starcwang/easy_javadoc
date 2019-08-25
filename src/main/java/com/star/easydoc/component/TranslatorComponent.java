@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
  * @author wangchao
  * @date 2019/08/25
  */
-@State(name = "easyJavadoc", storages = {@Storage("$APP_CONFIG$/easyJavadoc.xml")})
+@State(name = "easyJavadoc", storages = {@Storage("easyJavadoc.xml")})
 public class TranslatorComponent implements PersistentStateComponent<EasyJavadocConfiguration> {
 
     private EasyJavadocConfiguration configuration;

@@ -21,7 +21,7 @@ public class DocService {
             sb.append("* @param ").append(paramName).append(" ").append(translatorService.translate(paramName))
                 .append("\n");
         }
-        if (returnName != null && returnName.length() > 0) {
+        if (returnName != null && returnName.length() > 0 && !"void".equals(returnName)) {
             sb.append("* @return ").append(returnName);
         }
         sb.append("*/\n");

@@ -46,15 +46,19 @@ public class EasyJavadocConfigView {
         toolbarDecorator.setAddAction(button -> {
             WordMapAddView wordMapAddView = new WordMapAddView();
             if (wordMapAddView.showAndGet()) {
-                Entry<String, String> entry = wordMapAddView.getMapping();
-                Objects.requireNonNull(config).getWordMap().put(entry.getKey(), entry.getValue());
-                refreshWordMap();
+                if (config != null) {
+                    Entry<String, String> entry = wordMapAddView.getMapping();
+                    config.getWordMap().put(entry.getKey(), entry.getValue());
+                    refreshWordMap();
+                }
             }
         });
         toolbarDecorator.setRemoveAction(anActionButton -> {
-            Map<String, String> typeMap = Objects.requireNonNull(config).getWordMap();
-            typeMap.remove(typeMapList.getSelectedValue().getKey());
-            refreshWordMap();
+            if (config != null) {
+                Map<String, String> typeMap = config.getWordMap();
+                typeMap.remove(typeMapList.getSelectedValue().getKey());
+                refreshWordMap();
+            }
         });
         wordMapPanel = toolbarDecorator.createPanel();
     }
