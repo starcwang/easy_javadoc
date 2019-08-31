@@ -1,4 +1,4 @@
-package com.star.easydoc.component;
+package com.star.easydoc.config;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -7,7 +7,7 @@ import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
-import com.star.easydoc.config.EasyJavadocConfiguration;
+import com.star.easydoc.model.EasyJavadocConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,8 +16,9 @@ import org.jetbrains.annotations.Nullable;
  * @date 2019/08/25
  */
 @State(name = "easyJavadoc", storages = {@Storage("easyJavadoc.xml")})
-public class TranslatorComponent implements PersistentStateComponent<EasyJavadocConfiguration> {
+public class EasyJavadocConfigComponent implements PersistentStateComponent<EasyJavadocConfiguration> {
 
+    public static final String DEFAULT_DATE_FORMAT = "yyyy/MM/dd";
     private EasyJavadocConfiguration configuration;
 
     @Nullable
@@ -25,7 +26,10 @@ public class TranslatorComponent implements PersistentStateComponent<EasyJavadoc
     public EasyJavadocConfiguration getState() {
         if (configuration == null) {
             configuration = new EasyJavadocConfiguration();
-            configuration.setWordMap(new HashMap<>());
+            configuration.setAuthor(System.getProperty("user.name"));
+            configuration.setDateFormat(DEFAULT_DATE_FORMAT);
+            configuration.setSimpleFieldDoc(true);
+            configuration.setWordMap(new HashMap<>(8));
         }
         return configuration;
     }
@@ -33,13 +37,5 @@ public class TranslatorComponent implements PersistentStateComponent<EasyJavadoc
     @Override
     public void loadState(@NotNull EasyJavadocConfiguration state) {
         XmlSerializerUtil.copyBean(state, Objects.requireNonNull(getState()));
-    }
-
-    public EasyJavadocConfiguration getConfiguration() {
-        return configuration;
-    }
-
-    public void setConfiguration(EasyJavadocConfiguration configuration) {
-        this.configuration = configuration;
     }
 }

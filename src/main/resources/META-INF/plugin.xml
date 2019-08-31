@@ -11,11 +11,11 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
+        <applicationService serviceImplementation="com.star.easydoc.config.EasyJavadocConfigComponent" order="first"/>
         <applicationService serviceImplementation="com.star.easydoc.service.DocService"/>
         <applicationService serviceImplementation="com.star.easydoc.service.DocWriterService"/>
         <applicationService serviceImplementation="com.star.easydoc.service.TranslatorService"/>
-        <applicationService serviceImplementation="com.star.easydoc.component.TranslatorComponent"/>
-        <applicationConfigurable instance="com.star.easydoc.config.EasyJavadocConfigurable"/>
+        <applicationConfigurable instance="com.star.easydoc.view.EasyJavadocConfigurable"/>
     </extensions>
 
     <actions>

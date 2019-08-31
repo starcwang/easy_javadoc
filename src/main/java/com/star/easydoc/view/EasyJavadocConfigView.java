@@ -2,7 +2,6 @@ package com.star.easydoc.view;
 
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Objects;
 
 import javax.swing.*;
 
@@ -11,7 +10,7 @@ import com.intellij.ui.CollectionListModel;
 import com.intellij.ui.SimpleListCellRenderer;
 import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.JBList;
-import com.star.easydoc.config.EasyJavadocConfiguration;
+import com.star.easydoc.model.EasyJavadocConfiguration;
 
 /**
  * @author wangchao
@@ -22,11 +21,38 @@ public class EasyJavadocConfigView {
     private EasyJavadocConfiguration config;
     private JPanel panel;
     private JPanel wordMapPanel;
+    private JTextField authorTextField;
+    private JTextField dateFormatTextField;
+    private JPanel classPanel;
+    private JPanel fieldPanel;
+    private JLabel authorLabel;
+    private JLabel dataFormatLabel;
+    private JRadioButton simpleDocButton;
+    private JRadioButton normalDocButton;
+    private JLabel fieldDocLabel;
     private JBList<Entry<String, String>> typeMapList;
 
     public EasyJavadocConfigView(EasyJavadocConfiguration config) {
         this.config = config;
         refreshWordMap();
+
+        simpleDocButton.addChangeListener(e -> {
+            JRadioButton button = (JRadioButton)e.getSource();
+            if (button.isSelected()) {
+                normalDocButton.setSelected(false);
+            } else {
+                normalDocButton.setSelected(true);
+            }
+        });
+
+        normalDocButton.addChangeListener(e -> {
+            JRadioButton button = (JRadioButton)e.getSource();
+            if (button.isSelected()) {
+                simpleDocButton.setSelected(false);
+            } else {
+                simpleDocButton.setSelected(true);
+            }
+        });
     }
 
     private void createUIComponents() {
@@ -71,5 +97,37 @@ public class EasyJavadocConfigView {
 
     public JComponent getComponent() {
         return panel;
+    }
+
+    public JTextField getAuthorTextField() {
+        return authorTextField;
+    }
+
+    public JTextField getDateFormatTextField() {
+        return dateFormatTextField;
+    }
+
+    public JRadioButton getSimpleDocButton() {
+        return simpleDocButton;
+    }
+
+    public JRadioButton getNormalDocButton() {
+        return normalDocButton;
+    }
+
+    public void setSimpleDocButton(boolean b) {
+        simpleDocButton.setSelected(b);
+    }
+
+    public void setNormalDocButton(boolean b) {
+        normalDocButton.setSelected(b);
+    }
+
+    public void setAuthorTextField(String author) {
+        authorTextField.setText(author);
+    }
+
+    public void setDateFormatTextField(String dateFormat) {
+        dateFormatTextField.setText(dateFormat);
     }
 }

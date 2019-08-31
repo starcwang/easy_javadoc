@@ -1,8 +1,19 @@
 package com.star.easydoc.service;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
 
-import com.intellij.openapi.components.ServiceManager;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiField;
+import com.intellij.psi.PsiMethod;
+import com.star.easydoc.service.generator.DocGenerator;
+import com.star.easydoc.service.generator.impl.ClassDocGenerator;
+import com.star.easydoc.service.generator.impl.FieldDocGenerator;
+import com.star.easydoc.service.generator.impl.MethodDocGenerator;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author wangchao
@@ -10,21 +21,23 @@ import com.intellij.openapi.components.ServiceManager;
  */
 public class DocService {
 
-    private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
+    private Map<Class<? extends PsiElement>, DocGenerator> docGeneratorMap = new HashMap<Class<? extends PsiElement>, DocGenerator>() {{
+        put(PsiClass.class, new ClassDocGenerator());
+        put(PsiMethod.class, new MethodDocGenerator());
+        put(PsiField.class, new FieldDocGenerator());
+    }};
 
-    public String generate(String methodName, List<String> paramNames, String returnName) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("/**\n");
-        sb.append("* ").append(translatorService.translate(methodName)).append("\n");
-        sb.append("*\n");
-        for (String paramName : paramNames) {
-            sb.append("* @param ").append(paramName).append(" ").append(translatorService.translate(paramName))
-                .append("\n");
+    public String generate(PsiElement psiElement) {
+        DocGenerator docGenerator = null;
+        for (Entry<Class<? extends PsiElement>, DocGenerator> entry : docGeneratorMap.entrySet()) {
+            if (entry.getKey().isAssignableFrom(psiElement.getClass())) {
+                docGenerator = entry.getValue();
+                break;
+            }
         }
-        if (returnName != null && returnName.length() > 0 && !"void".equals(returnName)) {
-            sb.append("* @return ").append(returnName);
+        if (Objects.isNull(docGenerator)) {
+            return StringUtils.EMPTY;
         }
-        sb.append("*/\n");
-        return sb.toString();
+        return docGenerator.generate(psiElement);
     }
 }

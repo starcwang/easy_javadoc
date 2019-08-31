@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.intellij.openapi.components.ServiceManager;
-import com.star.easydoc.component.TranslatorComponent;
+import com.star.easydoc.config.EasyJavadocConfigComponent;
 
 /**
  * @author wangchao
@@ -17,7 +17,7 @@ public class TranslatorService {
         List<String> words = split(source);
         StringBuilder res = new StringBuilder();
         for (String word : words) {
-            res.append(Objects.requireNonNull(ServiceManager.getService(TranslatorComponent.class)
+            res.append(Objects.requireNonNull(ServiceManager.getService(EasyJavadocConfigComponent.class)
                 .getState()).getWordMap().getOrDefault(word.toLowerCase(), word));
         }
         return res.toString();
