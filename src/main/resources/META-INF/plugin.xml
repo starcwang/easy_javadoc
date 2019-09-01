@@ -4,6 +4,8 @@
     <vendor email="wangchao.star@gmail.com" url="https://github.com/starcwang">wangchao</vendor>
 
     <description><![CDATA[
+      This plugin can help you complete the Chinese javadoc document quickly.<br>
+      Support three type of javadoc: field, method and class.<br>
       本插件能帮助你快速完成javadoc文档注释<br>
       当方法很简单，但是又不得不完成枯燥的注释的时候，本插件正好能帮到你<br>
       支持类、方法、属性三种注释生成<br>
@@ -12,6 +14,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
+      v1.0 first version: support class, method and field javadoc<br>
       v1.0 第一版发布：实现了类、方法、属性的注释自动生成。<br>
       <a href="https://github.com/starcwang/easy_javadoc">easy-javadoc插件使用入门文档</a><br>
     ]]>
