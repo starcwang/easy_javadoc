@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
  * @date 2019/08/25
  */
 public class TranslatorService {
+
     private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
 
     private Map<String, Translator> translatorMap = ImmutableMap.<String, Translator>builder()
