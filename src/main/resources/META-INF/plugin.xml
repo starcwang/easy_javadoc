@@ -38,4 +38,6 @@
             </action>
         </group>
     </actions>
+
+    <depends>com.intellij.modules.java</depends>
 </idea-plugin>
