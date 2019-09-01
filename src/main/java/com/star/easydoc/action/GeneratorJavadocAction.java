@@ -13,8 +13,9 @@ import com.star.easydoc.service.DocWriterService;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ *
  * @author wangchao
- * @date 2019/08/24
+ * @date 2019/09/01
  */
 public class GeneratorJavadocAction extends AnAction {
 

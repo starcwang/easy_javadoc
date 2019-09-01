@@ -1,7 +1,7 @@
 package com.star.easydoc.config;
 
-import java.util.HashMap;
 import java.util.Objects;
+import java.util.TreeMap;
 
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
@@ -29,7 +29,7 @@ public class EasyJavadocConfigComponent implements PersistentStateComponent<Easy
             configuration.setAuthor(System.getProperty("user.name"));
             configuration.setDateFormat(DEFAULT_DATE_FORMAT);
             configuration.setSimpleFieldDoc(true);
-            configuration.setWordMap(new HashMap<>(8));
+            configuration.setWordMap(new TreeMap<>());
             configuration.setTranslator("有道翻译");
         }
         return configuration;

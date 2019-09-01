@@ -52,7 +52,7 @@ public class TranslatorService {
     }
 
     private String getFromCustom(String word) {
-        return config.getWordMap().get(word);
+        return config.getWordMap().get(word.toLowerCase());
     }
 
     private String getFromOthers(String word) {

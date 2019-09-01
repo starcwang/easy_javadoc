@@ -1,7 +1,7 @@
 package com.star.easydoc.view;
 
-import java.util.HashMap;
 import java.util.Objects;
+import java.util.TreeMap;
 
 import javax.swing.*;
 
@@ -60,7 +60,7 @@ public class EasyJavadocConfigurable implements Configurable {
         config.setSimpleFieldDoc(view.getSimpleDocButton().isSelected());
         config.setTranslator(String.valueOf(view.getTranslatorBox().getSelectedItem()));
         if (config.getWordMap() == null) {
-            config.setWordMap(new HashMap<>(8));
+            config.setWordMap(new TreeMap<>());
         }
     }
 

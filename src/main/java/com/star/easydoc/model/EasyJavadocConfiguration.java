@@ -1,7 +1,7 @@
 package com.star.easydoc.model;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @author wangchao
@@ -48,7 +48,7 @@ public class EasyJavadocConfiguration {
 
     public Map<String, String> getWordMap() {
         if (wordMap == null) {
-            wordMap = new HashMap<>(8);
+            wordMap = new TreeMap<>();
         }
         return wordMap;
     }
