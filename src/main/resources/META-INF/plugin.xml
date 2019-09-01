@@ -5,9 +5,16 @@
 
     <description><![CDATA[
       本插件能帮助你快速完成javadoc文档注释<br>
-      目前支持方法级别，更多功能敬请期待<br>
-      <a href="https://github.com/starcwang/easy_javadoc">插件使用入门文档</a><br>
+      当方法很简单，但是又不得不完成枯燥的注释的时候，本插件正好能帮到你<br>
+      支持类、方法、属性三种注释生成<br>
+      <a href="https://github.com/starcwang/easy_javadoc">easy-javadoc插件使用入门文档</a><br>
     ]]></description>
+
+    <change-notes><![CDATA[
+      v1.0 第一版发布：实现了类、方法、属性的注释自动生成。<br>
+      <a href="https://github.com/starcwang/easy_javadoc">easy-javadoc插件使用入门文档</a><br>
+    ]]>
+    </change-notes>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
@@ -25,7 +32,9 @@
             <group id="EasyJavadocSubGroup"/>
             <add-to-group group-id="ToolsMenu" anchor="last"/>
             <action id="javadoc.generator" class="com.star.easydoc.action.GeneratorJavadocAction" text="GenerateJavadoc"
-                    description="GenerateJavadoc"/>
+                     description="GenerateJavadoc">
+                <keyboard-shortcut keymap="$default" first-keystroke="meta BACK_SLASH"/>
+            </action>
         </group>
     </actions>
 </idea-plugin>

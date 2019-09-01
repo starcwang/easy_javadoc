@@ -30,6 +30,9 @@ public class EasyJavadocConfigView {
     private JRadioButton simpleDocButton;
     private JRadioButton normalDocButton;
     private JLabel fieldDocLabel;
+    private JPanel commonPanel;
+    private JComboBox translatorBox;
+    private JLabel translatorLabel;
     private JBList<Entry<String, String>> typeMapList;
 
     public EasyJavadocConfigView(EasyJavadocConfiguration config) {
@@ -95,6 +98,10 @@ public class EasyJavadocConfigView {
         }
     }
 
+    public JComboBox getTranslatorBox() {
+        return translatorBox;
+    }
+
     public JComponent getComponent() {
         return panel;
     }
@@ -125,6 +132,10 @@ public class EasyJavadocConfigView {
 
     public void setAuthorTextField(String author) {
         authorTextField.setText(author);
+    }
+
+    public void setTranslatorBox(String translator) {
+        translatorBox.setSelectedItem(translator);
     }
 
     public void setDateFormatTextField(String dateFormat) {

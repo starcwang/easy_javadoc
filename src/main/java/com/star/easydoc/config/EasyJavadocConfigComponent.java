@@ -30,6 +30,7 @@ public class EasyJavadocConfigComponent implements PersistentStateComponent<Easy
             configuration.setDateFormat(DEFAULT_DATE_FORMAT);
             configuration.setSimpleFieldDoc(true);
             configuration.setWordMap(new HashMap<>(8));
+            configuration.setTranslator("有道翻译");
         }
         return configuration;
     }

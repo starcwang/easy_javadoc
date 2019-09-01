@@ -1,5 +1,6 @@
 package com.star.easydoc.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -10,7 +11,16 @@ public class EasyJavadocConfiguration {
     private String author;
     private String dateFormat;
     private Boolean simpleFieldDoc;
+    private String translator;
     private Map<String, String> wordMap;
+
+    public String getTranslator() {
+        return translator;
+    }
+
+    public void setTranslator(String translator) {
+        this.translator = translator;
+    }
 
     public Boolean getSimpleFieldDoc() {
         return simpleFieldDoc;
@@ -37,6 +47,9 @@ public class EasyJavadocConfiguration {
     }
 
     public Map<String, String> getWordMap() {
+        if (wordMap == null) {
+            wordMap = new HashMap<>(8);
+        }
         return wordMap;
     }
 

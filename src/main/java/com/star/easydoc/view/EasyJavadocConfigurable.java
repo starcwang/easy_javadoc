@@ -47,6 +47,9 @@ public class EasyJavadocConfigurable implements Configurable {
         if (!Objects.equals(config.getSimpleFieldDoc(), view.getSimpleDocButton().isSelected())) {
             return true;
         }
+        if (!Objects.equals(config.getTranslator(), view.getTranslatorBox().getSelectedItem())) {
+            return true;
+        }
         return false;
     }
 
@@ -55,6 +58,7 @@ public class EasyJavadocConfigurable implements Configurable {
         config.setAuthor(view.getAuthorTextField().getText());
         config.setDateFormat(view.getDateFormatTextField().getText());
         config.setSimpleFieldDoc(view.getSimpleDocButton().isSelected());
+        config.setTranslator(String.valueOf(view.getTranslatorBox().getSelectedItem()));
         if (config.getWordMap() == null) {
             config.setWordMap(new HashMap<>(8));
         }
@@ -71,5 +75,6 @@ public class EasyJavadocConfigurable implements Configurable {
         }
         view.setAuthorTextField(config.getAuthor());
         view.setDateFormatTextField(config.getDateFormat());
+        view.setTranslatorBox(config.getTranslator());
     }
 }
