@@ -24,6 +24,8 @@ intellij {
 }
 patchPluginXml {
     changeNotes """
-      本插件能帮助你快速完成javadoc文档注释<br>
-      <a href="https://github.com/starcwang/easy_javadoc">插件使用入门文档</a><br>"""
+      This plugin can help you complete the Chinese javadoc document quickly.<br>
+      Support three type of javadoc: field, method and class.<br>
+      <a href="https://github.com/starcwang/easy_javadoc">easy-javadoc source code and document</a><br>
+      """
 }
