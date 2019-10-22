@@ -11,7 +11,15 @@
     ]]></description>
 
     <change-notes><![CDATA[
-      v1.0 first version: support class, method and field javadoc<br>
+      <h3>v1.1 update</h3>
+      <ul>
+          <li>add @link label in @return doc of the method javadoc</li>
+          <li>fix some bugs</li>
+      </ul>
+      <h3>v1.0 first version</h3>
+      <ul>
+          <li>support class, method and field javadoc</li>
+      </ul>
       <a href="https://github.com/starcwang/easy_javadoc">easy-javadoc source code and document</a><br>
     ]]>
     </change-notes>
@@ -31,9 +39,13 @@
             <separator/>
             <group id="EasyJavadocSubGroup"/>
             <add-to-group group-id="ToolsMenu" anchor="last"/>
-            <action id="javadoc.generator" class="com.star.easydoc.action.GeneratorJavadocAction" text="GenerateJavadoc"
-                     description="GenerateJavadoc">
+            <action id="javadoc.generator" class="com.star.easydoc.action.GenerateJavadocAction" text="GenerateJavadoc"
+                    description="GenerateJavadoc">
+                <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta BACK_SLASH"/>
+                <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta BACK_SLASH"/>
+                <keyboard-shortcut keymap="Default for XWin" first-keystroke="ctrl BACK_SLASH"/>
                 <keyboard-shortcut keymap="$default" first-keystroke="meta BACK_SLASH"/>
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl BACK_SLASH"/>
             </action>
         </group>
     </actions>

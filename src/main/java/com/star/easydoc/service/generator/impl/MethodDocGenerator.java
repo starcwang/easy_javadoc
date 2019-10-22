@@ -2,8 +2,10 @@ package com.star.easydoc.service.generator.impl;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Sets;
 import com.intellij.lang.jvm.JvmParameter;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.psi.PsiElement;
@@ -19,6 +21,9 @@ import org.apache.commons.lang3.StringUtils;
 public class MethodDocGenerator implements DocGenerator {
 
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
+
+    private static final Set<String> BASE_TYPE_SET = Sets.newHashSet("byte", "short", "int", "long", "char", "float",
+            "double", "boolean");
 
     @Override
     public String generate(PsiElement psiElement) {
@@ -39,7 +44,11 @@ public class MethodDocGenerator implements DocGenerator {
                 .append("\n");
         }
         if (returnName.length() > 0 && !"void".equals(returnName)) {
-            sb.append("* @return ").append(returnName);
+            if (BASE_TYPE_SET.contains(returnName)) {
+                sb.append("* @return ").append(returnName);
+            } else {
+                sb.append("* @return {@link ").append(returnName).append("}");
+            }
         }
         sb.append("*/\n");
         return sb.toString();

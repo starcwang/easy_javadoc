@@ -6,7 +6,9 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiJavaDocumentedElement;
 import com.intellij.psi.codeStyle.CodeStyleManager;
+import com.intellij.psi.javadoc.PsiDocComment;
 import com.intellij.psi.util.PsiUtilBase;
 import com.intellij.util.ThrowableRunnable;
 
@@ -27,8 +29,17 @@ public class DocWriterService {
                             .doPostponedOperationsAndUnblockDocument(editor.getDocument());
                     }
 
-                    psiElement.getNode().addChild(target.getNode(), psiElement.getFirstChild().getNode());
+                    // 写入文档注释
+                    if (psiElement instanceof PsiJavaDocumentedElement) {
+                        PsiDocComment psiDocComment = ((PsiJavaDocumentedElement) psiElement).getDocComment();
+                        if (psiDocComment == null) {
+                            psiElement.getNode().addChild(target.getNode(), psiElement.getFirstChild().getNode());
+                        } else {
+                            psiDocComment.replace(target);
+                        }
+                    }
 
+                    // 格式化文档注释
                     CodeStyleManager codeStyleManager = CodeStyleManager.getInstance(psiElement.getProject());
                     PsiElement javadocElement = psiElement.getFirstChild();
                     int startOffset = javadocElement.getTextOffset();

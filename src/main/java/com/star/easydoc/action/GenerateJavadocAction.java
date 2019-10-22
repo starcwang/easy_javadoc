@@ -10,6 +10,7 @@ import com.intellij.psi.PsiElementFactory;
 import com.intellij.psi.javadoc.PsiDocComment;
 import com.star.easydoc.service.DocService;
 import com.star.easydoc.service.DocWriterService;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -17,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
  * @author wangchao
  * @date 2019/09/01
  */
-public class GeneratorJavadocAction extends AnAction {
+public class GenerateJavadocAction extends AnAction {
 
     private DocService docService = ServiceManager.getService(DocService.class);
 
@@ -25,12 +26,19 @@ public class GeneratorJavadocAction extends AnAction {
     public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
         PsiElement psiElement = anActionEvent.getData(LangDataKeys.PSI_ELEMENT);
 
+        if (psiElement == null) {
+            return;
+        }
+
         Project project = anActionEvent.getData(LangDataKeys.PROJECT);
         if (project == null) {
             return;
         }
 
         String comment = docService.generate(psiElement);
+        if (StringUtils.isEmpty(comment)) {
+            return;
+        }
 
         PsiElementFactory factory = PsiElementFactory.getInstance(project);
         PsiDocComment psiDocComment = factory.createDocCommentFromText(comment);
