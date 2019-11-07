@@ -1,6 +1,7 @@
 # easy_javadoc 点一下star✨，是对作者最大的支持
 ## 介绍
 本项目是IntelliJ IDEA的插件，能帮助java开发者自动生成javadoc文档注释  
+**支持的IDEA版本为 2019.2 及以上**    
 
 ![配置图](./doc/k03vffH6Hg.gif)
 
