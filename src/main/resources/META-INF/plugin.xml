@@ -30,7 +30,11 @@
         <applicationService serviceImplementation="com.star.easydoc.service.DocService"/>
         <applicationService serviceImplementation="com.star.easydoc.service.DocWriterService"/>
         <applicationService serviceImplementation="com.star.easydoc.service.TranslatorService"/>
-        <applicationConfigurable instance="com.star.easydoc.view.EasyJavadocConfigurable"/>
+        <applicationConfigurable instance="com.star.easydoc.view.CommonConfigurable">
+            <configurable instance="com.star.easydoc.view.template.ClassConfigurable"/>
+            <configurable instance="com.star.easydoc.view.template.MethodConfigurable"/>
+            <configurable instance="com.star.easydoc.view.template.FieldConfigurable"/>
+        </applicationConfigurable>
     </extensions>
 
     <actions>
@@ -48,6 +52,9 @@
                 <keyboard-shortcut keymap="$default" first-keystroke="ctrl BACK_SLASH"/>
             </action>
         </group>
+        <action id="javadoc.generatorAll" class="com.star.easydoc.action.GenerateAllJavadocAction" text="生成文档注释">
+            <add-to-group group-id="JavaGenerateGroup1" anchor="before" relative-to-action="GenerateEquals"/>
+        </action>
     </actions>
 
     <depends>com.intellij.modules.java</depends>

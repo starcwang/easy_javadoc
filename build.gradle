@@ -29,3 +29,7 @@ patchPluginXml {
       <a href="https://github.com/starcwang/easy_javadoc">easy-javadoc source code and document</a><br>
       """
 }
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}

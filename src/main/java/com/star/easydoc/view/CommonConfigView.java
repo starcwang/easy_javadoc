@@ -11,12 +11,13 @@ import com.intellij.ui.SimpleListCellRenderer;
 import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.JBList;
 import com.star.easydoc.model.EasyJavadocConfiguration;
+import com.star.easydoc.view.inner.WordMapAddView;
 
 /**
  * @author wangchao
  * @date 2019/08/25
  */
-public class EasyJavadocConfigView {
+public class CommonConfigView {
 
     private EasyJavadocConfiguration config;
     private JPanel panel;
@@ -35,7 +36,7 @@ public class EasyJavadocConfigView {
     private JLabel translatorLabel;
     private JBList<Entry<String, String>> typeMapList;
 
-    public EasyJavadocConfigView(EasyJavadocConfiguration config) {
+    public CommonConfigView(EasyJavadocConfiguration config) {
         this.config = config;
         refreshWordMap();
 

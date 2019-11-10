@@ -19,10 +19,10 @@ import org.jetbrains.annotations.Nullable;
  * @author wangchao
  * @date 2019/08/25
  */
-public class EasyJavadocConfigurable implements Configurable {
+public class CommonConfigurable implements Configurable {
 
     private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
-    private EasyJavadocConfigView view = new EasyJavadocConfigView(config);
+    private CommonConfigView view = new CommonConfigView(config);
 
     @Nls(capitalization = Capitalization.Title)
     @Override

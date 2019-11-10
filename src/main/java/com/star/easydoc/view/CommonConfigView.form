@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.star.easydoc.view.EasyJavadocConfigView">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.star.easydoc.view.CommonConfigView">
   <grid id="27dc6" binding="panel" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
@@ -136,8 +136,6 @@
             <properties>
               <model>
                 <item value="有道翻译"/>
-                <item value="百度翻译"/>
-                <item value="金山翻译"/>
                 <item value="关闭（只使用自定义翻译）"/>
               </model>
             </properties>
