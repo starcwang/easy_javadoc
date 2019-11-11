@@ -1,26 +1,14 @@
 package com.star.easydoc.view.template;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.intellij.codeInspection.ui.ListTable;
-import com.intellij.ui.CollectionListModel;
-import com.intellij.ui.SimpleListCellRenderer;
 import com.intellij.ui.ToolbarDecorator;
-import com.intellij.ui.components.JBList;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.table.JBTable;
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.star.easydoc.model.EasyJavadocConfiguration;
-import com.star.easydoc.view.inner.WordMapAddView;
+import com.star.easydoc.view.inner.CustomTemplateAddView;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Vector;
@@ -36,55 +24,138 @@ public class ClassConfigView extends AbstractTemplateConfigView {
     private JTextArea templateTextArea;
     private JPanel innerVariablePanel;
     private JPanel customVariablePanel;
-    private JPanel template;
+    private JPanel templatePanel;
     private JRadioButton defaultRadioButton;
     private JRadioButton customRadioButton;
     private JTable innerTable;
     private JScrollPane innerScrollPane;
-    private JButton button1;
-    private JButton button2;
-    private JButton button3;
-    private JButton button4;
-    private JBList<Entry<JLabel, JTextField>> customList;
-    private static Map<String, String> innerList;
+    private JTable customTable;
+    private static Map<String, String> innerMap;
+    private static Vector<String> names;
 
     static {
-        innerList = Maps.newHashMap();
-        innerList.put("1", "a");
-        innerList.put("2", "b");
-        innerList.put("3", "c");
+        innerMap = Maps.newHashMap();
+        innerMap.put("$DOC$", "注释信息");
+        innerMap.put("$AUTHOR$", "作者信息，可在通用配置里修改作者信息");
+        innerMap.put("$DATE$", "日期信息，格式可在通用配置中修改");
+        innerMap.put("$VERSION$", "默认：1.0.0");
+
+        names = new Vector<>(2);
+        names.add("变量");
+        names.add("含义");
     }
 
     private void createUIComponents() {
-        Vector names = new Vector();
-        names.add("变量");
-        names.add("含义");
-
-        Vector data = new Vector();
-        for (Entry<String, String> entry : innerList.entrySet()) {
+        // 初始化内置变量表格
+        Vector<Vector<String>> innerData = new Vector<>(innerMap.size());
+        for (Entry<String, String> entry : innerMap.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            Vector row = new Vector();
+            Vector<String> row = new Vector<>(2);
             row.add(key);
             row.add(value);
-            data.add(row);
+            innerData.add(row);
         }
-
-        DefaultTableModel model = new DefaultTableModel(data, names);
-        model.setColumnIdentifiers(names);
-        model.setDataVector(data, names);
-        innerTable = new JBTable(model);
-        innerTable.setSize(60, innerTable.getRowHeight() * innerTable.getRowCount());
+        DefaultTableModel innerModel = new DefaultTableModel(innerData, names);
+        innerTable = new JBTable(innerModel);
+        innerTable.getColumnModel().getColumn(0).setPreferredWidth((int) (innerTable.getWidth() * 0.3));
         innerScrollPane = new JBScrollPane(innerTable);
-        innerScrollPane.setSize(60, innerTable.getRowHeight() * innerTable.getRowCount());
+        innerTable.setEnabled(false);
+        innerScrollPane.setEnabled(false);
+
+        customTable = new JBTable();
+        refreshCustomTable();
+        ToolbarDecorator toolbarDecorator = ToolbarDecorator.createDecorator(customTable);
+        toolbarDecorator.setAddAction(button -> {
+            CustomTemplateAddView customTemplateAddView = new CustomTemplateAddView();
+            if (customTemplateAddView.showAndGet()) {
+                if (config != null) {
+                    Entry<String, String> entry = customTemplateAddView.getEntry();
+                    config.getClassTemplateConfig().getCustomMap().put(entry.getKey(), entry.getValue());
+                    refreshCustomTable();
+                }
+            }
+        });
+        toolbarDecorator.setRemoveAction(anActionButton -> {
+            if (config != null) {
+                Map<String, String> customMap = config.getClassTemplateConfig().getCustomMap();
+                customMap.remove(customTable.getValueAt(customTable.getSelectedRow(), 0).toString());
+                refreshCustomTable();
+            }
+        });
+        customVariablePanel = toolbarDecorator.createPanel();
     }
 
     public ClassConfigView(EasyJavadocConfiguration config) {
         super(config);
+        // 添加单选按钮事件
+        defaultRadioButton.addChangeListener(e -> {
+            JRadioButton button = (JRadioButton) e.getSource();
+            if (button.isSelected()) {
+                customRadioButton.setSelected(false);
+                templateTextArea.setEnabled(false);
+                customTable.setEnabled(false);
+                templatePanel.setEnabled(false);
+                customVariablePanel.setEnabled(false);
+            }
+        });
+        customRadioButton.addChangeListener(e -> {
+            JRadioButton button = (JRadioButton) e.getSource();
+            if (button.isSelected()) {
+                defaultRadioButton.setSelected(false);
+                templateTextArea.setEnabled(true);
+                customTable.setEnabled(true);
+                templatePanel.setEnabled(true);
+                customVariablePanel.setEnabled(true);
+            }
+        });
     }
 
     @Override
     public JComponent getComponent() {
         return panel;
+    }
+
+    private void refreshCustomTable() {
+        // 初始化自定义变量表格
+        Map<String, String> customMap = Maps.newHashMap();
+        if (config != null && config.getClassTemplateConfig() != null && config.getClassTemplateConfig().getCustomMap() != null) {
+            customMap = config.getClassTemplateConfig().getCustomMap();
+        }
+        Vector<Vector<String>> customData = new Vector<>(customMap.size());
+        for (Entry<String, String> entry : customMap.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            Vector<String> row = new Vector<>(2);
+            row.add(key);
+            row.add(value);
+            customData.add(row);
+        }
+        DefaultTableModel customModel = new DefaultTableModel(customData, names);
+        customTable.setModel(customModel);
+        customTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        customTable.getColumnModel().getColumn(0).setPreferredWidth((int) (customTable.getWidth() * 0.3));
+    }
+
+    public boolean isDefault() {
+        return defaultRadioButton.isSelected();
+    }
+
+    public void setDefault( boolean isDefault) {
+        if (isDefault) {
+            defaultRadioButton.setSelected(true);
+            customRadioButton.setSelected(false);
+        } else {
+            defaultRadioButton.setSelected(false);
+            customRadioButton.setSelected(true);
+        }
+    }
+
+    public String getTemplate() {
+        return templateTextArea.getText();
+    }
+
+    public void setTemplate(String template) {
+        templateTextArea.setText(template);
     }
 }

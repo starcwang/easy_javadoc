@@ -12,10 +12,6 @@ import javax.swing.*;
 public abstract class AbstractTemplateConfigView {
     protected EasyJavadocConfiguration config;
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
-
     public AbstractTemplateConfigView(EasyJavadocConfiguration config) {
         this.config = config;
     }

@@ -59,10 +59,15 @@ public class Main extends JFrame {
                 model.setDataVector(data, names);
                 JTable innerTable = new JTable(data, names);
                 JTableHeader tableHeader = innerTable.getTableHeader();// 获得表格头对象
+                JTextArea jTextArea = new JTextArea();
+                jTextArea.append("xxxxxxxxxxxxxxxxxxxxxx");
+                jTextArea.setEnabled(false);
                 // 将表格头添加到边界布局的上方
                 frame.add(tableHeader, BorderLayout.NORTH);
 
+
                 frame.getContentPane().add(innerTable);
+                frame.getContentPane().add(jTextArea);
 
                 // 显示窗口
                 frame.pack();

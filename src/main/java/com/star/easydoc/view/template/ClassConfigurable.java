@@ -4,11 +4,13 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.ConfigurationException;
 import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
+import com.star.easydoc.model.EasyJavadocConfiguration.TemplateConfig;
+import org.apache.commons.lang3.BooleanUtils;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nls.Capitalization;
-import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
+import java.util.Objects;
+import java.util.TreeMap;
 
 /**
  * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
@@ -16,6 +18,7 @@ import javax.swing.*;
  * @since 2019-11-10 17:35:00
  */
 public class ClassConfigurable extends AbstractTemplateConfigurable {
+    private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
     private ClassConfigView view = new ClassConfigView(config);
 
     @Nls(capitalization = Capitalization.Title)
@@ -31,11 +34,34 @@ public class ClassConfigurable extends AbstractTemplateConfigurable {
 
     @Override
     public boolean isModified() {
+        TemplateConfig templateConfig = config.getClassTemplateConfig();
+        if (!Objects.equals(templateConfig.getIsDefault(), view.isDefault())) {
+            return true;
+        }
+        if (!Objects.equals(templateConfig.getTemplate(), view.getTemplate())) {
+            return true;
+        }
         return false;
     }
 
     @Override
     public void apply() throws ConfigurationException {
+        TemplateConfig templateConfig = config.getClassTemplateConfig();
+        templateConfig.setIsDefault(view.isDefault());
+        templateConfig.setTemplate(view.getTemplate());
+        if (templateConfig.getCustomMap() == null) {
+            templateConfig.setCustomMap(new TreeMap<>());
+        }
+    }
 
+    @Override
+    public void reset() {
+        TemplateConfig templateConfig = config.getClassTemplateConfig();
+        if (BooleanUtils.isTrue(templateConfig.getIsDefault())) {
+            view.setDefault(true);
+        } else {
+            view.setDefault(false);
+        }
+        view.setTemplate(templateConfig.getTemplate());
     }
 }
