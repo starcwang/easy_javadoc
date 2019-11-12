@@ -11,7 +11,7 @@ import com.intellij.psi.PsiElementFactory;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.javadoc.PsiDocComment;
-import com.star.easydoc.service.DocService;
+import com.star.easydoc.service.DocGeneratorService;
 import com.star.easydoc.service.DocWriterService;
 import com.star.easydoc.view.inner.GenerateAllView;
 import org.apache.commons.lang3.StringUtils;
@@ -31,7 +31,7 @@ public class GenerateAllJavadocAction extends AnAction {
     /**
      * 文档服务
      */
-    private DocService docService = ServiceManager.getService(DocService.class);
+    private DocGeneratorService docGeneratorService = ServiceManager.getService(DocGeneratorService.class);
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
@@ -51,20 +51,23 @@ public class GenerateAllJavadocAction extends AnAction {
             genClassJavadoc(project, (PsiClass) psiElement,
                     generateAllView.getClassCheckBox().isSelected(),
                     generateAllView.getMethodCheckBox().isSelected(),
-                    generateAllView.getFieldCheckBox().isSelected());
+                    generateAllView.getFieldCheckBox().isSelected(),
+                    generateAllView.getInnerClassCheckBox().isSelected());
         }
     }
 
     /**
      * 生成类Javadoc
      *
-     * @param project     工程
-     * @param psiClass    当前类
-     * @param isGenClass  是否生成类
-     * @param isGenMethod 是否生成方法
-     * @param isGenField  是否生成属性
+     * @param project         项目
+     * @param psiClass        当前类
+     * @param isGenClass      是否生成类
+     * @param isGenMethod     是否生成方法
+     * @param isGenField      是否生成属性
+     * @param isGenInnerClass 是否生成内部类
      */
-    private void genClassJavadoc(Project project, PsiClass psiClass, boolean isGenClass, boolean isGenMethod, boolean isGenField) {
+    private void genClassJavadoc(Project project, PsiClass psiClass, boolean isGenClass, boolean isGenMethod, boolean isGenField,
+                                 boolean isGenInnerClass) {
         // 生成类注释
         if (isGenClass) {
             saveJavadoc(project, psiClass);
@@ -74,8 +77,10 @@ public class GenerateAllJavadocAction extends AnAction {
         // 属性
         Arrays.stream(psiClass.getAllFields()).forEach(psiField -> genFieldJavadoc(project, psiField, isGenField));
         // 递归遍历子类
-        PsiClass[] innerClasses = psiClass.getInnerClasses();
-        Arrays.stream(innerClasses).forEach(clz -> genClassJavadoc(project, clz, isGenClass, isGenMethod, isGenField));
+        if (isGenInnerClass) {
+            PsiClass[] innerClasses = psiClass.getInnerClasses();
+            Arrays.stream(innerClasses).forEach(clz -> genClassJavadoc(project, clz, isGenClass, isGenMethod, isGenField, isGenInnerClass));
+        }
     }
 
     /**
@@ -114,7 +119,7 @@ public class GenerateAllJavadocAction extends AnAction {
         if (psiElement == null) {
             return;
         }
-        String comment = docService.generate(psiElement);
+        String comment = docGeneratorService.generate(psiElement);
         if (StringUtils.isBlank(comment)) {
             return;
         }

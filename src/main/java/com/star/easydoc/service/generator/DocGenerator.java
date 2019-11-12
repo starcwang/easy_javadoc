@@ -3,8 +3,10 @@ package com.star.easydoc.service.generator;
 import com.intellij.psi.PsiElement;
 
 /**
+ * 文档生成器
+ *
  * @author wangchao
- * @date 2019/08/31
+ * @date 2019/11/12
  */
 public interface DocGenerator {
     /**

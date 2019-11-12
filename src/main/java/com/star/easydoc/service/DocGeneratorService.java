@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author wangchao
  * @date 2019/08/25
  */
-public class DocService {
+public class DocGeneratorService {
 
     private Map<Class<? extends PsiElement>, DocGenerator> docGeneratorMap
         = ImmutableMap.<Class<? extends PsiElement>, DocGenerator>builder()

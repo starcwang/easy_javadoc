@@ -8,7 +8,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementFactory;
 import com.intellij.psi.javadoc.PsiDocComment;
-import com.star.easydoc.service.DocService;
+import com.star.easydoc.service.DocGeneratorService;
 import com.star.easydoc.service.DocWriterService;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class GenerateJavadocAction extends AnAction {
 
-    private DocService docService = ServiceManager.getService(DocService.class);
+    private DocGeneratorService docGeneratorService = ServiceManager.getService(DocGeneratorService.class);
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
@@ -35,7 +35,7 @@ public class GenerateJavadocAction extends AnAction {
             return;
         }
 
-        String comment = docService.generate(psiElement);
+        String comment = docGeneratorService.generate(psiElement);
         if (StringUtils.isEmpty(comment)) {
             return;
         }

@@ -11,11 +11,14 @@ import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
 import com.star.easydoc.service.TranslatorService;
 import com.star.easydoc.service.generator.DocGenerator;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.commons.lang3.StringUtils;
 
 /**
+ * 类文档生成器
+ *
  * @author wangchao
- * @date 2019/08/31
+ * @date 2019/11/12
  */
 public class ClassDocGenerator implements DocGenerator {
     private static final Logger LOGGER = Logger.getInstance(ClassDocGenerator.class);
@@ -29,7 +32,22 @@ public class ClassDocGenerator implements DocGenerator {
             return StringUtils.EMPTY;
         }
         PsiClass psiClass = (PsiClass)psiElement;
+        if (config != null && config.getClassTemplateConfig() != null
+                && Boolean.TRUE.equals(config.getClassTemplateConfig().getIsDefault())) {
+            return defaultGenerate(psiClass);
+        } else {
+            return customGenerate(psiClass);
+        }
 
+    }
+
+    /**
+     * 默认的生成
+     *
+     * @param psiClass 当前类
+     * @return {@link java.lang.String}
+     */
+    private String defaultGenerate(PsiClass psiClass) {
         String dateString;
         try {
             dateString = LocalDateTime.now().format(DateTimeFormatter.ofPattern(config.getDateFormat()));
@@ -39,11 +57,22 @@ public class ClassDocGenerator implements DocGenerator {
         }
         // 编译后会自动优化成StringBuilder
         String sb = "/**\n"
-            + "* " + translatorService.translate(psiClass.getName()) + "\n"
-            + "*\n"
-            + "* @author " + config.getAuthor() + "\n"
-            + "* @date " + dateString + "\n"
-            + "*/\n";
+                + "* " + translatorService.translate(psiClass.getName()) + "\n"
+                + "*\n"
+                + "* @author " + config.getAuthor() + "\n"
+                + "* @date " + dateString + "\n"
+                + "*/\n";
         return sb;
+    }
+
+    /**
+     * 自定义生成
+     *
+     * @param psiClass 当前类
+     * @return {@link java.lang.String}
+     */
+    private String customGenerate(PsiClass psiClass) {
+        // TODO: 2019-11-12
+        return null;
     }
 }
