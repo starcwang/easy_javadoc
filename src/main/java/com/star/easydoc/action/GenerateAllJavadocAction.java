@@ -1,5 +1,7 @@
 package com.star.easydoc.action;
 
+import java.util.Arrays;
+
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
@@ -16,8 +18,6 @@ import com.star.easydoc.service.DocWriterService;
 import com.star.easydoc.view.inner.GenerateAllView;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
 
 /**
  * 生成所有文档注释
@@ -43,11 +43,11 @@ public class GenerateAllJavadocAction extends AnAction {
         if (!(psiElement instanceof PsiClass)) {
             return;
         }
+        Project project = e.getData(LangDataKeys.PROJECT);
         // 弹出选择框
         GenerateAllView generateAllView = new GenerateAllView();
         if (generateAllView.showAndGet()) {
             // 生成注释
-            Project project = e.getData(LangDataKeys.PROJECT);
             genClassJavadoc(project, (PsiClass) psiElement,
                     generateAllView.getClassCheckBox().isSelected(),
                     generateAllView.getMethodCheckBox().isSelected(),

@@ -1,9 +1,14 @@
 package com.star.easydoc.service.generator.impl;
 
+import java.util.List;
+import java.util.Objects;
+
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import com.intellij.openapi.components.ServiceManager;
-import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiField;
+import com.intellij.psi.javadoc.PsiDocComment;
 import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
 import com.star.easydoc.service.TranslatorService;
@@ -29,7 +34,7 @@ public class FieldDocGenerator implements DocGenerator {
         }
         PsiField psiField = (PsiField)psiElement;
         if (config != null && config.getFieldTemplateConfig() != null
-                && Boolean.TRUE.equals(config.getFieldTemplateConfig().getIsDefault())) {
+            && Boolean.TRUE.equals(config.getFieldTemplateConfig().getIsDefault())) {
             return defaultGenerate(psiField);
         } else {
             return customGenerate(psiField);
@@ -47,7 +52,7 @@ public class FieldDocGenerator implements DocGenerator {
         if (BooleanUtils.isTrue(config.getSimpleFieldDoc())) {
             return genSimpleDoc(psiField.getName());
         } else {
-            return genNormalDoc(psiField.getName());
+            return genNormalDoc(psiField, psiField.getName());
         }
     }
 
@@ -65,11 +70,45 @@ public class FieldDocGenerator implements DocGenerator {
     /**
      * 生成正常的文档
      *
-     * @param name 的名字
+     * @param psiField 属性
+     * @param name 名字
      * @return {@link java.lang.String}
      */
-    private String genNormalDoc(String name) {
+    private String genNormalDoc(PsiField psiField, String name) {
+        PsiDocComment comment = psiField.getDocComment();
+        if (comment != null) {
+            List<PsiElement> elements = Lists.newArrayList(comment.getChildren());
+
+            // 注释
+            String desc = translatorService.translate(name);
+            List<String> commentItems = Lists.newLinkedList();
+            for (PsiElement element : elements) {
+                commentItems.add(element.getText());
+            }
+            commentItems.add(1, buildDesc(elements, desc));
+            return Joiner.on(StringUtils.EMPTY).skipNulls().join(commentItems);
+        }
         return String.format("/**\n* %s\n */\n", translatorService.translate(name));
+    }
+
+    /**
+     * 构建描述
+     *
+     * @param elements 元素
+     * @param desc 描述
+     * @return {@link java.lang.String}
+     */
+    private String buildDesc(List<PsiElement> elements, String desc) {
+        for (PsiElement element : elements) {
+            if (!"PsiDocToken:DOC_COMMENT_DATA".equalsIgnoreCase(element.toString())) {
+                continue;
+            }
+            String source = element.getText().replaceAll("[/* \n]+", StringUtils.EMPTY);
+            if (Objects.equals(source, desc)) {
+                return null;
+            }
+        }
+        return desc;
     }
 
     /**
