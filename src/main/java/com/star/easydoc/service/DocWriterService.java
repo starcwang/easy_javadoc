@@ -19,7 +19,7 @@ import com.intellij.util.ThrowableRunnable;
 public class DocWriterService {
     private static final Logger LOGGER = Logger.getInstance(DocWriterService.class);
 
-    public static void write(Project project, PsiElement psiElement, PsiElement target) {
+    public static void write(Project project, PsiElement psiElement, PsiDocComment comment) {
         try {
             WriteCommandAction.writeCommandAction(project, psiElement.getContainingFile()).run(
                 (ThrowableRunnable<Throwable>)() -> {
@@ -33,9 +33,9 @@ public class DocWriterService {
                     if (psiElement instanceof PsiJavaDocumentedElement) {
                         PsiDocComment psiDocComment = ((PsiJavaDocumentedElement) psiElement).getDocComment();
                         if (psiDocComment == null) {
-                            psiElement.getNode().addChild(target.getNode(), psiElement.getFirstChild().getNode());
+                            psiElement.getNode().addChild(comment.getNode(), psiElement.getFirstChild().getNode());
                         } else {
-                            psiDocComment.replace(target);
+                            psiDocComment.replace(comment);
                         }
                     }
 

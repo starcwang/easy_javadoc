@@ -3,15 +3,19 @@ package com.star.easydoc.service.generator.impl;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.intellij.lang.java.JavaLanguage;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.impl.source.javadoc.PsiDocTokenImpl;
+import com.intellij.psi.javadoc.PsiDocComment;
+import com.intellij.psi.javadoc.PsiDocToken;
+import com.intellij.psi.tree.IElementType;
 import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
 import com.star.easydoc.service.TranslatorService;
 import com.star.easydoc.service.generator.DocGenerator;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -55,14 +59,30 @@ public class ClassDocGenerator implements DocGenerator {
             LOGGER.error("您输入的日期格式不正确，请到配置中修改类相关日期格式！");
             dateString = LocalDateTime.now().format(DateTimeFormatter.ofPattern(EasyJavadocConfigComponent.DEFAULT_DATE_FORMAT));
         }
-        // 编译后会自动优化成StringBuilder
-        String sb = "/**\n"
-                + "* " + translatorService.translate(psiClass.getName()) + "\n"
-                + "*\n"
-                + "* @author " + config.getAuthor() + "\n"
-                + "* @date " + dateString + "\n"
-                + "*/\n";
-        return sb;
+
+        // 有注释，进行兼容处理
+        if (psiClass.getDocComment() != null) {
+            PsiDocComment comment = psiClass.getDocComment();
+            PsiElement[] elements = comment.getDescriptionElements();
+            for (PsiElement element : elements) {
+                if (!(element instanceof PsiDocToken)
+                        || element.toString().endsWith("DOC_COMMENT_DATA")) {
+                    continue;
+                }
+                PsiDocTokenImpl psiDocToken = new PsiDocTokenImpl(new IElementType("DOC_COMMENT_DATA", JavaLanguage.INSTANCE), "这是我自己的注释");
+                comment.addAfter(element, psiDocToken);
+                break;
+            }
+            return comment.getText();
+        } else {
+            // 编译后会自动优化成StringBuilder
+            return "/**\n"
+                    + "* " + translatorService.translate(psiClass.getName()) + "\n"
+                    + "*\n"
+                    + "* @author " + config.getAuthor() + "\n"
+                    + "* @date " + dateString + "\n"
+                    + "*/\n";
+        }
     }
 
     /**
