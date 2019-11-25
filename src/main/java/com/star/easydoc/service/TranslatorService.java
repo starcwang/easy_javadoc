@@ -13,6 +13,7 @@ import com.star.easydoc.service.translator.Translator;
 import com.star.easydoc.service.translator.impl.BaiduTranslator;
 import com.star.easydoc.service.translator.impl.JinshanTranslator;
 import com.star.easydoc.service.translator.impl.YoudaoTranslator;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -31,18 +32,24 @@ public class TranslatorService {
 
     public String translate(String source) {
         List<String> words = split(source);
-        StringBuilder sb = new StringBuilder();
-        for (String word : words) {
-            String res = getFromCustom(word);
-            if (StringUtils.isBlank(res)) {
-                res = getFromOthers(word);
+        if (isCustomMode(words)) {
+            // 有自定义单词，使用默认模式，单个单词翻译
+            StringBuilder sb = new StringBuilder();
+            for (String word : words) {
+                String res = getFromCustom(word);
+                if (StringUtils.isBlank(res)) {
+                    res = getFromOthers(word);
+                }
+                if (StringUtils.isBlank(res)) {
+                    res = word;
+                }
+                sb.append(res);
             }
-            if (StringUtils.isBlank(res)) {
-                res = word;
-            }
-            sb.append(res);
+            return sb.toString();
+        } else {
+            // 没有自定义单词，使用整句翻译，翻译更准确
+            return getFromOthers(StringUtils.join(words, StringUtils.SPACE));
         }
-        return sb.toString();
     }
 
     private List<String> split(String word) {
@@ -50,6 +57,16 @@ public class TranslatorService {
         word = word.replaceAll("[A-Z]{2,}", "_$0");
         word = word.replaceAll("_+", "_");
         return Arrays.asList(word.split("_"));
+    }
+
+    /**
+     * 是否自定义模式
+     *
+     * @param words 单词
+     * @return boolean
+     */
+    private boolean isCustomMode(List<String> words) {
+        return CollectionUtils.containsAny(config.getWordMap().keySet(), words);
     }
 
     private String getFromCustom(String word) {
