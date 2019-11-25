@@ -10,6 +10,7 @@
       <h3>v1.4 update</h3>
       <ul>
           <li>support for incremental updates</li>
+          <li>support whole sentences translation</li>
           <li>add @throws label for the method javadoc</li>
           <li>fix some bugs</li>
       </ul>
@@ -34,6 +35,8 @@
       <h3>v1.4 update</h3>
       <ul>
           <li>support for incremental updates</li>
+          <li>support whole sentences translation</li>
+          <li>add @throws label for the method javadoc</li>
           <li>fix some bugs</li>
       </ul>
       <h3>v1.3 update</h3>
