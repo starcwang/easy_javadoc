@@ -1,10 +1,10 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.10'
+    id 'org.jetbrains.intellij' version '0.4.14'
 }
 
 group 'com.star.easydoc'
-version '1.4'
+version '1.5'
 
 sourceCompatibility = 1.8
 
@@ -21,6 +21,7 @@ intellij {
     plugins 'java'
     version "2019.2"
     pluginName 'easy-javadoc'
+    updateSinceUntilBuild false
 }
 patchPluginXml {
     changeNotes """
