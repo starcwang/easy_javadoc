@@ -23,6 +23,9 @@ public class DocWriterService {
         try {
             WriteCommandAction.writeCommandAction(project, psiElement.getContainingFile()).run(
                 (ThrowableRunnable<Throwable>)() -> {
+                    if (psiElement.getContainingFile() == null) {
+                        return;
+                    }
                     Editor editor = PsiUtilBase.findEditor(psiElement.getContainingFile());
                     if (editor != null) {
                         PsiDocumentManager.getInstance(psiElement.getProject())
