@@ -1,15 +1,7 @@
 package com.star.easydoc.service.generator.impl;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.intellij.lang.jvm.JvmParameter;
 import com.intellij.lang.jvm.types.JvmReferenceType;
 import com.intellij.openapi.components.ServiceManager;
@@ -17,11 +9,19 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.javadoc.PsiDocTag;
 import com.intellij.psi.javadoc.PsiDocTagValue;
+import com.star.easydoc.config.Consts;
 import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
 import com.star.easydoc.service.TranslatorService;
+import com.star.easydoc.service.VariableGeneratorService;
 import com.star.easydoc.service.generator.DocGenerator;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 方法文档生成器
@@ -33,19 +33,17 @@ public class MethodDocGenerator implements DocGenerator {
 
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
     private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
-
-    private static final Set<String> BASE_TYPE_SET = Sets.newHashSet("byte", "short", "int", "long", "char", "float",
-        "double", "boolean");
+    private VariableGeneratorService variableGeneratorService = ServiceManager.getService(VariableGeneratorService.class);
 
     @Override
     public String generate(PsiElement psiElement) {
         if (!(psiElement instanceof PsiMethod)) {
             return StringUtils.EMPTY;
         }
-        PsiMethod psiMethod = (PsiMethod)psiElement;
+        PsiMethod psiMethod = (PsiMethod) psiElement;
 
         if (config != null && config.getMethodTemplateConfig() != null
-            && Boolean.TRUE.equals(config.getMethodTemplateConfig().getIsDefault())) {
+                && Boolean.TRUE.equals(config.getMethodTemplateConfig().getIsDefault())) {
             return defaultGenerate(psiMethod);
         } else {
             return customGenerate(psiMethod);
@@ -60,10 +58,10 @@ public class MethodDocGenerator implements DocGenerator {
      */
     private String defaultGenerate(PsiMethod psiMethod) {
         List<String> paramNameList = Arrays.stream(psiMethod.getParameters())
-            .map(JvmParameter::getName).collect(Collectors.toList());
+                .map(JvmParameter::getName).collect(Collectors.toList());
         String returnName = psiMethod.getReturnType() == null ? "" : psiMethod.getReturnType().getCanonicalText();
         List<String> exceptionNameList = Arrays.stream(psiMethod.getThrowsTypes())
-            .map(JvmReferenceType::getName).collect(Collectors.toList());
+                .map(JvmReferenceType::getName).collect(Collectors.toList());
 
         // 有注释，进行兼容处理
         if (psiMethod.getDocComment() != null) {
@@ -103,10 +101,10 @@ public class MethodDocGenerator implements DocGenerator {
         sb.append("*\n");
         for (String paramName : paramNameList) {
             sb.append("* @param ").append(paramName).append(" ").append(translatorService.translate(paramName))
-                .append("\n");
+                    .append("\n");
         }
         if (returnName.length() > 0 && !"void".equals(returnName)) {
-            if (BASE_TYPE_SET.contains(returnName)) {
+            if (Consts.BASE_TYPE_SET.contains(returnName)) {
                 sb.append("* @return ").append(returnName);
             } else {
                 sb.append("* @return {@link ").append(returnName).append("}");
@@ -119,7 +117,7 @@ public class MethodDocGenerator implements DocGenerator {
     /**
      * 构建异常
      *
-     * @param elements 元素
+     * @param elements          元素
      * @param exceptionNameList 异常名称数组
      * @return {@link java.util.List<java.lang.String>}
      */
@@ -128,7 +126,7 @@ public class MethodDocGenerator implements DocGenerator {
         for (Iterator<PsiElement> iterator = elements.iterator(); iterator.hasNext(); ) {
             PsiElement element = iterator.next();
             if (!"PsiDocTag:@throws".equalsIgnoreCase(element.toString())
-                && !"PsiDocTag:@exception".equalsIgnoreCase(element.toString())) {
+                    && !"PsiDocTag:@exception".equalsIgnoreCase(element.toString())) {
                 continue;
             }
             String exceptionName = null;
@@ -159,7 +157,7 @@ public class MethodDocGenerator implements DocGenerator {
     /**
      * 构建返回
      *
-     * @param elements 元素
+     * @param elements   元素
      * @param returnName 返回名称
      * @return {@link java.lang.String}
      */
@@ -170,7 +168,7 @@ public class MethodDocGenerator implements DocGenerator {
             if (!"PsiDocTag:@return".equalsIgnoreCase(element.toString())) {
                 continue;
             }
-            PsiDocTagValue value = ((PsiDocTag)element).getValueElement();
+            PsiDocTagValue value = ((PsiDocTag) element).getValueElement();
             if (value == null || StringUtils.isBlank(value.getText())) {
                 iterator.remove();
             } else if (returnName.length() <= 0 || "void".equals(returnName)) {
@@ -180,7 +178,7 @@ public class MethodDocGenerator implements DocGenerator {
             }
         }
         if (isInsert && returnName.length() > 0 && !"void".equals(returnName)) {
-            if (BASE_TYPE_SET.contains(returnName)) {
+            if (Consts.BASE_TYPE_SET.contains(returnName)) {
                 return "@return " + returnName + "\n";
             } else {
                 return "@return {@link " + returnName + "}\n";
@@ -192,7 +190,7 @@ public class MethodDocGenerator implements DocGenerator {
     /**
      * 构建参数
      *
-     * @param elements 元素
+     * @param elements      元素
      * @param paramNameList 参数名称数组
      * @return {@link java.util.List<java.lang.String>}
      */
@@ -232,7 +230,7 @@ public class MethodDocGenerator implements DocGenerator {
      * 构建描述
      *
      * @param elements 元素
-     * @param desc 描述
+     * @param desc     描述
      * @return {@link java.lang.String}
      */
     private String buildDesc(List<PsiElement> elements, String desc) {
@@ -255,7 +253,6 @@ public class MethodDocGenerator implements DocGenerator {
      * @return {@link java.lang.String}
      */
     private String customGenerate(PsiMethod psiMethod) {
-        // TODO: 2019-11-12
-        return null;
+        return variableGeneratorService.generate(psiMethod);
     }
 }

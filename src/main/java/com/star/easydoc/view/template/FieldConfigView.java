@@ -5,6 +5,7 @@ import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.table.JBTable;
 import com.star.easydoc.model.EasyJavadocConfiguration;
+import com.star.easydoc.model.EasyJavadocConfiguration.CustomValue;
 import com.star.easydoc.view.inner.CustomTemplateAddView;
 
 import javax.swing.*;
@@ -38,8 +39,9 @@ public class FieldConfigView extends AbstractTemplateConfigView {
         innerMap.put("$DOC$", "注释信息");
         innerMap.put("$SEE$", "字段类型");
 
-        names = new Vector<>(2);
+        names = new Vector<>(3);
         names.add("变量");
+        names.add("类型");
         names.add("含义");
     }
 
@@ -68,7 +70,7 @@ public class FieldConfigView extends AbstractTemplateConfigView {
             CustomTemplateAddView customTemplateAddView = new CustomTemplateAddView();
             if (customTemplateAddView.showAndGet()) {
                 if (config != null) {
-                    Entry<String, String> entry = customTemplateAddView.getEntry();
+                    Entry<String, CustomValue> entry = customTemplateAddView.getEntry();
                     config.getFieldTemplateConfig().getCustomMap().put(entry.getKey(), entry.getValue());
                     refreshCustomTable();
                 }
@@ -76,7 +78,7 @@ public class FieldConfigView extends AbstractTemplateConfigView {
         });
         toolbarDecorator.setRemoveAction(anActionButton -> {
             if (config != null) {
-                Map<String, String> customMap = config.getFieldTemplateConfig().getCustomMap();
+                Map<String, CustomValue> customMap = config.getFieldTemplateConfig().getCustomMap();
                 customMap.remove(customTable.getValueAt(customTable.getSelectedRow(), 0).toString());
                 refreshCustomTable();
             }
@@ -116,17 +118,18 @@ public class FieldConfigView extends AbstractTemplateConfigView {
 
     private void refreshCustomTable() {
         // 初始化自定义变量表格
-        Map<String, String> customMap = Maps.newHashMap();
+        Map<String, CustomValue> customMap = Maps.newHashMap();
         if (config != null && config.getFieldTemplateConfig() != null && config.getFieldTemplateConfig().getCustomMap() != null) {
             customMap = config.getFieldTemplateConfig().getCustomMap();
         }
         Vector<Vector<String>> customData = new Vector<>(customMap.size());
-        for (Entry<String, String> entry : customMap.entrySet()) {
+        for (Entry<String, CustomValue> entry : customMap.entrySet()) {
             String key = entry.getKey();
-            String value = entry.getValue();
-            Vector<String> row = new Vector<>(2);
+            CustomValue value = entry.getValue();
+            Vector<String> row = new Vector<>(3);
             row.add(key);
-            row.add(value);
+            row.add(value.getType().getDesc());
+            row.add(value.getValue());
             customData.add(row);
         }
         DefaultTableModel customModel = new DefaultTableModel(customData, names);

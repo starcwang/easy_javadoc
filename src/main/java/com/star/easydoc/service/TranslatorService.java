@@ -12,8 +12,11 @@ import com.star.easydoc.model.EasyJavadocConfiguration;
 import com.star.easydoc.service.translator.Translator;
 import com.star.easydoc.service.translator.impl.BaiduTranslator;
 import com.star.easydoc.service.translator.impl.JinshanTranslator;
+import com.star.easydoc.service.translator.impl.YoudaoCh2EnTranslator;
+import com.star.easydoc.service.translator.impl.YoudaoEn2ChTranslator;
 import com.star.easydoc.service.translator.impl.YoudaoTranslator;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -23,11 +26,11 @@ import org.apache.commons.lang3.StringUtils;
 public class TranslatorService {
 
     private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
-
+    private Translator en2ChTranslator = new YoudaoCh2EnTranslator();
     private Map<String, Translator> translatorMap = ImmutableMap.<String, Translator>builder()
         .put("百度翻译", new BaiduTranslator())
         .put("金山翻译", new JinshanTranslator())
-        .put("有道翻译", new YoudaoTranslator())
+        .put("有道翻译", new YoudaoEn2ChTranslator())
         .build();
 
     public String translate(String source) {
@@ -50,6 +53,33 @@ public class TranslatorService {
             // 没有自定义单词，使用整句翻译，翻译更准确
             return getFromOthers(StringUtils.join(words, StringUtils.SPACE));
         }
+    }
+
+    public String translateCh2En(String source) {
+        if (StringUtils.isBlank(source)) {
+            return "";
+        }
+        String ch = en2ChTranslator.translate(source);
+        String[] chs = StringUtils.split(ch);
+        if (ArrayUtils.isEmpty(chs)) {
+            return "";
+        }
+        if (chs.length == 1) {
+            return chs[0];
+        }
+        StringBuilder sb = new StringBuilder("");
+        for (int i = 0; i < chs.length; i++) {
+            if (StringUtils.isBlank(chs[i])) {
+                continue;
+            }
+            if (i == 0) {
+                sb.append(chs[i]);
+            } else {
+                String lowCh = chs[i].toLowerCase();
+                sb.append(StringUtils.substring(lowCh, 0, 1).toUpperCase()).append(StringUtils.substring(lowCh, 1));
+            }
+        }
+        return sb.toString();
     }
 
     private List<String> split(String word) {

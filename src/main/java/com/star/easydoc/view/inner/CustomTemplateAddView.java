@@ -1,8 +1,9 @@
 package com.star.easydoc.view.inner;
 
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
+import com.star.easydoc.model.EasyJavadocConfiguration.CustomValue;
+import com.star.easydoc.model.EasyJavadocConfiguration.VariableType;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -19,6 +20,7 @@ public class CustomTemplateAddView extends DialogWrapper {
     private JTextField methodName;
     private JTextField groovyCode;
     private JTextPane textPane;
+    private JComboBox customTypeComboBox;
 
     public CustomTemplateAddView() {
         super(false);
@@ -42,10 +44,14 @@ public class CustomTemplateAddView extends DialogWrapper {
         if (groovyCode.getText() == null || groovyCode.getText().length() <= 0) {
             return new ValidationInfo("请输入正确的自定义脚本", groovyCode);
         }
+        if (customTypeComboBox.getSelectedItem() == null) {
+            return new ValidationInfo("请选择自定义类型", groovyCode);
+        }
         return super.doValidate();
     }
 
-    public Map.Entry<String, String> getEntry() {
-        return new SimpleEntry<>(methodName.getText(), groovyCode.getText());
+    public Map.Entry<String, CustomValue> getEntry() {
+        return new SimpleEntry<>(methodName.getText(),
+                new CustomValue(VariableType.fromDesc(String.valueOf(customTypeComboBox.getSelectedItem())), groovyCode.getText()));
     }
 }

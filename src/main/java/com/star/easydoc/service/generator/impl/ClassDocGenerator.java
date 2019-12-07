@@ -1,11 +1,5 @@
 package com.star.easydoc.service.generator.impl;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.intellij.openapi.components.ServiceManager;
@@ -17,8 +11,15 @@ import com.intellij.psi.javadoc.PsiDocTagValue;
 import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
 import com.star.easydoc.service.TranslatorService;
+import com.star.easydoc.service.VariableGeneratorService;
 import com.star.easydoc.service.generator.DocGenerator;
 import org.apache.commons.lang3.StringUtils;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * 类文档生成器
@@ -31,6 +32,7 @@ public class ClassDocGenerator implements DocGenerator {
 
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
     private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
+    private VariableGeneratorService variableGeneratorService = ServiceManager.getService(VariableGeneratorService.class);
 
     @Override
     public String generate(PsiElement psiElement) {
@@ -188,7 +190,6 @@ public class ClassDocGenerator implements DocGenerator {
      * @return {@link java.lang.String}
      */
     private String customGenerate(PsiClass psiClass) {
-        // TODO: 2019-11-12
-        return null;
+        return variableGeneratorService.generate(psiClass);
     }
 }

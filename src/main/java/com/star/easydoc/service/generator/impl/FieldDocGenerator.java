@@ -1,8 +1,5 @@
 package com.star.easydoc.service.generator.impl;
 
-import java.util.List;
-import java.util.Objects;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.intellij.openapi.components.ServiceManager;
@@ -12,9 +9,13 @@ import com.intellij.psi.javadoc.PsiDocComment;
 import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
 import com.star.easydoc.service.TranslatorService;
+import com.star.easydoc.service.VariableGeneratorService;
 import com.star.easydoc.service.generator.DocGenerator;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * 属性文档生成器
@@ -26,15 +27,16 @@ public class FieldDocGenerator implements DocGenerator {
 
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
     private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
+    private VariableGeneratorService variableGeneratorService = ServiceManager.getService(VariableGeneratorService.class);
 
     @Override
     public String generate(PsiElement psiElement) {
         if (!(psiElement instanceof PsiField)) {
             return StringUtils.EMPTY;
         }
-        PsiField psiField = (PsiField)psiElement;
+        PsiField psiField = (PsiField) psiElement;
         if (config != null && config.getFieldTemplateConfig() != null
-            && Boolean.TRUE.equals(config.getFieldTemplateConfig().getIsDefault())) {
+                && Boolean.TRUE.equals(config.getFieldTemplateConfig().getIsDefault())) {
             return defaultGenerate(psiField);
         } else {
             return customGenerate(psiField);
@@ -63,15 +65,14 @@ public class FieldDocGenerator implements DocGenerator {
      * @return {@link String}
      */
     private String customGenerate(PsiField psiField) {
-        // TODO: 2019-11-12
-        return null;
+        return variableGeneratorService.generate(psiField);
     }
 
     /**
      * 生成正常的文档
      *
      * @param psiField 属性
-     * @param name 名字
+     * @param name     名字
      * @return {@link java.lang.String}
      */
     private String genNormalDoc(PsiField psiField, String name) {
@@ -95,7 +96,7 @@ public class FieldDocGenerator implements DocGenerator {
      * 构建描述
      *
      * @param elements 元素
-     * @param desc 描述
+     * @param desc     描述
      * @return {@link java.lang.String}
      */
     private String buildDesc(List<PsiElement> elements, String desc) {

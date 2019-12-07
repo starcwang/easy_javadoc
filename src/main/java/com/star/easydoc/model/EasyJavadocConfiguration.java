@@ -59,7 +59,7 @@ public class EasyJavadocConfiguration {
         /**
          * 自定义映射
          */
-        private Map<String, String> customMap;
+        private Map<String, CustomValue> customMap;
 
         public TemplateConfig() {
             isDefault = true;
@@ -83,12 +83,82 @@ public class EasyJavadocConfiguration {
             this.template = template;
         }
 
-        public Map<String, String> getCustomMap() {
+        public Map<String, CustomValue> getCustomMap() {
             return customMap;
         }
 
-        public void setCustomMap(Map<String, String> customMap) {
+        public void setCustomMap(Map<String, CustomValue> customMap) {
             this.customMap = customMap;
+        }
+    }
+
+    /**
+     * 自定义值
+     */
+    public static class CustomValue {
+        /**
+         * 类型
+         */
+        private VariableType type;
+        /**
+         * 值
+         */
+        private String value;
+
+        public CustomValue(){}
+
+        public CustomValue(VariableType type, String value) {
+            this.type = type;
+            this.value = value;
+        }
+
+        public VariableType getType() {
+            return type;
+        }
+
+        public void setType(VariableType type) {
+            this.type = type;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+    }
+
+    /**
+     * 变量类型
+     */
+    public static enum  VariableType {
+        /**
+         * 固定值
+         */
+        STRING("固定值"),
+        /**
+         * groovy脚本
+         */
+        GROOVY("Groovy脚本");
+
+        private final String desc;
+
+        VariableType(String desc) {
+            this.desc = desc;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public static VariableType fromDesc(String desc) {
+            for (VariableType value : values()) {
+                if (value.desc.equals(desc)) {
+                    return value;
+                }
+            }
+            return null;
         }
     }
 

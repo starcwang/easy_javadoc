@@ -5,6 +5,7 @@ import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.table.JBTable;
 import com.star.easydoc.model.EasyJavadocConfiguration;
+import com.star.easydoc.model.EasyJavadocConfiguration.CustomValue;
 import com.star.easydoc.view.inner.CustomTemplateAddView;
 
 import javax.swing.*;
@@ -40,8 +41,9 @@ public class MethodConfigView extends AbstractTemplateConfigView {
         innerMap.put("$RETURN$", "返回值类型");
         innerMap.put("$THROWS$", "异常类型并注释");
 
-        names = new Vector<>(2);
+        names = new Vector<>(3);
         names.add("变量");
+        names.add("类型");
         names.add("含义");
     }
 
@@ -70,7 +72,7 @@ public class MethodConfigView extends AbstractTemplateConfigView {
             CustomTemplateAddView customTemplateAddView = new CustomTemplateAddView();
             if (customTemplateAddView.showAndGet()) {
                 if (config != null) {
-                    Entry<String, String> entry = customTemplateAddView.getEntry();
+                    Entry<String, CustomValue> entry = customTemplateAddView.getEntry();
                     config.getMethodTemplateConfig().getCustomMap().put(entry.getKey(), entry.getValue());
                     refreshCustomTable();
                 }
@@ -78,7 +80,7 @@ public class MethodConfigView extends AbstractTemplateConfigView {
         });
         toolbarDecorator.setRemoveAction(anActionButton -> {
             if (config != null) {
-                Map<String, String> customMap = config.getMethodTemplateConfig().getCustomMap();
+                Map<String, CustomValue> customMap = config.getMethodTemplateConfig().getCustomMap();
                 customMap.remove(customTable.getValueAt(customTable.getSelectedRow(), 0).toString());
                 refreshCustomTable();
             }
@@ -118,17 +120,18 @@ public class MethodConfigView extends AbstractTemplateConfigView {
 
     private void refreshCustomTable() {
         // 初始化自定义变量表格
-        Map<String, String> customMap = Maps.newHashMap();
+        Map<String, CustomValue> customMap = Maps.newHashMap();
         if (config != null && config.getMethodTemplateConfig() != null && config.getMethodTemplateConfig().getCustomMap() != null) {
             customMap = config.getMethodTemplateConfig().getCustomMap();
         }
         Vector<Vector<String>> customData = new Vector<>(customMap.size());
-        for (Entry<String, String> entry : customMap.entrySet()) {
+        for (Entry<String, CustomValue> entry : customMap.entrySet()) {
             String key = entry.getKey();
-            String value = entry.getValue();
+            CustomValue value = entry.getValue();
             Vector<String> row = new Vector<>(2);
             row.add(key);
-            row.add(value);
+            row.add(value.getType().getDesc());
+            row.add(value.getValue());
             customData.add(row);
         }
         DefaultTableModel customModel = new DefaultTableModel(customData, names);
@@ -141,7 +144,7 @@ public class MethodConfigView extends AbstractTemplateConfigView {
         return defaultRadioButton.isSelected();
     }
 
-    public void setDefault( boolean isDefault) {
+    public void setDefault(boolean isDefault) {
         if (isDefault) {
             defaultRadioButton.setSelected(true);
             customRadioButton.setSelected(false);
