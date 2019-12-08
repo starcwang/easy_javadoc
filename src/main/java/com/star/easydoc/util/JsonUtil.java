@@ -17,6 +17,8 @@ public class JsonUtil {
     private static final Logger LOGGER = Logger.getInstance(JsonUtil.class);
     private static ObjectMapper objectMapper = new ObjectMapper();
 
+    private JsonUtil() {}
+
     public static <T> String toJson(T obj) {
         if (Objects.isNull(obj)) {
             return "";

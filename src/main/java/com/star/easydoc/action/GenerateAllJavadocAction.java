@@ -14,7 +14,7 @@ import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.javadoc.PsiDocComment;
 import com.star.easydoc.service.DocGeneratorService;
-import com.star.easydoc.service.DocWriterService;
+import com.star.easydoc.service.WriterService;
 import com.star.easydoc.view.inner.GenerateAllView;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -32,6 +32,7 @@ public class GenerateAllJavadocAction extends AnAction {
      * 文档服务
      */
     private DocGeneratorService docGeneratorService = ServiceManager.getService(DocGeneratorService.class);
+    private WriterService writerService = ServiceManager.getService(WriterService.class);
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
@@ -126,6 +127,6 @@ public class GenerateAllJavadocAction extends AnAction {
         PsiElementFactory factory = PsiElementFactory.getInstance(project);
         PsiDocComment psiDocComment = factory.createDocCommentFromText(comment);
 
-        DocWriterService.write(project, psiElement, psiDocComment);
+        writerService.write(project, psiElement, psiDocComment);
     }
 }

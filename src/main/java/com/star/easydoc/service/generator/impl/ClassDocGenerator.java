@@ -1,5 +1,11 @@
 package com.star.easydoc.service.generator.impl;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.intellij.openapi.components.ServiceManager;
@@ -14,12 +20,6 @@ import com.star.easydoc.service.TranslatorService;
 import com.star.easydoc.service.VariableGeneratorService;
 import com.star.easydoc.service.generator.DocGenerator;
 import org.apache.commons.lang3.StringUtils;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * 类文档生成器
@@ -93,12 +93,12 @@ public class ClassDocGenerator implements DocGenerator {
             return Joiner.on(StringUtils.EMPTY).skipNulls().join(commentItems);
         }
         // 编译后会自动优化成StringBuilder
-        return "/**\n"
-            + "* " + translatorService.translate(psiClass.getName()) + "\n"
-            + "*\n"
-            + "* @author " + config.getAuthor() + "\n"
-            + "* @date " + dateString + "\n"
-            + "*/\n";
+        return "/**" + System.lineSeparator()
+            + "* " + translatorService.translate(psiClass.getName()) + System.lineSeparator()
+            + "*" + System.lineSeparator()
+            + "* @author " + config.getAuthor() + System.lineSeparator()
+            + "* @date " + dateString + System.lineSeparator()
+            + "*/" + System.lineSeparator();
     }
 
     /**
@@ -142,7 +142,7 @@ public class ClassDocGenerator implements DocGenerator {
             }
         }
         if (isInsert) {
-            return "@author " + config.getAuthor() + "\n";
+            return "@author " + config.getAuthor() + System.lineSeparator();
         } else {
             return null;
         }
@@ -177,7 +177,7 @@ public class ClassDocGenerator implements DocGenerator {
             }
         }
         if (isInsert) {
-            return "@date " + dateString + "\n";
+            return "@date " + dateString + System.lineSeparator();
         } else {
             return null;
         }

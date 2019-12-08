@@ -1,5 +1,8 @@
 package com.star.easydoc.service.generator.impl;
 
+import java.util.List;
+import java.util.Objects;
+
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.intellij.openapi.components.ServiceManager;
@@ -13,9 +16,6 @@ import com.star.easydoc.service.VariableGeneratorService;
 import com.star.easydoc.service.generator.DocGenerator;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.List;
-import java.util.Objects;
 
 /**
  * 属性文档生成器
@@ -89,7 +89,8 @@ public class FieldDocGenerator implements DocGenerator {
             commentItems.add(1, buildDesc(elements, desc));
             return Joiner.on(StringUtils.EMPTY).skipNulls().join(commentItems);
         }
-        return String.format("/**\n* %s\n */\n", translatorService.translate(name));
+        return String.format("/**%s* %s%s */%s", System.lineSeparator(), translatorService.translate(name), System.lineSeparator(),
+            System.lineSeparator());
     }
 
     /**

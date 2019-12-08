@@ -22,6 +22,8 @@ public class ReturnVariableGenerator implements VariableGenerator {
 
         if (Consts.BASE_TYPE_SET.contains(returnName)) {
             return returnName;
+        } else if ("void".equalsIgnoreCase(returnName)) {
+            return "";
         } else {
             return String.format("{@link %s }", returnName);
         }

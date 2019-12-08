@@ -9,6 +9,8 @@ package com.star.easydoc.util;
  */
 public class LanguageUtil {
 
+    private LanguageUtil() {}
+
     /**
      * 是否是中文
      *

@@ -1,12 +1,12 @@
 package com.star.easydoc.service.translator.impl;
 
+import java.util.List;
+import java.util.Objects;
+
 import com.star.easydoc.service.translator.Translator;
 import com.star.easydoc.util.HttpUtil;
 import com.star.easydoc.util.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.List;
-import java.util.Objects;
 
 /**
  * 有道翻译
@@ -16,12 +16,10 @@ import java.util.Objects;
  */
 public abstract class YoudaoTranslator implements Translator {
 
-    private static final String URL = "http://fanyi.youdao.com/translate?&doctype=json&type=EN2ZH_CN&i=%s";
-
     @Override
     public String translate(String text) {
         try {
-            YoudaoResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(URL, HttpUtil.encode(text))), YoudaoResponse.class);
+            YoudaoResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(getUrl(), HttpUtil.encode(text))), YoudaoResponse.class);
             return Objects.requireNonNull(response).getTranslateResult().get(0).get(0).getTgt();
         } catch (Exception ignore) {
             return StringUtils.EMPTY;

@@ -1,12 +1,12 @@
 package com.star.easydoc.view.template;
 
+import javax.swing.*;
+
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.Configurable;
 import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
 import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
 
 /**
  * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>

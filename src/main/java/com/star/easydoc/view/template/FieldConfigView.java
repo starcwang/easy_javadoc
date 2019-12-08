@@ -1,5 +1,13 @@
 package com.star.easydoc.view.template;
 
+import java.awt.*;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Vector;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 import com.google.common.collect.Maps;
 import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.JBScrollPane;
@@ -7,12 +15,6 @@ import com.intellij.ui.table.JBTable;
 import com.star.easydoc.model.EasyJavadocConfiguration;
 import com.star.easydoc.model.EasyJavadocConfiguration.CustomValue;
 import com.star.easydoc.view.inner.CustomTemplateAddView;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Vector;
 
 /**
  * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
@@ -32,17 +34,11 @@ public class FieldConfigView extends AbstractTemplateConfigView {
     private JScrollPane innerScrollPane;
     private JTable customTable;
     private static Map<String, String> innerMap;
-    private static Vector<String> names;
 
     static {
         innerMap = Maps.newHashMap();
         innerMap.put("$DOC$", "注释信息");
         innerMap.put("$SEE$", "字段类型");
-
-        names = new Vector<>(3);
-        names.add("变量");
-        names.add("类型");
-        names.add("含义");
     }
 
     private void createUIComponents() {
@@ -56,14 +52,25 @@ public class FieldConfigView extends AbstractTemplateConfigView {
             row.add(value);
             innerData.add(row);
         }
-        DefaultTableModel innerModel = new DefaultTableModel(innerData, names);
-        innerTable = new JBTable(innerModel);
-        innerTable.getColumnModel().getColumn(0).setPreferredWidth((int) (innerTable.getWidth() * 0.3));
+        DefaultTableModel innerModel = new DefaultTableModel(innerData, innerNames);
+        innerTable = new JBTable(innerModel) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         innerScrollPane = new JBScrollPane(innerTable);
-        innerTable.setEnabled(false);
-        innerScrollPane.setEnabled(false);
 
-        customTable = new JBTable();
+        //设置表格显示的大小。
+        innerTable.setPreferredScrollableViewportSize(new Dimension(-1, innerTable.getRowHeight() * innerTable.getRowCount()));
+        innerTable.setFillsViewportHeight(true);
+
+        customTable = new JBTable() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         refreshCustomTable();
         ToolbarDecorator toolbarDecorator = ToolbarDecorator.createDecorator(customTable);
         toolbarDecorator.setAddAction(button -> {
@@ -97,6 +104,9 @@ public class FieldConfigView extends AbstractTemplateConfigView {
                 customTable.setEnabled(false);
                 templatePanel.setEnabled(false);
                 customVariablePanel.setEnabled(false);
+                innerTable.setEnabled(false);
+                innerScrollPane.setEnabled(false);
+                innerVariablePanel.setEnabled(false);
             }
         });
         customRadioButton.addChangeListener(e -> {
@@ -107,6 +117,9 @@ public class FieldConfigView extends AbstractTemplateConfigView {
                 customTable.setEnabled(true);
                 templatePanel.setEnabled(true);
                 customVariablePanel.setEnabled(true);
+                innerTable.setEnabled(true);
+                innerScrollPane.setEnabled(true);
+                innerVariablePanel.setEnabled(true);
             }
         });
     }
@@ -132,7 +145,7 @@ public class FieldConfigView extends AbstractTemplateConfigView {
             row.add(value.getValue());
             customData.add(row);
         }
-        DefaultTableModel customModel = new DefaultTableModel(customData, names);
+        DefaultTableModel customModel = new DefaultTableModel(customData, customNames);
         customTable.setModel(customModel);
         customTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         customTable.getColumnModel().getColumn(0).setPreferredWidth((int) (customTable.getWidth() * 0.3));

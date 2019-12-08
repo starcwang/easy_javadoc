@@ -4,9 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.intellij.openapi.components.ServiceManager;
+import com.star.easydoc.config.Consts;
 import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
 import com.star.easydoc.service.translator.Translator;
@@ -14,9 +17,7 @@ import com.star.easydoc.service.translator.impl.BaiduTranslator;
 import com.star.easydoc.service.translator.impl.JinshanTranslator;
 import com.star.easydoc.service.translator.impl.YoudaoCh2EnTranslator;
 import com.star.easydoc.service.translator.impl.YoudaoEn2ChTranslator;
-import com.star.easydoc.service.translator.impl.YoudaoTranslator;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -61,21 +62,27 @@ public class TranslatorService {
         }
         String ch = en2ChTranslator.translate(source);
         String[] chs = StringUtils.split(ch);
-        if (ArrayUtils.isEmpty(chs)) {
+        List<String> chList = chs == null ? Lists.newArrayList() : Lists.newArrayList(chs);
+        chList = chList.stream().filter(c -> !Consts.STOP_WORDS.contains(c.toLowerCase())).collect(Collectors.toList());
+
+        if (CollectionUtils.isEmpty(chList)) {
             return "";
         }
-        if (chs.length == 1) {
-            return chs[0];
+        if (chList.size() == 1) {
+            return chList.get(0);
         }
-        StringBuilder sb = new StringBuilder("");
-        for (int i = 0; i < chs.length; i++) {
-            if (StringUtils.isBlank(chs[i])) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < chList.size(); i++) {
+            if (StringUtils.isBlank(chList.get(i))) {
+                continue;
+            }
+            if (Consts.STOP_WORDS.contains(chList.get(i).toLowerCase())) {
                 continue;
             }
             if (i == 0) {
-                sb.append(chs[i]);
+                sb.append(chList.get(i).toLowerCase());
             } else {
-                String lowCh = chs[i].toLowerCase();
+                String lowCh = chList.get(i).toLowerCase();
                 sb.append(StringUtils.substring(lowCh, 0, 1).toUpperCase()).append(StringUtils.substring(lowCh, 1));
             }
         }

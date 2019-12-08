@@ -10,6 +10,8 @@
       <h3>v1.6 update</h3>
       <ul>
           <li>support custom template</li>
+          <li>support translate Chinese to English</li>
+          <li>fix some bugs</li>
       </ul>
       <h3>v1.5 update</h3>
       <ul>
@@ -44,6 +46,8 @@
       <h3>v1.6 update</h3>
       <ul>
           <li>support custom template</li>
+          <li>support translate Chinese to English</li>
+          <li>fix some bugs</li>
       </ul>
       <h3>v1.5 update</h3>
       <ul>
@@ -81,7 +85,7 @@
         <!-- Add your extensions here -->
         <applicationService serviceImplementation="com.star.easydoc.config.EasyJavadocConfigComponent" order="first"/>
         <applicationService serviceImplementation="com.star.easydoc.service.DocGeneratorService"/>
-        <applicationService serviceImplementation="com.star.easydoc.service.DocWriterService"/>
+        <applicationService serviceImplementation="com.star.easydoc.service.WriterService"/>
         <applicationService serviceImplementation="com.star.easydoc.service.TranslatorService"/>
         <applicationService serviceImplementation="com.star.easydoc.service.VariableGeneratorService"/>
         <applicationConfigurable instance="com.star.easydoc.view.CommonConfigurable">

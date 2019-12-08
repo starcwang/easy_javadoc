@@ -1,8 +1,8 @@
 package com.star.easydoc.config;
 
-import com.google.common.collect.Sets;
-
 import java.util.Set;
+
+import com.google.common.collect.Sets;
 
 /**
  * 常量
@@ -16,4 +16,6 @@ public class Consts {
      */
     public static final Set<String> BASE_TYPE_SET = Sets.newHashSet("byte", "short", "int", "long", "char", "float",
             "double", "boolean");
+    /** 停止词 */
+    public static final Set<String> STOP_WORDS = Sets.newHashSet("the");
 }

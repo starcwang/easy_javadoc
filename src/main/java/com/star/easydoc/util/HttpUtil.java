@@ -24,6 +24,8 @@ public class HttpUtil {
     private static final int CONNECT_TIMEOUT = 300;
     private static final int SOCKET_TIMEOUT = 1000;
 
+    private HttpUtil() {}
+
     public static String get(String url) {
         if (StringUtils.isBlank(url)) {
             return null;

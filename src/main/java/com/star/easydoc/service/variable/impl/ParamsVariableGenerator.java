@@ -1,15 +1,15 @@
 package com.star.easydoc.service.variable.impl;
 
-import com.intellij.lang.jvm.JvmParameter;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiMethod;
-import com.star.easydoc.service.TranslatorService;
-import com.star.easydoc.service.variable.VariableGenerator;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.intellij.openapi.components.ServiceManager;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiParameter;
+import com.star.easydoc.service.TranslatorService;
+import com.star.easydoc.service.variable.VariableGenerator;
 
 /**
  * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
@@ -25,13 +25,13 @@ public class ParamsVariableGenerator implements VariableGenerator {
             return "";
         }
 
-        List<String> paramNameList = Arrays.stream(((PsiMethod) element).getParameters())
-                .map(JvmParameter::getName).collect(Collectors.toList());
+        List<String> paramNameList = Arrays.stream(((PsiMethod)element).getParameterList().getParameters())
+            .map(PsiParameter::getName).collect(Collectors.toList());
         if (paramNameList.isEmpty()) {
             return "";
         }
         return paramNameList.stream()
-                .map(param -> "@param " + param + " " + translatorService.translate(param))
-                .collect(Collectors.joining(System.lineSeparator()));
+            .map(param -> "@param " + param + " " + translatorService.translate(param))
+            .collect(Collectors.joining(System.lineSeparator()));
     }
 }

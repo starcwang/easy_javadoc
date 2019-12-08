@@ -1,15 +1,15 @@
 package com.star.easydoc.service.variable.impl;
 
-import com.intellij.lang.jvm.types.JvmReferenceType;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.intellij.openapi.components.ServiceManager;
+import com.intellij.psi.PsiClassType;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
 import com.star.easydoc.service.TranslatorService;
 import com.star.easydoc.service.variable.VariableGenerator;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
@@ -24,13 +24,13 @@ public class ThrowsVariableGenerator implements VariableGenerator {
         if (!(element instanceof PsiMethod)) {
             return "";
         }
-        List<String> exceptionNameList = Arrays.stream(((PsiMethod) element).getThrowsTypes())
-                .map(JvmReferenceType::getName).collect(Collectors.toList());
-        if (exceptionNameList.size() <= 0) {
+        List<String> exceptionNameList = Arrays.stream(((PsiMethod)element).getThrowsList().getReferencedTypes())
+            .map(PsiClassType::getName).collect(Collectors.toList());
+        if (exceptionNameList.isEmpty()) {
             return "";
         }
         return exceptionNameList.stream()
-                .map(name -> "@throws " + name + " " + translatorService.translate(name))
-                .collect(Collectors.joining(System.lineSeparator()));
+            .map(name -> "@throws " + name + " " + translatorService.translate(name))
+            .collect(Collectors.joining(System.lineSeparator()));
     }
 }

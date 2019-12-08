@@ -1,10 +1,9 @@
 package com.star.easydoc.view.inner;
 
-import com.intellij.openapi.project.Project;
+import javax.swing.*;
+
 import com.intellij.openapi.ui.DialogWrapper;
 import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
 
 /**
  * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>

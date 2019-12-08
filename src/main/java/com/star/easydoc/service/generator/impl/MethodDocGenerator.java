@@ -1,12 +1,18 @@
 package com.star.easydoc.service.generator.impl;
 
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
-import com.intellij.lang.jvm.JvmParameter;
-import com.intellij.lang.jvm.types.JvmReferenceType;
 import com.intellij.openapi.components.ServiceManager;
+import com.intellij.psi.PsiClassType;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiParameter;
 import com.intellij.psi.javadoc.PsiDocTag;
 import com.intellij.psi.javadoc.PsiDocTagValue;
 import com.star.easydoc.config.Consts;
@@ -16,12 +22,6 @@ import com.star.easydoc.service.TranslatorService;
 import com.star.easydoc.service.VariableGeneratorService;
 import com.star.easydoc.service.generator.DocGenerator;
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * 方法文档生成器
@@ -57,11 +57,11 @@ public class MethodDocGenerator implements DocGenerator {
      * @return {@link java.lang.String}
      */
     private String defaultGenerate(PsiMethod psiMethod) {
-        List<String> paramNameList = Arrays.stream(psiMethod.getParameters())
-                .map(JvmParameter::getName).collect(Collectors.toList());
+        List<String> paramNameList = Arrays.stream(psiMethod.getParameterList().getParameters())
+            .map(PsiParameter::getName).collect(Collectors.toList());
         String returnName = psiMethod.getReturnType() == null ? "" : psiMethod.getReturnType().getCanonicalText();
-        List<String> exceptionNameList = Arrays.stream(psiMethod.getThrowsTypes())
-                .map(JvmReferenceType::getName).collect(Collectors.toList());
+        List<String> exceptionNameList = Arrays.stream(psiMethod.getThrowsList().getReferencedTypes())
+            .map(PsiClassType::getName).collect(Collectors.toList());
 
         // 有注释，进行兼容处理
         if (psiMethod.getDocComment() != null) {
@@ -96,12 +96,12 @@ public class MethodDocGenerator implements DocGenerator {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("/**\n");
-        sb.append("* ").append(translatorService.translate(psiMethod.getName())).append("\n");
-        sb.append("*\n");
+        sb.append("/**").append(System.lineSeparator());
+        sb.append("* ").append(translatorService.translate(psiMethod.getName())).append(System.lineSeparator());
+        sb.append("*").append(System.lineSeparator());
         for (String paramName : paramNameList) {
             sb.append("* @param ").append(paramName).append(" ").append(translatorService.translate(paramName))
-                    .append("\n");
+                .append(System.lineSeparator());
         }
         if (returnName.length() > 0 && !"void".equals(returnName)) {
             if (Consts.BASE_TYPE_SET.contains(returnName)) {
@@ -110,7 +110,11 @@ public class MethodDocGenerator implements DocGenerator {
                 sb.append("* @return {@link ").append(returnName).append("}");
             }
         }
-        sb.append("*/\n");
+        for (String exceptionName : exceptionNameList) {
+            sb.append("* @throws ").append(exceptionName).append(" ")
+                .append(translatorService.translate(exceptionName)).append(System.lineSeparator());
+        }
+        sb.append("*/").append(System.lineSeparator());
         return sb.toString();
     }
 
@@ -149,7 +153,7 @@ public class MethodDocGenerator implements DocGenerator {
             exceptionNameList.remove(exceptionName);
         }
         for (String exceptionName : exceptionNameList) {
-            paramDocList.add("@throws " + exceptionName + " " + translatorService.translate(exceptionName) + "\n");
+            paramDocList.add("@throws " + exceptionName + " " + translatorService.translate(exceptionName) + System.lineSeparator());
         }
         return paramDocList;
     }
@@ -179,9 +183,9 @@ public class MethodDocGenerator implements DocGenerator {
         }
         if (isInsert && returnName.length() > 0 && !"void".equals(returnName)) {
             if (Consts.BASE_TYPE_SET.contains(returnName)) {
-                return "@return " + returnName + "\n";
+                return "@return " + returnName + System.lineSeparator();
             } else {
-                return "@return {@link " + returnName + "}\n";
+                return "@return {@link " + returnName + "}" + System.lineSeparator();
             }
         }
         return null;
@@ -221,7 +225,7 @@ public class MethodDocGenerator implements DocGenerator {
             paramNameList.remove(paramName);
         }
         for (String paramName : paramNameList) {
-            paramDocList.add("@param " + paramName + " " + translatorService.translate(paramName) + "\n");
+            paramDocList.add("@param " + paramName + " " + translatorService.translate(paramName) + System.lineSeparator());
         }
         return paramDocList;
     }

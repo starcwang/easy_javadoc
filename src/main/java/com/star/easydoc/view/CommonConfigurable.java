@@ -7,7 +7,6 @@ import javax.swing.*;
 
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.Configurable;
-import com.intellij.openapi.options.ConfigurationException;
 import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
 import org.apache.commons.lang3.BooleanUtils;
@@ -54,7 +53,7 @@ public class CommonConfigurable implements Configurable {
     }
 
     @Override
-    public void apply() throws ConfigurationException {
+    public void apply() {
         config.setAuthor(view.getAuthorTextField().getText());
         config.setDateFormat(view.getDateFormatTextField().getText());
         config.setSimpleFieldDoc(view.getSimpleDocButton().isSelected());

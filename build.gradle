@@ -30,6 +30,8 @@ patchPluginXml {
       <h3>v1.6 update</h3>
       <ul>
           <li>support custom template</li>
+          <li>support translate Chinese to English</li>
+          <li>fix some bugs</li>
       </ul>
       <h3>v1.5 update</h3>
       <ul>
