@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.star.easydoc'
-version '1.6'
+version '1.7'
 
 sourceCompatibility = 1.8
 
