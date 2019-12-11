@@ -173,7 +173,7 @@ public class VariableGeneratorService {
         Map<String, Object> map = Maps.newHashMap();
         map.put("author", config.getAuthor());
         map.put("methodName", psiMethod.getName());
-        map.put("methodReturnType", psiMethod.getReturnType() == null ? "" : psiMethod.getReturnType().getCanonicalText());
+        map.put("methodReturnType", psiMethod.getReturnType() == null ? "" : psiMethod.getReturnType().getPresentableText());
         map.put("methodParamTypes",
             Arrays.stream(psiMethod.getTypeParameters()).map(PsiTypeParameter::getQualifiedName).toArray(String[]::new));
         map.put("methodParamNames",
