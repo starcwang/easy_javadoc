@@ -25,7 +25,7 @@ public class MethodConfigurable extends AbstractTemplateConfigurable {
     @Nls(capitalization = Capitalization.Title)
     @Override
     public String getDisplayName() {
-        return "属性注释模板配置";
+        return "方法注释模板配置";
     }
 
     @Override
