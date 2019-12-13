@@ -21,7 +21,7 @@ public class WriterService {
 
     public void write(Project project, PsiElement psiElement, PsiDocComment comment) {
         try {
-            WriteCommandAction.writeCommandAction(project, psiElement.getContainingFile()).run(
+            WriteCommandAction.writeCommandAction(project).run(
                 (ThrowableRunnable<Throwable>)() -> {
                     if (psiElement.getContainingFile() == null) {
                         return;

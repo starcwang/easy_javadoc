@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
@@ -33,7 +34,6 @@ import com.star.easydoc.service.variable.impl.ThrowsVariableGenerator;
 import com.star.easydoc.service.variable.impl.VersionVariableGenerator;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
-import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.StringUtils;
 
 /**

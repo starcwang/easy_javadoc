@@ -1,15 +1,17 @@
 package com.star.easydoc.view;
 
 import java.util.Objects;
+import java.util.Set;
 import java.util.TreeMap;
 
 import javax.swing.*;
 
+import com.google.common.collect.ImmutableSet;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.Configurable;
+import com.intellij.openapi.options.ConfigurationException;
 import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
-import org.apache.commons.lang3.BooleanUtils;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nls.Capitalization;
 import org.jetbrains.annotations.Nullable;
@@ -22,6 +24,8 @@ public class CommonConfigurable implements Configurable {
 
     private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
     private CommonConfigView view = new CommonConfigView(config);
+    private static final Set<String> ENABLE_TRANSLATOR_SET = ImmutableSet.of("有道翻译", "关闭（只使用自定义翻译）");
+
 
     @Nls(capitalization = Capitalization.Title)
     @Override
@@ -53,7 +57,7 @@ public class CommonConfigurable implements Configurable {
     }
 
     @Override
-    public void apply() {
+    public void apply() throws ConfigurationException {
         config.setAuthor(view.getAuthorTextField().getText());
         config.setDateFormat(view.getDateFormatTextField().getText());
         config.setSimpleFieldDoc(view.getSimpleDocButton().isSelected());
@@ -61,19 +65,23 @@ public class CommonConfigurable implements Configurable {
         if (config.getWordMap() == null) {
             config.setWordMap(new TreeMap<>());
         }
+
+        if (config.getAuthor() == null) {
+            throw new ConfigurationException("作者不能为null");
+        }
+        if (config.getDateFormat() == null) {
+            throw new ConfigurationException("日期格式不能为null");
+        }
+        if (config.getSimpleFieldDoc() == null) {
+            throw new ConfigurationException("注释形式不能为null");
+        }
+        if (config.getTranslator() == null || !ENABLE_TRANSLATOR_SET.contains(config.getTranslator())) {
+            throw new ConfigurationException("请选择正确的翻译方式");
+        }
     }
 
     @Override
     public void reset() {
-        if (BooleanUtils.isTrue(config.getSimpleFieldDoc())) {
-            view.setSimpleDocButton(true);
-            view.setNormalDocButton(false);
-        } else {
-            view.setSimpleDocButton(false);
-            view.setNormalDocButton(true);
-        }
-        view.setAuthorTextField(config.getAuthor());
-        view.setDateFormatTextField(config.getDateFormat());
-        view.setTranslatorBox(config.getTranslator());
+        view.refresh();
     }
 }

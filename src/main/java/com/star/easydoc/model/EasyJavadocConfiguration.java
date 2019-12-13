@@ -1,5 +1,6 @@
 package com.star.easydoc.model;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -13,36 +14,36 @@ public class EasyJavadocConfiguration {
     /**
      * 作者
      */
-    private String author;
+    private String author = "admin";
     /**
      * 日期格式
      */
-    private String dateFormat;
+    private String dateFormat = "yyyy/MM/dd";
     /**
      * 属性是否使用简单模式
      */
-    private Boolean simpleFieldDoc;
+    private Boolean simpleFieldDoc = false;
     /**
      * 翻译方式
      */
-    private String translator;
+    private String translator = "有道翻译";
     /**
      * 单词映射
      */
-    private Map<String, String> wordMap;
+    private Map<String, String> wordMap = new HashMap<>();
 
     /**
      * 类模板配置
      */
-    private TemplateConfig classTemplateConfig;
+    private TemplateConfig classTemplateConfig = new TemplateConfig();
     /**
      * 方法模板配置
      */
-    private TemplateConfig methodTemplateConfig;
+    private TemplateConfig methodTemplateConfig = new TemplateConfig();
     /**
      * 属性模板配置
      */
-    private TemplateConfig fieldTemplateConfig;
+    private TemplateConfig fieldTemplateConfig = new TemplateConfig();
 
     /**
      * 模板配置

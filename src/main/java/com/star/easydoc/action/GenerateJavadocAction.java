@@ -53,7 +53,7 @@ public class GenerateJavadocAction extends AnAction {
             return;
         }
 
-        PsiElementFactory factory = PsiElementFactory.getInstance(project);
+        PsiElementFactory factory = PsiElementFactory.SERVICE.getInstance(project);
         PsiDocComment psiDocComment = factory.createDocCommentFromText(comment);
 
         writerService.write(project, psiElement, psiDocComment);

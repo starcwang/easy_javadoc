@@ -4,13 +4,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Lists;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiMethod;
 import com.star.easydoc.config.Consts;
 import com.star.easydoc.service.variable.VariableGenerator;
-import org.apache.commons.compress.utils.Lists;
 
 /**
  * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>

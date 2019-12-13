@@ -17,7 +17,7 @@ import com.star.easydoc.service.translator.impl.BaiduTranslator;
 import com.star.easydoc.service.translator.impl.JinshanTranslator;
 import com.star.easydoc.service.translator.impl.YoudaoCh2EnTranslator;
 import com.star.easydoc.service.translator.impl.YoudaoEn2ChTranslator;
-import org.apache.commons.collections.CollectionUtils;
+import com.star.easydoc.util.CollectionUtil;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -65,7 +65,7 @@ public class TranslatorService {
         List<String> chList = chs == null ? Lists.newArrayList() : Lists.newArrayList(chs);
         chList = chList.stream().filter(c -> !Consts.STOP_WORDS.contains(c.toLowerCase())).collect(Collectors.toList());
 
-        if (CollectionUtils.isEmpty(chList)) {
+        if (CollectionUtil.isEmpty(chList)) {
             return "";
         }
         if (chList.size() == 1) {
@@ -103,7 +103,7 @@ public class TranslatorService {
      * @return boolean
      */
     private boolean isCustomMode(List<String> words) {
-        return CollectionUtils.containsAny(config.getWordMap().keySet(), words);
+        return CollectionUtil.containsAny(config.getWordMap().keySet(), words);
     }
 
     private String getFromCustom(String word) {

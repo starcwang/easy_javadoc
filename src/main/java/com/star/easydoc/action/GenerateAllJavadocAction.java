@@ -124,7 +124,7 @@ public class GenerateAllJavadocAction extends AnAction {
         if (StringUtils.isBlank(comment)) {
             return;
         }
-        PsiElementFactory factory = PsiElementFactory.getInstance(project);
+        PsiElementFactory factory = PsiElementFactory.SERVICE.getInstance(project);
         PsiDocComment psiDocComment = factory.createDocCommentFromText(comment);
 
         writerService.write(project, psiElement, psiDocComment);
