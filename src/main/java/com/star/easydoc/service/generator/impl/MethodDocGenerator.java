@@ -1,14 +1,9 @@
 package com.star.easydoc.service.generator.impl;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiClassType;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
@@ -22,6 +17,12 @@ import com.star.easydoc.service.TranslatorService;
 import com.star.easydoc.service.VariableGeneratorService;
 import com.star.easydoc.service.generator.DocGenerator;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 方法文档生成器
@@ -115,7 +116,7 @@ public class MethodDocGenerator implements DocGenerator {
                 .append(translatorService.translate(exceptionName)).append(System.lineSeparator());
         }
         sb.append("*/").append(System.lineSeparator());
-        return sb.toString();
+        return StringUtil.replaceChar(sb.toString(), '\r', '\0');
     }
 
     /**

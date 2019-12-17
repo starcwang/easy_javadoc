@@ -1,15 +1,10 @@
 package com.star.easydoc.service.generator.impl;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.javadoc.PsiDocTag;
@@ -20,6 +15,12 @@ import com.star.easydoc.service.TranslatorService;
 import com.star.easydoc.service.VariableGeneratorService;
 import com.star.easydoc.service.generator.DocGenerator;
 import org.apache.commons.lang3.StringUtils;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * 类文档生成器
@@ -93,12 +94,13 @@ public class ClassDocGenerator implements DocGenerator {
             return Joiner.on(StringUtils.EMPTY).skipNulls().join(commentItems);
         }
         // 编译后会自动优化成StringBuilder
-        return "/**" + System.lineSeparator()
+        String classDoc =  "/**" + System.lineSeparator()
             + "* " + translatorService.translate(psiClass.getName()) + System.lineSeparator()
             + "*" + System.lineSeparator()
             + "* @author " + config.getAuthor() + System.lineSeparator()
             + "* @date " + dateString + System.lineSeparator()
             + "*/" + System.lineSeparator();
+        return StringUtil.replaceChar(classDoc, '\r', '\0');
     }
 
     /**
