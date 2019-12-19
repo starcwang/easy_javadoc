@@ -1,10 +1,7 @@
 package com.star.easydoc.service;
 
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Objects;
-
 import com.google.common.collect.ImmutableMap;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiField;
@@ -14,6 +11,10 @@ import com.star.easydoc.service.generator.impl.ClassDocGenerator;
 import com.star.easydoc.service.generator.impl.FieldDocGenerator;
 import com.star.easydoc.service.generator.impl.MethodDocGenerator;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
 
 /**
  * @author wangchao
@@ -39,6 +40,6 @@ public class DocGeneratorService {
         if (Objects.isNull(docGenerator)) {
             return StringUtils.EMPTY;
         }
-        return docGenerator.generate(psiElement);
+        return StringUtil.replaceChar(docGenerator.generate(psiElement), '\r', '\0');
     }
 }
