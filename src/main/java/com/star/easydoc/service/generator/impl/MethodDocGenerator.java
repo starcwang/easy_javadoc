@@ -96,12 +96,11 @@ public class MethodDocGenerator implements DocGenerator {
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("/**").append(System.lineSeparator());
-        sb.append("* ").append(translatorService.translate(psiMethod.getName())).append(System.lineSeparator());
-        sb.append("*").append(System.lineSeparator());
+        sb.append("/**\n");
+        sb.append("* ").append(translatorService.translate(psiMethod.getName())).append("\n");
+        sb.append("*\n");
         for (String paramName : paramNameList) {
-            sb.append("* @param ").append(paramName).append(" ").append(translatorService.translate(paramName))
-                .append(System.lineSeparator());
+            sb.append("* @param ").append(paramName).append(" ").append(translatorService.translate(paramName)).append("\n");
         }
         if (returnName.length() > 0 && !"void".equals(returnName)) {
             if (Consts.BASE_TYPE_SET.contains(returnName)) {
@@ -112,9 +111,9 @@ public class MethodDocGenerator implements DocGenerator {
         }
         for (String exceptionName : exceptionNameList) {
             sb.append("* @throws ").append(exceptionName).append(" ")
-                .append(translatorService.translate(exceptionName)).append(System.lineSeparator());
+                .append(translatorService.translate(exceptionName)).append("\n");
         }
-        sb.append("*/").append(System.lineSeparator());
+        sb.append("*/\n");
         return sb.toString();
     }
 
@@ -153,7 +152,7 @@ public class MethodDocGenerator implements DocGenerator {
             exceptionNameList.remove(exceptionName);
         }
         for (String exceptionName : exceptionNameList) {
-            paramDocList.add("@throws " + exceptionName + " " + translatorService.translate(exceptionName) + System.lineSeparator());
+            paramDocList.add("@throws " + exceptionName + " " + translatorService.translate(exceptionName) + "\n");
         }
         return paramDocList;
     }
@@ -183,9 +182,9 @@ public class MethodDocGenerator implements DocGenerator {
         }
         if (isInsert && returnName.length() > 0 && !"void".equals(returnName)) {
             if (Consts.BASE_TYPE_SET.contains(returnName)) {
-                return "@return " + returnName + System.lineSeparator();
+                return "@return " + returnName + "\n";
             } else {
-                return "@return {@link " + returnName + "}" + System.lineSeparator();
+                return "@return {@link " + returnName + "}\n";
             }
         }
         return null;
@@ -225,7 +224,7 @@ public class MethodDocGenerator implements DocGenerator {
             paramNameList.remove(paramName);
         }
         for (String paramName : paramNameList) {
-            paramDocList.add("@param " + paramName + " " + translatorService.translate(paramName) + System.lineSeparator());
+            paramDocList.add("@param " + paramName + " " + translatorService.translate(paramName) + "\n");
         }
         return paramDocList;
     }

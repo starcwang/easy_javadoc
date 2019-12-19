@@ -31,6 +31,6 @@ public class ThrowsVariableGenerator implements VariableGenerator {
         }
         return exceptionNameList.stream()
             .map(name -> "@throws " + name + " " + translatorService.translate(name))
-            .collect(Collectors.joining(System.lineSeparator()));
+            .collect(Collectors.joining("\n"));
     }
 }

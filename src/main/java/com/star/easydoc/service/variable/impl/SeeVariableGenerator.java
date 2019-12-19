@@ -33,7 +33,7 @@ public class SeeVariableGenerator implements VariableGenerator {
             if (interfaces.length > 0) {
                 superList.addAll(Arrays.stream(interfaces).map(PsiClass::getName).collect(Collectors.toList()));
             }
-            return superList.stream().map(sup -> "@see " + sup).collect(Collectors.joining(System.lineSeparator()));
+            return superList.stream().map(sup -> "@see " + sup).collect(Collectors.joining("\n"));
         } else if (element instanceof PsiMethod) {
             return "";
         } else if (element instanceof PsiField) {

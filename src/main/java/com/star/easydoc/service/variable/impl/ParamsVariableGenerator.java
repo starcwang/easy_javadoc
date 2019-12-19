@@ -32,6 +32,6 @@ public class ParamsVariableGenerator implements VariableGenerator {
         }
         return paramNameList.stream()
             .map(param -> "@param " + param + " " + translatorService.translate(param))
-            .collect(Collectors.joining(System.lineSeparator()));
+            .collect(Collectors.joining("\n"));
     }
 }

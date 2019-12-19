@@ -93,12 +93,12 @@ public class ClassDocGenerator implements DocGenerator {
             return Joiner.on(StringUtils.EMPTY).skipNulls().join(commentItems);
         }
         // 编译后会自动优化成StringBuilder
-        return "/**" + System.lineSeparator()
-            + "* " + translatorService.translate(psiClass.getName()) + System.lineSeparator()
-            + "*" + System.lineSeparator()
-            + "* @author " + config.getAuthor() + System.lineSeparator()
-            + "* @date " + dateString + System.lineSeparator()
-            + "*/" + System.lineSeparator();
+        return "/**\n"
+            + "* " + translatorService.translate(psiClass.getName()) + "\n"
+            + "*\n"
+            + "* @author " + config.getAuthor() + "\n"
+            + "* @date " + dateString + "\n"
+            + "*/\n";
     }
 
     /**
@@ -142,7 +142,7 @@ public class ClassDocGenerator implements DocGenerator {
             }
         }
         if (isInsert) {
-            return "@author " + config.getAuthor() + System.lineSeparator();
+            return "@author " + config.getAuthor() + "\n";
         } else {
             return null;
         }
@@ -177,7 +177,7 @@ public class ClassDocGenerator implements DocGenerator {
             }
         }
         if (isInsert) {
-            return "@date " + dateString + System.lineSeparator();
+            return "@date " + dateString + "\n";
         } else {
             return null;
         }
