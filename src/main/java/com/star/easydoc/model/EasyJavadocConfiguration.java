@@ -1,7 +1,7 @@
 package com.star.easydoc.model;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
@@ -30,7 +30,7 @@ public class EasyJavadocConfiguration {
     /**
      * 单词映射
      */
-    private Map<String, String> wordMap = new HashMap<>();
+    private SortedMap<String, String> wordMap = new TreeMap<>();
 
     /**
      * 类模板配置
@@ -195,14 +195,14 @@ public class EasyJavadocConfiguration {
         this.dateFormat = dateFormat;
     }
 
-    public Map<String, String> getWordMap() {
+    public SortedMap<String, String> getWordMap() {
         if (wordMap == null) {
             wordMap = new TreeMap<>();
         }
         return wordMap;
     }
 
-    public void setWordMap(Map<String, String> wordMap) {
+    public void setWordMap(SortedMap<String, String> wordMap) {
         this.wordMap = wordMap;
     }
 
