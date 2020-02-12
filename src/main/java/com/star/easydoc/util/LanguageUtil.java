@@ -1,10 +1,12 @@
 package com.star.easydoc.util;
 
 /**
+ * 语言跑龙套
  * 语言工具
  *
- * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
+ * @author wangchao
  * @version 1.0.0
+ * @date 2020/02/12
  * @since 2019-12-08 03:16:00
  */
 public class LanguageUtil {

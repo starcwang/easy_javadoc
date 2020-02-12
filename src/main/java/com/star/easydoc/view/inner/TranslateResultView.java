@@ -13,11 +13,13 @@ public class TranslateResultView extends DialogWrapper {
 
     private JTextArea textArea;
     private JPanel panel;
+    private JScrollPane scrollPane;
 
     public TranslateResultView(String text) {
         super(false);
         init();
         setTitle("翻译结果");
+        textArea.setSize(800, 800);
         textArea.setText(text);
     }
 
@@ -25,5 +27,17 @@ public class TranslateResultView extends DialogWrapper {
     @Override
     protected JComponent createCenterPanel() {
         return panel;
+    }
+
+    public JTextArea getTextArea() {
+        return textArea;
+    }
+
+    public JPanel getPanel() {
+        return panel;
+    }
+
+    public JScrollPane getScrollPane() {
+        return scrollPane;
     }
 }

@@ -2,6 +2,7 @@ package com.star.easydoc.service.translator.impl;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import com.star.easydoc.service.translator.Translator;
 import com.star.easydoc.util.HttpUtil;
@@ -20,7 +21,9 @@ public abstract class YoudaoTranslator implements Translator {
     public String translate(String text) {
         try {
             YoudaoResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(getUrl(), HttpUtil.encode(text))), YoudaoResponse.class);
-            return Objects.requireNonNull(response).getTranslateResult().get(0).get(0).getTgt();
+            return Objects.requireNonNull(response).getTranslateResult().stream()
+                .map(translateResults -> translateResults.stream().map(TranslateResult::getTgt).collect(Collectors.joining(" ")))
+                .collect(Collectors.joining("\n"));
         } catch (Exception ignore) {
             return StringUtils.EMPTY;
         }

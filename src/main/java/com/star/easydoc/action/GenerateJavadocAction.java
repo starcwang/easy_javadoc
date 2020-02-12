@@ -37,18 +37,18 @@ public class GenerateJavadocAction extends AnAction {
         // 选中翻译功能
         Editor editor = anActionEvent.getData(LangDataKeys.EDITOR);
         if (editor != null) {
-            String selectedText = editor.getSelectionModel().getSelectedText();
+            String selectedText = editor.getSelectionModel().getSelectedText(true);
             if (StringUtils.isNotBlank(selectedText)) {
                 // 中译英
                 if (LanguageUtil.isAllChinese(selectedText)) {
                     writerService.write(project, editor, translatorService.translateCh2En(selectedText));
-                    return;
                 }
                 // 自动翻译
                 else {
                     String result = translatorService.autoTranslate(selectedText);
                     new TranslateResultView(result).show();
                 }
+                return;
             }
         }
 
