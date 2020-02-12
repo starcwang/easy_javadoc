@@ -34,9 +34,15 @@ public class TranslatorService {
         .put("有道翻译", new YoudaoEn2ChTranslator())
         .build();
 
+    /**
+     * 英译中
+     *
+     * @param source 源
+     * @return {@link String}
+     */
     public String translate(String source) {
         List<String> words = split(source);
-        if (isCustomMode(words)) {
+        if (hasCustomWord(words)) {
             // 有自定义单词，使用默认模式，单个单词翻译
             StringBuilder sb = new StringBuilder();
             for (String word : words) {
@@ -56,6 +62,26 @@ public class TranslatorService {
         }
     }
 
+    /**
+     * 自动翻译
+     *
+     * @param source 源
+     * @return {@link String}
+     */
+    public String autoTranslate(String source) {
+        Translator translator = translatorMap.get(config.getTranslator());
+        if (Objects.isNull(translator)) {
+            return StringUtils.EMPTY;
+        }
+        return translator.translate(source);
+    }
+
+    /**
+     * 中译英
+     *
+     * @param source 源中文
+     * @return {@link String}
+     */
     public String translateCh2En(String source) {
         if (StringUtils.isBlank(source)) {
             return "";
@@ -63,7 +89,10 @@ public class TranslatorService {
         String ch = en2ChTranslator.translate(source);
         String[] chs = StringUtils.split(ch);
         List<String> chList = chs == null ? Lists.newArrayList() : Lists.newArrayList(chs);
-        chList = chList.stream().filter(c -> !Consts.STOP_WORDS.contains(c.toLowerCase())).collect(Collectors.toList());
+        chList = chList.stream()
+            .filter(c -> !Consts.STOP_WORDS.contains(c.toLowerCase()))
+            .map(str -> str.replaceAll("[,.'\\-+;:`~]+", ""))
+            .collect(Collectors.toList());
 
         if (CollectionUtil.isEmpty(chList)) {
             return "";
@@ -97,12 +126,12 @@ public class TranslatorService {
     }
 
     /**
-     * 是否自定义模式
+     * 是否有自定义单词
      *
      * @param words 单词
      * @return boolean
      */
-    private boolean isCustomMode(List<String> words) {
+    private boolean hasCustomWord(List<String> words) {
         return CollectionUtil.containsAny(config.getWordMap().keySet(), words);
     }
 

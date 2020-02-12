@@ -13,6 +13,7 @@ import com.star.easydoc.service.DocGeneratorService;
 import com.star.easydoc.service.TranslatorService;
 import com.star.easydoc.service.WriterService;
 import com.star.easydoc.util.LanguageUtil;
+import com.star.easydoc.view.inner.TranslateResultView;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,13 +34,21 @@ public class GenerateJavadocAction extends AnAction {
             return;
         }
 
-        // 中译英功能
+        // 选中翻译功能
         Editor editor = anActionEvent.getData(LangDataKeys.EDITOR);
         if (editor != null) {
             String selectedText = editor.getSelectionModel().getSelectedText();
-            if (StringUtils.isNotBlank(selectedText) && LanguageUtil.isAllChinese(selectedText)) {
-                writerService.write(project, editor, translatorService.translateCh2En(selectedText));
-                return;
+            if (StringUtils.isNotBlank(selectedText)) {
+                // 中译英
+                if (LanguageUtil.isAllChinese(selectedText)) {
+                    writerService.write(project, editor, translatorService.translateCh2En(selectedText));
+                    return;
+                }
+                // 自动翻译
+                else {
+                    String result = translatorService.autoTranslate(selectedText);
+                    new TranslateResultView(result).show();
+                }
             }
         }
 
