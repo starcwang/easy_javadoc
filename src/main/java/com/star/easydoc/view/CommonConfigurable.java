@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 public class CommonConfigurable implements Configurable {
 
     private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
-    private CommonConfigView view = new CommonConfigView(config);
+    private CommonConfigView view = new CommonConfigView();
     private static final Set<String> ENABLE_TRANSLATOR_SET = ImmutableSet.of("有道翻译", "关闭（只使用自定义翻译）");
 
 

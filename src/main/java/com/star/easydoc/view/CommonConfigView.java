@@ -8,11 +8,13 @@ import java.util.Map.Entry;
 import javax.swing.*;
 
 import com.google.common.collect.Lists;
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.ui.CollectionListModel;
 import com.intellij.ui.ListCellRendererWrapper;
 import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.JBList;
+import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
 import com.star.easydoc.util.BeanUtil;
 import com.star.easydoc.util.JsonUtil;
@@ -27,7 +29,7 @@ import org.apache.commons.lang3.BooleanUtils;
 public class CommonConfigView {
     private static final Logger LOGGER = Logger.getInstance(CommonConfigView.class);
 
-    private EasyJavadocConfiguration config;
+    private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
     private JPanel panel;
     private JPanel wordMapPanel;
     private JTextField authorTextField;
@@ -46,8 +48,7 @@ public class CommonConfigView {
     private JButton exportButton;
     private JBList<Entry<String, String>> typeMapList;
 
-    public CommonConfigView(EasyJavadocConfiguration config) {
-        this.config = config;
+    public CommonConfigView() {
         refreshWordMap();
 
         simpleDocButton.addChangeListener(e -> {
