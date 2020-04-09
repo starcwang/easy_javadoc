@@ -122,7 +122,7 @@ public class TranslatorService {
         word = word.replaceAll("(?<=[^A-Z])[A-Z][^A-Z]", "_$0");
         word = word.replaceAll("[A-Z]{2,}", "_$0");
         word = word.replaceAll("_+", "_");
-        return Arrays.asList(word.split("_"));
+        return Arrays.stream(word.split("_")).map(String::toLowerCase).collect(Collectors.toList());
     }
 
     /**
