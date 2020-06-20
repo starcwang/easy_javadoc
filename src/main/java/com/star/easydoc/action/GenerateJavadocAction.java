@@ -53,7 +53,7 @@ public class GenerateJavadocAction extends AnAction {
         }
 
         PsiElement psiElement = anActionEvent.getData(LangDataKeys.PSI_ELEMENT);
-        if (psiElement == null) {
+        if (psiElement == null || psiElement.getNode() == null) {
             return;
         }
 
