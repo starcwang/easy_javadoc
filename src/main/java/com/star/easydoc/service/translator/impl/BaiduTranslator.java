@@ -19,17 +19,17 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class BaiduTranslator implements Translator {
 
-    private static final String URL = "http://api.fanyi.baidu.com/api/trans/vip/translate?from=auto&to=zh&appid=%s&salt=%s&sign=%s&q=%s";
+    private static final String URL = "http://api.fanyi.baidu.com/api/trans/vip/translate?from=auto&to=auto&appid=%s&salt=%s&sign=%s&q=%s";
     private static final String APP_ID = "20190901000331058";
     private static final String KEY = "aoKt7lnVDBc4RLYrLj03";
 
     @Override
     public String translate(String text) {
         try {
-            String word = HttpUtil.encode(text);
             String salt = RandomStringUtils.randomNumeric(16);
-            String sign = DigestUtils.md5Hex(APP_ID + word + salt + KEY);
-            BaiduResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(URL, APP_ID, salt, sign, word)), BaiduResponse.class);
+            String sign = DigestUtils.md5Hex(APP_ID + text + salt + KEY);
+            String eText = HttpUtil.encode(text);
+            BaiduResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(URL, APP_ID, salt, sign, eText)), BaiduResponse.class);
             return Objects.requireNonNull(response).getTransResult().get(0).getDst();
         } catch (Exception ignore) {
             return StringUtils.EMPTY;
