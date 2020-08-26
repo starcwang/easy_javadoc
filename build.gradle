@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.star.easydoc'
-version '1.12'
+version '1.13'
 
 sourceCompatibility = 1.8
 
@@ -16,7 +16,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.1'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.1'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.1'
+    compile group: 'com.tencentcloudapi', name: 'tencentcloud-sdk-java', version: '3.1.118'
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/

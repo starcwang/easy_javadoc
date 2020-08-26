@@ -1,20 +1,20 @@
 package com.star.easydoc.view;
 
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeMap;
-
-import javax.swing.*;
-
 import com.google.common.collect.ImmutableSet;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
+import com.star.easydoc.config.Consts;
 import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nls.Capitalization;
 import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * @author wangchao
@@ -53,6 +53,12 @@ public class CommonConfigurable implements Configurable {
         if (!Objects.equals(config.getTranslator(), view.getTranslatorBox().getSelectedItem())) {
             return true;
         }
+        if (!Objects.equals(config.getAppId(), view.getAppIdTextField().getText())) {
+            return true;
+        }
+        if (!Objects.equals(config.getToken(), view.getTokenTextField().getText())) {
+            return true;
+        }
         return false;
     }
 
@@ -62,6 +68,8 @@ public class CommonConfigurable implements Configurable {
         config.setDateFormat(view.getDateFormatTextField().getText());
         config.setSimpleFieldDoc(view.getSimpleDocButton().isSelected());
         config.setTranslator(String.valueOf(view.getTranslatorBox().getSelectedItem()));
+        config.setAppId(view.getAppIdTextField().getText());
+        config.setToken(view.getTokenTextField().getText());
         if (config.getWordMap() == null) {
             config.setWordMap(new TreeMap<>());
         }
@@ -77,6 +85,14 @@ public class CommonConfigurable implements Configurable {
         }
         if (config.getTranslator() == null || !ENABLE_TRANSLATOR_SET.contains(config.getTranslator())) {
             throw new ConfigurationException("请选择正确的翻译方式");
+        }
+        if (Consts.BAIDU_TRANSLATOR.equals(config.getTranslator()) || Consts.TENCENT_TRANSLATOR.equals(config.getTranslator())) {
+            if (config.getAppId() == null) {
+                throw new ConfigurationException("appId不能为null");
+            }
+            if (config.getToken() == null) {
+                throw new ConfigurationException("密钥不能为null");
+            }
         }
     }
 

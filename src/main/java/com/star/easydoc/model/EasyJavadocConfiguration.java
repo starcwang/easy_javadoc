@@ -28,6 +28,14 @@ public class EasyJavadocConfiguration {
      */
     private String translator = "有道翻译";
     /**
+     * app id
+     */
+    private String appId;
+    /**
+     * 密钥
+     */
+    private String token;
+    /**
      * 单词映射
      */
     private SortedMap<String, String> wordMap = new TreeMap<>();
@@ -106,7 +114,8 @@ public class EasyJavadocConfiguration {
          */
         private String value;
 
-        public CustomValue(){}
+        public CustomValue() {
+        }
 
         public CustomValue(VariableType type, String value) {
             this.type = type;
@@ -133,7 +142,7 @@ public class EasyJavadocConfiguration {
     /**
      * 变量类型
      */
-    public static enum  VariableType {
+    public static enum VariableType {
         /**
          * 固定值
          */
@@ -237,5 +246,21 @@ public class EasyJavadocConfiguration {
 
     public void setFieldTemplateConfig(TemplateConfig fieldTemplateConfig) {
         this.fieldTemplateConfig = fieldTemplateConfig;
+    }
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

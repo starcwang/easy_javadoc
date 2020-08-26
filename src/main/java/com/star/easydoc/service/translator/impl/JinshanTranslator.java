@@ -20,13 +20,19 @@ public class JinshanTranslator implements Translator {
     private static final String URL = "http://dict-co.iciba.com/api/dictionary.php?key=1E55091D2F202FA617472001B3AF0D39&type=json&w=%s";
 
     @Override
-    public String translate(String text) {
+    public String en2Ch(String text) {
         try {
             JinshanResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(URL, HttpUtil.encode(text))), JinshanResponse.class);
             return Objects.requireNonNull(response).getSymbols().get(0).getParts().get(0).getMeans().get(0);
         } catch (Exception ignore) {
             return StringUtils.EMPTY;
         }
+    }
+
+    @Override
+    public String ch2En(String text) {
+        // TODO: 2020-8-27  
+        return null;
     }
 
     public static class JinshanResponse {

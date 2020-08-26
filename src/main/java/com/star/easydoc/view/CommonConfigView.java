@@ -1,12 +1,5 @@
 package com.star.easydoc.view;
 
-import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.swing.*;
-
 import com.google.common.collect.Lists;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
@@ -14,6 +7,7 @@ import com.intellij.ui.CollectionListModel;
 import com.intellij.ui.ListCellRendererWrapper;
 import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.JBList;
+import com.star.easydoc.config.Consts;
 import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
 import com.star.easydoc.util.BeanUtil;
@@ -21,6 +15,12 @@ import com.star.easydoc.util.JsonUtil;
 import com.star.easydoc.view.inner.WordMapAddView;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.BooleanUtils;
+
+import javax.swing.*;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * @author wangchao
@@ -42,17 +42,23 @@ public class CommonConfigView {
     private JRadioButton normalDocButton;
     private JLabel fieldDocLabel;
     private JPanel commonPanel;
-    private JComboBox translatorBox;
+    private JComboBox<?> translatorBox;
     private JLabel translatorLabel;
     private JButton importButton;
     private JButton exportButton;
+    private JTextField appIdTextField;
+    private JTextField tokenTextField;
+    private JButton resetButton;
+    private JButton clearButton;
+    private JLabel appIdLabel;
+    private JLabel tokenLabel;
     private JBList<Entry<String, String>> typeMapList;
 
     public CommonConfigView() {
         refreshWordMap();
 
         simpleDocButton.addChangeListener(e -> {
-            JRadioButton button = (JRadioButton)e.getSource();
+            JRadioButton button = (JRadioButton) e.getSource();
             if (button.isSelected()) {
                 normalDocButton.setSelected(false);
             } else {
@@ -61,7 +67,7 @@ public class CommonConfigView {
         });
 
         normalDocButton.addChangeListener(e -> {
-            JRadioButton button = (JRadioButton)e.getSource();
+            JRadioButton button = (JRadioButton) e.getSource();
             if (button.isSelected()) {
                 simpleDocButton.setSelected(false);
             } else {
@@ -109,6 +115,24 @@ public class CommonConfigView {
                 FileUtils.write(targetFile, JsonUtil.toJson(this.config), StandardCharsets.UTF_8.name());
             } catch (Exception e) {
                 LOGGER.error("写入文件异常", e);
+            }
+        });
+
+        translatorBox.addItemListener(e -> {
+            JComboBox<?> jComboBox = (JComboBox<?>) e.getSource();
+            if (Consts.BAIDU_TRANSLATOR.equals(jComboBox.getSelectedItem())) {
+                appIdLabel.setText("APP ID");
+                tokenLabel.setText("密钥");
+                appIdTextField.setEnabled(true);
+                tokenTextField.setEnabled(true);
+            } else if (Consts.TENCENT_TRANSLATOR.equals(jComboBox.getSelectedItem())) {
+                appIdLabel.setText("SecretId");
+                tokenLabel.setText("SecretKey");
+                appIdTextField.setEnabled(true);
+                tokenTextField.setEnabled(true);
+            } else {
+                appIdTextField.setEnabled(false);
+                tokenTextField.setEnabled(false);
             }
         });
     }
@@ -208,5 +232,21 @@ public class CommonConfigView {
 
     public void setDateFormatTextField(String dateFormat) {
         dateFormatTextField.setText(dateFormat);
+    }
+
+    public JTextField getAppIdTextField() {
+        return appIdTextField;
+    }
+
+    public void setAppIdTextField(String appId) {
+        this.appIdTextField.setText(appId);
+    }
+
+    public JTextField getTokenTextField() {
+        return tokenTextField;
+    }
+
+    public void setTokenTextField(String token) {
+        this.tokenTextField.setText(token);
     }
 }

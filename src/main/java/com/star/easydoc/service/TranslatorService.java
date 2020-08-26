@@ -1,11 +1,5 @@
 package com.star.easydoc.service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.intellij.openapi.components.ServiceManager;
@@ -15,10 +9,16 @@ import com.star.easydoc.model.EasyJavadocConfiguration;
 import com.star.easydoc.service.translator.Translator;
 import com.star.easydoc.service.translator.impl.BaiduTranslator;
 import com.star.easydoc.service.translator.impl.JinshanTranslator;
-import com.star.easydoc.service.translator.impl.YoudaoCh2EnTranslator;
-import com.star.easydoc.service.translator.impl.YoudaoEn2ChTranslator;
+import com.star.easydoc.service.translator.impl.TencentTranslator;
+import com.star.easydoc.service.translator.impl.YoudaoTranslator;
 import com.star.easydoc.util.CollectionUtil;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author wangchao
@@ -27,11 +27,11 @@ import org.apache.commons.lang3.StringUtils;
 public class TranslatorService {
 
     private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
-    private Translator en2ChTranslator = new YoudaoCh2EnTranslator();
     private Map<String, Translator> translatorMap = ImmutableMap.<String, Translator>builder()
-        .put("百度翻译", new BaiduTranslator())
-        .put("金山翻译", new JinshanTranslator())
-        .put("有道翻译", new YoudaoEn2ChTranslator())
+        .put(Consts.BAIDU_TRANSLATOR, new BaiduTranslator())
+        .put(Consts.TENCENT_TRANSLATOR, new TencentTranslator())
+        .put(Consts.JINSHAN_TRANSLATOR, new JinshanTranslator())
+        .put(Consts.YOUDAO_TRANSLATOR, new YoudaoTranslator())
         .build();
 
     /**
@@ -73,7 +73,7 @@ public class TranslatorService {
         if (Objects.isNull(translator)) {
             return StringUtils.EMPTY;
         }
-        return translator.translate(source);
+        return translator.en2Ch(source);
     }
 
     /**
@@ -86,7 +86,7 @@ public class TranslatorService {
         if (StringUtils.isBlank(source)) {
             return "";
         }
-        String ch = en2ChTranslator.translate(source);
+        String ch = translatorMap.get(config.getTranslator()).en2Ch(source);
         String[] chs = StringUtils.split(ch);
         List<String> chList = chs == null ? Lists.newArrayList() : Lists.newArrayList(chs);
         chList = chList.stream()
@@ -144,7 +144,7 @@ public class TranslatorService {
         if (Objects.isNull(translator)) {
             return StringUtils.EMPTY;
         }
-        return translator.translate(word);
+        return translator.en2Ch(word);
     }
 
 }

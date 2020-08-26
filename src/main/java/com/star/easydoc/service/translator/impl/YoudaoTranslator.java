@@ -15,12 +15,15 @@ import org.apache.commons.lang3.StringUtils;
  * @author wangchao
  * @date 2019/09/01
  */
-public abstract class YoudaoTranslator implements Translator {
+public class YoudaoTranslator implements Translator {
+
+    private static final String CH2EN_URL = "http://fanyi.youdao.com/translate?&doctype=json&type=ZH_CN2EN&i=%s";
+    private static final String EN2CH_URL = "http://fanyi.youdao.com/translate?&doctype=json&type=EN2ZH_CN&i=%s";
 
     @Override
-    public String translate(String text) {
+    public String en2Ch(String text) {
         try {
-            YoudaoResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(getUrl(), HttpUtil.encode(text))), YoudaoResponse.class);
+            YoudaoResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(EN2CH_URL, HttpUtil.encode(text))), YoudaoResponse.class);
             return Objects.requireNonNull(response).getTranslateResult().stream()
                 .map(translateResults -> translateResults.stream().map(TranslateResult::getTgt).collect(Collectors.joining(" ")))
                 .collect(Collectors.joining("\n"));
@@ -29,12 +32,17 @@ public abstract class YoudaoTranslator implements Translator {
         }
     }
 
-    /**
-     * 得到Url
-     *
-     * @return {@link java.lang.String}
-     */
-    protected abstract String getUrl();
+    @Override
+    public String ch2En(String text) {
+        try {
+            YoudaoResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(CH2EN_URL, HttpUtil.encode(text))), YoudaoResponse.class);
+            return Objects.requireNonNull(response).getTranslateResult().stream()
+                .map(translateResults -> translateResults.stream().map(TranslateResult::getTgt).collect(Collectors.joining(" ")))
+                .collect(Collectors.joining("\n"));
+        } catch (Exception ignore) {
+            return StringUtils.EMPTY;
+        }
+    }
 
     public static class YoudaoResponse {
 
