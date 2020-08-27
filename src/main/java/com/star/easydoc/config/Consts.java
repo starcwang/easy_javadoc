@@ -35,7 +35,7 @@ public class Consts {
      */
     public static final String JINSHAN_TRANSLATOR = "金山翻译";
     /**
-     * 自定义翻译
+     * 关闭翻译
      */
-    public static final String CUSTOM_TRANSLATOR = "自定义翻译";
+    public static final String CLOSE_TRANSLATOR = "关闭（只使用自定义翻译）";
 }

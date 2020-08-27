@@ -28,13 +28,21 @@ public class EasyJavadocConfiguration {
      */
     private String translator = "有道翻译";
     /**
-     * app id
+     * 百度app id
      */
     private String appId;
     /**
-     * 密钥
+     * 百度密钥
      */
     private String token;
+    /**
+     * 腾讯secretKey
+     */
+    private String secretKey;
+    /**
+     * 腾讯secretId
+     */
+    private String secretId;
     /**
      * 单词映射
      */
@@ -52,6 +60,21 @@ public class EasyJavadocConfiguration {
      * 属性模板配置
      */
     private TemplateConfig fieldTemplateConfig = new TemplateConfig();
+
+    public void reset() {
+        author = "admin";
+        dateFormat = "yyyy/MM/dd";
+        simpleFieldDoc = false;
+        translator = "有道翻译";
+        appId = null;
+        token = null;
+        secretKey = null;
+        secretId = null;
+        wordMap = new TreeMap<>();
+        classTemplateConfig = new TemplateConfig();
+        methodTemplateConfig = new TemplateConfig();
+        fieldTemplateConfig = new TemplateConfig();
+    }
 
     /**
      * 模板配置
@@ -262,5 +285,21 @@ public class EasyJavadocConfiguration {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    public String getSecretId() {
+        return secretId;
+    }
+
+    public void setSecretId(String secretId) {
+        this.secretId = secretId;
     }
 }

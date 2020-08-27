@@ -1,5 +1,11 @@
 package com.star.easydoc.service;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.intellij.openapi.components.ServiceManager;
@@ -13,12 +19,6 @@ import com.star.easydoc.service.translator.impl.TencentTranslator;
 import com.star.easydoc.service.translator.impl.YoudaoTranslator;
 import com.star.easydoc.util.CollectionUtil;
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * @author wangchao
@@ -73,7 +73,7 @@ public class TranslatorService {
         if (Objects.isNull(translator)) {
             return StringUtils.EMPTY;
         }
-        return translator.en2Ch(source);
+        return translator.en2Ch(source.replaceAll("\n", " "));
     }
 
     /**
@@ -86,7 +86,7 @@ public class TranslatorService {
         if (StringUtils.isBlank(source)) {
             return "";
         }
-        String ch = translatorMap.get(config.getTranslator()).en2Ch(source);
+        String ch = translatorMap.get(config.getTranslator()).ch2En(source);
         String[] chs = StringUtils.split(ch);
         List<String> chList = chs == null ? Lists.newArrayList() : Lists.newArrayList(chs);
         chList = chList.stream()
@@ -147,4 +147,7 @@ public class TranslatorService {
         return translator.en2Ch(word);
     }
 
+    public void clearCache() {
+        translatorMap.values().forEach(Translator::clearCache);
+    }
 }

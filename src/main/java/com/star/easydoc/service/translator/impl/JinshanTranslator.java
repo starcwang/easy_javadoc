@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.star.easydoc.service.translator.Translator;
 import com.star.easydoc.util.HttpUtil;
 import com.star.easydoc.util.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -15,12 +14,12 @@ import org.apache.commons.lang3.StringUtils;
  * @author wangchao
  * @date 2019/09/01
  */
-public class JinshanTranslator implements Translator {
+public class JinshanTranslator extends AbstractTranslator {
 
     private static final String URL = "http://dict-co.iciba.com/api/dictionary.php?key=1E55091D2F202FA617472001B3AF0D39&type=json&w=%s";
 
     @Override
-    public String en2Ch(String text) {
+    public String translateEn2Ch(String text) {
         try {
             JinshanResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(URL, HttpUtil.encode(text))), JinshanResponse.class);
             return Objects.requireNonNull(response).getSymbols().get(0).getParts().get(0).getMeans().get(0);
@@ -30,7 +29,7 @@ public class JinshanTranslator implements Translator {
     }
 
     @Override
-    public String ch2En(String text) {
+    public String translateCh2En(String text) {
         // TODO: 2020-8-27  
         return null;
     }

@@ -2,9 +2,9 @@ package com.star.easydoc.service.translator.impl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.diagnostic.Logger;
 import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
-import com.star.easydoc.service.translator.Translator;
 import com.star.easydoc.util.JsonUtil;
 import com.tencentcloudapi.common.Credential;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
@@ -20,13 +20,14 @@ import com.tencentcloudapi.tmt.v20180321.models.TextTranslateResponse;
  * @author wangchao
  * @date 2020/08/26
  */
-public class TencentTranslator implements Translator {
+public class TencentTranslator extends AbstractTranslator {
+    private static final Logger LOGGER = Logger.getInstance(TencentTranslator.class);
     private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
 
     @Override
-    public String en2Ch(String text) {
+    public String translateEn2Ch(String text) {
         try{
-            Credential cred = new Credential(config.getAppId(), config.getToken());
+            Credential cred = new Credential(config.getSecretId(), config.getSecretKey());
 
             HttpProfile httpProfile = new HttpProfile();
             httpProfile.setEndpoint("tmt.tencentcloudapi.com");
@@ -42,15 +43,15 @@ public class TencentTranslator implements Translator {
             TextTranslateResponse resp = client.TextTranslate(req);
             return resp.getTargetText();
         } catch (TencentCloudSDKException e) {
-            System.out.println(e.toString());
+            LOGGER.error("请求腾讯翻译接口异常", e);
         }
         return "";
     }
 
     @Override
-    public String ch2En(String text) {
+    public String translateCh2En(String text) {
         try{
-            Credential cred = new Credential(config.getAppId(), config.getToken());
+            Credential cred = new Credential(config.getSecretId(), config.getSecretKey());
 
             HttpProfile httpProfile = new HttpProfile();
             httpProfile.setEndpoint("tmt.tencentcloudapi.com");
@@ -66,7 +67,7 @@ public class TencentTranslator implements Translator {
             TextTranslateResponse resp = client.TextTranslate(req);
             return resp.getTargetText();
         } catch (TencentCloudSDKException e) {
-            System.out.println(e.toString());
+            LOGGER.error("请求腾讯翻译接口异常", e);
         }
         return "";
     }

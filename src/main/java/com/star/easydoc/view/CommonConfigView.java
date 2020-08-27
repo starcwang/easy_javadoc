@@ -1,5 +1,14 @@
 package com.star.easydoc.view;
 
+import java.awt.*;
+import java.io.File;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.swing.*;
+
 import com.google.common.collect.Lists;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
@@ -10,17 +19,12 @@ import com.intellij.ui.components.JBList;
 import com.star.easydoc.config.Consts;
 import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
+import com.star.easydoc.service.TranslatorService;
 import com.star.easydoc.util.BeanUtil;
 import com.star.easydoc.util.JsonUtil;
 import com.star.easydoc.view.inner.WordMapAddView;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.BooleanUtils;
-
-import javax.swing.*;
-import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * @author wangchao
@@ -28,8 +32,9 @@ import java.util.Map.Entry;
  */
 public class CommonConfigView {
     private static final Logger LOGGER = Logger.getInstance(CommonConfigView.class);
-
+    private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
     private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
+
     private JPanel panel;
     private JPanel wordMapPanel;
     private JTextField authorTextField;
@@ -52,10 +57,16 @@ public class CommonConfigView {
     private JButton clearButton;
     private JLabel appIdLabel;
     private JLabel tokenLabel;
+    private JTextField secretIdTextField;
+    private JTextField secretKeyTextField;
+    private JLabel secretIdLabel;
+    private JLabel secretKeyLabel;
+    private JButton helpButton;
     private JBList<Entry<String, String>> typeMapList;
 
     public CommonConfigView() {
         refreshWordMap();
+        setVisible(translatorBox.getSelectedItem());
 
         simpleDocButton.addChangeListener(e -> {
             JRadioButton button = (JRadioButton) e.getSource();
@@ -118,23 +129,72 @@ public class CommonConfigView {
             }
         });
 
-        translatorBox.addItemListener(e -> {
-            JComboBox<?> jComboBox = (JComboBox<?>) e.getSource();
-            if (Consts.BAIDU_TRANSLATOR.equals(jComboBox.getSelectedItem())) {
-                appIdLabel.setText("APP ID");
-                tokenLabel.setText("密钥");
-                appIdTextField.setEnabled(true);
-                tokenTextField.setEnabled(true);
-            } else if (Consts.TENCENT_TRANSLATOR.equals(jComboBox.getSelectedItem())) {
-                appIdLabel.setText("SecretId");
-                tokenLabel.setText("SecretKey");
-                appIdTextField.setEnabled(true);
-                tokenTextField.setEnabled(true);
-            } else {
-                appIdTextField.setEnabled(false);
-                tokenTextField.setEnabled(false);
+        resetButton.addActionListener(event -> {
+            int result = JOptionPane.showConfirmDialog(null, "重置将删除所有配置，确认重置?", "确认", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
+            if(result == JOptionPane.OK_OPTION){
+                config.reset();
+                refresh();
             }
         });
+
+        clearButton.addActionListener(event -> {
+            int result = JOptionPane.showConfirmDialog(null, "确认清空缓存?", "确认", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
+            if(result == JOptionPane.OK_OPTION){
+                translatorService.clearCache();
+            }
+        });
+
+        helpButton.addActionListener(event -> {
+            try {
+                Desktop dp = Desktop.getDesktop();
+                if (dp.isSupported(Desktop.Action.BROWSE)) {
+                    dp.browse(URI.create("https://github.com/starcwang/easy_javadoc"));
+                }
+            } catch (Exception e) {
+                LOGGER.error("打开链接失败:https://github.com/starcwang/easy_javadoc", e);
+            }
+        });
+
+        translatorBox.addItemListener(e -> {
+            JComboBox<?> jComboBox = (JComboBox<?>) e.getSource();
+            setVisible(jComboBox.getSelectedItem());
+        });
+    }
+
+    private void setVisible(Object selectedItem) {
+        if (Consts.BAIDU_TRANSLATOR.equals(selectedItem)) {
+            appIdLabel.setVisible(true);
+            tokenLabel.setVisible(true);
+            secretIdLabel.setVisible(false);
+            secretKeyLabel.setVisible(false);
+
+            appIdTextField.setVisible(true);
+            tokenTextField.setVisible(true);
+            secretIdTextField.setVisible(false);
+            secretKeyTextField.setVisible(false);
+        } else if (Consts.TENCENT_TRANSLATOR.equals(selectedItem)) {
+            appIdLabel.setVisible(false);
+            tokenLabel.setVisible(false);
+            secretIdLabel.setVisible(true);
+            secretKeyLabel.setVisible(true);
+
+            appIdTextField.setVisible(false);
+            tokenTextField.setVisible(false);
+            secretIdTextField.setVisible(true);
+            secretKeyTextField.setVisible(true);
+        } else {
+            appIdLabel.setVisible(false);
+            tokenLabel.setVisible(false);
+            secretIdLabel.setVisible(false);
+            secretKeyLabel.setVisible(false);
+
+            appIdTextField.setVisible(false);
+            tokenTextField.setVisible(false);
+            secretIdTextField.setVisible(false);
+            secretKeyTextField.setVisible(false);
+        }
     }
 
     private void createUIComponents() {
@@ -181,6 +241,10 @@ public class CommonConfigView {
         setAuthorTextField(config.getAuthor());
         setDateFormatTextField(config.getDateFormat());
         setTranslatorBox(config.getTranslator());
+        setAppIdTextField(config.getAppId());
+        setTokenTextField(config.getToken());
+        setSecretIdTextField(config.getSecretId());
+        setSecretKeyTextField(config.getSecretKey());
         refreshWordMap();
     }
 
@@ -248,5 +312,21 @@ public class CommonConfigView {
 
     public void setTokenTextField(String token) {
         this.tokenTextField.setText(token);
+    }
+
+    public JTextField getSecretIdTextField() {
+        return secretIdTextField;
+    }
+
+    public void setSecretIdTextField(String secretId) {
+        this.secretIdTextField.setText(secretId);
+    }
+
+    public JTextField getSecretKeyTextField() {
+        return secretKeyTextField;
+    }
+
+    public void setSecretKeyTextField(String secretKey) {
+        this.secretKeyTextField.setText(secretKey);
     }
 }

@@ -5,9 +5,9 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.diagnostic.Logger;
 import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
-import com.star.easydoc.service.translator.Translator;
 import com.star.easydoc.util.HttpUtil;
 import com.star.easydoc.util.JsonUtil;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -20,33 +20,36 @@ import org.apache.commons.lang3.StringUtils;
  * @author wangchao
  * @date 2019/09/01
  */
-public class BaiduTranslator implements Translator {
+public class BaiduTranslator extends AbstractTranslator {
+    private static final Logger LOGGER = Logger.getInstance(BaiduTranslator.class);
 
     private static final String URL = "http://api.fanyi.baidu.com/api/trans/vip/translate?from=auto&to=auto&appid=%s&salt=%s&sign=%s&q=%s";
     private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
 
     @Override
-    public String en2Ch(String text) {
+    public String translateEn2Ch(String text) {
         try {
             String salt = RandomStringUtils.randomNumeric(16);
             String sign = DigestUtils.md5Hex(config.getAppId() + text + salt + config.getToken());
             String eText = HttpUtil.encode(text);
             BaiduResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(URL, config.getAppId(), salt, sign, eText)), BaiduResponse.class);
             return Objects.requireNonNull(response).getTransResult().get(0).getDst();
-        } catch (Exception ignore) {
+        } catch (Exception e) {
+            LOGGER.error("请求百度翻译接口异常", e);
             return StringUtils.EMPTY;
         }
     }
 
     @Override
-    public String ch2En(String text) {
+    public String translateCh2En(String text) {
         try {
             String salt = RandomStringUtils.randomNumeric(16);
             String sign = DigestUtils.md5Hex(config.getAppId() + text + salt + config.getToken());
             String eText = HttpUtil.encode(text);
             BaiduResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(URL, config.getAppId(), salt, sign, eText)), BaiduResponse.class);
             return Objects.requireNonNull(response).getTransResult().get(0).getDst();
-        } catch (Exception ignore) {
+        } catch (Exception e) {
+            LOGGER.error("请求百度翻译接口异常", e);
             return StringUtils.EMPTY;
         }
     }

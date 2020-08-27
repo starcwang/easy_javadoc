@@ -24,4 +24,9 @@ public interface Translator {
      */
     String ch2En(String text);
 
+    /**
+     * 清除缓存
+     */
+    void clearCache();
+
 }

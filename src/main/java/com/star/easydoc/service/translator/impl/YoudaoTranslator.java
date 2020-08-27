@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import com.star.easydoc.service.translator.Translator;
+import com.intellij.openapi.diagnostic.Logger;
 import com.star.easydoc.util.HttpUtil;
 import com.star.easydoc.util.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -15,31 +15,34 @@ import org.apache.commons.lang3.StringUtils;
  * @author wangchao
  * @date 2019/09/01
  */
-public class YoudaoTranslator implements Translator {
+public class YoudaoTranslator extends AbstractTranslator {
+    private static final Logger LOGGER = Logger.getInstance(YoudaoTranslator.class);
 
     private static final String CH2EN_URL = "http://fanyi.youdao.com/translate?&doctype=json&type=ZH_CN2EN&i=%s";
     private static final String EN2CH_URL = "http://fanyi.youdao.com/translate?&doctype=json&type=EN2ZH_CN&i=%s";
 
     @Override
-    public String en2Ch(String text) {
+    public String translateEn2Ch(String text) {
         try {
             YoudaoResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(EN2CH_URL, HttpUtil.encode(text))), YoudaoResponse.class);
             return Objects.requireNonNull(response).getTranslateResult().stream()
                 .map(translateResults -> translateResults.stream().map(TranslateResult::getTgt).collect(Collectors.joining(" ")))
                 .collect(Collectors.joining("\n"));
-        } catch (Exception ignore) {
+        } catch (Exception e) {
+            LOGGER.error("请求有道翻译接口异常", e);
             return StringUtils.EMPTY;
         }
     }
 
     @Override
-    public String ch2En(String text) {
+    public String translateCh2En(String text) {
         try {
             YoudaoResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(CH2EN_URL, HttpUtil.encode(text))), YoudaoResponse.class);
             return Objects.requireNonNull(response).getTranslateResult().stream()
                 .map(translateResults -> translateResults.stream().map(TranslateResult::getTgt).collect(Collectors.joining(" ")))
                 .collect(Collectors.joining("\n"));
-        } catch (Exception ignore) {
+        } catch (Exception e) {
+            LOGGER.error("请求有道翻译接口异常", e);
             return StringUtils.EMPTY;
         }
     }

@@ -19,7 +19,7 @@
             <constraints/>
             <properties>
               <editable value="false"/>
-              <lineWrap value="false"/>
+              <lineWrap value="true"/>
               <minimumSize width="800" height="20"/>
               <text value=""/>
               <wrapStyleWord value="false"/>
