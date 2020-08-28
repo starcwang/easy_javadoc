@@ -74,6 +74,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+      <h3>v1.13 update</h3>
+      <ul>
+          <li>support baidu translator and tencent translator</li>
+          <li>add cache for translator</li>
+      </ul>
       <h3>v1.12 update</h3>
       <ul>
           <li>fix some bugs</li>
