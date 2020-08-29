@@ -3,6 +3,9 @@ package com.star.easydoc.util;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.intellij.openapi.diagnostic.Logger;
 import org.apache.commons.codec.Charsets;
@@ -38,7 +41,7 @@ public class HttpUtil {
             HttpGet httpGet = new HttpGet(url);
             httpGet.setConfig(RequestConfig.custom().setSocketTimeout(SOCKET_TIMEOUT).setConnectTimeout(CONNECT_TIMEOUT).build());
             response = httpclient.execute(httpGet);
-            result = EntityUtils.toString(response.getEntity());
+            result = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
         } catch (IOException e) {
             LOGGER.warn("请求" + url + "异常", e);
         } finally {
@@ -46,6 +49,16 @@ public class HttpUtil {
             HttpClientUtils.closeQuietly(httpclient);
         }
         return result;
+    }
+
+    public static String get(String url, Map<String, Object> params) {
+        if (StringUtils.isBlank(url)) {
+            return null;
+        }
+        String paramStr = params.entrySet().stream()
+            .map(e -> e.getKey() + "=" + encode(String.valueOf(e.getValue()))).collect(Collectors.joining("&"));
+        url = url.contains("?") ? url + "&" + paramStr : url + "?" + paramStr;
+        return get(url);
     }
 
     public static String encode(String word) {

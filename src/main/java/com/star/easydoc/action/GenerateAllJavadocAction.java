@@ -74,9 +74,9 @@ public class GenerateAllJavadocAction extends AnAction {
             saveJavadoc(project, psiClass);
         }
         // 方法
-        Arrays.stream(psiClass.getAllMethods()).forEach(psiMethod -> genMethodJavadoc(project, psiMethod, isGenMethod));
+        Arrays.stream(psiClass.getMethods()).forEach(psiMethod -> genMethodJavadoc(project, psiMethod, isGenMethod));
         // 属性
-        Arrays.stream(psiClass.getAllFields()).forEach(psiField -> genFieldJavadoc(project, psiField, isGenField));
+        Arrays.stream(psiClass.getFields()).forEach(psiField -> genFieldJavadoc(project, psiField, isGenField));
         // 递归遍历子类
         if (isGenInnerClass) {
             PsiClass[] innerClasses = psiClass.getInnerClasses();

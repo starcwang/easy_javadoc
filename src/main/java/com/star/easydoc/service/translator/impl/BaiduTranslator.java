@@ -29,11 +29,7 @@ public class BaiduTranslator extends AbstractTranslator {
     @Override
     public String translateEn2Ch(String text) {
         try {
-            String salt = RandomStringUtils.randomNumeric(16);
-            String sign = DigestUtils.md5Hex(config.getAppId() + text + salt + config.getToken());
-            String eText = HttpUtil.encode(text);
-            BaiduResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(URL, config.getAppId(), salt, sign, eText)), BaiduResponse.class);
-            return Objects.requireNonNull(response).getTransResult().get(0).getDst();
+            return get(text);
         } catch (Exception e) {
             LOGGER.error("请求百度翻译接口异常", e);
             return StringUtils.EMPTY;
@@ -43,19 +39,35 @@ public class BaiduTranslator extends AbstractTranslator {
     @Override
     public String translateCh2En(String text) {
         try {
-            String salt = RandomStringUtils.randomNumeric(16);
-            String sign = DigestUtils.md5Hex(config.getAppId() + text + salt + config.getToken());
-            String eText = HttpUtil.encode(text);
-            BaiduResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(URL, config.getAppId(), salt, sign, eText)), BaiduResponse.class);
-            return Objects.requireNonNull(response).getTransResult().get(0).getDst();
+            return get(text);
         } catch (Exception e) {
             LOGGER.error("请求百度翻译接口异常", e);
             return StringUtils.EMPTY;
         }
     }
 
-    public static class BaiduResponse {
+    private String get(String text) throws InterruptedException {
+        String result = "";
+        for (int i = 0; i < 10; i++) {
+            String salt = RandomStringUtils.randomNumeric(16);
+            String sign = DigestUtils.md5Hex(config.getAppId() + text + salt + config.getToken());
+            String eText = HttpUtil.encode(text);
+            BaiduResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(URL, config.getAppId(), salt, sign, eText)), BaiduResponse.class);
+            if (response == null || "54003".equals(response.getErrorCode())) {
+                Thread.sleep(500);
+            } else {
+                result = Objects.requireNonNull(response).getTransResult().get(0).getDst();
+                break;
+            }
+        }
+        return result;
+    }
 
+    public static class BaiduResponse {
+        @JsonProperty("error_code")
+        private String errorCode;
+        @JsonProperty("error_msg")
+        private String errorMsg;
         private String from;
         private String to;
         @JsonProperty("trans_result")
@@ -85,6 +97,21 @@ public class BaiduTranslator extends AbstractTranslator {
             return transResult;
         }
 
+        public String getErrorCode() {
+            return errorCode;
+        }
+
+        public void setErrorCode(String errorCode) {
+            this.errorCode = errorCode;
+        }
+
+        public String getErrorMsg() {
+            return errorMsg;
+        }
+
+        public void setErrorMsg(String errorMsg) {
+            this.errorMsg = errorMsg;
+        }
     }
 
     public static class TransResult {

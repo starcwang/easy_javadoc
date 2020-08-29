@@ -22,6 +22,7 @@ import com.star.easydoc.model.EasyJavadocConfiguration;
 import com.star.easydoc.service.TranslatorService;
 import com.star.easydoc.util.BeanUtil;
 import com.star.easydoc.util.JsonUtil;
+import com.star.easydoc.view.inner.SupportView;
 import com.star.easydoc.view.inner.WordMapAddView;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -61,7 +62,8 @@ public class CommonConfigView {
     private JTextField secretKeyTextField;
     private JLabel secretIdLabel;
     private JLabel secretKeyLabel;
-    private JButton helpButton;
+    private JButton starButton;
+    private JButton payButton;
     private JBList<Entry<String, String>> typeMapList;
 
     public CommonConfigView() {
@@ -146,7 +148,7 @@ public class CommonConfigView {
             }
         });
 
-        helpButton.addActionListener(event -> {
+        starButton.addActionListener(event -> {
             try {
                 Desktop dp = Desktop.getDesktop();
                 if (dp.isSupported(Desktop.Action.BROWSE)) {
@@ -155,6 +157,11 @@ public class CommonConfigView {
             } catch (Exception e) {
                 LOGGER.error("打开链接失败:https://github.com/starcwang/easy_javadoc", e);
             }
+        });
+
+        payButton.addActionListener(event -> {
+            SupportView supportView = new SupportView();
+            supportView.show();
         });
 
         translatorBox.addItemListener(e -> {

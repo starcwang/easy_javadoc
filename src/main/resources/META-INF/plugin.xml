@@ -150,7 +150,7 @@
         <applicationService serviceImplementation="com.star.easydoc.service.WriterService"/>
         <applicationService serviceImplementation="com.star.easydoc.service.TranslatorService"/>
         <applicationService serviceImplementation="com.star.easydoc.service.VariableGeneratorService"/>
-        <applicationConfigurable instance="com.star.easydoc.view.CommonConfigurable">
+        <applicationConfigurable displayName="EasyJavadoc" instance="com.star.easydoc.view.CommonConfigurable">
             <configurable instance="com.star.easydoc.view.template.ClassConfigurable"/>
             <configurable instance="com.star.easydoc.view.template.MethodConfigurable"/>
             <configurable instance="com.star.easydoc.view.template.FieldConfigurable"/>
