@@ -1,4 +1,5 @@
-# easy_javadoc 点一下star✨，是对作者最大的支持 交流Q群：733688083
+# easy_javadoc 点一下star✨，是对作者最大的支持 
+# 交流Q群：733688083
 ## 介绍
 本项目是IntelliJ IDEA的插件，能帮助java开发者自动生成javadoc文档注释  
 **支持的IDEA版本为 2018.1 及以上**    
