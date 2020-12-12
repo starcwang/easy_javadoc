@@ -9,7 +9,6 @@ import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.star.easydoc.model.EasyJavadocConfiguration;
 import com.star.easydoc.model.EasyJavadocConfiguration.TemplateConfig;
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,14 +32,9 @@ public class EasyJavadocConfigComponent implements PersistentStateComponent<Easy
             configuration.setSimpleFieldDoc(true);
             configuration.setWordMap(new TreeMap<>());
             configuration.setTranslator(Consts.YOUDAO_TRANSLATOR);
-
-            TemplateConfig config = new TemplateConfig();
-            config.setIsDefault(true);
-            config.setTemplate(StringUtils.EMPTY);
-            config.setCustomMap(new TreeMap<>());
-            configuration.setClassTemplateConfig(config);
-            configuration.setMethodTemplateConfig(config);
-            configuration.setFieldTemplateConfig(config);
+            configuration.setClassTemplateConfig(new TemplateConfig());
+            configuration.setMethodTemplateConfig(new TemplateConfig());
+            configuration.setFieldTemplateConfig(new TemplateConfig());
         }
         return configuration;
     }
