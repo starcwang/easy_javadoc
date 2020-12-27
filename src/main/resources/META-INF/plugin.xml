@@ -1,14 +1,18 @@
 <idea-plugin>
     <id>com.star.easydoc.easy-javadoc</id>
-    <name>easy-javadoc</name>
+    <name>Easy Javadoc</name>
     <vendor email="wangchao.star@gmail.com" url="https://github.com/starcwang">wangchao</vendor>
 
     <description><![CDATA[
       This plugin can help you complete the Chinese javadoc document quickly.<br>
       Support three type of javadoc: field, method and class.<br>
-      <a href="https://github.com/starcwang/easy_javadoc">easy-javadoc source code and document</a><br>
+      <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
       <img src="https://raw.githubusercontent.com/starcwang/easy_javadoc/master/doc/k03vffH6Hg.gif" /><br>
-      <h3>v1.14 update</h3>
+      <h3>v1.16 update</h3>
+      <ul>
+          <li>@throws tag bug fix</li>
+      </ul>
+      <h3>v1.15 update</h3>
       <ul>
           <li>fix some bugs</li>
       </ul>
@@ -141,7 +145,7 @@
       <ul>
           <li>support class, method and field javadoc</li>
       </ul>
-      <a href="https://github.com/starcwang/easy_javadoc">easy-javadoc source code and document</a><br>
+      <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
     ]]>
     </change-notes>
     

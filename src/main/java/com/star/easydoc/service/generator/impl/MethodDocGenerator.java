@@ -104,9 +104,9 @@ public class MethodDocGenerator implements DocGenerator {
         }
         if (returnName.length() > 0 && !"void".equals(returnName)) {
             if (Consts.BASE_TYPE_SET.contains(returnName)) {
-                sb.append("* @return ").append(returnName);
+                sb.append("* @return ").append(returnName).append("\n");
             } else {
-                sb.append("* @return {@link ").append(returnName).append("}");
+                sb.append("* @return {@link ").append(returnName).append("}").append("\n");
             }
         }
         for (String exceptionName : exceptionNameList) {
