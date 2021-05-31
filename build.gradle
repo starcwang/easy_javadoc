@@ -29,6 +29,10 @@ patchPluginXml {
     changeNotes """
       This plugin can help you complete the Chinese javadoc document quickly.<br>
       Support three type of javadoc: field, method and class.<br>
+      <h3>v1.18 update</h3>
+      <ul>
+          <li>support full custom translate</li>
+      </ul>
       <h3>v1.17 update</h3>
       <ul>
           <li>support custom template</li>

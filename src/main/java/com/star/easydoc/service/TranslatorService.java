@@ -41,6 +41,12 @@ public class TranslatorService {
      * @return {@link String}
      */
     public String translate(String source) {
+        // 如果自定义了完整的映射，直接使用完整的映射返回
+        String custom = getFromCustom(source);
+        if (StringUtils.isNotBlank(custom)) {
+            return custom;
+        }
+
         List<String> words = split(source);
         if (hasCustomWord(words)) {
             // 有自定义单词，使用默认模式，单个单词翻译
