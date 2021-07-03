@@ -21,11 +21,11 @@ public class ReturnVariableGenerator implements VariableGenerator {
         String returnName = psiMethod.getReturnType() == null ? "" : psiMethod.getReturnType().getPresentableText();
 
         if (Consts.BASE_TYPE_SET.contains(returnName)) {
-            return returnName;
+            return "@return " + returnName;
         } else if ("void".equalsIgnoreCase(returnName)) {
             return "";
         } else {
-            return String.format("{@link %s }", returnName);
+            return String.format("@return {@link %s }", returnName);
         }
     }
 }
