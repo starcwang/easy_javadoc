@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.star.easydoc'
-version '1.19'
+version '1.20'
 
 sourceCompatibility = 1.8
 
@@ -29,6 +29,10 @@ patchPluginXml {
     changeNotes """
       This plugin can help you complete the Chinese javadoc document quickly.<br>
       Support three type of javadoc: field, method and class.<br>
+      <h3>v1.20 update</h3>
+      <ul>
+          <li>fix custom param bug</li>
+      </ul>
       <h3>v1.19 update</h3>
       <ul>
           <li>fix @return bug</li>

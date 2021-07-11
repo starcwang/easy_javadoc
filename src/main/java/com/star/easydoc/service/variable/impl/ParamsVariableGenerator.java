@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Lists;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
@@ -64,9 +65,16 @@ public class ParamsVariableGenerator implements VariableGenerator {
                 paramGroupList.add(new ParamGroup(paramName, translatorService.translate(paramName)));
             }
         }
-        return paramGroupList.stream()
-            .map(paramGroup -> "@param " + paramGroup.getParam() + " " + paramGroup.getDesc())
-            .collect(Collectors.joining("\n"));
+        List<String> perLine = Lists.newArrayList();
+        for (int i = 0; i < paramGroupList.size(); i++) {
+            ParamGroup paramGroup = paramGroupList.get(i);
+            if (i == 0) {
+                perLine.add("@param " + paramGroup.getParam() + " " + paramGroup.getDesc());
+            } else {
+                perLine.add("* @param " + paramGroup.getParam() + " " + paramGroup.getDesc());
+            }
+        }
+        return String.join("\n", perLine);
     }
 
     /**
