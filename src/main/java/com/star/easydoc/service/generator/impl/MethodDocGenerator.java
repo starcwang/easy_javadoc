@@ -33,17 +33,18 @@ public class MethodDocGenerator implements DocGenerator {
 
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
     private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
-    private VariableGeneratorService variableGeneratorService = ServiceManager.getService(VariableGeneratorService.class);
+    private VariableGeneratorService variableGeneratorService = ServiceManager.getService(
+        VariableGeneratorService.class);
 
     @Override
     public String generate(PsiElement psiElement) {
         if (!(psiElement instanceof PsiMethod)) {
             return StringUtils.EMPTY;
         }
-        PsiMethod psiMethod = (PsiMethod) psiElement;
+        PsiMethod psiMethod = (PsiMethod)psiElement;
 
         if (config != null && config.getMethodTemplateConfig() != null
-                && Boolean.TRUE.equals(config.getMethodTemplateConfig().getIsDefault())) {
+            && Boolean.TRUE.equals(config.getMethodTemplateConfig().getIsDefault())) {
             return defaultGenerate(psiMethod);
         } else {
             return customGenerate(psiMethod);
@@ -106,7 +107,11 @@ public class MethodDocGenerator implements DocGenerator {
             if (Consts.BASE_TYPE_SET.contains(returnName)) {
                 sb.append("* @return ").append(returnName).append("\n");
             } else {
-                sb.append("* @return {@link ").append(returnName).append("}").append("\n");
+                if (config.isCodeMethodReturnType()) {
+                    sb.append("* @return {@code ").append(returnName).append("}").append("\n");
+                } else if (config.isLinkMethodReturnType()) {
+                    sb.append(getLinkTypeReturnDoc(returnName));
+                }
             }
         }
         for (String exceptionName : exceptionNameList) {
@@ -184,16 +189,30 @@ public class MethodDocGenerator implements DocGenerator {
             if (Consts.BASE_TYPE_SET.contains(returnName)) {
                 return "@return " + returnName + "\n";
             } else {
-                return "@return {@link " + returnName + "}\n";
+                if (config.isCodeMethodReturnType()) {
+                    return "@return {@code " + returnName + "}\n";
+                } else if (config.isLinkMethodReturnType()) {
+                    return getLinkTypeReturnDoc(returnName);
+                }
             }
         }
         return null;
     }
 
     /**
+     * 获取link类型文档注释
+     *
+     * @param returnName 返回名
+     * @return {@link String}
+     */
+    private String getLinkTypeReturnDoc(String returnName) {
+        return "* @return " + returnName.replaceAll("[^<> ,]+", "{@link $0}") + "\n";
+    }
+
+    /**
      * 构建参数
      *
-     * @param elements      元素
+     * @param elements 元素
      * @param paramNameList 参数名称数组
      * @return {@link java.util.List<java.lang.String>}
      */

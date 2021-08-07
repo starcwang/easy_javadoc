@@ -79,7 +79,7 @@ public class TranslatorService {
         if (Objects.isNull(translator)) {
             return StringUtils.EMPTY;
         }
-        return translator.en2Ch(source.replaceAll("\n", " "));
+        return translator.en2Ch(source.replace("\n", " "));
     }
 
     /**

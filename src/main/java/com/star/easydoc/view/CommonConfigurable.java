@@ -52,6 +52,9 @@ public class CommonConfigurable implements Configurable {
         if (!Objects.equals(config.getSimpleFieldDoc(), view.getSimpleDocButton().isSelected())) {
             return true;
         }
+        if (!Objects.equals(config.getMethodReturnType(), view.getMethodReturnType())) {
+            return true;
+        }
         if (!Objects.equals(config.getTranslator(), view.getTranslatorBox().getSelectedItem())) {
             return true;
         }
@@ -75,6 +78,7 @@ public class CommonConfigurable implements Configurable {
         config.setAuthor(view.getAuthorTextField().getText());
         config.setDateFormat(view.getDateFormatTextField().getText());
         config.setSimpleFieldDoc(view.getSimpleDocButton().isSelected());
+        config.setMethodReturnType(view.getMethodReturnType());
         config.setTranslator(String.valueOf(view.getTranslatorBox().getSelectedItem()));
         config.setAppId(view.getAppIdTextField().getText());
         config.setToken(view.getTokenTextField().getText());

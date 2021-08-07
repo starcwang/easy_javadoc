@@ -28,6 +28,13 @@
 - **光标选中要翻译的非中文**，然后按下快捷键`ctrl \`或者`command \`，即弹出选中的翻译结果，再也不用在词典和IDEA之间来回切换了。
 - **单行注释**需要打开如下开关
   ![单行注释](./doc/oneLine.png)
+- 方法的@return注释样例
+  - code模式
+    - `@return {@code User}`
+    - `@return {@code Map<String, Integer>}`
+  - link模式
+    - `@return {@link User}`
+    - `@return {@link Map}<{@link String}, {@link Integer}>`
 
 当然，翻译不准的情况很常见，如果是因为单词翻译错误，可以在配置页面对自己的单词进行配置，自定义翻译的优先级大于其他。
 
@@ -53,6 +60,15 @@
 | `command shift \` | 类 | 生成全部文档注释 |
 
 ## 更新履历
+- v1.21 2021-08-07
+  - 方法的@return支持code和link两种模式
+    - code模式
+      - `@return {@code User}`
+      - `@return {@code Map<String, Integer>}`
+    - link模式
+      - `@return {@link User}`
+      - `@return {@link Map}<{@link String}, {@link Integer}>`
+  - 优化了访问网络失败的提示
 - v1.20 2021-07-11
   - 修复了自定义模式下$PARAM$字段\*丢失问题
 - v1.19 2021-07-03

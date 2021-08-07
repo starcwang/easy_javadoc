@@ -64,6 +64,10 @@ public class CommonConfigView {
     private JLabel secretKeyLabel;
     private JButton starButton;
     private JButton payButton;
+    private JPanel methodPanel;
+    private JLabel methodReturnTypeLabel;
+    private JRadioButton methodReturnCodeTypeButton;
+    private JRadioButton methodReturnLinkTypeButton;
     private JBList<Entry<String, String>> typeMapList;
 
     public CommonConfigView() {
@@ -71,7 +75,7 @@ public class CommonConfigView {
         setVisible(translatorBox.getSelectedItem());
 
         simpleDocButton.addChangeListener(e -> {
-            JRadioButton button = (JRadioButton) e.getSource();
+            JRadioButton button = (JRadioButton)e.getSource();
             if (button.isSelected()) {
                 normalDocButton.setSelected(false);
             } else {
@@ -80,11 +84,29 @@ public class CommonConfigView {
         });
 
         normalDocButton.addChangeListener(e -> {
-            JRadioButton button = (JRadioButton) e.getSource();
+            JRadioButton button = (JRadioButton)e.getSource();
             if (button.isSelected()) {
                 simpleDocButton.setSelected(false);
             } else {
                 simpleDocButton.setSelected(true);
+            }
+        });
+
+        methodReturnCodeTypeButton.addChangeListener(e -> {
+            JRadioButton button = (JRadioButton)e.getSource();
+            if (button.isSelected()) {
+                methodReturnLinkTypeButton.setSelected(false);
+            } else {
+                methodReturnLinkTypeButton.setSelected(true);
+            }
+        });
+
+        methodReturnLinkTypeButton.addChangeListener(e -> {
+            JRadioButton button = (JRadioButton)e.getSource();
+            if (button.isSelected()) {
+                methodReturnCodeTypeButton.setSelected(false);
+            } else {
+                methodReturnCodeTypeButton.setSelected(true);
             }
         });
 
@@ -245,6 +267,13 @@ public class CommonConfigView {
             setSimpleDocButton(false);
             setNormalDocButton(true);
         }
+        if (EasyJavadocConfiguration.CODE_RETURN_TYPE.equals(config.getMethodReturnType())) {
+            setMethodReturnCodeTypeButton(true);
+            setMethodReturnLinkTypeButton(false);
+        } else if (EasyJavadocConfiguration.LINK_RETURN_TYPE.equals(config.getMethodReturnType())) {
+            setMethodReturnCodeTypeButton(false);
+            setMethodReturnLinkTypeButton(true);
+        }
         setAuthorTextField(config.getAuthor());
         setDateFormatTextField(config.getDateFormat());
         setTranslatorBox(config.getTranslator());
@@ -336,4 +365,18 @@ public class CommonConfigView {
     public void setSecretKeyTextField(String secretKey) {
         this.secretKeyTextField.setText(secretKey);
     }
+
+    public void setMethodReturnCodeTypeButton(boolean selecetd) {
+        methodReturnCodeTypeButton.setSelected(selecetd);
+    }
+
+    public void setMethodReturnLinkTypeButton(boolean selecetd) {
+        methodReturnLinkTypeButton.setSelected(selecetd);
+    }
+
+    public String getMethodReturnType() {
+        return methodReturnCodeTypeButton.isSelected() ?
+            EasyJavadocConfiguration.CODE_RETURN_TYPE : EasyJavadocConfiguration.LINK_RETURN_TYPE;
+    }
+
 }

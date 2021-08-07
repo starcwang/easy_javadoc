@@ -30,6 +30,7 @@ public class EasyJavadocConfigComponent implements PersistentStateComponent<Easy
             configuration.setAuthor(System.getProperty("user.name"));
             configuration.setDateFormat(DEFAULT_DATE_FORMAT);
             configuration.setSimpleFieldDoc(true);
+            configuration.setMethodReturnType(EasyJavadocConfiguration.LINK_RETURN_TYPE);
             configuration.setWordMap(new TreeMap<>());
             configuration.setTranslator(Consts.YOUDAO_TRANSLATOR);
             configuration.setClassTemplateConfig(new TemplateConfig());

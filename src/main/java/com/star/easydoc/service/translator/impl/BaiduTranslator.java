@@ -24,26 +24,30 @@ public class BaiduTranslator extends AbstractTranslator {
     private static final Logger LOGGER = Logger.getInstance(BaiduTranslator.class);
 
     private static final String URL = "http://api.fanyi.baidu.com/api/trans/vip/translate?from=auto&to=auto&appid=%s&salt=%s&sign=%s&q=%s";
-    private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
+    private final EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
 
     @Override
     public String translateEn2Ch(String text) {
         try {
             return get(text);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         } catch (Exception e) {
-            LOGGER.error("请求百度翻译接口异常", e);
-            return StringUtils.EMPTY;
+            LOGGER.error("请求百度翻译接口异常：请检查本地网络是否可连接外网，也有可能被百度限流", e);
         }
+        return StringUtils.EMPTY;
     }
 
     @Override
     public String translateCh2En(String text) {
         try {
             return get(text);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         } catch (Exception e) {
-            LOGGER.error("请求百度翻译接口异常", e);
-            return StringUtils.EMPTY;
+            LOGGER.error("请求百度翻译接口异常：请检查本地网络是否可连接外网，也有可能被百度限流", e);
         }
+        return StringUtils.EMPTY;
     }
 
     private String get(String text) throws InterruptedException {

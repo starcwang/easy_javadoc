@@ -11,6 +11,12 @@ import java.util.TreeMap;
  * @date 2019/08/25
  */
 public class EasyJavadocConfiguration {
+
+    /** 方法返回值为code类型 */
+    public static final String CODE_RETURN_TYPE = "code";
+    /** 方法返回值为link类型 */
+    public static final String LINK_RETURN_TYPE = "link";
+
     /**
      * 作者
      */
@@ -23,6 +29,10 @@ public class EasyJavadocConfiguration {
      * 属性是否使用简单模式
      */
     private Boolean simpleFieldDoc = false;
+    /**
+     * 属性是否使用简单模式
+     */
+    private String methodReturnType = LINK_RETURN_TYPE;
     /**
      * 翻译方式
      */
@@ -301,5 +311,21 @@ public class EasyJavadocConfiguration {
 
     public void setSecretId(String secretId) {
         this.secretId = secretId;
+    }
+
+    public String getMethodReturnType() {
+        return methodReturnType;
+    }
+
+    public void setMethodReturnType(String methodReturnType) {
+        this.methodReturnType = methodReturnType;
+    }
+
+    public boolean isCodeMethodReturnType() {
+        return CODE_RETURN_TYPE.equals(methodReturnType);
+    }
+
+    public boolean isLinkMethodReturnType() {
+        return LINK_RETURN_TYPE.equals(methodReturnType);
     }
 }

@@ -29,7 +29,7 @@ public class YoudaoTranslator extends AbstractTranslator {
                 .map(translateResults -> translateResults.stream().map(TranslateResult::getTgt).collect(Collectors.joining(" ")))
                 .collect(Collectors.joining("\n"));
         } catch (Exception e) {
-            LOGGER.error("请求有道翻译接口异常", e);
+            LOGGER.error("请求有道翻译接口异常：请检查本地网络是否可连接外网，也有可能已经被有道限流", e);
             return StringUtils.EMPTY;
         }
     }
