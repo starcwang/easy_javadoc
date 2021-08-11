@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intellij.openapi.diagnostic.Logger;
 import org.apache.commons.lang3.StringUtils;
@@ -49,6 +50,18 @@ public class JsonUtil {
         }
         try {
             return objectMapper.readValue(json, tTypeReference);
+        } catch (IOException e) {
+            LOGGER.warn("json序列化异常,json=" + json, e);
+            return null;
+        }
+    }
+
+    public static JsonNode fromJson(String json) {
+        if (StringUtils.isBlank(json)) {
+            return null;
+        }
+        try {
+            return objectMapper.readTree(json);
         } catch (IOException e) {
             LOGGER.warn("json序列化异常,json=" + json, e);
             return null;
