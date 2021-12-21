@@ -150,7 +150,11 @@ public class TranslatorService {
         if (Objects.isNull(translator)) {
             return StringUtils.EMPTY;
         }
-        return translator.en2Ch(word);
+        String res = translator.en2Ch(word);
+        if (res != null) {
+            res = res.replace("的", "");
+        }
+        return res;
     }
 
     public void clearCache() {
