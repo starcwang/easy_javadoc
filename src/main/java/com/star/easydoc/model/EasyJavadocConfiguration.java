@@ -71,6 +71,15 @@ public class EasyJavadocConfiguration {
      */
     private TemplateConfig fieldTemplateConfig = new TemplateConfig();
 
+    /** 批量生成是否生成类注释 */
+    private Boolean genAllClass;
+    /** 批量生成是否生成方法注释 */
+    private Boolean genAllMethod;
+    /** 批量生成是否生成属性注释 */
+    private Boolean genAllField;
+    /** 批量生成是否递归内部类 */
+    private Boolean genAllInnerClass;
+
     public void reset() {
         author = "admin";
         dateFormat = "yyyy/MM/dd";
@@ -327,5 +336,37 @@ public class EasyJavadocConfiguration {
 
     public boolean isLinkMethodReturnType() {
         return LINK_RETURN_TYPE.equals(methodReturnType);
+    }
+
+    public Boolean getGenAllClass() {
+        return genAllClass;
+    }
+
+    public void setGenAllClass(Boolean genAllClass) {
+        this.genAllClass = genAllClass;
+    }
+
+    public Boolean getGenAllMethod() {
+        return genAllMethod;
+    }
+
+    public void setGenAllMethod(Boolean genAllMethod) {
+        this.genAllMethod = genAllMethod;
+    }
+
+    public Boolean getGenAllField() {
+        return genAllField;
+    }
+
+    public void setGenAllField(Boolean genAllField) {
+        this.genAllField = genAllField;
+    }
+
+    public Boolean getGenAllInnerClass() {
+        return genAllInnerClass;
+    }
+
+    public void setGenAllInnerClass(Boolean genAllInnerClass) {
+        this.genAllInnerClass = genAllInnerClass;
     }
 }

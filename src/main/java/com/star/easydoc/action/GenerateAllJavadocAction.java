@@ -1,6 +1,7 @@
 package com.star.easydoc.action;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -13,6 +14,8 @@ import com.intellij.psi.PsiElementFactory;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.javadoc.PsiDocComment;
+import com.star.easydoc.config.EasyJavadocConfigComponent;
+import com.star.easydoc.model.EasyJavadocConfiguration;
 import com.star.easydoc.service.DocGeneratorService;
 import com.star.easydoc.service.WriterService;
 import com.star.easydoc.view.inner.GenerateAllView;
@@ -33,6 +36,7 @@ public class GenerateAllJavadocAction extends AnAction {
      */
     private DocGeneratorService docGeneratorService = ServiceManager.getService(DocGeneratorService.class);
     private WriterService writerService = ServiceManager.getService(WriterService.class);
+    private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
@@ -47,13 +51,25 @@ public class GenerateAllJavadocAction extends AnAction {
         Project project = e.getData(LangDataKeys.PROJECT);
         // 弹出选择框
         GenerateAllView generateAllView = new GenerateAllView();
+        generateAllView.getClassCheckBox().setSelected(Optional.ofNullable(config.getGenAllClass()).orElse(false));
+        generateAllView.getMethodCheckBox().setSelected(Optional.ofNullable(config.getGenAllMethod()).orElse(false));
+        generateAllView.getFieldCheckBox().setSelected(Optional.ofNullable(config.getGenAllField()).orElse(false));
+        generateAllView.getInnerClassCheckBox().setSelected(Optional.ofNullable(config.getGenAllInnerClass()).orElse(false));
+
         if (generateAllView.showAndGet()) {
+
+            boolean isGenClass = generateAllView.getClassCheckBox().isSelected();
+            boolean isGenMethod = generateAllView.getMethodCheckBox().isSelected();
+            boolean isGenField = generateAllView.getFieldCheckBox().isSelected();
+            boolean isGenInnerClass = generateAllView.getInnerClassCheckBox().isSelected();
+
+            config.setGenAllClass(isGenClass);
+            config.setGenAllMethod(isGenMethod);
+            config.setGenAllField(isGenField);
+            config.setGenAllInnerClass(isGenInnerClass);
+
             // 生成注释
-            genClassJavadoc(project, (PsiClass) psiElement,
-                    generateAllView.getClassCheckBox().isSelected(),
-                    generateAllView.getMethodCheckBox().isSelected(),
-                    generateAllView.getFieldCheckBox().isSelected(),
-                    generateAllView.getInnerClassCheckBox().isSelected());
+            genClassJavadoc(project, (PsiClass) psiElement, isGenClass, isGenMethod, isGenField, isGenInnerClass);
         }
     }
 

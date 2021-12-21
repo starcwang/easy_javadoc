@@ -8,101 +8,16 @@
       Support three type of javadoc: field, method and class.<br>
       <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
       <img src="https://raw.githubusercontent.com/starcwang/easy_javadoc/master/doc/k03vffH6Hg.gif" /><br>
-      <h3>v1.21 update</h3>
-      <ul>
-          <li>method @return support code-mode and link-mode</li>
-          <li>optimization hints</li>
-      </ul>
-      <h3>v1.20 update</h3>
-      <ul>
-          <li>fix custom param bug</li>
-      </ul>
-      <h3>v1.19 update</h3>
-      <ul>
-          <li>fix @return bug</li>
-      </ul>
-      <h3>v1.18 update</h3>
-      <ul>
-          <li>support full custom translate</li>
-      </ul>
-      <h3>v1.17 update</h3>
-      <ul>
-          <li>support custom template</li>
-      </ul>
-      <h3>v1.16 update</h3>
-      <ul>
-          <li>@throws tag bug fix</li>
-      </ul>
-      <h3>v1.15 update</h3>
-      <ul>
-          <li>fix some bugs</li>
-      </ul>
-      <h3>v1.13 update</h3>
-      <ul>
-          <li>support baidu translator and tencent translator</li>
-          <li>add cache for translator</li>
-      </ul>
-      <h3>v1.12 update</h3>
-      <ul>
-          <li>fix some bugs</li>
-      </ul>
-      <h3>v1.11 update</h3>
-      <ul>
-          <li>fix some bugs</li>
-      </ul>
-      <h3>v1.10 update</h3>
-      <ul>
-          <li>support auto translate</li>
-          <li>fix some bugs</li>
-      </ul>
-      <h3>v1.9 update</h3>
-      <ul>
-          <li>fix some bugs</li>
-      </ul>
-      <h3>v1.8 update</h3>
-      <ul>
-          <li>support import and export</li>
-          <li>support more IDEA versions</li>
-      </ul>
-      <h3>v1.7 update</h3>
-      <ul>
-          <li>fix some bugs</li>
-      </ul>
-      <h3>v1.6 update</h3>
-      <ul>
-          <li>support custom template</li>
-          <li>support translate Chinese to English</li>
-          <li>fix some bugs</li>
-      </ul>
-      <h3>v1.5 update</h3>
-      <ul>
-          <li>support more idea versions</li>
-          <li>fix some bugs</li>
-      </ul>
-      <h3>v1.4 update</h3>
-      <ul>
-          <li>support for incremental updates</li>
-          <li>support whole sentences translation</li>
-          <li>add @throws label for the method javadoc</li>
-          <li>fix some bugs</li>
-      </ul>
-      <h3>v1.3 update</h3>
-      <ul>
-          <li>support bulk insert javadoc</li>
-          <li>fix some bugs</li>
-      </ul>
-      <h3>v1.1 update</h3>
-      <ul>
-          <li>add @link label in @return doc of the method javadoc</li>
-          <li>fix some bugs</li>
-      </ul>
-      <h3>v1.0 first version</h3>
-      <ul>
-          <li>support class, method and field javadoc</li>
-      </ul>
+      <p>
+        能帮助开发者快速生成类、方法、属性等中文javadoc
+      </p>
     ]]></description>
 
     <change-notes><![CDATA[
+      <h3>v1.22 update</h3>
+      <ul>
+          <li>keep generate all javadoc option</li>
+      </ul>
       <h3>v1.21 update</h3>
       <ul>
           <li>method @return support code-mode and link-mode</li>
