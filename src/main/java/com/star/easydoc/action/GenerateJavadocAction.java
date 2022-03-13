@@ -1,14 +1,21 @@
 package com.star.easydoc.action;
 
+import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
+import com.intellij.openapi.application.Application;
+import com.intellij.openapi.application.ApplicationActivationListener;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Disposer;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementFactory;
 import com.intellij.psi.javadoc.PsiDocComment;
+import com.intellij.util.messages.MessageBusConnection;
+import com.star.easydoc.listener.AppActivationListener;
 import com.star.easydoc.service.DocGeneratorService;
 import com.star.easydoc.service.TranslatorService;
 import com.star.easydoc.service.WriterService;
@@ -26,6 +33,18 @@ public class GenerateJavadocAction extends AnAction {
     private DocGeneratorService docGeneratorService = ServiceManager.getService(DocGeneratorService.class);
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
     private WriterService writerService = ServiceManager.getService(WriterService.class);
+
+    /**
+     * 初始化
+     */
+    public GenerateJavadocAction() {
+        super();
+        Application app = ApplicationManager.getApplication();
+        Disposable disposable = Disposer.newDisposable();
+        Disposer.register(app, disposable);
+        MessageBusConnection connection = app.getMessageBus().connect(disposable);
+        connection.subscribe(ApplicationActivationListener.TOPIC, new AppActivationListener());
+    }
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent anActionEvent) {

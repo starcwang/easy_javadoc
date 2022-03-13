@@ -14,6 +14,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+      <h3>v1.23 update</h3>
+      <ul>
+          <li>add logo</li>
+          <li>add listener</li>
+      </ul>
       <h3>v1.22 update</h3>
       <ul>
           <li>keep generate all javadoc option</li>
