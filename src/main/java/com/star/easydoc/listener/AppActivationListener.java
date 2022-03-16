@@ -30,7 +30,7 @@ public class AppActivationListener implements ApplicationActivationListener {
     /** 上一次通知时间 */
     private final AtomicLong lastNoticeTime = new AtomicLong(0L);
     /** 通知时间间隔 */
-    private static final long INTERVAL = 60 * 60 * 1000L;
+    private static final long INTERVAL = 7 * 24 * 60 * 60 * 1000L;
 
     @Override
     public synchronized void applicationActivated(@NotNull IdeFrame ideFrame) {
