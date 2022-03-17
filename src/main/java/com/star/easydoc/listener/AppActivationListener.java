@@ -2,7 +2,6 @@ package com.star.easydoc.listener;
 
 import java.awt.*;
 import java.net.URI;
-import java.util.concurrent.atomic.AtomicLong;
 
 import com.intellij.icons.AllIcons.General;
 import com.intellij.notification.Notification;
@@ -28,13 +27,13 @@ public class AppActivationListener implements ApplicationActivationListener {
     private static final Logger LOGGER = Logger.getInstance(AppActivationListener.class);
 
     /** 上一次通知时间 */
-    private final AtomicLong lastNoticeTime = new AtomicLong(0L);
+    private volatile long lastNoticeTime = 0L;
     /** 通知时间间隔 */
     private static final long INTERVAL = 7 * 24 * 60 * 60 * 1000L;
 
     @Override
     public synchronized void applicationActivated(@NotNull IdeFrame ideFrame) {
-        if (System.currentTimeMillis() - lastNoticeTime.get() < INTERVAL) {
+        if (System.currentTimeMillis() - lastNoticeTime < INTERVAL) {
             return;
         }
         NotificationGroup group = new NotificationGroup("Easy Javadoc", NotificationDisplayType.BALLOON, true, null,
@@ -68,7 +67,7 @@ public class AppActivationListener implements ApplicationActivationListener {
         });
 
         notification.notify(null);
-        lastNoticeTime.set(System.currentTimeMillis());
+        lastNoticeTime = System.currentTimeMillis();
     }
 
     @Override
