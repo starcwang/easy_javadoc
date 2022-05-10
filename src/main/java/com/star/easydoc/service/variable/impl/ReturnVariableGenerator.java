@@ -6,6 +6,7 @@ import com.intellij.psi.PsiMethod;
 import com.star.easydoc.config.Consts;
 import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
+import com.star.easydoc.service.TranslatorService;
 import com.star.easydoc.service.variable.VariableGenerator;
 
 /**
@@ -16,26 +17,27 @@ import com.star.easydoc.service.variable.VariableGenerator;
 public class ReturnVariableGenerator implements VariableGenerator {
 
     private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
+    private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
 
     @Override
     public String generate(PsiElement element) {
         if (!(element instanceof PsiMethod)) {
             return "";
         }
-        PsiMethod psiMethod = (PsiMethod)element;
+        PsiMethod psiMethod = (PsiMethod) element;
         String returnName = psiMethod.getReturnType() == null ? "" : psiMethod.getReturnType().getPresentableText();
 
         if (Consts.BASE_TYPE_SET.contains(returnName)) {
-            return "@return " + returnName;
+            return "@返回值: " + returnName;
         } else if ("void".equalsIgnoreCase(returnName)) {
-            return "";
+            return "@返回值: ";
         } else {
             if (config.isCodeMethodReturnType()) {
-                return "@return {@code " + returnName + " }";
+                return "@返回值: {@code " + returnName + " }";
             } else if (config.isLinkMethodReturnType()) {
-                return "@return " + returnName.replaceAll("[^<> ,]+", "{@link $0 }");
+                return "@返回值: " + returnName.replaceAll("[^<> ,]+", "{@link $0 }");
             }
-            return String.format("@return {@link %s }", returnName);
+            return String.format("@返回值: {@link %s } %s", returnName, translatorService.translate(returnName));
         }
     }
 }

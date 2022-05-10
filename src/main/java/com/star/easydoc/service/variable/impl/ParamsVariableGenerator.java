@@ -1,12 +1,5 @@
 package com.star.easydoc.service.variable.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import com.google.common.collect.Lists;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.psi.PsiElement;
@@ -18,6 +11,9 @@ import com.intellij.psi.javadoc.PsiDocTag;
 import com.star.easydoc.service.TranslatorService;
 import com.star.easydoc.service.variable.VariableGenerator;
 import org.apache.commons.lang.StringUtils;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
@@ -36,7 +32,7 @@ public class ParamsVariableGenerator implements VariableGenerator {
         List<String> paramNameList = Arrays.stream(((PsiMethod)element).getParameterList().getParameters())
             .map(PsiParameter::getName).collect(Collectors.toList());
         if (paramNameList.isEmpty()) {
-            return "";
+            return "@输入参数: ";
         }
 
         List<ParamGroup> paramGroupList = new ArrayList<>();
@@ -69,9 +65,9 @@ public class ParamsVariableGenerator implements VariableGenerator {
         for (int i = 0; i < paramGroupList.size(); i++) {
             ParamGroup paramGroup = paramGroupList.get(i);
             if (i == 0) {
-                perLine.add("@param " + paramGroup.getParam() + " " + paramGroup.getDesc());
+                perLine.add("@输入参数: " + paramGroup.getParam() + " " + paramGroup.getDesc());
             } else {
-                perLine.add("* @param " + paramGroup.getParam() + " " + paramGroup.getDesc());
+                perLine.add("* @输入参数: " + paramGroup.getParam() + " " + paramGroup.getDesc());
             }
         }
         return String.join("\n", perLine);
