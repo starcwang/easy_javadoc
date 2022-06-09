@@ -34,41 +34,41 @@ public class AppActivationListener implements ApplicationActivationListener {
 
     @Override
     public synchronized void applicationActivated(@NotNull IdeFrame ideFrame) {
-        if (System.currentTimeMillis() - lastNoticeTime.get() < INTERVAL) {
-            return;
-        }
-        NotificationGroup group = new NotificationGroup("Easy Javadoc", NotificationDisplayType.BALLOON, true, null,
-            General.AddJdk);
-        Notification notification = group.createNotification(
-            "支持EasyJavadoc", "如果这款小而精的插件为您节约了不少时间，请支持一下开发者！",
-            NotificationType.INFORMATION, NotificationListener.URL_OPENING_LISTENER);
-
-        // 去点star
-        notification.addAction(new NotificationAction("✨ 去点star") {
-            @Override
-            public void actionPerformed(@NotNull AnActionEvent e, @NotNull Notification notification) {
-                try {
-                    Desktop dp = Desktop.getDesktop();
-                    if (dp.isSupported(Desktop.Action.BROWSE)) {
-                        dp.browse(URI.create("https://github.com/starcwang/easy_javadoc"));
-                    }
-                } catch (Exception ex) {
-                    LOGGER.error("打开链接失败:https://github.com/starcwang/easy_javadoc", ex);
-                }
-            }
-        });
-
-        // 支付
-        notification.addAction(new NotificationAction("☕ 请喝咖啡") {
-            @Override
-            public void actionPerformed(@NotNull AnActionEvent e, @NotNull Notification notification) {
-                SupportView supportView = new SupportView();
-                supportView.show();
-            }
-        });
-
-        notification.notify(null);
-        lastNoticeTime.set(System.currentTimeMillis());
+        //if (System.currentTimeMillis() - lastNoticeTime.get() < INTERVAL) {
+        //    return;
+        //}
+        //NotificationGroup group = new NotificationGroup("Easy Javadoc", NotificationDisplayType.BALLOON, true, null,
+        //    General.AddJdk);
+        //Notification notification = group.createNotification(
+        //    "支持EasyJavadoc", "如果这款小而精的插件为您节约了不少时间，请支持一下开发者！",
+        //    NotificationType.INFORMATION, NotificationListener.URL_OPENING_LISTENER);
+        //
+        //// 去点star
+        //notification.addAction(new NotificationAction("✨ 去点star") {
+        //    @Override
+        //    public void actionPerformed(@NotNull AnActionEvent e, @NotNull Notification notification) {
+        //        try {
+        //            Desktop dp = Desktop.getDesktop();
+        //            if (dp.isSupported(Desktop.Action.BROWSE)) {
+        //                dp.browse(URI.create("https://github.com/starcwang/easy_javadoc"));
+        //            }
+        //        } catch (Exception ex) {
+        //            LOGGER.error("打开链接失败:https://github.com/starcwang/easy_javadoc", ex);
+        //        }
+        //    }
+        //});
+        //
+        //// 支付
+        //notification.addAction(new NotificationAction("☕ 请喝咖啡") {
+        //    @Override
+        //    public void actionPerformed(@NotNull AnActionEvent e, @NotNull Notification notification) {
+        //        SupportView supportView = new SupportView();
+        //        supportView.show();
+        //    }
+        //});
+        //
+        //notification.notify(null);
+        //lastNoticeTime.set(System.currentTimeMillis());
     }
 
     @Override
