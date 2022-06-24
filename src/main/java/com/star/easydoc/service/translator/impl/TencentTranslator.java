@@ -1,15 +1,5 @@
 package com.star.easydoc.service.translator.impl;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Map.Entry;
-import java.util.Random;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
@@ -17,6 +7,15 @@ import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
 import com.star.easydoc.util.HttpUtil;
 import com.star.easydoc.util.JsonUtil;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
+import java.util.Base64;
+import java.util.Map.Entry;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * 腾讯翻译
@@ -54,7 +53,7 @@ public class TencentTranslator extends AbstractTranslator {
         TencentResponse response = null;
         for (int i = 0; i < 10; i++) {
             SortedMap<String, Object> params = new TreeMap<>();
-            params.put("Nonce", new Random().nextInt(java.lang.Integer.MAX_VALUE));
+            params.put("Nonce", new SecureRandom().nextInt(java.lang.Integer.MAX_VALUE));
             params.put("Timestamp", System.currentTimeMillis() / 1000);
             params.put("Region", "ap-beijing");
             params.put("SecretId", config.getSecretId());
@@ -85,7 +84,7 @@ public class TencentTranslator extends AbstractTranslator {
         SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), mac.getAlgorithm());
         mac.init(secretKeySpec);
         byte[] hash = mac.doFinal(s.getBytes(StandardCharsets.UTF_8));
-        return DatatypeConverter.printBase64Binary(hash);
+        return Base64.getEncoder().encodeToString(hash);
     }
 
     public static String getStringToSign(String method, String endpoint, SortedMap<String, Object> params) {
