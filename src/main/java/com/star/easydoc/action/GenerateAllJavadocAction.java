@@ -1,26 +1,28 @@
 package com.star.easydoc.action;
 
-import java.util.Arrays;
-import java.util.Optional;
-
+import com.intellij.ide.util.PackageChooserDialog;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementFactory;
-import com.intellij.psi.PsiField;
-import com.intellij.psi.PsiMethod;
+import com.intellij.psi.*;
 import com.intellij.psi.javadoc.PsiDocComment;
 import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
 import com.star.easydoc.service.DocGeneratorService;
+import com.star.easydoc.service.TranslatorService;
 import com.star.easydoc.service.WriterService;
 import com.star.easydoc.view.inner.GenerateAllView;
+import com.star.easydoc.view.inner.PackageDescribeView;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * 生成所有文档注释
@@ -38,17 +40,50 @@ public class GenerateAllJavadocAction extends AnAction {
     private WriterService writerService = ServiceManager.getService(WriterService.class);
     private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
 
+    private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
+        Project project = e.getData(LangDataKeys.PROJECT);
         // 前置规则校验
         PsiElement psiElement = e.getData(LangDataKeys.PSI_ELEMENT);
         if (psiElement == null) {
             return;
         }
+        //对文件夹选择的额外处理下
+        if (psiElement instanceof PsiDirectory) {
+            PackageChooserDialog selector = new PackageChooserDialog("选择多个Packages创建package-info", project);
+            PsiPackage psiPackage = JavaDirectoryService.getInstance().getPackage((PsiDirectory) psiElement);
+            if (psiPackage!=null) {
+                selector.selectPackage(psiPackage.getQualifiedName());
+            }
+            selector.show();
+
+            List<PsiPackage> packages = selector.getSelectedPackages();
+            if (packages==null||packages.size()==0){
+                return;
+            }
+            //执行
+            Map<PsiPackage, String> packMap = packages.stream().collect(Collectors.toMap(s -> s, s -> {
+                String result = translatorService.autoTranslate(s.getName());
+                return result;
+            }));
+            //显示列表，一个个的修改后再提交写入更好
+
+            PackageDescribeView packageDescribeView = new PackageDescribeView(packMap);
+            if (packageDescribeView.showAndGet()) {
+                //重新获取一次
+                Map<PsiPackage, String> finalMap = packageDescribeView.getFinalMap();
+                //下面是执行，可以考虑并发
+                for (Map.Entry<PsiPackage, String> entry : finalMap.entrySet()) {
+                    PackageInfoHandle.handle(entry.getKey(),entry.getValue());
+                }
+            }
+            return;
+        }
+
         if (!(psiElement instanceof PsiClass)) {
             return;
         }
-        Project project = e.getData(LangDataKeys.PROJECT);
         // 弹出选择框
         GenerateAllView generateAllView = new GenerateAllView();
         generateAllView.getClassCheckBox().setSelected(Optional.ofNullable(config.getGenAllClass()).orElse(false));
