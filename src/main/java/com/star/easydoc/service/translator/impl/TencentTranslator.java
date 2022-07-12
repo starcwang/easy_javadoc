@@ -1,5 +1,15 @@
 package com.star.easydoc.service.translator.impl;
 
+import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
+import java.util.Base64;
+import java.util.Map.Entry;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
@@ -7,15 +17,6 @@ import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
 import com.star.easydoc.util.HttpUtil;
 import com.star.easydoc.util.JsonUtil;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
-import java.util.Base64;
-import java.util.Map.Entry;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 /**
  * 腾讯翻译
