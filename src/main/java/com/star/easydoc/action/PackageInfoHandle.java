@@ -1,5 +1,9 @@
 package com.star.easydoc.action;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
@@ -11,10 +15,6 @@ import com.intellij.psi.PsiInvalidElementAccessException;
 import com.intellij.psi.PsiPackage;
 import com.intellij.util.IncorrectOperationException;
 import com.star.easydoc.service.DocGeneratorService;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 
 /**
  * 创建类, 可能有更便捷的方式创建实体类. 有待优化

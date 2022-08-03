@@ -1,15 +1,15 @@
 package com.star.easydoc.view.inner;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Map;
+
+import javax.swing.*;
+
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.star.easydoc.model.EasyJavadocConfiguration.CustomValue;
 import com.star.easydoc.model.EasyJavadocConfiguration.VariableType;
 import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
-
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Map;
 
 /**
  * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>

@@ -1,17 +1,17 @@
 package com.star.easydoc.view.inner;
 
-import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.psi.PsiPackage;
-import org.jetbrains.annotations.Nullable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.psi.PsiPackage;
+import org.jetbrains.annotations.Nullable;
 
 public class PackageDescribeView extends DialogWrapper {
     private JPanel panel1;
@@ -70,7 +70,8 @@ public class PackageDescribeView extends DialogWrapper {
     }
 
     @Override
-    protected @Nullable JComponent createCenterPanel() {
+    protected @Nullable
+    JComponent createCenterPanel() {
         return panel1;
     }
 }
