@@ -45,7 +45,6 @@ public class GenerateJavadocAction extends AnAction {
         connection.subscribe(ApplicationActivationListener.TOPIC, new AppActivationListener());
     }
 
-
     @Override
     public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
         Project project = anActionEvent.getData(LangDataKeys.PROJECT);
@@ -74,9 +73,9 @@ public class GenerateJavadocAction extends AnAction {
         PsiElement psiElement = anActionEvent.getData(LangDataKeys.PSI_ELEMENT);
         //选中文件夹则判断包里面是否需要创建package-info.java，创建package-info 并携带注释
         if (psiElement instanceof PsiDirectory) {
-            PsiPackage psiPackage = JavaDirectoryService.getInstance().getPackage((PsiDirectory) psiElement);
+            PsiPackage psiPackage = JavaDirectoryService.getInstance().getPackage((PsiDirectory)psiElement);
             String comment = translatorService.autoTranslate(psiPackage.getName());
-            PackageInfoHandle.handle(psiPackage,comment);
+            PackageInfoHandle.handle(psiPackage, comment);
             return;
         }
         PsiFile psiFile = anActionEvent.getData(LangDataKeys.PSI_FILE);
@@ -85,7 +84,7 @@ public class GenerateJavadocAction extends AnAction {
             PsiDirectory psiDirectory = psiFile.getParent();
             PsiPackage psiPackage = JavaDirectoryService.getInstance().getPackage(psiDirectory);
             String comment = translatorService.autoTranslate(psiPackage.getName());
-            PackageInfoHandle.handle(psiPackage,comment);
+            PackageInfoHandle.handle(psiPackage, comment);
             return;
         }
 

@@ -22,8 +22,8 @@ public class SeeVariableGenerator implements VariableGenerator {
     @Override
     public String generate(PsiElement element) {
         if (element instanceof PsiClass) {
-            PsiClass superClass = ((PsiClass) element).getSuperClass();
-            PsiClass[] interfaces = ((PsiClass) element).getInterfaces();
+            PsiClass superClass = ((PsiClass)element).getSuperClass();
+            PsiClass[] interfaces = ((PsiClass)element).getInterfaces();
             List<String> superList = Lists.newArrayList();
             if (superClass != null) {
                 if (!"Object".equalsIgnoreCase(superClass.getName())) {

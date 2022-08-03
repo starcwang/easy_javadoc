@@ -97,7 +97,7 @@ public class FieldConfigView extends AbstractTemplateConfigView {
         super(config);
         // 添加单选按钮事件
         defaultRadioButton.addChangeListener(e -> {
-            JRadioButton button = (JRadioButton) e.getSource();
+            JRadioButton button = (JRadioButton)e.getSource();
             if (button.isSelected()) {
                 customRadioButton.setSelected(false);
                 templateTextArea.setEnabled(false);
@@ -110,7 +110,7 @@ public class FieldConfigView extends AbstractTemplateConfigView {
             }
         });
         customRadioButton.addChangeListener(e -> {
-            JRadioButton button = (JRadioButton) e.getSource();
+            JRadioButton button = (JRadioButton)e.getSource();
             if (button.isSelected()) {
                 defaultRadioButton.setSelected(false);
                 templateTextArea.setEnabled(true);
@@ -148,14 +148,14 @@ public class FieldConfigView extends AbstractTemplateConfigView {
         DefaultTableModel customModel = new DefaultTableModel(customData, customNames);
         customTable.setModel(customModel);
         customTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        customTable.getColumnModel().getColumn(0).setPreferredWidth((int) (customTable.getWidth() * 0.3));
+        customTable.getColumnModel().getColumn(0).setPreferredWidth((int)(customTable.getWidth() * 0.3));
     }
 
     public boolean isDefault() {
         return defaultRadioButton.isSelected();
     }
 
-    public void setDefault( boolean isDefault) {
+    public void setDefault(boolean isDefault) {
         if (isDefault) {
             defaultRadioButton.setSelected(true);
             customRadioButton.setSelected(false);

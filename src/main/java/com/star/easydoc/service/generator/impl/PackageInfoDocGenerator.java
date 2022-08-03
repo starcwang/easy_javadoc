@@ -8,10 +8,10 @@ import com.star.easydoc.service.TranslatorService;
 import com.star.easydoc.service.generator.DocGenerator;
 import org.apache.commons.lang3.StringUtils;
 
-
 public class PackageInfoDocGenerator implements DocGenerator {
 
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
+
     @Override
     public String generate(PsiElement psiElement) {
         if (!(psiElement instanceof PsiPackage)) {
@@ -24,7 +24,7 @@ public class PackageInfoDocGenerator implements DocGenerator {
 
     private String defaultGenerate(PsiPackage psiPackage) {
         return "/**\n" +
-                " * ${"+ PackageInfoHandle.PACKAGE_INFO_DESCRIBE+"} \n" +
-                "**/\n";
+            " * ${" + PackageInfoHandle.PACKAGE_INFO_DESCRIBE + "} \n" +
+            "**/\n";
     }
 }

@@ -28,7 +28,6 @@ public class CommonConfigurable implements Configurable {
     private static final Set<String> ENABLE_TRANSLATOR_SET = ImmutableSet.of(Consts.YOUDAO_TRANSLATOR,
         Consts.BAIDU_TRANSLATOR, Consts.TENCENT_TRANSLATOR, Consts.CLOSE_TRANSLATOR);
 
-
     @Nls(capitalization = Capitalization.Title)
     @Override
     public String getDisplayName() {

@@ -156,7 +156,7 @@ public class CommonConfigView {
         resetButton.addActionListener(event -> {
             int result = JOptionPane.showConfirmDialog(null, "重置将删除所有配置，确认重置?", "确认", JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.INFORMATION_MESSAGE);
-            if(result == JOptionPane.OK_OPTION){
+            if (result == JOptionPane.OK_OPTION) {
                 config.reset();
                 refresh();
             }
@@ -165,7 +165,7 @@ public class CommonConfigView {
         clearButton.addActionListener(event -> {
             int result = JOptionPane.showConfirmDialog(null, "确认清空缓存?", "确认", JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.INFORMATION_MESSAGE);
-            if(result == JOptionPane.OK_OPTION){
+            if (result == JOptionPane.OK_OPTION) {
                 translatorService.clearCache();
             }
         });
@@ -187,7 +187,7 @@ public class CommonConfigView {
         });
 
         translatorBox.addItemListener(e -> {
-            JComboBox<?> jComboBox = (JComboBox<?>) e.getSource();
+            JComboBox<?> jComboBox = (JComboBox<?>)e.getSource();
             setVisible(jComboBox.getSelectedItem());
         });
     }

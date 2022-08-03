@@ -41,6 +41,7 @@ public class GenerateAllJavadocAction extends AnAction {
     private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
 
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
+
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         Project project = e.getData(LangDataKeys.PROJECT);
@@ -52,14 +53,14 @@ public class GenerateAllJavadocAction extends AnAction {
         //对文件夹选择的额外处理下
         if (psiElement instanceof PsiDirectory) {
             PackageChooserDialog selector = new PackageChooserDialog("选择多个Packages创建package-info", project);
-            PsiPackage psiPackage = JavaDirectoryService.getInstance().getPackage((PsiDirectory) psiElement);
-            if (psiPackage!=null) {
+            PsiPackage psiPackage = JavaDirectoryService.getInstance().getPackage((PsiDirectory)psiElement);
+            if (psiPackage != null) {
                 selector.selectPackage(psiPackage.getQualifiedName());
             }
             selector.show();
 
             List<PsiPackage> packages = selector.getSelectedPackages();
-            if (packages==null||packages.size()==0){
+            if (packages == null || packages.size() == 0) {
                 return;
             }
             //执行
@@ -75,7 +76,7 @@ public class GenerateAllJavadocAction extends AnAction {
                 Map<PsiPackage, String> finalMap = packageDescribeView.getFinalMap();
                 //下面是执行，可以考虑并发
                 for (Map.Entry<PsiPackage, String> entry : finalMap.entrySet()) {
-                    PackageInfoHandle.handle(entry.getKey(),entry.getValue());
+                    PackageInfoHandle.handle(entry.getKey(), entry.getValue());
                 }
             }
             return;
@@ -104,22 +105,22 @@ public class GenerateAllJavadocAction extends AnAction {
             config.setGenAllInnerClass(isGenInnerClass);
 
             // 生成注释
-            genClassJavadoc(project, (PsiClass) psiElement, isGenClass, isGenMethod, isGenField, isGenInnerClass);
+            genClassJavadoc(project, (PsiClass)psiElement, isGenClass, isGenMethod, isGenField, isGenInnerClass);
         }
     }
 
     /**
      * 生成类Javadoc
      *
-     * @param project         项目
-     * @param psiClass        当前类
-     * @param isGenClass      是否生成类
-     * @param isGenMethod     是否生成方法
-     * @param isGenField      是否生成属性
+     * @param project 项目
+     * @param psiClass 当前类
+     * @param isGenClass 是否生成类
+     * @param isGenMethod 是否生成方法
+     * @param isGenField 是否生成属性
      * @param isGenInnerClass 是否生成内部类
      */
     private void genClassJavadoc(Project project, PsiClass psiClass, boolean isGenClass, boolean isGenMethod, boolean isGenField,
-                                 boolean isGenInnerClass) {
+        boolean isGenInnerClass) {
         // 生成类注释
         if (isGenClass) {
             saveJavadoc(project, psiClass);
@@ -138,8 +139,8 @@ public class GenerateAllJavadocAction extends AnAction {
     /**
      * 生成方法Javadoc
      *
-     * @param project     工程
-     * @param psiMethod   当前方法
+     * @param project 工程
+     * @param psiMethod 当前方法
      * @param isGenMethod 是否生成方法
      */
     private void genMethodJavadoc(Project project, PsiMethod psiMethod, boolean isGenMethod) {
@@ -151,8 +152,8 @@ public class GenerateAllJavadocAction extends AnAction {
     /**
      * 生成属性Javadoc
      *
-     * @param project    工程
-     * @param psiField   当前属性
+     * @param project 工程
+     * @param psiField 当前属性
      * @param isGenField 是否生成属性
      */
     private void genFieldJavadoc(Project project, PsiField psiField, boolean isGenField) {
@@ -164,7 +165,7 @@ public class GenerateAllJavadocAction extends AnAction {
     /**
      * 保存Javadoc
      *
-     * @param project    工程
+     * @param project 工程
      * @param psiElement 当前元素
      */
     private void saveJavadoc(Project project, PsiElement psiElement) {

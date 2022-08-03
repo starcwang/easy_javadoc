@@ -34,9 +34,9 @@ public class FieldDocGenerator implements DocGenerator {
         if (!(psiElement instanceof PsiField)) {
             return StringUtils.EMPTY;
         }
-        PsiField psiField = (PsiField) psiElement;
+        PsiField psiField = (PsiField)psiElement;
         if (config != null && config.getFieldTemplateConfig() != null
-                && Boolean.TRUE.equals(config.getFieldTemplateConfig().getIsDefault())) {
+            && Boolean.TRUE.equals(config.getFieldTemplateConfig().getIsDefault())) {
             return defaultGenerate(psiField);
         } else {
             return customGenerate(psiField);
@@ -72,7 +72,7 @@ public class FieldDocGenerator implements DocGenerator {
      * 生成正常的文档
      *
      * @param psiField 属性
-     * @param name     名字
+     * @param name 名字
      * @return {@link java.lang.String}
      */
     private String genNormalDoc(PsiField psiField, String name) {
@@ -97,7 +97,7 @@ public class FieldDocGenerator implements DocGenerator {
      * 构建描述
      *
      * @param elements 元素
-     * @param desc     描述
+     * @param desc 描述
      * @return {@link java.lang.String}
      */
     private String buildDesc(List<PsiElement> elements, String desc) {

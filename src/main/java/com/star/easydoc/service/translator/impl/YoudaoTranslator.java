@@ -24,7 +24,8 @@ public class YoudaoTranslator extends AbstractTranslator {
     @Override
     public String translateEn2Ch(String text) {
         try {
-            YoudaoResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(EN2CH_URL, HttpUtil.encode(text))), YoudaoResponse.class);
+            YoudaoResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(EN2CH_URL, HttpUtil.encode(text))),
+                YoudaoResponse.class);
             return Objects.requireNonNull(response).getTranslateResult().stream()
                 .map(translateResults -> translateResults.stream().map(TranslateResult::getTgt).collect(Collectors.joining(" ")))
                 .collect(Collectors.joining("\n"));
@@ -37,7 +38,8 @@ public class YoudaoTranslator extends AbstractTranslator {
     @Override
     public String translateCh2En(String text) {
         try {
-            YoudaoResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(CH2EN_URL, HttpUtil.encode(text))), YoudaoResponse.class);
+            YoudaoResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(CH2EN_URL, HttpUtil.encode(text))),
+                YoudaoResponse.class);
             return Objects.requireNonNull(response).getTranslateResult().stream()
                 .map(translateResults -> translateResults.stream().map(TranslateResult::getTgt).collect(Collectors.joining(" ")))
                 .collect(Collectors.joining("\n"));

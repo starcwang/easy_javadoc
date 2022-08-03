@@ -18,6 +18,7 @@ public class BeanUtil {
     private static final Logger LOGGER = Logger.getInstance(BeanUtil.class);
 
     private BeanUtil() {}
+
     /**
      * 复制属性
      *

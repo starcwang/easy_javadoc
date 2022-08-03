@@ -51,16 +51,16 @@ public class VariableGeneratorService {
      * 变量生成器映射
      */
     private Map<String, VariableGenerator> variableGeneratorMap = ImmutableMap.<String, VariableGenerator>builder()
-            .put("author", new AuthorVariableGenerator())
-            .put("date", new DateVariableGenerator())
-            .put("doc", new DocVariableGenerator())
-            .put("params", new ParamsVariableGenerator())
-            .put("return", new ReturnVariableGenerator())
-            .put("see", new SeeVariableGenerator())
-            .put("since", new SinceVariableGenerator())
-            .put("throws", new ThrowsVariableGenerator())
-            .put("version", new VersionVariableGenerator())
-            .build();
+        .put("author", new AuthorVariableGenerator())
+        .put("date", new DateVariableGenerator())
+        .put("doc", new DocVariableGenerator())
+        .put("params", new ParamsVariableGenerator())
+        .put("return", new ReturnVariableGenerator())
+        .put("see", new SeeVariableGenerator())
+        .put("since", new SinceVariableGenerator())
+        .put("throws", new ThrowsVariableGenerator())
+        .put("version", new VersionVariableGenerator())
+        .build();
 
     /**
      * 生成
@@ -141,7 +141,8 @@ public class VariableGeneratorService {
                 try {
                     return new GroovyShell(new Binding(innerVariableMap)).evaluate(value.getValue()).toString();
                 } catch (Exception e) {
-                    LOGGER.error(String.format("自定义变量%s的groovy脚本执行异常，请检查语法是否正确且有正确返回值:%s", placeholder, value.getValue()), e);
+                    LOGGER.error(String.format("自定义变量%s的groovy脚本执行异常，请检查语法是否正确且有正确返回值:%s", placeholder,
+                        value.getValue()), e);
                     return value.getValue();
                 }
             default:

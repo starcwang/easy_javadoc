@@ -7,6 +7,7 @@ import com.star.easydoc.model.EasyJavadocConfiguration.VariableType;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map;
 
@@ -38,7 +39,7 @@ public class CustomTemplateAddView extends DialogWrapper {
     @Override
     protected ValidationInfo doValidate() {
         if (methodName.getText() == null || methodName.getText().length() <= 0
-                || !methodName.getText().startsWith("$") || !methodName.getText().endsWith("$")) {
+            || !methodName.getText().startsWith("$") || !methodName.getText().endsWith("$")) {
             return new ValidationInfo("请输入方法名，并用$前后包裹，例如:$NAME$", methodName);
         }
         if (groovyCode.getText() == null || groovyCode.getText().length() <= 0) {
@@ -52,6 +53,6 @@ public class CustomTemplateAddView extends DialogWrapper {
 
     public Map.Entry<String, CustomValue> getEntry() {
         return new SimpleEntry<>(methodName.getText(),
-                new CustomValue(VariableType.fromDesc(String.valueOf(customTypeComboBox.getSelectedItem())), groovyCode.getText()));
+            new CustomValue(VariableType.fromDesc(String.valueOf(customTypeComboBox.getSelectedItem())), groovyCode.getText()));
     }
 }

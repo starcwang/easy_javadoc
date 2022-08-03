@@ -125,7 +125,7 @@ public class MethodDocGenerator implements DocGenerator {
     /**
      * 构建异常
      *
-     * @param elements          元素
+     * @param elements 元素
      * @param exceptionNameList 异常名称数组
      * @return {@link java.util.List<java.lang.String>}
      */
@@ -134,7 +134,7 @@ public class MethodDocGenerator implements DocGenerator {
         for (Iterator<PsiElement> iterator = elements.iterator(); iterator.hasNext(); ) {
             PsiElement element = iterator.next();
             if (!"PsiDocTag:@throws".equalsIgnoreCase(element.toString())
-                    && !"PsiDocTag:@exception".equalsIgnoreCase(element.toString())) {
+                && !"PsiDocTag:@exception".equalsIgnoreCase(element.toString())) {
                 continue;
             }
             String exceptionName = null;
@@ -165,7 +165,7 @@ public class MethodDocGenerator implements DocGenerator {
     /**
      * 构建返回
      *
-     * @param elements   元素
+     * @param elements 元素
      * @param returnName 返回名称
      * @return {@link java.lang.String}
      */
@@ -176,7 +176,7 @@ public class MethodDocGenerator implements DocGenerator {
             if (!"PsiDocTag:@return".equalsIgnoreCase(element.toString())) {
                 continue;
             }
-            PsiDocTagValue value = ((PsiDocTag) element).getValueElement();
+            PsiDocTagValue value = ((PsiDocTag)element).getValueElement();
             if (value == null || StringUtils.isBlank(value.getText())) {
                 iterator.remove();
             } else if (returnName.length() <= 0 || "void".equals(returnName)) {
@@ -252,7 +252,7 @@ public class MethodDocGenerator implements DocGenerator {
      * 构建描述
      *
      * @param elements 元素
-     * @param desc     描述
+     * @param desc 描述
      * @return {@link java.lang.String}
      */
     private String buildDesc(List<PsiElement> elements, String desc) {

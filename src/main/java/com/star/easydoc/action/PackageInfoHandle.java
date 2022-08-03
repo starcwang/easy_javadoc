@@ -23,7 +23,8 @@ public class PackageInfoHandle {
     public static final String INFO_FILE_NAME = "package-info.java";
     public static final String PACKAGE_INFO_DESCRIBE = "PACKAGE_INFO_DESCRIBE";
     private static DocGeneratorService docGeneratorService = ServiceManager.getService(DocGeneratorService.class);
-    public static void handle(PsiPackage psiPackage,String comment) {
+
+    public static void handle(PsiPackage psiPackage, String comment) {
         try {
             Project project = psiPackage.getProject();
             PsiDirectory psiDirectory = psiPackage.getDirectories()[0];
@@ -31,8 +32,8 @@ public class PackageInfoHandle {
             VirtualFile virtualFile = psiDirectory.getVirtualFile().findChild(PackageInfoHandle.INFO_FILE_NAME);
             if (virtualFile == null) {
                 //文件不存在则创建文件
-                String result = docGeneratorService.generate(psiPackage).replace("${"+PACKAGE_INFO_DESCRIBE+"}",comment) +
-                        "package " + psiPackage.getQualifiedName() + ";\n";
+                String result = docGeneratorService.generate(psiPackage).replace("${" + PACKAGE_INFO_DESCRIBE + "}", comment) +
+                    "package " + psiPackage.getQualifiedName() + ";\n";
                 WriteCommandAction.writeCommandAction(project).run(() -> {
                     try {
                         PsiFile file = psiDirectory.createFile(PackageInfoHandle.INFO_FILE_NAME);
@@ -45,26 +46,26 @@ public class PackageInfoHandle {
                 //处理完就结束了
                 return;
             } else {
-//                virtualFile.getCharset()
-                try(InputStream inputStream = virtualFile.getInputStream()) {
+                //                virtualFile.getCharset()
+                try (InputStream inputStream = virtualFile.getInputStream()) {
                     int available = inputStream.available();
                     byte[] bytes = new byte[available];
                     inputStream.read(bytes);
                     String val = new String(bytes, virtualFile.getCharset());
                     int index = val.indexOf("/**");
                     StringBuffer buffer = new StringBuffer();
-                    if (index>=0){
-                        if (index>0){
+                    if (index >= 0) {
+                        if (index > 0) {
                             buffer.append(val, 0, index);
                         }
                         buffer.append("/**\n");
                         buffer.append(" * ").append(comment);
                         buffer.append("\n");
                         buffer.append(" * ");
-                        buffer.append(val,index+3,val.length());
-                    }else {
+                        buffer.append(val, index + 3, val.length());
+                    } else {
                         //没有注释生成就行了
-                        buffer.append(docGeneratorService.generate(psiPackage).replace("${"+PACKAGE_INFO_DESCRIBE+"}",comment));
+                        buffer.append(docGeneratorService.generate(psiPackage).replace("${" + PACKAGE_INFO_DESCRIBE + "}", comment));
                         buffer.append(val);
                     }
                     String finalVal = buffer.toString();
@@ -77,7 +78,7 @@ public class PackageInfoHandle {
                     });
                 }
                 //存在package-info，逻辑需要处理,先干脆不动算了，即然存在，应该会写注释的~~
-//                System.out.println("6666");
+                //                System.out.println("6666");
             }
         } catch (Exception e) {
             //由于外面stream执行，错误处理直接吞掉，保证后续也可以执行
