@@ -67,14 +67,12 @@ public class GenerateAllJavadocAction extends AnAction {
             selector.show();
 
             List<PsiPackage> packages = selector.getSelectedPackages();
-            if (packages == null || packages.size() == 0) {
+            if (packages == null || packages.isEmpty()) {
                 return;
             }
             //执行
-            Map<PsiPackage, String> packMap = packages.stream().collect(Collectors.toMap(s -> s, s -> {
-                String result = translatorService.autoTranslate(s.getName());
-                return result;
-            }));
+            Map<PsiPackage, String> packMap = packages.stream()
+                .collect(Collectors.toMap(s -> s, s -> translatorService.autoTranslate(s.getName())));
             //显示列表，一个个的修改后再提交写入更好
 
             PackageDescribeView packageDescribeView = new PackageDescribeView(packMap);
