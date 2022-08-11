@@ -1,17 +1,21 @@
 package com.star.easydoc.service;
 
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
+
 import com.google.common.collect.ImmutableMap;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiField;
+import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiPackage;
 import com.star.easydoc.service.generator.DocGenerator;
 import com.star.easydoc.service.generator.impl.ClassDocGenerator;
 import com.star.easydoc.service.generator.impl.FieldDocGenerator;
 import com.star.easydoc.service.generator.impl.MethodDocGenerator;
 import com.star.easydoc.service.generator.impl.PackageInfoDocGenerator;
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Objects;
 
 /**
  * @author wangchao
