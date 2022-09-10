@@ -68,6 +68,10 @@ public class CommonConfigView {
     private JLabel methodReturnTypeLabel;
     private JRadioButton methodReturnCodeTypeButton;
     private JRadioButton methodReturnLinkTypeButton;
+    private JTextField accessKeyIdTextField;
+    private JTextField accessKeySecretTextField;
+    private JLabel accessKeyIdLabel;
+    private JLabel accessKeySecretLabel;
     private JBList<Entry<String, String>> typeMapList;
 
     public CommonConfigView() {
@@ -198,31 +202,57 @@ public class CommonConfigView {
             tokenLabel.setVisible(true);
             secretIdLabel.setVisible(false);
             secretKeyLabel.setVisible(false);
+            accessKeyIdLabel.setVisible(false);
+            accessKeySecretLabel.setVisible(false);
 
             appIdTextField.setVisible(true);
             tokenTextField.setVisible(true);
             secretIdTextField.setVisible(false);
             secretKeyTextField.setVisible(false);
+            accessKeyIdTextField.setVisible(false);
+            accessKeySecretTextField.setVisible(false);
         } else if (Consts.TENCENT_TRANSLATOR.equals(selectedItem)) {
             appIdLabel.setVisible(false);
             tokenLabel.setVisible(false);
             secretIdLabel.setVisible(true);
             secretKeyLabel.setVisible(true);
+            accessKeyIdLabel.setVisible(false);
+            accessKeySecretLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
             tokenTextField.setVisible(false);
             secretIdTextField.setVisible(true);
             secretKeyTextField.setVisible(true);
-        } else {
+            accessKeyIdTextField.setVisible(false);
+            accessKeySecretTextField.setVisible(false);
+        } else if (Consts.ALIYUN_TRANSLATOR.equals(selectedItem)) {
             appIdLabel.setVisible(false);
             tokenLabel.setVisible(false);
             secretIdLabel.setVisible(false);
             secretKeyLabel.setVisible(false);
+            accessKeyIdLabel.setVisible(true);
+            accessKeySecretLabel.setVisible(true);
 
             appIdTextField.setVisible(false);
             tokenTextField.setVisible(false);
             secretIdTextField.setVisible(false);
             secretKeyTextField.setVisible(false);
+            accessKeyIdTextField.setVisible(true);
+            accessKeySecretTextField.setVisible(true);
+        } else {
+            appIdLabel.setVisible(false);
+            tokenLabel.setVisible(false);
+            secretIdLabel.setVisible(false);
+            secretKeyLabel.setVisible(false);
+            accessKeyIdLabel.setVisible(false);
+            accessKeySecretLabel.setVisible(false);
+
+            appIdTextField.setVisible(false);
+            tokenTextField.setVisible(false);
+            secretIdTextField.setVisible(false);
+            secretKeyTextField.setVisible(false);
+            accessKeyIdTextField.setVisible(false);
+            accessKeySecretTextField.setVisible(false);
         }
     }
 
@@ -281,6 +311,8 @@ public class CommonConfigView {
         setTokenTextField(config.getToken());
         setSecretIdTextField(config.getSecretId());
         setSecretKeyTextField(config.getSecretKey());
+        setAccessKeyIdTextField(config.getAccessKeyId());
+        setAccessKeySecretTextField(config.getAccessKeySecret());
         refreshWordMap();
     }
 
@@ -364,6 +396,22 @@ public class CommonConfigView {
 
     public void setSecretKeyTextField(String secretKey) {
         this.secretKeyTextField.setText(secretKey);
+    }
+
+    public JTextField getAccessKeyIdTextField() {
+        return accessKeyIdTextField;
+    }
+
+    public void setAccessKeyIdTextField(String accessKeyId) {
+        this.accessKeyIdTextField.setText(accessKeyId);
+    }
+
+    public JTextField getAccessKeySecretTextField() {
+        return accessKeySecretTextField;
+    }
+
+    public void setAccessKeySecretTextField(String accessKeySecret) {
+        this.accessKeySecretTextField.setText(accessKeySecret);
     }
 
     public void setMethodReturnCodeTypeButton(boolean selecetd) {

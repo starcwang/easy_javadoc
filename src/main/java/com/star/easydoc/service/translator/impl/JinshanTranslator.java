@@ -34,7 +34,7 @@ public class JinshanTranslator extends AbstractTranslator {
         return null;
     }
 
-    public static class JinshanResponse {
+    private static class JinshanResponse {
 
         @JsonProperty("word_name")
         private String wordName;
@@ -76,7 +76,7 @@ public class JinshanTranslator extends AbstractTranslator {
         }
     }
 
-    public static class Exchange {
+    private static class Exchange {
 
         @JsonProperty("word_pl")
         private List<String> wordPl;
@@ -150,7 +150,7 @@ public class JinshanTranslator extends AbstractTranslator {
         }
     }
 
-    public static class Parts {
+    private static class Parts {
 
         private String part;
         private List<String> means;
@@ -173,7 +173,7 @@ public class JinshanTranslator extends AbstractTranslator {
 
     }
 
-    public static class Symbols {
+    private static class Symbols {
 
         @JsonProperty("ph_en")
         private String phEn;

@@ -68,7 +68,7 @@ public class BaiduTranslator extends AbstractTranslator {
         return result;
     }
 
-    public static class BaiduResponse {
+    private static class BaiduResponse {
         @JsonProperty("error_code")
         private String errorCode;
         @JsonProperty("error_msg")
@@ -119,7 +119,7 @@ public class BaiduTranslator extends AbstractTranslator {
         }
     }
 
-    public static class TransResult {
+    private static class TransResult {
 
         private String src;
         private String dst;

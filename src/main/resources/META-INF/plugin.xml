@@ -14,6 +14,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+      <h3>v1.27</h3>
+      <ul>
+          <li>support aliyun translator</li>
+          <li>fix some bugs</li>
+      </ul>
       <h3>v1.26</h3>
       <ul>
           <li>support package-info.java -- Contributed by mixley</li>

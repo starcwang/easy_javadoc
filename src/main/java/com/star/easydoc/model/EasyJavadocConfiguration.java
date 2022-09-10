@@ -54,6 +54,14 @@ public class EasyJavadocConfiguration {
      */
     private String secretId;
     /**
+     * 阿里云accessKeyId
+     */
+    private String accessKeyId;
+    /**
+     * 阿里云accessKeySecret
+     */
+    private String accessKeySecret;
+    /**
      * 单词映射
      */
     private SortedMap<String, String> wordMap = new TreeMap<>();
@@ -89,6 +97,8 @@ public class EasyJavadocConfiguration {
         token = null;
         secretKey = null;
         secretId = null;
+        accessKeyId = null;
+        accessKeySecret = null;
         wordMap = new TreeMap<>();
         classTemplateConfig = new TemplateConfig();
         methodTemplateConfig = new TemplateConfig();
@@ -320,6 +330,22 @@ public class EasyJavadocConfiguration {
 
     public void setSecretId(String secretId) {
         this.secretId = secretId;
+    }
+
+    public String getAccessKeyId() {
+        return accessKeyId;
+    }
+
+    public void setAccessKeyId(String accessKeyId) {
+        this.accessKeyId = accessKeyId;
+    }
+
+    public String getAccessKeySecret() {
+        return accessKeySecret;
+    }
+
+    public void setAccessKeySecret(String accessKeySecret) {
+        this.accessKeySecret = accessKeySecret;
     }
 
     public String getMethodReturnType() {

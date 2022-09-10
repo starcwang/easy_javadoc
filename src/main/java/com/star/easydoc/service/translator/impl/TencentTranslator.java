@@ -50,7 +50,7 @@ public class TencentTranslator extends AbstractTranslator {
         return "";
     }
 
-    public TencentResponse get(String text, String target) throws Exception {
+    private TencentResponse get(String text, String target) throws Exception {
         TencentResponse response = null;
         for (int i = 0; i < 10; i++) {
             SortedMap<String, Object> params = new TreeMap<>();
@@ -80,7 +80,7 @@ public class TencentTranslator extends AbstractTranslator {
         return response;
     }
 
-    public static String sign(String s, String key, String method) throws Exception {
+    private static String sign(String s, String key, String method) throws Exception {
         Mac mac = Mac.getInstance(method);
         SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), mac.getAlgorithm());
         mac.init(secretKeySpec);
@@ -88,7 +88,7 @@ public class TencentTranslator extends AbstractTranslator {
         return Base64.getEncoder().encodeToString(hash);
     }
 
-    public static String getStringToSign(String method, String endpoint, SortedMap<String, Object> params) {
+    private static String getStringToSign(String method, String endpoint, SortedMap<String, Object> params) {
         StringBuilder s2s = new StringBuilder();
         s2s.append(method).append(endpoint).append("/?");
         for (Entry<String, Object> e : params.entrySet()) {

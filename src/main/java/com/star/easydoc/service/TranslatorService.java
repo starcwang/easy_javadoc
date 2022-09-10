@@ -13,6 +13,7 @@ import com.star.easydoc.config.Consts;
 import com.star.easydoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.model.EasyJavadocConfiguration;
 import com.star.easydoc.service.translator.Translator;
+import com.star.easydoc.service.translator.impl.AliyunTranslator;
 import com.star.easydoc.service.translator.impl.BaiduTranslator;
 import com.star.easydoc.service.translator.impl.JinshanTranslator;
 import com.star.easydoc.service.translator.impl.TencentTranslator;
@@ -29,6 +30,7 @@ public class TranslatorService {
     private EasyJavadocConfiguration config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
     private Map<String, Translator> translatorMap = ImmutableMap.<String, Translator>builder()
         .put(Consts.BAIDU_TRANSLATOR, new BaiduTranslator())
+        .put(Consts.ALIYUN_TRANSLATOR, new AliyunTranslator())
         .put(Consts.TENCENT_TRANSLATOR, new TencentTranslator())
         .put(Consts.JINSHAN_TRANSLATOR, new JinshanTranslator())
         .put(Consts.YOUDAO_TRANSLATOR, new YoudaoTranslator())

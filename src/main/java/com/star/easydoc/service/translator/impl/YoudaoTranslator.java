@@ -49,7 +49,7 @@ public class YoudaoTranslator extends AbstractTranslator {
         }
     }
 
-    public static class YoudaoResponse {
+    private static class YoudaoResponse {
 
         private String type;
         private int errorCode;
@@ -90,7 +90,7 @@ public class YoudaoTranslator extends AbstractTranslator {
 
     }
 
-    public static class TranslateResult {
+    private static class TranslateResult {
 
         private String src;
         private String tgt;
