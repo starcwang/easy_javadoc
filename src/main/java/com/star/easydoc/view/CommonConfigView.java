@@ -126,12 +126,12 @@ public class CommonConfigView {
                 return;
             }
             try {
-                String json = FileUtils.readFileToString(file);
+                String json = FileUtils.readFileToString(file, StandardCharsets.UTF_8.name());
                 EasyJavadocConfiguration configuration = JsonUtil.fromJson(json, EasyJavadocConfiguration.class);
                 if (configuration == null) {
                     throw new IllegalArgumentException("文件中内容格式不正确，请确认是否是json格式");
                 }
-                BeanUtil.copyProperties(configuration, this.config);
+                ServiceManager.getService(EasyJavadocConfigComponent.class).loadState(configuration);
                 refresh();
             } catch (Exception e) {
                 LOGGER.error("读取文件异常", e);

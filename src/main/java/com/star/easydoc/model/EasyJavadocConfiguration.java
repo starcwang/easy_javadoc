@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 持久化配置文件
  *
@@ -356,10 +358,12 @@ public class EasyJavadocConfiguration {
         this.methodReturnType = methodReturnType;
     }
 
+    @JsonIgnore
     public boolean isCodeMethodReturnType() {
         return CODE_RETURN_TYPE.equals(methodReturnType);
     }
 
+    @JsonIgnore
     public boolean isLinkMethodReturnType() {
         return LINK_RETURN_TYPE.equals(methodReturnType);
     }
