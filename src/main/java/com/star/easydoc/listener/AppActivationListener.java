@@ -39,7 +39,7 @@ public class AppActivationListener implements ApplicationActivationListener {
         NotificationGroup group = new NotificationGroup("Easy Javadoc", NotificationDisplayType.BALLOON, true, null,
             General.AddJdk);
         Notification notification = group.createNotification(
-            "支持EasyJavadoc", "如果这款小而精的插件为您节约了不少时间，请支持一下开发者！",
+            "支持EasyJavadoc", "如果这款小而美的插件为您节约了不少时间，请支持一下开发者！",
             NotificationType.INFORMATION, NotificationListener.URL_OPENING_LISTENER);
 
         // 去点star

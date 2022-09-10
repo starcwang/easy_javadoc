@@ -60,7 +60,7 @@ public class MethodDocGenerator implements DocGenerator {
     private String defaultGenerate(PsiMethod psiMethod) {
         List<String> paramNameList = Arrays.stream(psiMethod.getParameterList().getParameters())
             .map(PsiParameter::getName).collect(Collectors.toList());
-        String returnName = psiMethod.getReturnType() == null ? "" : psiMethod.getReturnType().getPresentableText();
+        String returnName = psiMethod.getReturnTypeElement() == null ? "" : psiMethod.getReturnTypeElement().getText();
         List<String> exceptionNameList = Arrays.stream(psiMethod.getThrowsList().getReferencedTypes())
             .map(PsiClassType::getName).collect(Collectors.toList());
 

@@ -23,7 +23,7 @@ public class ReturnVariableGenerator implements VariableGenerator {
             return "";
         }
         PsiMethod psiMethod = (PsiMethod)element;
-        String returnName = psiMethod.getReturnType() == null ? "" : psiMethod.getReturnType().getPresentableText();
+        String returnName = psiMethod.getReturnTypeElement() == null ? "" : psiMethod.getReturnTypeElement().getText();
 
         if (Consts.BASE_TYPE_SET.contains(returnName)) {
             return "@return " + returnName;
