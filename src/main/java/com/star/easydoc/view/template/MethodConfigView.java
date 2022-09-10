@@ -41,6 +41,7 @@ public class MethodConfigView extends AbstractTemplateConfigView {
         innerMap.put("$PARAMS$", "遍历传入参数并添加注释");
         innerMap.put("$RETURN$", "返回值类型");
         innerMap.put("$THROWS$", "异常类型并注释");
+        innerMap.put("$SEE$", "引用传入参数类型和返回值类型");
     }
 
     private void createUIComponents() {
