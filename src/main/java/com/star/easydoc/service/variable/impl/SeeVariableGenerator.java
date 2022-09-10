@@ -9,6 +9,9 @@ import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiParameter;
+import com.intellij.psi.PsiParameterList;
+import com.intellij.psi.PsiTypeElement;
 import com.star.easydoc.config.Consts;
 import com.star.easydoc.service.variable.VariableGenerator;
 
@@ -35,7 +38,20 @@ public class SeeVariableGenerator implements VariableGenerator {
             }
             return superList.stream().map(sup -> "@see " + sup).collect(Collectors.joining("\n"));
         } else if (element instanceof PsiMethod) {
-            return "";
+            StringBuilder seeString = new StringBuilder("");
+            PsiParameterList parameterList = ((PsiMethod)element).getParameterList();
+            for (PsiParameter parameter : parameterList.getParameters()) {
+                if (parameter == null || parameter.getTypeElement() == null) {
+                    continue;
+                }
+                seeString.append("@see ").append(parameter.getTypeElement().getText()).append("\n");
+            }
+            PsiTypeElement returnTypeElement = ((PsiMethod)element).getReturnTypeElement();
+            if (returnTypeElement != null && !"void".equals(returnTypeElement.getText())) {
+                seeString.append("@see ").append(returnTypeElement.getText()).append("\n");
+            }
+
+            return seeString.toString();
         } else if (element instanceof PsiField) {
             String type = ((PsiField)element).getType().getPresentableText();
             if (Consts.BASE_TYPE_SET.contains(type)) {
