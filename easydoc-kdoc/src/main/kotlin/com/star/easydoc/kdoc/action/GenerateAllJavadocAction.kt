@@ -1,76 +1,54 @@
-package com.star.easydoc.kdoc.action;
+package com.star.easydoc.kdoc.action
 
-import java.util.Arrays;
-import java.util.Optional;
-
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.LangDataKeys;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementFactory;
-import com.intellij.psi.PsiField;
-import com.intellij.psi.PsiMethod;
-import com.intellij.psi.javadoc.PsiDocComment;
-import com.star.easydoc.common.config.EasyDocConfig;
-import com.star.easydoc.kdoc.config.EasyJavadocConfigComponent;
-import com.star.easydoc.kdoc.service.DocGeneratorService;
-import com.star.easydoc.kdoc.view.inner.GenerateAllView;
-import com.star.easydoc.service.WriterService;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.LangDataKeys
+import com.intellij.openapi.components.ServiceManager
+import com.intellij.openapi.project.Project
+import com.intellij.psi.*
+import com.star.easydoc.kdoc.config.EasyJavadocConfigComponent
+import com.star.easydoc.kdoc.service.DocGeneratorService
+import com.star.easydoc.kdoc.view.inner.GenerateAllView
+import com.star.easydoc.service.WriterService
+import org.apache.commons.lang3.StringUtils
+import java.util.*
 
 /**
  * 生成所有文档注释
  *
- * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
+ * @author wangchao
  * @version 1.0.0
  * @since 2019-10-28 00:26:00
  */
-public class GenerateAllJavadocAction extends AnAction {
-
+class GenerateAllJavadocAction : AnAction() {
     /**
      * 文档服务
      */
-    private DocGeneratorService docGeneratorService = ServiceManager.getService(DocGeneratorService.class);
-    private WriterService writerService = ServiceManager.getService(WriterService.class);
-    private EasyDocConfig config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
-
-    @Override
-    public void actionPerformed(@NotNull AnActionEvent e) {
-        Project project = e.getData(LangDataKeys.PROJECT);
+    private val docGeneratorService = ServiceManager.getService(DocGeneratorService::class.java)
+    private val writerService = ServiceManager.getService(WriterService::class.java)
+    private val config = ServiceManager.getService(EasyJavadocConfigComponent::class.java).state
+    override fun actionPerformed(e: AnActionEvent) {
+        val project = e.getData(LangDataKeys.PROJECT)
         // 前置规则校验
-        PsiElement psiElement = e.getData(LangDataKeys.PSI_ELEMENT);
-        if (psiElement == null) {
-            return;
-        }
-
-        if (!(psiElement instanceof PsiClass)) {
-            return;
-        }
+        val psiElement = e.getData(LangDataKeys.PSI_ELEMENT) as? PsiClass ?: return
         // 弹出选择框
-        GenerateAllView generateAllView = new GenerateAllView();
-        generateAllView.getClassCheckBox().setSelected(Optional.ofNullable(config.getGenAllClass()).orElse(false));
-        generateAllView.getMethodCheckBox().setSelected(Optional.ofNullable(config.getGenAllMethod()).orElse(false));
-        generateAllView.getFieldCheckBox().setSelected(Optional.ofNullable(config.getGenAllField()).orElse(false));
-        generateAllView.getInnerClassCheckBox().setSelected(Optional.ofNullable(config.getGenAllInnerClass()).orElse(false));
-
+        val generateAllView = GenerateAllView()
+        generateAllView.classCheckBox.isSelected = Optional.ofNullable(config.genAllClass).orElse(false)
+        generateAllView.methodCheckBox.isSelected = Optional.ofNullable(config.genAllMethod).orElse(false)
+        generateAllView.fieldCheckBox.isSelected = Optional.ofNullable(config.genAllField).orElse(false)
+        generateAllView.innerClassCheckBox.isSelected = Optional.ofNullable(config.genAllInnerClass).orElse(false)
         if (generateAllView.showAndGet()) {
-
-            boolean isGenClass = generateAllView.getClassCheckBox().isSelected();
-            boolean isGenMethod = generateAllView.getMethodCheckBox().isSelected();
-            boolean isGenField = generateAllView.getFieldCheckBox().isSelected();
-            boolean isGenInnerClass = generateAllView.getInnerClassCheckBox().isSelected();
-
-            config.setGenAllClass(isGenClass);
-            config.setGenAllMethod(isGenMethod);
-            config.setGenAllField(isGenField);
-            config.setGenAllInnerClass(isGenInnerClass);
+            val isGenClass = generateAllView.classCheckBox.isSelected
+            val isGenMethod = generateAllView.methodCheckBox.isSelected
+            val isGenField = generateAllView.fieldCheckBox.isSelected
+            val isGenInnerClass = generateAllView.innerClassCheckBox.isSelected
+            config.genAllClass = isGenClass
+            config.genAllMethod = isGenMethod
+            config.genAllField = isGenField
+            config.genAllInnerClass = isGenInnerClass
 
             // 生成注释
-            genClassJavadoc(project, (PsiClass)psiElement, isGenClass, isGenMethod, isGenField, isGenInnerClass);
+            genClassJavadoc(project, psiElement, isGenClass, isGenMethod, isGenField, isGenInnerClass)
         }
     }
 
@@ -84,20 +62,21 @@ public class GenerateAllJavadocAction extends AnAction {
      * @param isGenField 是否生成属性
      * @param isGenInnerClass 是否生成内部类
      */
-    private void genClassJavadoc(Project project, PsiClass psiClass, boolean isGenClass, boolean isGenMethod, boolean isGenField,
-        boolean isGenInnerClass) {
+    private fun genClassJavadoc(
+        project: Project?, psiClass: PsiClass, isGenClass: Boolean, isGenMethod: Boolean, isGenField: Boolean, isGenInnerClass: Boolean
+    ) {
         // 生成类注释
         if (isGenClass) {
-            saveJavadoc(project, psiClass);
+            saveJavadoc(project, psiClass)
         }
         // 方法
-        Arrays.stream(psiClass.getMethods()).forEach(psiMethod -> genMethodJavadoc(project, psiMethod, isGenMethod));
+        Arrays.stream(psiClass.methods).forEach { psiMethod: PsiMethod -> genMethodJavadoc(project, psiMethod, isGenMethod) }
         // 属性
-        Arrays.stream(psiClass.getFields()).forEach(psiField -> genFieldJavadoc(project, psiField, isGenField));
+        Arrays.stream(psiClass.fields).forEach { psiField: PsiField -> genFieldJavadoc(project, psiField, isGenField) }
         // 递归遍历子类
         if (isGenInnerClass) {
-            PsiClass[] innerClasses = psiClass.getInnerClasses();
-            Arrays.stream(innerClasses).forEach(clz -> genClassJavadoc(project, clz, isGenClass, isGenMethod, isGenField, isGenInnerClass));
+            val innerClasses = psiClass.innerClasses
+            Arrays.stream(innerClasses).forEach { clz: PsiClass -> genClassJavadoc(project, clz, isGenClass, isGenMethod, isGenField, isGenInnerClass) }
         }
     }
 
@@ -108,9 +87,9 @@ public class GenerateAllJavadocAction extends AnAction {
      * @param psiMethod 当前方法
      * @param isGenMethod 是否生成方法
      */
-    private void genMethodJavadoc(Project project, PsiMethod psiMethod, boolean isGenMethod) {
+    private fun genMethodJavadoc(project: Project?, psiMethod: PsiMethod, isGenMethod: Boolean) {
         if (isGenMethod) {
-            saveJavadoc(project, psiMethod);
+            saveJavadoc(project, psiMethod)
         }
     }
 
@@ -121,9 +100,9 @@ public class GenerateAllJavadocAction extends AnAction {
      * @param psiField 当前属性
      * @param isGenField 是否生成属性
      */
-    private void genFieldJavadoc(Project project, PsiField psiField, boolean isGenField) {
+    private fun genFieldJavadoc(project: Project?, psiField: PsiField, isGenField: Boolean) {
         if (isGenField) {
-            saveJavadoc(project, psiField);
+            saveJavadoc(project, psiField)
         }
     }
 
@@ -133,17 +112,16 @@ public class GenerateAllJavadocAction extends AnAction {
      * @param project 工程
      * @param psiElement 当前元素
      */
-    private void saveJavadoc(Project project, PsiElement psiElement) {
+    private fun saveJavadoc(project: Project?, psiElement: PsiElement?) {
         if (psiElement == null) {
-            return;
+            return
         }
-        String comment = docGeneratorService.generate(psiElement);
+        val comment = docGeneratorService.generate(psiElement)
         if (StringUtils.isBlank(comment)) {
-            return;
+            return
         }
-        PsiElementFactory factory = PsiElementFactory.SERVICE.getInstance(project);
-        PsiDocComment psiDocComment = factory.createDocCommentFromText(comment);
-
-        writerService.write(project, psiElement, psiDocComment);
+        val factory = PsiElementFactory.SERVICE.getInstance(project)
+        val psiDocComment = factory.createDocCommentFromText(comment)
+        writerService.write(project, psiElement, psiDocComment)
     }
 }
