@@ -1,13 +1,46 @@
 plugins {
     id 'java'
+    id 'org.jetbrains.intellij' version '0.4.25'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.72'
 }
 
 group 'com.star.easydoc'
 version '1.0.0'
 
-repositories {
-    mavenCentral()
+// See https://github.com/JetBrains/gradle-intellij-plugin/
+intellij {
+    plugins = ['Kotlin']
+    version '2018.1'
+    pluginName 'Easy Kdoc'
+    updateSinceUntilBuild false
 }
 
+
 dependencies {
+    compile project(":easydoc-common")
+    compile project(":easydoc-service")
+}
+
+apply plugin: 'org.jetbrains.intellij'
+apply plugin: 'kotlin'
+
+sourceCompatibility = 1.8
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+patchPluginXml {
+    changeNotes """
+      This plugin can help you complete the Chinese javadoc document quickly.<br>
+      Support three type of javadoc: field, method and class.<br>
+      <h3>v1.0 first version</h3>
+      <ul>
+          <li>support class, method and field javadoc</li>
+      </ul>
+      <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
+      """
 }

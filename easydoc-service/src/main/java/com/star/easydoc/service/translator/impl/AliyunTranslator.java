@@ -20,9 +20,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.intellij.openapi.diagnostic.Logger;
-import com.star.easydoc.service.translator.Translator;
-import com.star.easydoc.util.HttpUtil;
-import com.star.easydoc.util.JsonUtil;
+import com.star.easydoc.common.util.HttpUtil;
+import com.star.easydoc.common.util.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -36,10 +35,6 @@ public class AliyunTranslator extends AbstractTranslator {
     private static final Logger LOGGER = Logger.getInstance(AliyunTranslator.class);
 
     private static final String URL = "http://mt.cn-hangzhou.aliyuncs.com/api/translate/web/ecommerce";
-    /** akId */
-    private String accessKeyId;
-    /** akSecret */
-    private String accessKeySecret;
 
     @Override
     protected String translateCh2En(String text) {
@@ -65,7 +60,7 @@ public class AliyunTranslator extends AbstractTranslator {
         request.setTargetLanguage(targetLanguage);
         request.setSourceText(text);
         try {
-            String json = sendPost(URL, JsonUtil.toJson(request), accessKeyId, accessKeySecret);
+            String json = sendPost(URL, JsonUtil.toJson(request), getConfig().getAccessKeyId(), getConfig().getAccessKeySecret());
             AliyunResponseVO response = JsonUtil.fromJson(json, AliyunResponseVO.class);
             return Objects.requireNonNull(response).getData().getTranslated();
         } catch (Exception e) {
@@ -153,13 +148,6 @@ public class AliyunTranslator extends AbstractTranslator {
         headers.put("x-acs-version", "2019-01-02");  // 版本可选
 
         return HttpUtil.post(url, headers, body);
-    }
-
-    @Override
-    public Translator init(Map<String, String> config) {
-        this.accessKeyId = config.get("accessKeyId");
-        this.accessKeySecret = config.get("accessKeySecret");
-        return this;
     }
 
     /**

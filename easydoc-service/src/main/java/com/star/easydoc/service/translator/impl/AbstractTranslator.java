@@ -3,6 +3,7 @@ package com.star.easydoc.service.translator.impl;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.star.easydoc.common.config.EasyDocConfig;
 import com.star.easydoc.service.translator.Translator;
 
 /**
@@ -13,6 +14,9 @@ public abstract class AbstractTranslator implements Translator {
 
     private final Map<String, String> en2chCacheMap = new ConcurrentHashMap<>();
     private final Map<String, String> ch2enCacheMap = new ConcurrentHashMap<>();
+
+    /** 配置 */
+    private EasyDocConfig config;
 
     @Override
     public String en2Ch(String text) {
@@ -44,6 +48,17 @@ public abstract class AbstractTranslator implements Translator {
             ch2enCacheMap.put(text, res);
         }
         return res;
+    }
+
+    @Override
+    public Translator init(EasyDocConfig config) {
+        this.config = config;
+        return this;
+    }
+
+    @Override
+    public EasyDocConfig getConfig() {
+        return this.config;
     }
 
     /**

@@ -1,14 +1,12 @@
 package com.star.easydoc.service.translator.impl;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.intellij.openapi.diagnostic.Logger;
-import com.star.easydoc.service.translator.Translator;
-import com.star.easydoc.util.HttpUtil;
-import com.star.easydoc.util.JsonUtil;
+import com.star.easydoc.common.util.HttpUtil;
+import com.star.easydoc.common.util.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -49,11 +47,6 @@ public class YoudaoTranslator extends AbstractTranslator {
             LOGGER.error("请求有道翻译接口异常", e);
             return StringUtils.EMPTY;
         }
-    }
-
-    @Override
-    public Translator init(Map<String, String> config) {
-        return this;
     }
 
     private static class YoudaoResponse {

@@ -1,6 +1,6 @@
 package com.star.easydoc.service.translator;
 
-import java.util.Map;
+import com.star.easydoc.common.config.EasyDocConfig;
 
 /**
  * 翻译
@@ -32,7 +32,14 @@ public interface Translator {
      * @param config 配置
      * @return {@link Translator}
      */
-    Translator init(Map<String, String> config);
+    Translator init(EasyDocConfig config);
+
+    /**
+     * 获取配置
+     *
+     * @return {@link EasyDocConfig}
+     */
+    EasyDocConfig getConfig();
 
     /**
      * 清除缓存

@@ -1,13 +1,11 @@
 package com.star.easydoc.service.translator.impl;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.star.easydoc.service.translator.Translator;
-import com.star.easydoc.util.HttpUtil;
-import com.star.easydoc.util.JsonUtil;
+import com.star.easydoc.common.util.HttpUtil;
+import com.star.easydoc.common.util.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -34,11 +32,6 @@ public class JinshanTranslator extends AbstractTranslator {
     public String translateCh2En(String text) {
         // TODO: 2020-8-27  
         return null;
-    }
-
-    @Override
-    public Translator init(Map<String, String> config) {
-        return this;
     }
 
     private static class JinshanResponse {

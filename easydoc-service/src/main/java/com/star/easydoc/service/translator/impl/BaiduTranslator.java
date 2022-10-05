@@ -1,14 +1,12 @@
 package com.star.easydoc.service.translator.impl;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.intellij.openapi.diagnostic.Logger;
-import com.star.easydoc.service.translator.Translator;
-import com.star.easydoc.util.HttpUtil;
-import com.star.easydoc.util.JsonUtil;
+import com.star.easydoc.common.util.HttpUtil;
+import com.star.easydoc.common.util.JsonUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,11 +21,6 @@ public class BaiduTranslator extends AbstractTranslator {
     private static final Logger LOGGER = Logger.getInstance(BaiduTranslator.class);
 
     private static final String URL = "http://api.fanyi.baidu.com/api/trans/vip/translate?from=auto&to=auto&appid=%s&salt=%s&sign=%s&q=%s";
-
-    /** 应用程序标识 */
-    private String appId;
-    /** 令牌 */
-    private String token;
 
     @Override
     public String translateEn2Ch(String text) {
@@ -57,9 +50,9 @@ public class BaiduTranslator extends AbstractTranslator {
         String result = "";
         for (int i = 0; i < 10; i++) {
             String salt = RandomStringUtils.randomNumeric(16);
-            String sign = DigestUtils.md5Hex(appId + text + salt + token);
+            String sign = DigestUtils.md5Hex(getConfig().getAppId() + text + salt + getConfig().getToken());
             String eText = HttpUtil.encode(text);
-            BaiduResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(URL, appId, salt, sign, eText)),
+            BaiduResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(URL, getConfig().getAppId(), salt, sign, eText)),
                 BaiduResponse.class);
             if (response == null || "54003".equals(response.getErrorCode())) {
                 Thread.sleep(500);
@@ -69,13 +62,6 @@ public class BaiduTranslator extends AbstractTranslator {
             }
         }
         return result;
-    }
-
-    @Override
-    public Translator init(Map<String, String> config) {
-        this.appId = config.get("appId");
-        this.token = config.get("token");
-        return this;
     }
 
     private static class BaiduResponse {

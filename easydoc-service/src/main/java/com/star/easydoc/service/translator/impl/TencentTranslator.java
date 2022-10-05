@@ -3,7 +3,6 @@ package com.star.easydoc.service.translator.impl;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.Base64;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -13,9 +12,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.intellij.openapi.diagnostic.Logger;
-import com.star.easydoc.service.translator.Translator;
-import com.star.easydoc.util.HttpUtil;
-import com.star.easydoc.util.JsonUtil;
+import com.star.easydoc.common.util.HttpUtil;
+import com.star.easydoc.common.util.JsonUtil;
 
 /**
  * 腾讯翻译
@@ -25,11 +23,6 @@ import com.star.easydoc.util.JsonUtil;
  */
 public class TencentTranslator extends AbstractTranslator {
     private static final Logger LOGGER = Logger.getInstance(TencentTranslator.class);
-
-    /** 标识 */
-    private String secretId;
-    /** 键值 */
-    private String secretKey;
 
     @Override
     public String translateEn2Ch(String text) {
@@ -60,7 +53,7 @@ public class TencentTranslator extends AbstractTranslator {
             params.put("Nonce", new SecureRandom().nextInt(java.lang.Integer.MAX_VALUE));
             params.put("Timestamp", System.currentTimeMillis() / 1000);
             params.put("Region", "ap-beijing");
-            params.put("SecretId", secretId);
+            params.put("SecretId", getConfig().getSecretId());
             params.put("Action", "TextTranslate");
             params.put("Version", "2018-03-21");
             params.put("SourceText", text);
@@ -69,7 +62,7 @@ public class TencentTranslator extends AbstractTranslator {
             params.put("ProjectId", 0);
 
             String str2sign = getStringToSign("GET", "tmt.tencentcloudapi.com", params);
-            String signature = sign(str2sign, secretKey, "HmacSHA1");
+            String signature = sign(str2sign, getConfig().getSecretKey(), "HmacSHA1");
             params.put("Signature", signature);
             TencentResult result = JsonUtil
                 .fromJson(HttpUtil.get("https://tmt.tencentcloudapi.com", params), TencentResult.class);
@@ -98,13 +91,6 @@ public class TencentTranslator extends AbstractTranslator {
             s2s.append(e.getKey()).append("=").append(params.get(e.getKey()).toString()).append("&");
         }
         return s2s.substring(0, s2s.length() - 1);
-    }
-
-    @Override
-    public Translator init(Map<String, String> config) {
-        this.secretId = config.get("secretId");
-        this.secretKey = config.get("secretKey");
-        return this;
     }
 
     private static class TencentResult {

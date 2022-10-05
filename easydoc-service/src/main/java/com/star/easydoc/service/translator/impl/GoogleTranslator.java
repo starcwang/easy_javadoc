@@ -1,13 +1,11 @@
 package com.star.easydoc.service.translator.impl;
 
-import java.util.Map;
 import java.util.Objects;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.intellij.openapi.diagnostic.Logger;
-import com.star.easydoc.service.translator.Translator;
-import com.star.easydoc.util.HttpUtil;
-import com.star.easydoc.util.JsonUtil;
+import com.star.easydoc.common.util.HttpUtil;
+import com.star.easydoc.common.util.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -71,8 +69,4 @@ public class GoogleTranslator extends AbstractTranslator {
         }
     }
 
-    @Override
-    public Translator init(Map<String, String> config) {
-        return this;
-    }
 }
