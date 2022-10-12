@@ -23,6 +23,7 @@ class AppActivationListener : ApplicationActivationListener {
     /** 上一次通知时间  */
     @Volatile
     private var lastNoticeTime = 0L
+
     @Synchronized
     override fun applicationActivated(ideFrame: IdeFrame) {
         support()

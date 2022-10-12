@@ -1,64 +1,53 @@
-package com.star.easydoc.kdoc.service.variable.impl;
+package com.star.easydoc.kdoc.service.variable.impl
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.google.common.collect.Lists;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiField;
-import com.intellij.psi.PsiMethod;
-import com.intellij.psi.PsiParameter;
-import com.intellij.psi.PsiParameterList;
-import com.intellij.psi.PsiTypeElement;
-import com.star.easydoc.common.Consts;
+import com.google.common.collect.Lists
+import com.intellij.psi.PsiClass
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiField
+import com.intellij.psi.PsiMethod
+import com.star.easydoc.common.Consts
+import java.util.*
+import java.util.stream.Collectors
 
 /**
- * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
+ * @author [wangchao](mailto:wangchao.star@gmail.com)
  * @version 1.0.0
  * @since 2019-12-07 23:17:00
  */
-public class SeeVariableGenerator extends AbstractVariableGenerator {
-
-    @Override
-    public String generate(PsiElement element) {
-        if (element instanceof PsiClass) {
-            PsiClass superClass = ((PsiClass)element).getSuperClass();
-            PsiClass[] interfaces = ((PsiClass)element).getInterfaces();
-            List<String> superList = Lists.newArrayList();
-            if (superClass != null) {
-                if (!"Object".equalsIgnoreCase(superClass.getName())) {
-                    superList.add(superClass.getName());
+class SeeVariableGenerator : AbstractVariableGenerator() {
+    override fun generate(element: PsiElement): String {
+        return if (element is PsiClass) {
+            val superClass = element.superClass
+            val interfaces = element.interfaces
+            val superList: MutableList<String> = Lists.newArrayList()
+            if (superClass != null && !"Object".equals(superClass.name, ignoreCase = true)) {
+                superList.add(superClass.name!!)
+            }
+            if (interfaces.isNotEmpty()) {
+                superList.addAll(interfaces.mapNotNull { obj: PsiClass -> obj.name }.toList())
+            }
+            superList.stream().map { sup: String -> "@see $sup" }.collect(Collectors.joining("\n"))
+        } else if (element is PsiMethod) {
+            val seeString = StringBuilder()
+            val parameterList = element.parameterList
+            for (parameter in parameterList.parameters) {
+                if (parameter == null || parameter.typeElement == null) {
+                    continue
                 }
+                seeString.append("@see ").append(parameter.typeElement!!.text).append("\n")
             }
-            if (interfaces.length > 0) {
-                superList.addAll(Arrays.stream(interfaces).map(PsiClass::getName).collect(Collectors.toList()));
+            val returnTypeElement = element.returnTypeElement
+            if (returnTypeElement != null && "void" != returnTypeElement.text) {
+                seeString.append("@see ").append(returnTypeElement.text).append("\n")
             }
-            return superList.stream().map(sup -> "@see " + sup).collect(Collectors.joining("\n"));
-        } else if (element instanceof PsiMethod) {
-            StringBuilder seeString = new StringBuilder();
-            PsiParameterList parameterList = ((PsiMethod)element).getParameterList();
-            for (PsiParameter parameter : parameterList.getParameters()) {
-                if (parameter == null || parameter.getTypeElement() == null) {
-                    continue;
-                }
-                seeString.append("@see ").append(parameter.getTypeElement().getText()).append("\n");
-            }
-            PsiTypeElement returnTypeElement = ((PsiMethod)element).getReturnTypeElement();
-            if (returnTypeElement != null && !"void".equals(returnTypeElement.getText())) {
-                seeString.append("@see ").append(returnTypeElement.getText()).append("\n");
-            }
-
-            return seeString.toString();
-        } else if (element instanceof PsiField) {
-            String type = ((PsiField)element).getType().getPresentableText();
+            seeString.toString()
+        } else if (element is PsiField) {
+            val type = element.type.presentableText
             if (Consts.BASE_TYPE_SET.contains(type)) {
-                return "";
-            }
-            return "@see " + type;
+                ""
+            } else "@see $type"
         } else {
-            return "";
+            ""
         }
     }
 }

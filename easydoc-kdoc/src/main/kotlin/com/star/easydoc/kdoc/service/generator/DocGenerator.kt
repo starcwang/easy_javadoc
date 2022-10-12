@@ -1,6 +1,6 @@
-package com.star.easydoc.kdoc.service.generator;
+package com.star.easydoc.kdoc.service.generator
 
-import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElement
 
 /**
  * 文档生成器
@@ -8,12 +8,12 @@ import com.intellij.psi.PsiElement;
  * @author wangchao
  * @date 2019/11/12
  */
-public interface DocGenerator {
+interface DocGenerator {
     /**
      * 生成
      *
      * @param psiElement psiElement
      * @return java.lang.String
      */
-    String generate(PsiElement psiElement);
+    fun generate(psiElement: PsiElement): String
 }

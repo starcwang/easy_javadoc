@@ -1,107 +1,71 @@
-package com.star.easydoc.kdoc.service.variable.impl;
+package com.star.easydoc.kdoc.service.variable.impl
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import com.google.common.collect.Lists;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiMethod;
-import com.intellij.psi.PsiParameter;
-import com.intellij.psi.impl.source.PsiMethodImpl;
-import com.intellij.psi.javadoc.PsiDocComment;
-import com.intellij.psi.javadoc.PsiDocTag;
-import com.star.easydoc.service.translator.TranslatorService;
-import org.apache.commons.lang.StringUtils;
+import com.google.common.collect.Lists
+import com.intellij.openapi.components.ServiceManager
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiMethod
+import com.intellij.psi.PsiParameter
+import com.intellij.psi.impl.source.PsiMethodImpl
+import com.intellij.psi.javadoc.PsiDocTag
+import com.star.easydoc.service.translator.TranslatorService
+import org.apache.commons.lang.StringUtils
+import java.util.*
+import java.util.stream.Collectors
 
 /**
- * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
+ * @author [wangchao](mailto:wangchao.star@gmail.com)
  * @version 1.0.0
  * @since 2019-12-07 23:18:00
  */
-public class ParamsVariableGenerator extends AbstractVariableGenerator {
-    private final TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
-
-    @Override
-    public String generate(PsiElement element) {
-        if (!(element instanceof PsiMethod)) {
-            return "";
+class ParamsVariableGenerator : AbstractVariableGenerator() {
+    private val translatorService = ServiceManager.getService(TranslatorService::class.java)
+    override fun generate(element: PsiElement): String {
+        if (element !is PsiMethod) {
+            return ""
         }
-
-        List<String> paramNameList = Arrays.stream(((PsiMethod)element).getParameterList().getParameters())
-            .map(PsiParameter::getName).collect(Collectors.toList());
+        val paramNameList = element.parameterList.parameters.mapNotNull { obj: PsiParameter -> obj.name }
         if (paramNameList.isEmpty()) {
-            return "";
+            return ""
         }
-
-        List<ParamGroup> paramGroupList = new ArrayList<>();
-        PsiDocComment docComment = ((PsiMethodImpl)element).getDocComment();
+        val paramGroupList: MutableList<ParamGroup> = ArrayList()
+        val docComment = (element as PsiMethodImpl).docComment
         // {"paramName":PsiDocTag}
-        Map<String, PsiDocTag> psiDocTagMap = new HashMap<>();
+        var psiDocTagMap: Map<String?, PsiDocTag?> = HashMap()
         if (docComment != null) {
-            PsiDocTag[] paramsDocArray = docComment.findTagsByName("param");
-            psiDocTagMap = Arrays.stream(paramsDocArray).collect(Collectors.toMap(q -> q.getDataElements()[0].getText(), tag -> tag));
+            val paramsDocArray = docComment.findTagsByName("param")
+            psiDocTagMap = Arrays.stream(paramsDocArray).collect(Collectors.toMap({ q: PsiDocTag -> q.dataElements[0].text }, { tag: PsiDocTag? -> tag }))
         }
-
-        for (String paramName : paramNameList) {
-            PsiDocTag psiDocTag = psiDocTagMap.get(paramName);
+        for (paramName in paramNameList) {
+            val psiDocTag = psiDocTagMap[paramName]
             if (psiDocTag == null) {
                 // 不存在则插入一个需要翻译的
-                paramGroupList.add(new ParamGroup(paramName, translatorService.translate(paramName)));
-                continue;
+                paramGroupList.add(ParamGroup(paramName, translatorService.translate(paramName)))
+                continue
             }
-            PsiElement eleParamDesc = psiDocTag.getDataElements()[1];
-            String desc = eleParamDesc.getText();
+            val eleParamDesc = psiDocTag.dataElements[1]
+            val desc = eleParamDesc.text
             if (StringUtils.isNotEmpty(desc)) {
                 // 如果已经存在注释则直接返回
-                paramGroupList.add(new ParamGroup(paramName, desc));
+                paramGroupList.add(ParamGroup(paramName, desc))
             } else {
                 // 不存在注释则翻译
-                paramGroupList.add(new ParamGroup(paramName, translatorService.translate(paramName)));
+                paramGroupList.add(ParamGroup(paramName, translatorService.translate(paramName)))
             }
         }
-        List<String> perLine = Lists.newArrayList();
-        for (int i = 0; i < paramGroupList.size(); i++) {
-            ParamGroup paramGroup = paramGroupList.get(i);
+        val perLine: MutableList<String> = Lists.newArrayList()
+        for (i in paramGroupList.indices) {
+            val paramGroup = paramGroupList[i]
             if (i == 0) {
-                perLine.add("@param " + paramGroup.getParam() + " " + paramGroup.getDesc());
+                perLine.add("@param " + paramGroup.param + " " + paramGroup.desc)
             } else {
-                perLine.add("* @param " + paramGroup.getParam() + " " + paramGroup.getDesc());
+                perLine.add("* @param " + paramGroup.param + " " + paramGroup.desc)
             }
         }
-        return String.join("\n", perLine);
+        return java.lang.String.join("\n", perLine)
     }
 
     /**
      * 参数名注释组合
      */
-    static class ParamGroup {
-        private String param;
-        private String desc;
-
-        public ParamGroup(String param, String desc) {
-            this.param = param;
-            this.desc = desc;
-        }
-
-        public String getParam() {
-            return param;
-        }
-
-        public void setParam(String param) {
-            this.param = param;
-        }
-
-        public String getDesc() {
-            return desc;
-        }
-
-        public void setDesc(String desc) {
-            this.desc = desc;
-        }
-    }
+    internal class ParamGroup(var param: String, var desc: String)
 }

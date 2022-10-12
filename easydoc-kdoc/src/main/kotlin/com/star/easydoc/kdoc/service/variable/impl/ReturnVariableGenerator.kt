@@ -1,35 +1,32 @@
-package com.star.easydoc.kdoc.service.variable.impl;
+package com.star.easydoc.kdoc.service.variable.impl
 
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiMethod;
-import com.star.easydoc.common.Consts;
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiMethod
+import com.star.easydoc.common.Consts
 
 /**
- * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
+ * @author [wangchao](mailto:wangchao.star@gmail.com)
  * @version 1.0.0
  * @since 2019-12-07 23:18:00
  */
-public class ReturnVariableGenerator extends AbstractVariableGenerator {
-
-    @Override
-    public String generate(PsiElement element) {
-        if (!(element instanceof PsiMethod)) {
-            return "";
+class ReturnVariableGenerator : AbstractVariableGenerator() {
+    override fun generate(element: PsiElement): String {
+        if (element !is PsiMethod) {
+            return ""
         }
-        PsiMethod psiMethod = (PsiMethod)element;
-        String returnName = psiMethod.getReturnTypeElement() == null ? "" : psiMethod.getReturnTypeElement().getText();
-
-        if (Consts.BASE_TYPE_SET.contains(returnName)) {
-            return "@return " + returnName;
-        } else if ("void".equalsIgnoreCase(returnName)) {
-            return "";
+        val psiMethod = element
+        val returnName = if (psiMethod.returnTypeElement == null) "" else psiMethod.returnTypeElement!!.text
+        return if (Consts.BASE_TYPE_SET.contains(returnName)) {
+            "@return $returnName"
+        } else if ("void".equals(returnName, ignoreCase = true)) {
+            ""
         } else {
-            if (getConfig().isCodeMethodReturnType()) {
-                return "@return {@code " + returnName + " }";
-            } else if (getConfig().isLinkMethodReturnType()) {
-                return "@return " + returnName.replaceAll("[^<> ,]+", "{@link $0 }");
+            if (config.isCodeMethodReturnType) {
+                return "@return {@code $returnName }"
+            } else if (config.isLinkMethodReturnType) {
+                return "@return " + returnName.replace("[^<> ,]+".toRegex(), "{@link $0 }")
             }
-            return String.format("@return {@link %s }", returnName);
+            String.format("@return {@link %s }", returnName)
         }
     }
 }

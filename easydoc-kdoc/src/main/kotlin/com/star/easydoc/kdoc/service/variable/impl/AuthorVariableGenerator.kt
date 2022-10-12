@@ -1,17 +1,14 @@
-package com.star.easydoc.kdoc.service.variable.impl;
+package com.star.easydoc.kdoc.service.variable.impl
 
-import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElement
 
 /**
- * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
+ * @author [wangchao](mailto:wangchao.star@gmail.com)
  * @version 1.0.0
  * @since 2019-12-07 23:16:00
  */
-public class AuthorVariableGenerator extends AbstractVariableGenerator {
-
-    @Override
-    public String generate(PsiElement element) {
-        return getConfig().getAuthor();
+class AuthorVariableGenerator : AbstractVariableGenerator() {
+    override fun generate(element: PsiElement): String {
+        return config.author
     }
-
 }
