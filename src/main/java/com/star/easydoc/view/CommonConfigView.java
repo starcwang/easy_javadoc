@@ -10,8 +10,13 @@ import java.util.Map.Entry;
 import javax.swing.*;
 
 import com.google.common.collect.Lists;
+import com.intellij.json.JsonFileType;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.fileChooser.FileChooser;
+import com.intellij.openapi.fileChooser.FileChooserDescriptor;
+import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.CollectionListModel;
 import com.intellij.ui.ListCellRendererWrapper;
 import com.intellij.ui.ToolbarDecorator;
@@ -115,18 +120,18 @@ public class CommonConfigView {
         });
 
         importButton.addActionListener(event -> {
-            JFileChooser chooser = new JFileChooser();
-            chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            int res = chooser.showOpenDialog(new JLabel());
-            if (JFileChooser.APPROVE_OPTION != res) {
-                return;
-            }
-            File file = chooser.getSelectedFile();
+            FileChooserDescriptor descriptor = FileChooserDescriptorFactory.createSingleFileDescriptor(JsonFileType.INSTANCE);
+            descriptor.setForcedToUseIdeaFileChooser(true);
+            VirtualFile file = FileChooser.chooseFile(descriptor, null, null);
             if (file == null) {
                 return;
             }
+            if (!file.exists()) {
+                LOGGER.error("文件不存在:{}", file.getPath());
+                return;
+            }
             try {
-                String json = FileUtils.readFileToString(file, StandardCharsets.UTF_8.name());
+                String json = FileUtils.readFileToString(new File(file.getPath()), StandardCharsets.UTF_8.name());
                 EasyJavadocConfiguration configuration = JsonUtil.fromJson(json, EasyJavadocConfiguration.class);
                 if (configuration == null) {
                     throw new IllegalArgumentException("文件中内容格式不正确，请确认是否是json格式");
@@ -139,19 +144,19 @@ public class CommonConfigView {
         });
 
         exportButton.addActionListener(event -> {
-            JFileChooser chooser = new JFileChooser();
-            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            int res = chooser.showSaveDialog(new JLabel());
-            if (JFileChooser.APPROVE_OPTION != res) {
-                return;
-            }
-            File file = chooser.getSelectedFile();
+            FileChooserDescriptor descriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor();
+            descriptor.setForcedToUseIdeaFileChooser(true);
+            VirtualFile file = FileChooser.chooseFile(descriptor, null, null);
             if (file == null) {
                 return;
             }
+            if (!file.exists()) {
+                LOGGER.error("文件夹不存在:{}", file.getPath());
+                return;
+            }
             try {
-                File targetFile = new File(file.getAbsolutePath() + "/easy_javadoc.json");
-                FileUtils.write(targetFile, JsonUtil.toJson(this.config), StandardCharsets.UTF_8.name());
+                File targetFile = new File(file.getPath() + "/easy_javadoc.json");
+                FileUtils.write(targetFile, JsonUtil.toPrettyJson(this.config), StandardCharsets.UTF_8.name());
             } catch (Exception e) {
                 LOGGER.error("写入文件异常", e);
             }
