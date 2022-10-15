@@ -32,6 +32,18 @@ public class JsonUtil {
         }
     }
 
+    public static <T> String toPrettyJson(T obj) {
+        if (Objects.isNull(obj)) {
+            return "";
+        }
+        try {
+            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            LOGGER.warn("json序列化异常", e);
+            return "";
+        }
+    }
+
     public static <T> T fromJson(String json, Class<T> tClass) {
         if (StringUtils.isBlank(json)) {
             return null;

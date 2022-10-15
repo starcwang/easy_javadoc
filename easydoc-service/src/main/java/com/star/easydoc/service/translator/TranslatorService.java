@@ -160,7 +160,7 @@ public class TranslatorService {
     }
 
     private String getFromCustom(String word) {
-        return config.getWordMap().get(word.toLowerCase());
+        return config.getWordMap().get(word);
     }
 
     private String getFromOthers(String word) {
