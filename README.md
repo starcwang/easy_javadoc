@@ -16,11 +16,6 @@
 ## 安装
 打开IntelliJ IDEA -> plugin，搜索 Easy Javadoc，安装重启即可
 
-## 配置
-打开配置页面
-![配置图](./doc/20190901155929.jpg)
-可看到相关配置
-
 ## 使用
 简单视频教学：[👉猛戳👈](https://www.bilibili.com/video/BV1pB4y147nX)    
 结合Fast Request的视频教程，[👉猛戳👈](https://www.bilibili.com/video/BV1xg41127TF/)
@@ -43,6 +38,11 @@
 - 百度翻译申请地址：<https://api.fanyi.baidu.com/doc/21>
 - 腾讯翻译申请地址：<https://cloud.tencent.com/document/product/551/7372>
 - 阿里云翻译申请地址：<https://www.aliyun.com/product/ai/alimt>
+
+## 配置
+打开配置页面
+![配置图](./doc/20190901155929.jpg)
+可看到相关配置
 
 ## 默认快捷键（可通过IDEA快捷键设置修改）
 ### win
