@@ -22,6 +22,7 @@
 可看到相关配置
 
 ## 使用
+简单视频教学：[👉猛戳👈](https://www.bilibili.com/video/BV1pB4y147nX)
 结合Fast Request的视频教程，[👉猛戳👈](https://www.bilibili.com/video/BV1xg41127TF/)
 
 - 将**一闪一闪的光标**放置到想要生成注释的类、方法或者属性上，然后按下快捷键`ctrl \`或者`command \`，即可生成注释，你的方法名起的越贴切，注释越得体。  
