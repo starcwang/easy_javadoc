@@ -1,178 +1,155 @@
-package com.star.easydoc.kdoc.view.template;
+package com.star.easydoc.kdoc.view.template
 
-import java.awt.*;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Vector;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-
-import com.google.common.collect.Maps;
-import com.intellij.ui.ToolbarDecorator;
-import com.intellij.ui.components.JBScrollPane;
-import com.intellij.ui.table.JBTable;
-import com.star.easydoc.common.config.EasyDocConfig;
-import com.star.easydoc.common.config.EasyDocConfig.CustomValue;
-import com.star.easydoc.kdoc.view.inner.CustomTemplateAddView;
+import com.google.common.collect.Maps
+import com.intellij.ui.ToolbarDecorator
+import com.intellij.ui.components.JBScrollPane
+import com.intellij.ui.table.JBTable
+import com.star.easydoc.common.config.EasyDocConfig
+import com.star.easydoc.kdoc.view.inner.CustomTemplateAddView
+import java.awt.Dimension
+import java.util.*
+import javax.swing.*
+import javax.swing.event.ChangeEvent
+import javax.swing.table.DefaultTableModel
 
 /**
- * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
+ * @author [wangchao](mailto:wangchao.star@gmail.com)
  * @version 1.0.0
  * @since 2019-11-10 17:46:00
  */
-public class MethodConfigView extends AbstractTemplateConfigView {
+class MethodConfigView(config: EasyDocConfig) : AbstractTemplateConfigView(config) {
+    private lateinit var panel: JPanel
+    private lateinit var templateTextArea: JTextArea
+    private lateinit var innerVariablePanel: JPanel
+    private lateinit var customVariablePanel: JPanel
+    private lateinit var templatePanel: JPanel
+    private lateinit var defaultRadioButton: JRadioButton
+    private lateinit var customRadioButton: JRadioButton
+    private lateinit var innerTable: JTable
+    private lateinit var innerScrollPane: JScrollPane
+    private lateinit var customTable: JTable
 
-    private JPanel panel;
-    private JTextArea templateTextArea;
-    private JPanel innerVariablePanel;
-    private JPanel customVariablePanel;
-    private JPanel templatePanel;
-    private JRadioButton defaultRadioButton;
-    private JRadioButton customRadioButton;
-    private JTable innerTable;
-    private JScrollPane innerScrollPane;
-    private JTable customTable;
-    private static Map<String, String> innerMap;
-
-    static {
-        innerMap = Maps.newHashMap();
-        innerMap.put("$DOC$", "注释信息");
-        innerMap.put("$PARAMS$", "遍历传入参数并添加注释");
-        innerMap.put("$RETURN$", "返回值类型");
-        innerMap.put("$THROWS$", "异常类型并注释");
-        innerMap.put("$SEE$", "引用传入参数类型和返回值类型");
-    }
-
-    private void createUIComponents() {
+    private fun createUIComponents() {
         // 初始化内置变量表格
-        Vector<Vector<String>> innerData = new Vector<>(innerMap.size());
-        for (Entry<String, String> entry : innerMap.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            Vector<String> row = new Vector<>(2);
-            row.add(key);
-            row.add(value);
-            innerData.add(row);
+        val innerData = Vector<Vector<String>>(innerMap.size)
+        for ((key, value) in innerMap) {
+            val row = Vector<String>(2)
+            row.add(key)
+            row.add(value)
+            innerData.add(row)
         }
-        DefaultTableModel innerModel = new DefaultTableModel(innerData, innerNames);
-        innerTable = new JBTable(innerModel) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
+        val innerModel = DefaultTableModel(innerData, innerNames)
+        innerTable = object : JBTable(innerModel) {
+            override fun isCellEditable(row: Int, column: Int): Boolean {
+                return false
             }
-        };
-        innerScrollPane = new JBScrollPane(innerTable);
+        }
+        innerScrollPane = JBScrollPane(innerTable)
 
         //设置表格显示的大小。
-        innerTable.setPreferredScrollableViewportSize(new Dimension(-1, innerTable.getRowHeight() * innerTable.getRowCount()));
-        innerTable.setFillsViewportHeight(true);
-
-        customTable = new JBTable() {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
+        innerTable.preferredScrollableViewportSize = Dimension(-1, innerTable.rowHeight * innerTable.rowCount)
+        innerTable.fillsViewportHeight = true
+        customTable = object : JBTable() {
+            override fun isCellEditable(row: Int, column: Int): Boolean {
+                return false
             }
-        };
-        refreshCustomTable();
-        ToolbarDecorator toolbarDecorator = ToolbarDecorator.createDecorator(customTable);
-        toolbarDecorator.setAddAction(button -> {
-            CustomTemplateAddView customTemplateAddView = new CustomTemplateAddView();
+        }
+        refreshCustomTable()
+        val toolbarDecorator = ToolbarDecorator.createDecorator(customTable)
+        toolbarDecorator.setAddAction {
+            val customTemplateAddView = CustomTemplateAddView()
             if (customTemplateAddView.showAndGet()) {
-                if (config != null) {
-                    Entry<String, CustomValue> entry = customTemplateAddView.getEntry();
-                    config.getMethodTemplateConfig().getCustomMap().put(entry.getKey(), entry.getValue());
-                    refreshCustomTable();
-                }
+                config.methodTemplateConfig.customMap[customTemplateAddView.entry.key] = customTemplateAddView.entry.value
+                refreshCustomTable()
             }
-        });
-        toolbarDecorator.setRemoveAction(anActionButton -> {
-            if (config != null) {
-                Map<String, CustomValue> customMap = config.getMethodTemplateConfig().getCustomMap();
-                customMap.remove(customTable.getValueAt(customTable.getSelectedRow(), 0).toString());
-                refreshCustomTable();
-            }
-        });
-        customVariablePanel = toolbarDecorator.createPanel();
+        }
+        toolbarDecorator.setRemoveAction {
+            val customMap = config.methodTemplateConfig.customMap
+            customMap.remove(customTable.getValueAt(customTable.getSelectedRow(), 0).toString())
+            refreshCustomTable()
+        }
+        customVariablePanel = toolbarDecorator.createPanel()
     }
 
-    public MethodConfigView(EasyDocConfig config) {
-        super(config);
+    init {
         // 添加单选按钮事件
-        defaultRadioButton.addChangeListener(e -> {
-            JRadioButton button = (JRadioButton)e.getSource();
-            if (button.isSelected()) {
-                customRadioButton.setSelected(false);
-                templateTextArea.setEnabled(false);
-                customTable.setEnabled(false);
-                templatePanel.setEnabled(false);
-                customVariablePanel.setEnabled(false);
-                innerTable.setEnabled(false);
-                innerScrollPane.setEnabled(false);
-                innerVariablePanel.setEnabled(false);
+        defaultRadioButton.addChangeListener { e: ChangeEvent ->
+            val button = e.source as JRadioButton
+            if (button.isSelected) {
+                customRadioButton.isSelected = false
+                templateTextArea.isEnabled = false
+                customTable.isEnabled = false
+                templatePanel.isEnabled = false
+                customVariablePanel.isEnabled = false
+                innerTable.isEnabled = false
+                innerScrollPane.isEnabled = false
+                innerVariablePanel.isEnabled = false
             }
-        });
-        customRadioButton.addChangeListener(e -> {
-            JRadioButton button = (JRadioButton)e.getSource();
-            if (button.isSelected()) {
-                defaultRadioButton.setSelected(false);
-                templateTextArea.setEnabled(true);
-                customTable.setEnabled(true);
-                templatePanel.setEnabled(true);
-                customVariablePanel.setEnabled(true);
-                innerTable.setEnabled(true);
-                innerScrollPane.setEnabled(true);
-                innerVariablePanel.setEnabled(true);
+        }
+        customRadioButton.addChangeListener { e: ChangeEvent ->
+            val button = e.source as JRadioButton
+            if (button.isSelected) {
+                defaultRadioButton.isSelected = false
+                templateTextArea.isEnabled = true
+                customTable.isEnabled = true
+                templatePanel.isEnabled = true
+                customVariablePanel.isEnabled = true
+                innerTable.isEnabled = true
+                innerScrollPane.isEnabled = true
+                innerVariablePanel.isEnabled = true
             }
-        });
+        }
     }
 
-    @Override
-    public JComponent getComponent() {
-        return panel;
-    }
+    override val component: JComponent
+        get() = panel
 
-    private void refreshCustomTable() {
+    private fun refreshCustomTable() {
         // 初始化自定义变量表格
-        Map<String, CustomValue> customMap = Maps.newHashMap();
-        if (config != null && config.getMethodTemplateConfig() != null && config.getMethodTemplateConfig().getCustomMap() != null) {
-            customMap = config.getMethodTemplateConfig().getCustomMap();
+        var customMap: Map<String?, EasyDocConfig.CustomValue> = Maps.newHashMap()
+        if (config.methodTemplateConfig != null && config.methodTemplateConfig.customMap != null) {
+            customMap = config.methodTemplateConfig.customMap
         }
-        Vector<Vector<String>> customData = new Vector<>(customMap.size());
-        for (Entry<String, CustomValue> entry : customMap.entrySet()) {
-            String key = entry.getKey();
-            CustomValue value = entry.getValue();
-            Vector<String> row = new Vector<>(2);
-            row.add(key);
-            row.add(value.getType().getDesc());
-            row.add(value.getValue());
-            customData.add(row);
+        val customData = Vector<Vector<String?>>(customMap.size)
+        for ((key, value) in customMap) {
+            val row = Vector<String?>(2)
+            row.add(key)
+            row.add(value.type.desc)
+            row.add(value.value)
+            customData.add(row)
         }
-        DefaultTableModel customModel = new DefaultTableModel(customData, customNames);
-        customTable.setModel(customModel);
-        customTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        customTable.getColumnModel().getColumn(0).setPreferredWidth((int)(customTable.getWidth() * 0.3));
+        val customModel = DefaultTableModel(customData, customNames)
+        customTable.model = customModel
+        customTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
+        customTable.columnModel.getColumn(0).preferredWidth = (customTable.width * 0.3).toInt()
     }
 
-    public boolean isDefault() {
-        return defaultRadioButton.isSelected();
-    }
-
-    public void setDefault(boolean isDefault) {
-        if (isDefault) {
-            defaultRadioButton.setSelected(true);
-            customRadioButton.setSelected(false);
-        } else {
-            defaultRadioButton.setSelected(false);
-            customRadioButton.setSelected(true);
+    var isDefault: Boolean
+        get() = defaultRadioButton.isSelected
+        set(isDefault) {
+            if (isDefault) {
+                defaultRadioButton.isSelected = true
+                customRadioButton.isSelected = false
+            } else {
+                defaultRadioButton.isSelected = false
+                customRadioButton.isSelected = true
+            }
         }
-    }
+    var template: String?
+        get() = templateTextArea.text
+        set(template) {
+            templateTextArea.text = template
+        }
 
-    public String getTemplate() {
-        return templateTextArea.getText();
-    }
+    companion object {
+        var innerMap: MutableMap<String, String> = Maps.newHashMap()
 
-    public void setTemplate(String template) {
-        templateTextArea.setText(template);
+        init {
+            innerMap["\$DOC$"] = "注释信息"
+            innerMap["\$PARAMS$"] = "遍历传入参数并添加注释"
+            innerMap["\$RETURN$"] = "返回值类型"
+            innerMap["\$THROWS$"] = "异常类型并注释"
+            innerMap["\$SEE$"] = "引用传入参数类型和返回值类型"
+        }
     }
 }

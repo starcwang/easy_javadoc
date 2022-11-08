@@ -1,22 +1,18 @@
-package com.star.easydoc.kdoc.view.template;
+package com.star.easydoc.kdoc.view.template
 
-import javax.swing.*;
-
-import com.intellij.openapi.options.Configurable;
-import org.jetbrains.annotations.Nullable;
+import com.intellij.openapi.options.Configurable
+import javax.swing.JComponent
 
 /**
- * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
+ * @author [wangchao](mailto:wangchao.star@gmail.com)
  * @version 1.0.0
  * @since 2019-11-10 18:14:00
  */
-public abstract class AbstractTemplateConfigurable implements Configurable {
+abstract class AbstractTemplateConfigurable : Configurable {
 
-    @Nullable
-    @Override
-    public JComponent createComponent() {
-        return getView().getComponent();
+    override fun createComponent(): JComponent {
+        return view.component
     }
 
-    public abstract AbstractTemplateConfigView getView();
+    abstract val view: AbstractTemplateConfigView
 }

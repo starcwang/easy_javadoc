@@ -1,58 +1,49 @@
-package com.star.easydoc.kdoc.view.inner;
+package com.star.easydoc.kdoc.view.inner
 
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Map;
-
-import javax.swing.*;
-
-import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.openapi.ui.ValidationInfo;
-import com.star.easydoc.common.config.EasyDocConfig.CustomValue;
-import com.star.easydoc.common.config.EasyDocConfig.VariableType;
-import org.jetbrains.annotations.Nullable;
+import com.intellij.openapi.ui.DialogWrapper
+import com.intellij.openapi.ui.ValidationInfo
+import com.star.easydoc.common.config.EasyDocConfig
+import com.star.easydoc.common.config.EasyDocConfig.VariableType
+import java.util.AbstractMap.SimpleEntry
+import javax.swing.*
 
 /**
- * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
+ * @author [wangchao](mailto:wangchao.star@gmail.com)
  * @version 1.0.0
  * @since 2019-11-12 00:22:00
  */
-public class CustomTemplateAddView extends DialogWrapper {
-    private JPanel panel;
-    private JTextField methodName;
-    private JTextField groovyCode;
-    private JTextPane textPane;
-    private JComboBox customTypeComboBox;
+class CustomTemplateAddView : DialogWrapper(false) {
+    private lateinit var panel: JPanel
+    private lateinit var methodName: JTextField
+    private lateinit var groovyCode: JTextField
+    private lateinit var textPane: JTextPane
+    private lateinit var customTypeComboBox: JComboBox<String>
 
-    public CustomTemplateAddView() {
-        super(false);
-        init();
-        setTitle("添加自定义方法");
+    init {
+        init()
+        title = "添加自定义方法"
     }
 
-    @Nullable
-    @Override
-    protected JComponent createCenterPanel() {
-        return panel;
+    override fun createCenterPanel(): JComponent {
+        return panel
     }
 
-    @Nullable
-    @Override
-    protected ValidationInfo doValidate() {
-        if (methodName.getText() == null || methodName.getText().length() <= 0
-            || !methodName.getText().startsWith("$") || !methodName.getText().endsWith("$")) {
-            return new ValidationInfo("请输入方法名，并用$前后包裹，例如:$NAME$", methodName);
+    override fun doValidate(): ValidationInfo? {
+        if (methodName.text == null || methodName.text.length <= 0 || !methodName.text.startsWith("$") || !methodName.text.endsWith("$")) {
+            return ValidationInfo("请输入方法名，并用\$前后包裹，例如:\$NAME\$", methodName)
         }
-        if (groovyCode.getText() == null || groovyCode.getText().length() <= 0) {
-            return new ValidationInfo("请输入正确的自定义脚本", groovyCode);
+        if (groovyCode.text == null || groovyCode.text.length <= 0) {
+            return ValidationInfo("请输入正确的自定义脚本", groovyCode)
         }
-        if (customTypeComboBox.getSelectedItem() == null) {
-            return new ValidationInfo("请选择自定义类型", groovyCode);
+        if (customTypeComboBox.selectedItem == null) {
+            return ValidationInfo("请选择自定义类型", groovyCode)
         }
-        return super.doValidate();
+        return super.doValidate()
     }
 
-    public Map.Entry<String, CustomValue> getEntry() {
-        return new SimpleEntry<>(methodName.getText(),
-            new CustomValue(VariableType.fromDesc(String.valueOf(customTypeComboBox.getSelectedItem())), groovyCode.getText()));
-    }
+    val entry: Map.Entry<String, EasyDocConfig.CustomValue>
+        get() = SimpleEntry(
+            methodName.text,
+            EasyDocConfig.CustomValue(VariableType.fromDesc(customTypeComboBox.selectedItem!!.toString()), groovyCode.text)
+        )
 }

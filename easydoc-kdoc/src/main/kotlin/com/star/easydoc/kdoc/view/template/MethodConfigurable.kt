@@ -1,77 +1,56 @@
-package com.star.easydoc.kdoc.view.template;
+package com.star.easydoc.kdoc.view.template
 
-import java.util.Objects;
-import java.util.TreeMap;
-
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.options.ConfigurationException;
-import com.star.easydoc.common.config.EasyDocConfig;
-import com.star.easydoc.common.config.EasyDocConfig.TemplateConfig;
-import com.star.easydoc.kdoc.config.EasyJavadocConfigComponent;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.Nls.Capitalization;
+import com.intellij.openapi.components.ServiceManager
+import com.intellij.openapi.options.ConfigurationException
+import com.star.easydoc.kdoc.config.EasyJavadocConfigComponent
+import org.apache.commons.lang3.BooleanUtils
+import org.apache.commons.lang3.StringUtils
+import org.jetbrains.annotations.Nls
+import java.util.*
 
 /**
- * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
+ * @author [wangchao](mailto:wangchao.star@gmail.com)
  * @version 1.0.0
  * @since 2019-11-10 17:35:00
  */
-public class MethodConfigurable extends AbstractTemplateConfigurable {
-    private EasyDocConfig config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
-    private MethodConfigView view = new MethodConfigView(config);
+class MethodConfigurable : AbstractTemplateConfigurable() {
+    private val config = ServiceManager.getService(EasyJavadocConfigComponent::class.java).state
+    override val view: MethodConfigView
+        get() = MethodConfigView(config)
 
-    @Nls(capitalization = Capitalization.Title)
-    @Override
-    public String getDisplayName() {
-        return "方法注释模板配置";
+    override fun getDisplayName(): @Nls(capitalization = Nls.Capitalization.Title) String {
+        return "方法注释模板配置"
     }
 
-    @Override
-    public AbstractTemplateConfigView getView() {
-        return view;
+    override fun isModified(): Boolean {
+        val templateConfig = config.methodTemplateConfig
+        if (templateConfig.isDefault != view.isDefault) {
+            return true
+        }
+        return templateConfig.template != view.template
     }
 
-    @Override
-    public boolean isModified() {
-        TemplateConfig templateConfig = config.getMethodTemplateConfig();
-        if (!Objects.equals(templateConfig.getIsDefault(), view.isDefault())) {
-            return true;
+    override fun apply() {
+        val templateConfig = config.methodTemplateConfig
+        templateConfig.isDefault = view.isDefault
+        templateConfig.template = view.template
+        if (templateConfig.customMap == null) {
+            templateConfig.customMap = TreeMap()
         }
-        if (!Objects.equals(templateConfig.getTemplate(), view.getTemplate())) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public void apply() throws ConfigurationException {
-        TemplateConfig templateConfig = config.getMethodTemplateConfig();
-        templateConfig.setIsDefault(view.isDefault());
-        templateConfig.setTemplate(view.getTemplate());
-        if (templateConfig.getCustomMap() == null) {
-            templateConfig.setCustomMap(new TreeMap<>());
-        }
-        if (!view.isDefault()) {
-            if (StringUtils.isBlank(view.getTemplate())) {
-                throw new ConfigurationException("使用自定义模板，模板不能为空");
+        if (!view.isDefault) {
+            if (StringUtils.isBlank(view.template)) {
+                throw ConfigurationException("使用自定义模板，模板不能为空")
             }
-            String temp = StringUtils.strip(view.getTemplate());
+            val temp = StringUtils.strip(view.template)
             if (!temp.startsWith("/**") || !temp.endsWith("*/")) {
-                throw new ConfigurationException("模板格式不正确，正确的javadoc应该以\"/**\"开头，以\"*/\"结束");
+                throw ConfigurationException("模板格式不正确，正确的javadoc应该以\"/**\"开头，以\"*/\"结束")
             }
         }
     }
 
-    @Override
-    public void reset() {
-        TemplateConfig templateConfig = config.getMethodTemplateConfig();
-        if (BooleanUtils.isTrue(templateConfig.getIsDefault())) {
-            view.setDefault(true);
-        } else {
-            view.setDefault(false);
-        }
-        view.setTemplate(templateConfig.getTemplate());
+    override fun reset() {
+        val templateConfig = config.methodTemplateConfig
+        view.isDefault = BooleanUtils.isTrue(templateConfig.isDefault)
+        view.template = templateConfig.template
     }
 }

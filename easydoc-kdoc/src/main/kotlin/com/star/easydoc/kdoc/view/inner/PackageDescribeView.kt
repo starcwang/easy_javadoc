@@ -1,77 +1,59 @@
-package com.star.easydoc.kdoc.view.inner;
+package com.star.easydoc.kdoc.view.inner
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.intellij.openapi.ui.DialogWrapper
+import com.intellij.psi.PsiPackage
+import java.util.*
+import javax.swing.JComponent
+import javax.swing.JPanel
+import javax.swing.JTable
+import javax.swing.table.DefaultTableModel
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
+class PackageDescribeView(private val packMap: Map<PsiPackage, String>) : DialogWrapper(false) {
+    private lateinit var panel1: JPanel
+    private lateinit var packageInfoTable: JTable
+    private lateinit var packIndexMap: MutableMap<Int, PsiPackage>
 
-import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.psi.PsiPackage;
-import org.jetbrains.annotations.Nullable;
-
-public class PackageDescribeView extends DialogWrapper {
-    private JPanel panel1;
-    private JTable packageInfoTable;
-
-    public PackageDescribeView(Map<PsiPackage, String> packMap) {
-        super(false);
-
-        this.packMap = packMap;
-        createMap(packMap);
-
-        init();
-        setTitle("包信息生成");
+    init {
+        createMap(packMap)
+        init()
+        title = "包信息生成"
     }
 
-    private Map<PsiPackage, String> packMap;
-    private Map<Integer, PsiPackage> packIndexMap;
-
-    public Map<PsiPackage, String> getFinalMap() {
-        //        packageInfoTable.get
-        TableCellEditor editor = packageInfoTable.getCellEditor();
-        if (editor != null) {
-            editor.stopCellEditing();
-        }
-        Map<PsiPackage, String> finalPackMap = new HashMap<>();
-        for (Integer index : packIndexMap.keySet()) {
-            PsiPackage psiPackage = packIndexMap.get(index);
-            String value = (String)packageInfoTable.getValueAt(index, 1);
-            finalPackMap.put(psiPackage, value);
-        }
-        return finalPackMap;
-    }
-
-    public void createMap(Map<PsiPackage, String> packMap) {
-        List<Map.Entry<PsiPackage, String>> list = new ArrayList<>(packMap.entrySet());
-        String[][] objs = new String[list.size()][2];
-        packIndexMap = new HashMap<>();
-        for (int i = 0; i < list.size(); i++) {
-            PsiPackage aPackage = list.get(i).getKey();
-            objs[i][0] = aPackage.getQualifiedName();
-            objs[i][1] = list.get(i).getValue();
-            packIndexMap.put(i, aPackage);
-        }
-        DefaultTableModel innerModel = new DefaultTableModel(objs, new String[] {"包名称", "注释"}) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                if (column == 1) {
-                    return true;
-                } else {
-                    return false;
-                }
+    //        packageInfoTable.get
+    val finalMap: Map<PsiPackage?, String>
+        get() {
+            //        packageInfoTable.get
+            val editor = packageInfoTable.cellEditor
+            editor?.stopCellEditing()
+            val finalPackMap: MutableMap<PsiPackage?, String> = HashMap()
+            for (index in packIndexMap.keys) {
+                val psiPackage = packIndexMap[index]
+                val value = packageInfoTable.getValueAt(index, 1) as String
+                finalPackMap[psiPackage] = value
             }
-        };
-        packageInfoTable.setModel(innerModel);
+            return finalPackMap
+        }
+
+    fun createMap(packMap: Map<PsiPackage, String>) {
+        val list: List<Map.Entry<PsiPackage, String>> = ArrayList<Map.Entry<PsiPackage, String>>(packMap.entries)
+        val objs = Array(list.size) { arrayOfNulls<String>(2) }
+        packIndexMap = HashMap()
+        for (i in list.indices) {
+            val aPackage: PsiPackage = list[i].key
+            objs[i][0] = aPackage.qualifiedName
+            objs[i][1] = list[i].value
+            packIndexMap[i] = aPackage
+        }
+        val innerModel: DefaultTableModel = object : DefaultTableModel(objs, arrayOf("包名称", "注释")) {
+            override fun isCellEditable(row: Int, column: Int): Boolean {
+                return column == 1
+            }
+        }
+        packageInfoTable.model = innerModel
         //        packageInfoTable.colum(0)
     }
 
-    @Override
-    protected @Nullable
-    JComponent createCenterPanel() {
-        return panel1;
+    override fun createCenterPanel(): JComponent {
+        return panel1
     }
 }

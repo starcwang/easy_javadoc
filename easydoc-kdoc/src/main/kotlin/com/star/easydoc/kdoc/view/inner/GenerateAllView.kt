@@ -1,51 +1,28 @@
-package com.star.easydoc.kdoc.view.inner;
+package com.star.easydoc.kdoc.view.inner
 
-import javax.swing.*;
-
-import com.intellij.openapi.ui.DialogWrapper;
-import org.jetbrains.annotations.Nullable;
+import com.intellij.openapi.ui.DialogWrapper
+import javax.swing.JCheckBox
+import javax.swing.JComponent
+import javax.swing.JPanel
 
 /**
- * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
+ * @author [wangchao](mailto:wangchao.star@gmail.com)
  * @version 1.0.0
  * @since 2019-10-28 00:30:00
  */
-public class GenerateAllView extends DialogWrapper {
-    private JCheckBox fieldCheckBox;
-    private JCheckBox methodCheckBox;
-    private JCheckBox classCheckBox;
-    private JPanel panel;
-    private JCheckBox innerClassCheckBox;
+class GenerateAllView : DialogWrapper(false) {
+    lateinit var fieldCheckBox: JCheckBox
+    lateinit var methodCheckBox: JCheckBox
+    lateinit var classCheckBox: JCheckBox
+    lateinit var panel: JPanel
+    lateinit var innerClassCheckBox: JCheckBox
 
-    public GenerateAllView() {
-        super(false);
-        init();
-        setTitle("请选择生成内容");
+    init {
+        init()
+        title = "请选择生成内容"
     }
 
-    @Nullable
-    @Override
-    protected JComponent createCenterPanel() {
-        return panel;
-    }
-
-    public JCheckBox getFieldCheckBox() {
-        return fieldCheckBox;
-    }
-
-    public JCheckBox getMethodCheckBox() {
-        return methodCheckBox;
-    }
-
-    public JCheckBox getClassCheckBox() {
-        return classCheckBox;
-    }
-
-    public JCheckBox getInnerClassCheckBox() {
-        return innerClassCheckBox;
-    }
-
-    public JPanel getPanel() {
-        return panel;
+    override fun createCenterPanel(): JComponent {
+        return panel
     }
 }

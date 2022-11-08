@@ -21,7 +21,7 @@ public class CustomTemplateAddView extends DialogWrapper {
     private JTextField methodName;
     private JTextField groovyCode;
     private JTextPane textPane;
-    private JComboBox customTypeComboBox;
+    private JComboBox<String> customTypeComboBox;
 
     public CustomTemplateAddView() {
         super(false);

@@ -1,137 +1,121 @@
-package com.star.easydoc.kdoc.view;
+package com.star.easydoc.kdoc.view
 
-import java.util.Objects;
-import java.util.TreeMap;
-
-import javax.swing.*;
-
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.options.Configurable;
-import com.intellij.openapi.options.ConfigurationException;
-import com.star.easydoc.common.Consts;
-import com.star.easydoc.common.config.EasyDocConfig;
-import com.star.easydoc.kdoc.config.EasyJavadocConfigComponent;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.Nls.Capitalization;
-import org.jetbrains.annotations.Nullable;
+import com.intellij.openapi.components.ServiceManager
+import com.intellij.openapi.options.Configurable
+import com.intellij.openapi.options.ConfigurationException
+import com.star.easydoc.common.Consts
+import com.star.easydoc.kdoc.config.EasyJavadocConfigComponent
+import org.apache.commons.lang3.StringUtils
+import org.jetbrains.annotations.Nls
+import java.util.*
+import javax.swing.JComponent
 
 /**
  * @author wangchao
  * @date 2019/08/25
  */
-public class CommonConfigurable implements Configurable {
+class CommonConfigurable : Configurable {
+    private val config = ServiceManager.getService(EasyJavadocConfigComponent::class.java).state
+    private val view = CommonConfigView()
 
-    private EasyDocConfig config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
-    private CommonConfigView view = new CommonConfigView();
-
-    @Nls(capitalization = Capitalization.Title)
-    @Override
-    public String getDisplayName() {
-        return "EasyJavadoc";
+    override fun getDisplayName(): @Nls(capitalization = Nls.Capitalization.Title) String {
+        return "EasyJavadoc"
     }
 
-    @Nullable
-    @Override
-    public JComponent createComponent() {
-        return view.getComponent();
+    override fun createComponent(): JComponent? {
+        return view.component
     }
 
-    @Override
-    public boolean isModified() {
-        if (!Objects.equals(config.getAuthor(), view.getAuthorTextField().getText())) {
-            return true;
+    override fun isModified(): Boolean {
+        if (config.author != view.authorTextField.text) {
+            return true
         }
-        if (!Objects.equals(config.getDateFormat(), view.getDateFormatTextField().getText())) {
-            return true;
+        if (config.dateFormat != view.dateFormatTextField.text) {
+            return true
         }
-        if (!Objects.equals(config.getSimpleFieldDoc(), view.getSimpleDocButton().isSelected())) {
-            return true;
+        if (config.simpleFieldDoc != view.simpleDocButton.isSelected) {
+            return true
         }
-        if (!Objects.equals(config.getMethodReturnType(), view.getMethodReturnType())) {
-            return true;
+        if (config.methodReturnType != view.methodReturnType) {
+            return true
         }
-        if (!Objects.equals(config.getTranslator(), view.getTranslatorBox().getSelectedItem())) {
-            return true;
+        if (config.translator != view.translatorBox.selectedItem) {
+            return true
         }
-        if (!Objects.equals(config.getAppId(), view.getAppIdTextField().getText())) {
-            return true;
+        if (config.appId != view.appIdTextField.text) {
+            return true
         }
-        if (!Objects.equals(config.getToken(), view.getTokenTextField().getText())) {
-            return true;
+        if (config.token != view.tokenTextField.text) {
+            return true
         }
-        if (!Objects.equals(config.getSecretKey(), view.getSecretKeyTextField().getText())) {
-            return true;
+        if (config.secretKey != view.secretKeyTextField.text) {
+            return true
         }
-        if (!Objects.equals(config.getSecretId(), view.getSecretIdTextField().getText())) {
-            return true;
+        if (config.secretId != view.secretIdTextField.text) {
+            return true
         }
-        if (!Objects.equals(config.getAccessKeyId(), view.getAccessKeyIdTextField().getText())) {
-            return true;
+        if (config.accessKeyId != view.accessKeyIdTextField.text) {
+            return true
         }
-        if (!Objects.equals(config.getAccessKeySecret(), view.getAccessKeySecretTextField().getText())) {
-            return true;
-        }
-        return false;
+        return if (config.accessKeySecret != view.accessKeySecretTextField.text) {
+            true
+        } else false
     }
 
-    @Override
-    public void apply() throws ConfigurationException {
-        config.setAuthor(view.getAuthorTextField().getText());
-        config.setDateFormat(view.getDateFormatTextField().getText());
-        config.setSimpleFieldDoc(view.getSimpleDocButton().isSelected());
-        config.setMethodReturnType(view.getMethodReturnType());
-        config.setTranslator(String.valueOf(view.getTranslatorBox().getSelectedItem()));
-        config.setAppId(view.getAppIdTextField().getText());
-        config.setToken(view.getTokenTextField().getText());
-        config.setSecretKey(view.getSecretKeyTextField().getText());
-        config.setSecretId(view.getSecretIdTextField().getText());
-        config.setAccessKeyId(view.getAccessKeyIdTextField().getText());
-        config.setAccessKeySecret(view.getAccessKeySecretTextField().getText());
-        if (config.getWordMap() == null) {
-            config.setWordMap(new TreeMap<>());
+    override fun apply() {
+        config.author = view.authorTextField.text
+        config.dateFormat = view.dateFormatTextField.text
+        config.simpleFieldDoc = view.simpleDocButton.isSelected
+        config.methodReturnType = view.methodReturnType
+        config.translator = view.translatorBox.selectedItem!!.toString()
+        config.appId = view.appIdTextField.text
+        config.token = view.tokenTextField.text
+        config.secretKey = view.secretKeyTextField.text
+        config.secretId = view.secretIdTextField.text
+        config.accessKeyId = view.accessKeyIdTextField.text
+        config.accessKeySecret = view.accessKeySecretTextField.text
+        if (config.wordMap == null) {
+            config.wordMap = TreeMap()
         }
-
-        if (config.getAuthor() == null) {
-            throw new ConfigurationException("作者不能为null");
+        if (config.author == null) {
+            throw ConfigurationException("作者不能为null")
         }
-        if (config.getDateFormat() == null) {
-            throw new ConfigurationException("日期格式不能为null");
+        if (config.dateFormat == null) {
+            throw ConfigurationException("日期格式不能为null")
         }
-        if (config.getSimpleFieldDoc() == null) {
-            throw new ConfigurationException("注释形式不能为null");
+        if (config.simpleFieldDoc == null) {
+            throw ConfigurationException("注释形式不能为null")
         }
-        if (config.getTranslator() == null || !Consts.ENABLE_TRANSLATOR_SET.contains(config.getTranslator())) {
-            throw new ConfigurationException("请选择正确的翻译方式");
+        if (config.translator == null || !Consts.ENABLE_TRANSLATOR_SET.contains(config.translator)) {
+            throw ConfigurationException("请选择正确的翻译方式")
         }
-        if (Consts.BAIDU_TRANSLATOR.equals(config.getTranslator())) {
-            if (StringUtils.isBlank(config.getAppId())) {
-                throw new ConfigurationException("appId不能为空");
+        if (Consts.BAIDU_TRANSLATOR == config.translator) {
+            if (StringUtils.isBlank(config.appId)) {
+                throw ConfigurationException("appId不能为空")
             }
-            if (StringUtils.isBlank(config.getToken())) {
-                throw new ConfigurationException("密钥不能为空");
+            if (StringUtils.isBlank(config.token)) {
+                throw ConfigurationException("密钥不能为空")
             }
         }
-        if (Consts.TENCENT_TRANSLATOR.equals(config.getTranslator())) {
-            if (StringUtils.isBlank(config.getSecretKey())) {
-                throw new ConfigurationException("secretKey不能为空");
+        if (Consts.TENCENT_TRANSLATOR == config.translator) {
+            if (StringUtils.isBlank(config.secretKey)) {
+                throw ConfigurationException("secretKey不能为空")
             }
-            if (StringUtils.isBlank(config.getSecretId())) {
-                throw new ConfigurationException("secretId不能为空");
+            if (StringUtils.isBlank(config.secretId)) {
+                throw ConfigurationException("secretId不能为空")
             }
         }
-        if (Consts.ALIYUN_TRANSLATOR.equals(config.getTranslator())) {
-            if (StringUtils.isBlank(config.getAccessKeyId())) {
-                throw new ConfigurationException("accessKeyId不能为空");
+        if (Consts.ALIYUN_TRANSLATOR == config.translator) {
+            if (StringUtils.isBlank(config.accessKeyId)) {
+                throw ConfigurationException("accessKeyId不能为空")
             }
-            if (StringUtils.isBlank(config.getAccessKeySecret())) {
-                throw new ConfigurationException("accessKeySecret不能为空");
+            if (StringUtils.isBlank(config.accessKeySecret)) {
+                throw ConfigurationException("accessKeySecret不能为空")
             }
         }
     }
 
-    @Override
-    public void reset() {
-        view.refresh();
+    override fun reset() {
+        view.refresh()
     }
 }

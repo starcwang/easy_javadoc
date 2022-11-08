@@ -1,51 +1,42 @@
-package com.star.easydoc.kdoc.view.inner;
+package com.star.easydoc.kdoc.view.inner
 
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Map;
-
-import javax.swing.*;
-
-import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.openapi.ui.ValidationInfo;
-import org.jetbrains.annotations.Nullable;
+import com.intellij.openapi.ui.DialogWrapper
+import com.intellij.openapi.ui.ValidationInfo
+import java.util.AbstractMap.SimpleEntry
+import javax.swing.JComponent
+import javax.swing.JLabel
+import javax.swing.JPanel
+import javax.swing.JTextField
 
 /**
  * @author wangchao
  * @date 2019/08/25
  */
-public class WordMapAddView extends DialogWrapper {
+class WordMapAddView : DialogWrapper(false) {
+    private lateinit var panel: JPanel
+    private lateinit var sourceTextField: JTextField
+    private lateinit var targetTextField: JTextField
+    private lateinit var source: JLabel
+    private lateinit var target: JLabel
 
-    private JPanel panel;
-    private JTextField sourceTextField;
-    private JTextField targetTextField;
-    private JLabel source;
-    private JLabel target;
-
-    public WordMapAddView() {
-        super(false);
-        init();
-        setTitle("添加单词映射");
+    init {
+        init()
+        title = "添加单词映射"
     }
 
-    @Nullable
-    @Override
-    protected JComponent createCenterPanel() {
-        return panel;
+    override fun createCenterPanel(): JComponent {
+        return panel
     }
 
-    @Nullable
-    @Override
-    protected ValidationInfo doValidate() {
-        if (sourceTextField.getText() == null || sourceTextField.getText().length() <= 0) {
-            return new ValidationInfo("请输入原单词", sourceTextField);
+    override fun doValidate(): ValidationInfo? {
+        if (sourceTextField.text == null || sourceTextField.text.isEmpty()) {
+            return ValidationInfo("请输入原单词", sourceTextField)
         }
-        if (targetTextField.getText() == null || targetTextField.getText().length() <= 0) {
-            return new ValidationInfo("请输入转换后的单词", targetTextField);
-        }
-        return super.doValidate();
+        return if (targetTextField.text == null || targetTextField.text.isEmpty()) {
+            ValidationInfo("请输入转换后的单词", targetTextField)
+        } else super.doValidate()
     }
 
-    public Map.Entry<String, String> getMapping() {
-        return new SimpleEntry<>(sourceTextField.getText().toLowerCase(), targetTextField.getText());
-    }
+    val mapping: Map.Entry<String, String>
+        get() = SimpleEntry(sourceTextField.text.toLowerCase(), targetTextField.text)
 }

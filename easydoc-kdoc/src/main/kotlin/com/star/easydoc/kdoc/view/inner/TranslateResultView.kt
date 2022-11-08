@@ -1,43 +1,28 @@
-package com.star.easydoc.kdoc.view.inner;
+package com.star.easydoc.kdoc.view.inner
 
-import javax.swing.*;
-
-import com.intellij.openapi.ui.DialogWrapper;
-import org.jetbrains.annotations.Nullable;
+import com.intellij.openapi.ui.DialogWrapper
+import javax.swing.JComponent
+import javax.swing.JPanel
+import javax.swing.JScrollPane
+import javax.swing.JTextArea
 
 /**
  * @author wangchao
  * @date 2020/02/12
  */
-public class TranslateResultView extends DialogWrapper {
+class TranslateResultView(text: String?) : DialogWrapper(false) {
+    private lateinit var textArea: JTextArea
+    private lateinit var panel: JPanel
+    private lateinit var scrollPane: JScrollPane
 
-    private JTextArea textArea;
-    private JPanel panel;
-    private JScrollPane scrollPane;
-
-    public TranslateResultView(String text) {
-        super(false);
-        init();
-        setTitle("翻译结果");
-        textArea.setSize(800, 800);
-        textArea.setText(text);
+    init {
+        init()
+        title = "翻译结果"
+        textArea.setSize(800, 800)
+        textArea.text = text
     }
 
-    @Nullable
-    @Override
-    protected JComponent createCenterPanel() {
-        return panel;
-    }
-
-    public JTextArea getTextArea() {
-        return textArea;
-    }
-
-    public JPanel getPanel() {
-        return panel;
-    }
-
-    public JScrollPane getScrollPane() {
-        return scrollPane;
+    override fun createCenterPanel(): JComponent {
+        return panel
     }
 }

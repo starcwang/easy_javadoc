@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -37,9 +38,9 @@ public class PackageDescribeView extends DialogWrapper {
             editor.stopCellEditing();
         }
         Map<PsiPackage, String> finalPackMap = new HashMap<>();
-        for (Integer index : packIndexMap.keySet()) {
-            PsiPackage psiPackage = packIndexMap.get(index);
-            String value = (String)packageInfoTable.getValueAt(index, 1);
+        for (Entry<Integer, PsiPackage> entry : packIndexMap.entrySet()) {
+            PsiPackage psiPackage = entry.getValue();
+            String value = (String)packageInfoTable.getValueAt(entry.getKey(), 1);
             finalPackMap.put(psiPackage, value);
         }
         return finalPackMap;
@@ -58,11 +59,7 @@ public class PackageDescribeView extends DialogWrapper {
         DefaultTableModel innerModel = new DefaultTableModel(objs, new String[] {"包名称", "注释"}) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                if (column == 1) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return column == 1;
             }
         };
         packageInfoTable.setModel(innerModel);
