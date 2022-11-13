@@ -12,7 +12,7 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-//    plugins 'java'
+    plugins = ['Kotlin']
     version '2018.1'
     pluginName 'Easy Javadoc'
     updateSinceUntilBuild false

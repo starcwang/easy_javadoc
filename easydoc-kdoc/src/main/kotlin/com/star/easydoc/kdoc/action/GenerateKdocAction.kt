@@ -13,7 +13,10 @@ import com.star.easydoc.kdoc.view.inner.TranslateResultView
 import com.star.easydoc.service.WriterService
 import com.star.easydoc.service.translator.TranslatorService
 import org.apache.commons.lang3.StringUtils
+import org.jetbrains.kotlin.kdoc.psi.api.KDoc
 import org.jetbrains.kotlin.psi.KtClass
+import org.jetbrains.kotlin.psi.KtElement
+import org.jetbrains.kotlin.psi.KtPsiFactory
 
 /**
  * @author wangchao
@@ -46,7 +49,6 @@ class GenerateKdocAction
             }
         }
         val psiElement = anActionEvent.getData(LangDataKeys.PSI_ELEMENT)
-        val ktClass = psiElement as KtClass?
 
         if (psiElement == null || psiElement.getNode() == null) {
             return
@@ -55,8 +57,9 @@ class GenerateKdocAction
         if (StringUtils.isEmpty(comment)) {
             return
         }
-        val factory = PsiElementFactory.SERVICE.getInstance(project)
-        val psiDocComment = factory.createDocCommentFromText(comment)
-        writerService.write(project, psiElement, psiDocComment)
+        val factory = KtPsiFactory(project)
+        val psiDocComment = factory.createComment(comment)
+
+        writerService.write(project,  psiElement as KtElement, psiDocComment as KDoc)
     }
 }

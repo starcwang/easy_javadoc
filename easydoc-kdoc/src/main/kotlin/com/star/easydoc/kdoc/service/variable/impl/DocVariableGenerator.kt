@@ -1,14 +1,14 @@
 package com.star.easydoc.kdoc.service.variable.impl
 
-import com.google.common.base.Joiner
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiJavaDocumentedElement
 import com.intellij.psi.PsiNamedElement
 import com.star.easydoc.service.translator.TranslatorService
-import org.apache.commons.lang.StringUtils
+import org.jetbrains.kotlin.idea.util.CommentSaver.Companion.tokenType
+import org.jetbrains.kotlin.kdoc.psi.impl.KDocSection
+import org.jetbrains.kotlin.psi.KtDeclaration
+import org.jetbrains.kotlin.psi.psiUtil.allChildren
 import java.util.*
-import java.util.stream.Collectors
 
 /**
  * @author [wangchao](mailto:wangchao.star@gmail.com)
@@ -18,15 +18,32 @@ import java.util.stream.Collectors
 class DocVariableGenerator : AbstractVariableGenerator() {
     private val translatorService = ServiceManager.getService(TranslatorService::class.java)
     override fun generate(element: PsiElement): String {
-        if (element is PsiNamedElement) {
-            val docComment = (element as PsiJavaDocumentedElement).docComment
+        if (element is KtDeclaration) {
+            val doc = translatorService.translate((element as PsiNamedElement).name).trim()
+            val docComment = (element as KtDeclaration).docComment
             if (docComment != null) {
-                val descriptionElements = docComment.descriptionElements
-                val descTextList = Arrays.stream(descriptionElements).map { obj: PsiElement -> obj.text }.collect(Collectors.toList())
-                val result = Joiner.on(StringUtils.EMPTY).skipNulls().join(descTextList)
-                return if (StringUtils.isNotBlank(result)) result else translatorService.translate((element as PsiNamedElement).name)
+                val docElements = docComment.children
+                val kDocSection = docElements.findLast { e -> e is KDocSection }
+                if (kDocSection != null) {
+                    val docs = kDocSection.allChildren
+                        .filter { e -> e.tokenType.toString() == "KDOC_TEXT" }
+                        .map { e -> e.text.trim() }
+                        .filter { e -> e.isNotBlank() }
+                        .toList()
+                    if (docs.isEmpty()) {
+                        return doc
+                    }
+                    if (docs.any { e -> e == doc }) {
+                        return docs.joinToString("\n* ")
+                    } else {
+                        val allDocs = mutableListOf<String>()
+                        allDocs.addAll(docs)
+                        allDocs.add(doc)
+                        return allDocs.joinToString("\n* ")
+                    }
+                }
             }
-            return translatorService.translate((element as PsiNamedElement).name)
+            return doc
         }
         return ""
     }

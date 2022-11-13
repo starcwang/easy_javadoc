@@ -29,17 +29,16 @@ class VariableGeneratorService {
     /**
      * 变量生成器映射
      */
-    private val variableGeneratorMap: Map<String, VariableGenerator> = ImmutableMap.builder<String, VariableGenerator>()
-        .put("author", AuthorVariableGenerator())
-        .put("date", DateVariableGenerator())
-        .put("doc", DocVariableGenerator())
-        .put("params", ParamsVariableGenerator())
-        .put("return", ReturnVariableGenerator())
-        .put("see", SeeVariableGenerator())
-        .put("since", SinceVariableGenerator())
-        .put("throws", ThrowsVariableGenerator())
-        .put("version", VersionVariableGenerator())
-        .build()
+    private val variableGeneratorMap: Map<String, VariableGenerator> = mapOf(
+        "author" to AuthorVariableGenerator(),
+        "date" to DateVariableGenerator(),
+        "doc" to DocVariableGenerator(),
+        "params" to ParamsVariableGenerator(),
+        "return" to ReturnVariableGenerator(),
+        "see" to SeeVariableGenerator(),
+        "since" to SinceVariableGenerator(),
+        "throws" to ThrowsVariableGenerator(),
+        "version" to VersionVariableGenerator())
 
     /**
      * 生成
@@ -47,25 +46,37 @@ class VariableGeneratorService {
      * @param psiElement 当前元素
      * @return [java.lang.String]
      */
-    fun generate(psiElement: PsiElement?): String {
+    fun generate(psiElement: PsiElement, temp: String?): String {
         // 获取当前模板信息
-        var template = ""
+        var template = temp
         var customValueMap: Map<String?, EasyDocConfig.CustomValue?> = Maps.newHashMap()
         var innerVariableMap: Map<String?, Any?> = Maps.newHashMap()
-        if (psiElement is PsiClass) {
-            template = config.classTemplateConfig.template
-            customValueMap = config.classTemplateConfig.customMap
-            innerVariableMap = getClassInnerVariable(psiElement)
-        } else if (psiElement is PsiMethod) {
-            template = config.methodTemplateConfig.template
-            customValueMap = config.methodTemplateConfig.customMap
-            innerVariableMap = getMethodInnerVariable(psiElement)
-        } else if (psiElement is PsiField) {
-            template = config.fieldTemplateConfig.template
-            customValueMap = config.fieldTemplateConfig.customMap
-            innerVariableMap = getFieldInnerVariable(psiElement)
+        when (psiElement) {
+            is PsiClass -> {
+                if (template.isNullOrBlank()) {
+                    template = config.classTemplateConfig.template
+                }
+                customValueMap = config.classTemplateConfig.customMap
+                innerVariableMap = getClassInnerVariable(psiElement)
+            }
+
+            is PsiMethod -> {
+                if (template.isNullOrBlank()) {
+                    template = config.methodTemplateConfig.template
+                }
+                customValueMap = config.methodTemplateConfig.customMap
+                innerVariableMap = getMethodInnerVariable(psiElement)
+            }
+
+            is PsiField -> {
+                if (template.isNullOrBlank()) {
+                    template = config.fieldTemplateConfig.template
+                }
+                customValueMap = config.fieldTemplateConfig.customMap
+                innerVariableMap = getFieldInnerVariable(psiElement)
+            }
         }
-        if (StringUtils.isBlank(template)) {
+        if (template.isNullOrBlank()) {
             return ""
         }
 
@@ -82,62 +93,7 @@ class VariableGeneratorService {
             if (variableGenerator == null) {
                 variableMap[placeholder] = generateCustomVariable(customValueMap, innerVariableMap, placeholder)
             } else {
-                variableMap[placeholder] = variableGenerator.generate(psiElement!!)
-            }
-        }
-
-        // 占位符替换
-        val keyList: MutableList<String> = Lists.newArrayList()
-        val valueList: MutableList<String> = Lists.newArrayList()
-        for ((key, value) in variableMap) {
-            keyList.add(key)
-            valueList.add(value)
-        }
-        return StringUtils.replaceEach(template, keyList.toTypedArray(), valueList.toTypedArray())
-    }
-
-    /**
-     * 生成
-     *
-     * @param psiElement 当前元素
-     * @return [java.lang.String]
-     */
-    fun generate(psiElement: PsiElement?, tag: String?): String {
-        // 获取当前模板信息
-        var template = ""
-        var customValueMap: Map<String?, EasyDocConfig.CustomValue?> = Maps.newHashMap()
-        var innerVariableMap: Map<String?, Any?> = Maps.newHashMap()
-        if (psiElement is PsiClass) {
-            template = config.classTemplateConfig.template
-            customValueMap = config.classTemplateConfig.customMap
-            innerVariableMap = getClassInnerVariable(psiElement)
-        } else if (psiElement is PsiMethod) {
-            template = config.methodTemplateConfig.template
-            customValueMap = config.methodTemplateConfig.customMap
-            innerVariableMap = getMethodInnerVariable(psiElement)
-        } else if (psiElement is PsiField) {
-            template = config.fieldTemplateConfig.template
-            customValueMap = config.fieldTemplateConfig.customMap
-            innerVariableMap = getFieldInnerVariable(psiElement)
-        }
-        if (StringUtils.isBlank(template)) {
-            return ""
-        }
-
-        // 匹配占位符
-        val matcher = pattern.matcher(template)
-        val variableMap: MutableMap<String, String> = Maps.newHashMap()
-        while (matcher.find()) {
-            val placeholder = matcher.group()
-            val key = StringUtils.substring(placeholder, 1, -1)
-            if (StringUtils.isBlank(key)) {
-                return ""
-            }
-            val variableGenerator = variableGeneratorMap[key.toLowerCase()]
-            if (variableGenerator == null) {
-                variableMap[placeholder] = generateCustomVariable(customValueMap, innerVariableMap, placeholder)
-            } else {
-                variableMap[placeholder] = variableGenerator.generate(psiElement!!)
+                variableMap[placeholder] = variableGenerator.generate(psiElement)
             }
         }
 

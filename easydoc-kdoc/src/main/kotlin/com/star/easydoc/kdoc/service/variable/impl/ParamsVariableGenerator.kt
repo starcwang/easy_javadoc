@@ -9,6 +9,8 @@ import com.intellij.psi.impl.source.PsiMethodImpl
 import com.intellij.psi.javadoc.PsiDocTag
 import com.star.easydoc.service.translator.TranslatorService
 import org.apache.commons.lang.StringUtils
+import org.jetbrains.kotlin.psi.KtClass
+import org.jetbrains.kotlin.psi.KtNamedFunction
 import java.util.*
 import java.util.stream.Collectors
 
@@ -20,7 +22,7 @@ import java.util.stream.Collectors
 class ParamsVariableGenerator : AbstractVariableGenerator() {
     private val translatorService = ServiceManager.getService(TranslatorService::class.java)
     override fun generate(element: PsiElement): String {
-        if (element !is PsiMethod) {
+        if (element !is KtNamedFunction && element !is KtClass) {
             return ""
         }
         val paramNameList = element.parameterList.parameters.mapNotNull { obj: PsiParameter -> obj.name }

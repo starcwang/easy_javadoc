@@ -1,15 +1,14 @@
 package com.star.easydoc.kdoc.service
 
-import com.google.common.collect.ImmutableMap
-import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiField
-import com.intellij.psi.PsiMethod
 import com.star.easydoc.kdoc.service.generator.DocGenerator
-import com.star.easydoc.kdoc.service.generator.impl.ClassDocGenerator
-import com.star.easydoc.kdoc.service.generator.impl.FieldDocGenerator
-import com.star.easydoc.kdoc.service.generator.impl.MethodDocGenerator
+import com.star.easydoc.kdoc.service.generator.impl.KtClassDocGenerator
+import com.star.easydoc.kdoc.service.generator.impl.KtNamedFunctionDocGenerator
+import com.star.easydoc.kdoc.service.generator.impl.KtPropertyDocGenerator
 import org.apache.commons.lang3.StringUtils
+import org.jetbrains.kotlin.psi.KtClass
+import org.jetbrains.kotlin.psi.KtNamedFunction
+import org.jetbrains.kotlin.psi.KtProperty
 import java.util.*
 
 /**
@@ -17,16 +16,16 @@ import java.util.*
  * @date 2019/08/25
  */
 class DocGeneratorService {
-    private val docGeneratorMap: Map<Class<out PsiElement>, DocGenerator> = ImmutableMap.builder<Class<out PsiElement>, DocGenerator>()
-        .put(PsiClass::class.java, ClassDocGenerator())
-        .put(PsiMethod::class.java, MethodDocGenerator())
-        .put(PsiField::class.java, FieldDocGenerator())
-        .build()
+    private val docGeneratorMap = mapOf(
+        KtClass::class to KtClassDocGenerator(),
+        KtNamedFunction::class to KtNamedFunctionDocGenerator(),
+        KtProperty::class to KtPropertyDocGenerator()
+    )
 
     fun generate(psiElement: PsiElement): String {
         var docGenerator: DocGenerator? = null
         for ((key, value) in docGeneratorMap) {
-            if (key.isAssignableFrom(psiElement.javaClass)) {
+            if (psiElement::class == key) {
                 docGenerator = value
                 break
             }
