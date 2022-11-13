@@ -40,6 +40,7 @@ class KtClassDocGenerator : DocGenerator {
                     " *\n" +
                     " * @author \$AUTHOR\$\n" +
                     " * @date \$DATE\$\n" +
+                    " * \$PARAMS\$\n" +
                     " */".trimIndent()
         )
     }
