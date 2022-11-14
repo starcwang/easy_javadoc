@@ -17,23 +17,25 @@ import java.util.*
  * @author wangchao
  * @date 2019/08/25
  */
-@State(name = "easyJavadoc", storages = [Storage("easyJavadoc.xml")])
-class EasyJavadocConfigComponent : PersistentStateComponent<EasyDocConfig> {
+@State(name = "easyKdoc", storages = [Storage("easyKdoc.xml")])
+class EasyKdocConfigComponent : PersistentStateComponent<EasyDocConfig> {
     /** 配置  */
-    private lateinit var config: EasyDocConfig
+    private var config: EasyDocConfig? = null
 
     override fun getState(): EasyDocConfig {
-        config = EasyDocConfig()
-        config.author = System.getProperty("user.name")
-        config.dateFormat = Consts.DEFAULT_DATE_FORMAT
-        config.simpleFieldDoc = true
-        config.methodReturnType = EasyDocConfig.LINK_RETURN_TYPE
-        config.wordMap = TreeMap()
-        config.translator = Consts.YOUDAO_TRANSLATOR
-        config.classTemplateConfig = TemplateConfig()
-        config.methodTemplateConfig = TemplateConfig()
-        config.fieldTemplateConfig = TemplateConfig()
-        return config
+        if (config == null) {
+            config = EasyDocConfig()
+            config!!.author = System.getProperty("user.name")
+            config!!.dateFormat = Consts.DEFAULT_DATE_FORMAT
+            config!!.simpleFieldDoc = true
+            config!!.methodReturnType = EasyDocConfig.LINK_RETURN_TYPE
+            config!!.wordMap = TreeMap()
+            config!!.translator = Consts.YOUDAO_TRANSLATOR
+            config!!.classTemplateConfig = TemplateConfig()
+            config!!.methodTemplateConfig = TemplateConfig()
+            config!!.fieldTemplateConfig = TemplateConfig()
+        }
+        return config!!
     }
 
     override fun loadState(state: EasyDocConfig) {

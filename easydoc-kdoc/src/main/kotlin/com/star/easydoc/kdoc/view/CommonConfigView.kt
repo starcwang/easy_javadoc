@@ -10,7 +10,7 @@ import com.intellij.ui.components.JBList
 import com.star.easydoc.common.Consts
 import com.star.easydoc.common.config.EasyDocConfig
 import com.star.easydoc.common.util.JsonUtil
-import com.star.easydoc.kdoc.config.EasyJavadocConfigComponent
+import com.star.easydoc.kdoc.config.EasyKdocConfigComponent
 import com.star.easydoc.kdoc.view.inner.SupportView
 import com.star.easydoc.kdoc.view.inner.WordMapAddView
 import com.star.easydoc.service.translator.TranslatorService
@@ -30,7 +30,7 @@ import javax.swing.event.ChangeEvent
  */
 class CommonConfigView {
     private val translatorService = ServiceManager.getService(TranslatorService::class.java)
-    private val config: EasyDocConfig = ServiceManager.getService(EasyJavadocConfigComponent::class.java).state
+    private val config: EasyDocConfig = ServiceManager.getService(EasyKdocConfigComponent::class.java).state
     private lateinit var panel: JPanel
     private var wordMapPanel: JPanel? = null
     lateinit var authorTextField: JTextField
@@ -99,7 +99,7 @@ class CommonConfigView {
             try {
                 val json = FileUtils.readFileToString(file, StandardCharsets.UTF_8.name())
                 val configuration = JsonUtil.fromJson(json, EasyDocConfig::class.java) ?: throw IllegalArgumentException("文件中内容格式不正确，请确认是否是json格式")
-                ServiceManager.getService(EasyJavadocConfigComponent::class.java).loadState(configuration)
+                ServiceManager.getService(EasyKdocConfigComponent::class.java).loadState(configuration)
                 refresh()
             } catch (e: Exception) {
                 LOGGER.error("读取文件异常", e)

@@ -27,7 +27,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
-        <applicationService serviceImplementation="com.star.easydoc.kdoc.config.EasyJavadocConfigComponent" order="first"/>
+        <applicationService serviceImplementation="com.star.easydoc.kdoc.config.EasyKdocConfigComponent" order="first"/>
         <applicationService serviceImplementation="com.star.easydoc.kdoc.service.DocGeneratorService"/>
         <applicationService serviceImplementation="com.star.easydoc.service.WriterService"/>
         <applicationService serviceImplementation="com.star.easydoc.service.translator.TranslatorService"/>

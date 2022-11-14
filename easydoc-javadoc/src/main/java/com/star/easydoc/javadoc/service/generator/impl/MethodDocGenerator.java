@@ -3,24 +3,27 @@ package com.star.easydoc.javadoc.service.generator.impl;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.psi.PsiClassType;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiParameter;
+import com.intellij.psi.PsiTypeParameter;
 import com.intellij.psi.javadoc.PsiDocTag;
 import com.intellij.psi.javadoc.PsiDocTagValue;
 import com.star.easydoc.common.Consts;
 import com.star.easydoc.common.config.EasyDocConfig;
 import com.star.easydoc.javadoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.javadoc.service.generator.DocGenerator;
-import com.star.easydoc.service.translator.TranslatorService;
 import com.star.easydoc.javadoc.service.variable.VariableGeneratorService;
+import com.star.easydoc.service.translator.TranslatorService;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -275,6 +278,25 @@ public class MethodDocGenerator implements DocGenerator {
      * @return {@link java.lang.String}
      */
     private String customGenerate(PsiMethod psiMethod) {
-        return variableGeneratorService.generate(psiMethod);
+        return variableGeneratorService.generate(psiMethod, config.getMethodTemplateConfig().getTemplate(),
+            config.getMethodTemplateConfig().getCustomMap(), getMethodInnerVariable(psiMethod));
+    }
+
+    /**
+     * 获取方法内部的变量
+     *
+     * @param psiMethod psi方法
+     * @return {@link java.util.Map<java.lang.String,java.lang.Object>}
+     */
+    private Map<String, Object> getMethodInnerVariable(PsiMethod psiMethod) {
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("author", config.getAuthor());
+        map.put("methodName", psiMethod.getName());
+        map.put("methodReturnType", psiMethod.getReturnType() == null ? "" : psiMethod.getReturnType().getPresentableText());
+        map.put("methodParamTypes",
+            Arrays.stream(psiMethod.getTypeParameters()).map(PsiTypeParameter::getQualifiedName).toArray(String[]::new));
+        map.put("methodParamNames",
+            Arrays.stream(psiMethod.getParameterList().getParameters()).map(PsiParameter::getName).toArray(String[]::new));
+        return map;
     }
 }

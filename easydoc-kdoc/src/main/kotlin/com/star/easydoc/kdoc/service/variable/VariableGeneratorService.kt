@@ -1,19 +1,17 @@
 package com.star.easydoc.kdoc.service.variable
 
-import com.google.common.collect.ImmutableMap
 import com.google.common.collect.Lists
 import com.google.common.collect.Maps
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.diagnostic.Logger
-import com.intellij.psi.*
+import com.intellij.psi.PsiElement
 import com.star.easydoc.common.config.EasyDocConfig
 import com.star.easydoc.common.config.EasyDocConfig.VariableType
-import com.star.easydoc.kdoc.config.EasyJavadocConfigComponent
+import com.star.easydoc.kdoc.config.EasyKdocConfigComponent
 import com.star.easydoc.kdoc.service.variable.impl.*
 import groovy.lang.Binding
 import groovy.lang.GroovyShell
 import org.apache.commons.lang3.StringUtils
-import java.util.*
 import java.util.regex.Pattern
 
 /**
@@ -24,7 +22,7 @@ import java.util.regex.Pattern
  */
 class VariableGeneratorService {
     private val pattern = Pattern.compile("\\$[a-zA-Z0-9_-]*\\$")
-    private val config = ServiceManager.getService(EasyJavadocConfigComponent::class.java).state
+    private val config = ServiceManager.getService(EasyKdocConfigComponent::class.java).state
 
     /**
      * 变量生成器映射
@@ -46,36 +44,9 @@ class VariableGeneratorService {
      * @param psiElement 当前元素
      * @return [java.lang.String]
      */
-    fun generate(psiElement: PsiElement, temp: String?): String {
-        // 获取当前模板信息
-        var template = temp
-        var customValueMap: Map<String?, EasyDocConfig.CustomValue?> = Maps.newHashMap()
-        var innerVariableMap: Map<String?, Any?> = Maps.newHashMap()
-        when (psiElement) {
-            is PsiClass -> {
-                if (template.isNullOrBlank()) {
-                    template = config.classTemplateConfig.template
-                }
-                customValueMap = config.classTemplateConfig.customMap
-                innerVariableMap = getClassInnerVariable(psiElement)
-            }
-
-            is PsiMethod -> {
-                if (template.isNullOrBlank()) {
-                    template = config.methodTemplateConfig.template
-                }
-                customValueMap = config.methodTemplateConfig.customMap
-                innerVariableMap = getMethodInnerVariable(psiElement)
-            }
-
-            is PsiField -> {
-                if (template.isNullOrBlank()) {
-                    template = config.fieldTemplateConfig.template
-                }
-                customValueMap = config.fieldTemplateConfig.customMap
-                innerVariableMap = getFieldInnerVariable(psiElement)
-            }
-        }
+    fun generate(psiElement: PsiElement, template: String?,
+                 customValueMap: Map<String?, EasyDocConfig.CustomValue?>,
+                 innerVariableMap: Map<String?, Any?>): String {
         if (template.isNullOrBlank()) {
             return ""
         }
@@ -147,50 +118,6 @@ class VariableGeneratorService {
 
             else -> ""
         }
-    }
-
-    /**
-     * 获取类内部变量
-     *
-     * @param psiClass psi类
-     * @return [,][<]
-     */
-    private fun getClassInnerVariable(psiClass: PsiClass): Map<String?, Any?> {
-        val map: MutableMap<String?, Any?> = Maps.newHashMap()
-        map["author"] = config.author
-        map["className"] = psiClass.qualifiedName
-        map["simpleClassName"] = psiClass.name
-        return map
-    }
-
-    /**
-     * 获取方法内部的变量
-     *
-     * @param psiMethod psi方法
-     * @return [,][<]
-     */
-    private fun getMethodInnerVariable(psiMethod: PsiMethod): Map<String?, Any?> {
-        val map: MutableMap<String?, Any?> = Maps.newHashMap()
-        map["author"] = config.author
-        map["methodName"] = psiMethod.name
-        map["methodReturnType"] = if (psiMethod.returnType == null) "" else psiMethod.returnType!!.presentableText
-        map["methodParamTypes"] = psiMethod.typeParameters.map { it.qualifiedName }.toTypedArray()
-        map["methodParamNames"] = psiMethod.parameterList.parameters.map { it.name }.toTypedArray()
-        return map
-    }
-
-    /**
-     * 获取字段内部的变量
-     *
-     * @param psiField psi属性
-     * @return [,][<]
-     */
-    private fun getFieldInnerVariable(psiField: PsiField): Map<String?, Any?> {
-        val map: MutableMap<String?, Any?> = Maps.newHashMap()
-        map["author"] = config.author
-        map["fieldName"] = psiField.name
-        map["fieldType"] = psiField.type.canonicalText
-        return map
     }
 
     companion object {

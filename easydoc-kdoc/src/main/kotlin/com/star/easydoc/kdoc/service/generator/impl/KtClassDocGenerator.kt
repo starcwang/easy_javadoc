@@ -1,18 +1,18 @@
 package com.star.easydoc.kdoc.service.generator.impl
 
 import com.intellij.openapi.components.ServiceManager
-import com.intellij.openapi.diagnostic.Logger
 import com.intellij.psi.PsiElement
 import com.star.easydoc.common.config.EasyDocConfig
-import com.star.easydoc.kdoc.config.EasyJavadocConfigComponent
+import com.star.easydoc.kdoc.config.EasyKdocConfigComponent
 import com.star.easydoc.kdoc.service.generator.DocGenerator
 import com.star.easydoc.kdoc.service.variable.VariableGeneratorService
 import org.apache.commons.lang3.StringUtils
 import org.jetbrains.kotlin.psi.KtClass
+import org.jetbrains.uast.getContainingClass
 
 
 class KtClassDocGenerator : DocGenerator {
-    private val config: EasyDocConfig = ServiceManager.getService(EasyJavadocConfigComponent::class.java).state
+    private val config: EasyDocConfig = ServiceManager.getService(EasyKdocConfigComponent::class.java).state
     private val variableGeneratorService = ServiceManager.getService(VariableGeneratorService::class.java)
 
     override fun generate(psiElement: PsiElement): String {
@@ -41,7 +41,8 @@ class KtClassDocGenerator : DocGenerator {
                     " * @author \$AUTHOR\$\n" +
                     " * @date \$DATE\$\n" +
                     " * \$PARAMS\$\n" +
-                    " */".trimIndent()
+                    " */".trimIndent(),
+            config.classTemplateConfig.customMap, getClassInnerVariable(psi)
         )
     }
 
@@ -52,7 +53,24 @@ class KtClassDocGenerator : DocGenerator {
      * @return [java.lang.String]
      */
     private fun customGenerate(psi: KtClass): String {
-        return variableGeneratorService.generate(psi, null)
+        return variableGeneratorService.generate(
+            psi, config.classTemplateConfig.template,
+            config.classTemplateConfig.customMap, getClassInnerVariable(psi)
+        )
+    }
+
+    /**
+     * 获取类内部变量
+     *
+     * @param psiClass psi类
+     * @return [,][<]
+     */
+    private fun getClassInnerVariable(psiClass: KtClass): Map<String?, Any?> {
+        val map: MutableMap<String?, Any?> = mutableMapOf()
+        map["author"] = config.author
+        map["className"] = psiClass.fqName
+        map["simpleClassName"] = psiClass.name
+        return map
     }
 
 }

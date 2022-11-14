@@ -1,17 +1,15 @@
 package com.star.easydoc.kdoc.service.generator.impl
 
-import com.google.common.collect.Lists
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiField
 import com.star.easydoc.common.config.EasyDocConfig
-import com.star.easydoc.kdoc.config.EasyJavadocConfigComponent
+import com.star.easydoc.kdoc.config.EasyKdocConfigComponent
 import com.star.easydoc.kdoc.service.generator.DocGenerator
 import com.star.easydoc.kdoc.service.variable.VariableGeneratorService
-import com.star.easydoc.service.translator.TranslatorService
 import org.apache.commons.lang3.BooleanUtils
 import org.apache.commons.lang3.StringUtils
 import org.jetbrains.kotlin.psi.KtProperty
+import org.jetbrains.kotlin.psi.psiUtil.containingClass
 
 /**
  * 属性文档生成器
@@ -20,7 +18,7 @@ import org.jetbrains.kotlin.psi.KtProperty
  * @date 2019/11/12
  */
 class KtPropertyDocGenerator : DocGenerator {
-    private val config: EasyDocConfig = ServiceManager.getService(EasyJavadocConfigComponent::class.java).state
+    private val config: EasyDocConfig = ServiceManager.getService(EasyKdocConfigComponent::class.java).state
     private val variableGeneratorService = ServiceManager.getService(VariableGeneratorService::class.java)
     override fun generate(psiElement: PsiElement): String {
         if (psiElement !is KtProperty) {
@@ -42,9 +40,15 @@ class KtPropertyDocGenerator : DocGenerator {
      */
     private fun defaultGenerate(psi: KtProperty): String {
         return if (BooleanUtils.isTrue(config.simpleFieldDoc)) {
-            variableGeneratorService.generate(psi, "/** \$DOC\$ */")
+            variableGeneratorService.generate(
+                psi, "/** \$DOC\$ */",
+                config.fieldTemplateConfig.customMap, getFieldInnerVariable(psi)
+            )
         } else {
-            variableGeneratorService.generate(psi, "/**\n * \$DOC\$\n */")
+            variableGeneratorService.generate(
+                psi, "/**\n * \$DOC\$\n */",
+                config.fieldTemplateConfig.customMap, getFieldInnerVariable(psi)
+            )
         }
     }
 
@@ -55,7 +59,24 @@ class KtPropertyDocGenerator : DocGenerator {
      * @return [String]
      */
     private fun customGenerate(psi: KtProperty): String {
-        return variableGeneratorService.generate(psi, null)
+        return variableGeneratorService.generate(
+            psi, config.fieldTemplateConfig.template,
+            config.fieldTemplateConfig.customMap, getFieldInnerVariable(psi)
+        )
+    }
+
+    /**
+     * 获取字段内部的变量
+     *
+     * @param psiField psi属性
+     * @return [,][<]
+     */
+    private fun getFieldInnerVariable(psiField: KtProperty): Map<String?, Any?> {
+        val map: MutableMap<String?, Any?> = mutableMapOf()
+        map["author"] = config.author
+        map["fieldName"] = psiField.name
+        map["fieldType"] = StringUtils.strip(psiField.typeReference?.typeElement?.text, "?")
+        return map
     }
 
 }

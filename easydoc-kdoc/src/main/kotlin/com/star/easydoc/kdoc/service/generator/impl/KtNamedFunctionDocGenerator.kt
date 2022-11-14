@@ -3,10 +3,9 @@ package com.star.easydoc.kdoc.service.generator.impl
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.psi.PsiElement
 import com.star.easydoc.common.config.EasyDocConfig
-import com.star.easydoc.kdoc.config.EasyJavadocConfigComponent
+import com.star.easydoc.kdoc.config.EasyKdocConfigComponent
 import com.star.easydoc.kdoc.service.generator.DocGenerator
 import com.star.easydoc.kdoc.service.variable.VariableGeneratorService
-import com.star.easydoc.service.translator.TranslatorService
 import org.apache.commons.lang3.StringUtils
 import org.jetbrains.kotlin.psi.KtNamedFunction
 
@@ -17,7 +16,7 @@ import org.jetbrains.kotlin.psi.KtNamedFunction
  * @date 2019/11/12
  */
 class KtNamedFunctionDocGenerator : DocGenerator {
-    private val config: EasyDocConfig = ServiceManager.getService(EasyJavadocConfigComponent::class.java).state
+    private val config: EasyDocConfig = ServiceManager.getService(EasyKdocConfigComponent::class.java).state
     private val variableGeneratorService = ServiceManager.getService(
         VariableGeneratorService::class.java
     )
@@ -41,13 +40,15 @@ class KtNamedFunctionDocGenerator : DocGenerator {
      * @return [java.lang.String]
      */
     private fun defaultGenerate(psi: KtNamedFunction): String {
-        return variableGeneratorService.generate(psi, "/**\n" +
-                " * \$DOC\$\n" +
-                " *\n" +
-                " * \$PARAMS\$\n" +
-                " * \$THROWS\$\n" +
-                " * \$RETURN\$\n" +
-                " */")
+        return variableGeneratorService.generate(
+            psi, "/**\n" +
+                    " * \$DOC\$\n" +
+                    " *\n" +
+                    " * \$PARAMS\$\n" +
+                    " * \$THROWS\$\n" +
+                    " * \$RETURN\$\n" +
+                    " */", config.methodTemplateConfig.customMap, getMethodInnerVariable(psi)
+        )
     }
 
     /**
@@ -57,6 +58,26 @@ class KtNamedFunctionDocGenerator : DocGenerator {
      * @return [java.lang.String]
      */
     private fun customGenerate(psi: KtNamedFunction): String {
-        return variableGeneratorService.generate(psi, null)
+        return variableGeneratorService.generate(
+            psi, config.methodTemplateConfig.template,
+            config.methodTemplateConfig.customMap, getMethodInnerVariable(psi)
+        )
+    }
+
+    /**
+     * 获取方法内部的变量
+     *
+     * @param psiMethod psi方法
+     * @return [,][<]
+     */
+    private fun getMethodInnerVariable(psiMethod: KtNamedFunction): Map<String?, Any?> {
+        val map: MutableMap<String?, Any?> = mutableMapOf()
+        map["author"] = config.author
+        map["methodName"] = psiMethod.name
+        map["methodReturnType"] = if (psiMethod.hasDeclaredReturnType()) "" else psiMethod.typeReference!!.text
+        map["methodParamTypes"] = psiMethod.valueParameters.map { StringUtils.strip(it.typeReference?.text, "?") }
+            .toTypedArray()
+        map["methodParamNames"] = psiMethod.valueParameters.map { it.name }.toTypedArray()
+        return map
     }
 }

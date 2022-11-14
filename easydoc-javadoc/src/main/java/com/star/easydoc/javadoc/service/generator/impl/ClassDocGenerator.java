@@ -4,10 +4,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.PsiClass;
@@ -191,6 +193,22 @@ public class ClassDocGenerator implements DocGenerator {
      * @return {@link java.lang.String}
      */
     private String customGenerate(PsiClass psiClass) {
-        return variableGeneratorService.generate(psiClass);
+        return variableGeneratorService.generate(psiClass, config.getClassTemplateConfig().getTemplate(),
+            config.getClassTemplateConfig().getCustomMap(), getClassInnerVariable(psiClass));
     }
+
+    /**
+     * 获取类内部变量
+     *
+     * @param psiClass psi类
+     * @return {@link java.util.Map<java.lang.String,java.lang.Object>}
+     */
+    private Map<String, Object> getClassInnerVariable(PsiClass psiClass) {
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("author", config.getAuthor());
+        map.put("className", psiClass.getQualifiedName());
+        map.put("simpleClassName", psiClass.getName());
+        return map;
+    }
+
 }

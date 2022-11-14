@@ -1,10 +1,12 @@
 package com.star.easydoc.javadoc.service.generator.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiField;
@@ -12,8 +14,8 @@ import com.intellij.psi.javadoc.PsiDocComment;
 import com.star.easydoc.common.config.EasyDocConfig;
 import com.star.easydoc.javadoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.javadoc.service.generator.DocGenerator;
-import com.star.easydoc.service.translator.TranslatorService;
 import com.star.easydoc.javadoc.service.variable.VariableGeneratorService;
+import com.star.easydoc.service.translator.TranslatorService;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -65,7 +67,8 @@ public class FieldDocGenerator implements DocGenerator {
      * @return {@link String}
      */
     private String customGenerate(PsiField psiField) {
-        return variableGeneratorService.generate(psiField);
+        return variableGeneratorService.generate(psiField, config.getFieldTemplateConfig().getTemplate(),
+            config.getFieldTemplateConfig().getCustomMap(), getFieldInnerVariable(psiField));
     }
 
     /**
@@ -123,4 +126,17 @@ public class FieldDocGenerator implements DocGenerator {
         return String.format("/** %s */", translatorService.translate(name));
     }
 
+    /**
+     * 获取字段内部的变量
+     *
+     * @param psiField psi属性
+     * @return {@link java.util.Map<java.lang.String,java.lang.Object>}
+     */
+    private Map<String, Object> getFieldInnerVariable(PsiField psiField) {
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("author", config.getAuthor());
+        map.put("fieldName", psiField.getName());
+        map.put("fieldType", psiField.getType().getCanonicalText());
+        return map;
+    }
 }

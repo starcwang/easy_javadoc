@@ -6,7 +6,7 @@ import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.project.Project
 import com.intellij.psi.*
-import com.star.easydoc.kdoc.config.EasyJavadocConfigComponent
+import com.star.easydoc.kdoc.config.EasyKdocConfigComponent
 import com.star.easydoc.kdoc.service.DocGeneratorService
 import com.star.easydoc.kdoc.view.inner.GenerateAllView
 import com.star.easydoc.service.WriterService
@@ -26,7 +26,7 @@ class GenerateAllJavadocAction : AnAction() {
      */
     private val docGeneratorService = ServiceManager.getService(DocGeneratorService::class.java)
     private val writerService = ServiceManager.getService(WriterService::class.java)
-    private val config = ServiceManager.getService(EasyJavadocConfigComponent::class.java).state
+    private val config = ServiceManager.getService(EasyKdocConfigComponent::class.java).state
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.getData(LangDataKeys.PROJECT)
         // 前置规则校验

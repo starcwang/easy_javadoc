@@ -4,7 +4,7 @@ import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.options.ConfigurationException
 import com.star.easydoc.common.Consts
-import com.star.easydoc.kdoc.config.EasyJavadocConfigComponent
+import com.star.easydoc.kdoc.config.EasyKdocConfigComponent
 import org.apache.commons.lang3.StringUtils
 import org.jetbrains.annotations.Nls
 import java.util.*
@@ -15,7 +15,7 @@ import javax.swing.JComponent
  * @date 2019/08/25
  */
 class CommonConfigurable : Configurable {
-    private val config = ServiceManager.getService(EasyJavadocConfigComponent::class.java).state
+    private val config = ServiceManager.getService(EasyKdocConfigComponent::class.java).state
     private val view = CommonConfigView()
 
     override fun getDisplayName(): @Nls(capitalization = Nls.Capitalization.Title) String {

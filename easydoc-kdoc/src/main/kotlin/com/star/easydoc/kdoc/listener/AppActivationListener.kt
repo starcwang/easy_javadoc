@@ -7,7 +7,7 @@ import com.intellij.openapi.application.ApplicationActivationListener
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.wm.IdeFrame
-import com.star.easydoc.kdoc.config.EasyJavadocConfigComponent
+import com.star.easydoc.kdoc.config.EasyKdocConfigComponent
 import com.star.easydoc.kdoc.view.inner.SupportView
 import com.star.easydoc.service.translator.TranslatorService
 import java.awt.Desktop
@@ -75,7 +75,7 @@ class AppActivationListener : ApplicationActivationListener {
      * 服务初始化
      */
     private fun serviceInit() {
-        val config = ServiceManager.getService(EasyJavadocConfigComponent::class.java).state
+        val config = ServiceManager.getService(EasyKdocConfigComponent::class.java).state
         val translatorService = ServiceManager.getService(TranslatorService::class.java)
         translatorService.init(config)
     }
