@@ -1,15 +1,15 @@
 <idea-plugin>
     <id>com.star.easydoc.easy-kdoc</id>
-    <name>Easy Javadoc</name>
+    <name>Easy Kdoc</name>
     <vendor email="wangchao.star@gmail.com" url="https://github.com/starcwang">wangchao</vendor>
 
     <description><![CDATA[
-      This plugin can help you complete the Chinese javadoc document quickly.<br>
-      Support three type of javadoc: field, method and class.<br>
+      This plugin can help you complete the Chinese kdoc document quickly.<br>
+      Support three type of kdoc: field, method and class.<br>
       <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
       <img src="https://raw.githubusercontent.com/starcwang/easy_javadoc/master/doc/k03vffH6Hg.gif" /><br>
       <p>
-        能帮助开发者快速生成类、方法、属性等中文javadoc
+        能帮助开发者快速生成类、方法、属性等中文kdoc
       </p>
     ]]></description>
 
@@ -17,7 +17,7 @@
 
       <h3>v1.0 first version</h3>
       <ul>
-          <li>support class, method and field javadoc</li>
+          <li>support class, method and field kdoc</li>
       </ul>
       <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
     ]]>
@@ -32,7 +32,7 @@
         <applicationService serviceImplementation="com.star.easydoc.service.WriterService"/>
         <applicationService serviceImplementation="com.star.easydoc.service.translator.TranslatorService"/>
         <applicationService serviceImplementation="com.star.easydoc.kdoc.service.variable.VariableGeneratorService"/>
-        <applicationConfigurable displayName="EasyJavadoc" instance="com.star.easydoc.kdoc.view.CommonConfigurable">
+        <applicationConfigurable displayName="EasyKdoc" instance="com.star.easydoc.kdoc.view.CommonConfigurable">
             <configurable instance="com.star.easydoc.kdoc.view.template.ClassConfigurable"/>
             <configurable instance="com.star.easydoc.kdoc.view.template.MethodConfigurable"/>
             <configurable instance="com.star.easydoc.kdoc.view.template.FieldConfigurable"/>
@@ -41,12 +41,12 @@
 
     <actions>
         <!-- Add your actions here -->
-        <group id="com.star.javadoc" text="EasyJavadoc" description="EasyJavadoc" popup="true">
+        <group id="com.star.kdoc" text="EasyKdoc" description="EasyKdoc" popup="true">
             <separator/>
-            <group id="EasyJavadocSubGroup"/>
+            <group id="EasyKdocSubGroup"/>
             <add-to-group group-id="ToolsMenu" anchor="last"/>
-            <action id="javadoc.generator" class="com.star.easydoc.kdoc.action.GenerateKdocAction" text="GenerateJavadoc"
-                    description="GenerateJavadoc">
+            <action id="kdoc.generator" class="com.star.easydoc.kdoc.action.GenerateKdocAction" text="GenerateJavadoc"
+                    description="GenerateKdoc">
                 <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta BACK_SLASH"/>
                 <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta BACK_SLASH"/>
                 <keyboard-shortcut keymap="Default for XWin" first-keystroke="ctrl BACK_SLASH"/>
@@ -54,7 +54,7 @@
                 <keyboard-shortcut keymap="$default" first-keystroke="ctrl BACK_SLASH"/>
             </action>
         </group>
-        <action id="javadoc.generatorAll" class="com.star.easydoc.kdoc.action.GenerateAllJavadocAction" text="生成文档注释">
+        <action id="kdoc.generatorAll" class="com.star.easydoc.kdoc.action.GenerateAllJavadocAction" text="生成文档注释">
             <add-to-group group-id="JavaGenerateGroup1" anchor="before" relative-to-action="GenerateEquals"/>
             <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta shift BACK_SLASH"/>
             <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta shift BACK_SLASH"/>

@@ -114,7 +114,7 @@ class CommonConfigView {
             }
             val file = chooser.selectedFile ?: return@addActionListener
             try {
-                val targetFile = File(file.absolutePath + "/easy_javadoc.json")
+                val targetFile = File(file.absolutePath + "/easy_kdoc.json")
                 FileUtils.write(targetFile, JsonUtil.toJson(config), StandardCharsets.UTF_8.name())
             } catch (e: Exception) {
                 LOGGER.error("写入文件异常", e)

@@ -38,11 +38,11 @@ class AppActivationListener : ApplicationActivationListener {
             return
         }
         val group = NotificationGroup(
-            "Easy Javadoc", NotificationDisplayType.BALLOON, true, null,
+            "Easy Kdoc", NotificationDisplayType.BALLOON, true, null,
             AllIcons.General.AddJdk
         )
         val notification = group.createNotification(
-            "支持EasyJavadoc", "如果这款小而美的插件为您节约了不少时间，请支持一下开发者！",
+            "支持EasyKdoc", "如果这款小而美的插件为您节约了不少时间，请支持一下开发者！",
             NotificationType.INFORMATION, NotificationListener.URL_OPENING_LISTENER
         )
 

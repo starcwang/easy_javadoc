@@ -19,10 +19,10 @@ class CommonConfigurable : Configurable {
     private val view = CommonConfigView()
 
     override fun getDisplayName(): @Nls(capitalization = Nls.Capitalization.Title) String {
-        return "EasyJavadoc"
+        return "EasyKdoc"
     }
 
-    override fun createComponent(): JComponent? {
+    override fun createComponent(): JComponent {
         return view.component
     }
 
