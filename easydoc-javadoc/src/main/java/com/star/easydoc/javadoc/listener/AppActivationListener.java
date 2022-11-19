@@ -3,18 +3,15 @@ package com.star.easydoc.javadoc.listener;
 import java.awt.*;
 import java.net.URI;
 
-import com.intellij.icons.AllIcons.General;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationAction;
-import com.intellij.notification.NotificationDisplayType;
-import com.intellij.notification.NotificationGroup;
-import com.intellij.notification.NotificationListener;
-import com.intellij.notification.NotificationType;
+import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.application.ApplicationActivationListener;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.wm.IdeFrame;
+import com.star.easydoc.util.NotificationUtil;
 import com.star.easydoc.javadoc.config.EasyJavadocConfig;
 import com.star.easydoc.javadoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.javadoc.view.inner.SupportView;
@@ -48,14 +45,8 @@ public class AppActivationListener implements ApplicationActivationListener {
         if (System.currentTimeMillis() - lastNoticeTime < INTERVAL) {
             return;
         }
-        NotificationGroup group = new NotificationGroup("Easy Javadoc", NotificationDisplayType.BALLOON, true, null,
-            General.AddJdk);
-        Notification notification = group.createNotification(
-            "支持EasyJavadoc", "如果这款小而美的插件为您节约了不少时间，请支持一下开发者！",
-            NotificationType.INFORMATION, NotificationListener.URL_OPENING_LISTENER);
 
-        // 去点star
-        notification.addAction(new NotificationAction("✨ 去点star") {
+        AnAction starAction = new NotificationAction("✨ 去点star") {
             @Override
             public void actionPerformed(@NotNull AnActionEvent e, @NotNull Notification notification) {
                 try {
@@ -67,18 +58,17 @@ public class AppActivationListener implements ApplicationActivationListener {
                     LOGGER.error("打开链接失败:https://github.com/starcwang/easy_javadoc", ex);
                 }
             }
-        });
-
-        // 支付
-        notification.addAction(new NotificationAction("☕ 请喝咖啡") {
+        };
+        AnAction payAction = new NotificationAction("☕ 请喝咖啡") {
             @Override
             public void actionPerformed(@NotNull AnActionEvent e, @NotNull Notification notification) {
                 SupportView supportView = new SupportView();
                 supportView.show();
             }
-        });
+        };
 
-        notification.notify(null);
+        NotificationUtil.notify("支持EasyJavadoc", "如果这款小而美的插件为您节约了不少时间，请支持一下开发者！", starAction, payAction);
+
         lastNoticeTime = System.currentTimeMillis();
     }
 
