@@ -22,8 +22,8 @@ import com.intellij.ui.ListCellRendererWrapper;
 import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.JBList;
 import com.star.easydoc.common.Consts;
-import com.star.easydoc.common.config.EasyDocConfig;
 import com.star.easydoc.common.util.JsonUtil;
+import com.star.easydoc.javadoc.config.EasyJavadocConfig;
 import com.star.easydoc.javadoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.javadoc.view.inner.SupportView;
 import com.star.easydoc.javadoc.view.inner.WordMapAddView;
@@ -38,7 +38,7 @@ import org.apache.commons.lang3.BooleanUtils;
 public class CommonConfigView {
     private static final Logger LOGGER = Logger.getInstance(CommonConfigView.class);
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
-    private EasyDocConfig config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
+    private EasyJavadocConfig config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
 
     private JPanel panel;
     private JPanel wordMapPanel;
@@ -131,7 +131,7 @@ public class CommonConfigView {
             }
             try {
                 String json = FileUtils.readFileToString(new File(file.getPath()), StandardCharsets.UTF_8.name());
-                EasyDocConfig configuration = JsonUtil.fromJson(json, EasyDocConfig.class);
+                EasyJavadocConfig configuration = JsonUtil.fromJson(json, EasyJavadocConfig.class);
                 if (configuration == null) {
                     throw new IllegalArgumentException("文件中内容格式不正确，请确认是否是json格式");
                 }
@@ -301,10 +301,10 @@ public class CommonConfigView {
             setSimpleDocButton(false);
             setNormalDocButton(true);
         }
-        if (EasyDocConfig.CODE_RETURN_TYPE.equals(config.getMethodReturnType())) {
+        if (EasyJavadocConfig.CODE_RETURN_TYPE.equals(config.getMethodReturnType())) {
             setMethodReturnCodeTypeButton(true);
             setMethodReturnLinkTypeButton(false);
-        } else if (EasyDocConfig.LINK_RETURN_TYPE.equals(config.getMethodReturnType())) {
+        } else if (EasyJavadocConfig.LINK_RETURN_TYPE.equals(config.getMethodReturnType())) {
             setMethodReturnCodeTypeButton(false);
             setMethodReturnLinkTypeButton(true);
         }
@@ -428,7 +428,7 @@ public class CommonConfigView {
 
     public String getMethodReturnType() {
         return methodReturnCodeTypeButton.isSelected() ?
-            EasyDocConfig.CODE_RETURN_TYPE : EasyDocConfig.LINK_RETURN_TYPE;
+            EasyJavadocConfig.CODE_RETURN_TYPE : EasyJavadocConfig.LINK_RETURN_TYPE;
     }
 
 }

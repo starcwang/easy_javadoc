@@ -54,14 +54,6 @@
                 <keyboard-shortcut keymap="$default" first-keystroke="ctrl BACK_SLASH"/>
             </action>
         </group>
-        <action id="kdoc.generatorAll" class="com.star.easydoc.kdoc.action.GenerateAllJavadocAction" text="生成文档注释">
-            <add-to-group group-id="JavaGenerateGroup1" anchor="before" relative-to-action="GenerateEquals"/>
-            <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta shift BACK_SLASH"/>
-            <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta shift BACK_SLASH"/>
-            <keyboard-shortcut keymap="Default for XWin" first-keystroke="ctrl shift BACK_SLASH"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="meta shift BACK_SLASH"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift BACK_SLASH"/>
-        </action>
     </actions>
 
     <depends>com.intellij.modules.java</depends>

@@ -3,6 +3,8 @@ package com.star.easydoc.kdoc.service.variable.impl
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiMethod
 import com.star.easydoc.common.Consts
+import org.jetbrains.kotlin.psi.KtNamedDeclaration
+import org.jetbrains.kotlin.psi.KtNamedFunction
 
 /**
  * @author [wangchao](mailto:wangchao.star@gmail.com)
@@ -11,22 +13,17 @@ import com.star.easydoc.common.Consts
  */
 class ReturnVariableGenerator : AbstractVariableGenerator() {
     override fun generate(element: PsiElement): String {
-        if (element !is PsiMethod) {
+        if (element !is KtNamedFunction) {
             return ""
         }
-        val psiMethod = element
-        val returnName = if (psiMethod.returnTypeElement == null) "" else psiMethod.returnTypeElement!!.text
-        return if (Consts.BASE_TYPE_SET.contains(returnName)) {
-            "@return $returnName"
-        } else if ("void".equals(returnName, ignoreCase = true)) {
-            ""
-        } else {
-            if (config.isCodeMethodReturnType) {
-                return "@return {@code $returnName }"
-            } else if (config.isLinkMethodReturnType) {
-                return "@return " + returnName.replace("[^<> ,]+".toRegex(), "{@link $0 }")
+        return if (element.hasDeclaredReturnType()) {
+            if (config.paramType == config.LINK_PARAM_TYPE) {
+                "@return [${element.typeReference!!.text}]"
+            } else {
+                "@return ${element.typeReference!!.text}"
             }
-            String.format("@return {@link %s }", returnName)
+        } else {
+            ""
         }
     }
 }

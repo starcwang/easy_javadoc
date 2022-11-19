@@ -5,6 +5,7 @@ import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.table.JBTable
 import com.star.easydoc.common.config.EasyDocConfig
+import com.star.easydoc.kdoc.config.EasyKdocConfig
 import com.star.easydoc.kdoc.view.inner.CustomTemplateAddView
 import java.awt.Dimension
 import java.util.*
@@ -17,7 +18,7 @@ import javax.swing.table.DefaultTableModel
  * @version 1.0.0
  * @since 2019-11-10 17:46:00
  */
-class FieldConfigView(config: EasyDocConfig) : AbstractTemplateConfigView(config) {
+class FieldConfigView(config: EasyKdocConfig) : AbstractTemplateConfigView(config) {
     private lateinit var panel: JPanel
     private lateinit var templateTextArea: JTextArea
     private lateinit var innerVariablePanel: JPanel

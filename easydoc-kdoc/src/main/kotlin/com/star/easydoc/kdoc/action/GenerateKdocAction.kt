@@ -4,9 +4,6 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.components.ServiceManager
-import com.intellij.psi.JavaDirectoryService
-import com.intellij.psi.PsiDirectory
-import com.intellij.psi.PsiElementFactory
 import com.star.easydoc.common.util.LanguageUtil
 import com.star.easydoc.kdoc.service.DocGeneratorService
 import com.star.easydoc.kdoc.view.inner.TranslateResultView
@@ -14,7 +11,6 @@ import com.star.easydoc.service.WriterService
 import com.star.easydoc.service.translator.TranslatorService
 import org.apache.commons.lang3.StringUtils
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc
-import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtElement
 import org.jetbrains.kotlin.psi.KtPsiFactory
 
@@ -60,6 +56,6 @@ class GenerateKdocAction
         val factory = KtPsiFactory(project)
         val psiDocComment = factory.createComment(comment)
 
-        writerService.write(project,  psiElement as KtElement, psiDocComment as KDoc)
+        writerService.writeKdoc(project,  psiElement as KtElement, psiDocComment as KDoc)
     }
 }

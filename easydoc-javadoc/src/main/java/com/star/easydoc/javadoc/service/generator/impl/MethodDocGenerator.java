@@ -19,7 +19,7 @@ import com.intellij.psi.PsiTypeParameter;
 import com.intellij.psi.javadoc.PsiDocTag;
 import com.intellij.psi.javadoc.PsiDocTagValue;
 import com.star.easydoc.common.Consts;
-import com.star.easydoc.common.config.EasyDocConfig;
+import com.star.easydoc.javadoc.config.EasyJavadocConfig;
 import com.star.easydoc.javadoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.javadoc.service.generator.DocGenerator;
 import com.star.easydoc.javadoc.service.variable.VariableGeneratorService;
@@ -35,7 +35,7 @@ import org.apache.commons.lang3.StringUtils;
 public class MethodDocGenerator implements DocGenerator {
 
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
-    private EasyDocConfig config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
+    private EasyJavadocConfig config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
     private VariableGeneratorService variableGeneratorService = ServiceManager.getService(
         VariableGeneratorService.class);
 

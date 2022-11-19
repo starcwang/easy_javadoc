@@ -4,6 +4,7 @@ import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.options.ConfigurationException
 import com.star.easydoc.common.Consts
+import com.star.easydoc.kdoc.config.EasyKdocConfig
 import com.star.easydoc.kdoc.config.EasyKdocConfigComponent
 import org.apache.commons.lang3.StringUtils
 import org.jetbrains.annotations.Nls
@@ -15,7 +16,7 @@ import javax.swing.JComponent
  * @date 2019/08/25
  */
 class CommonConfigurable : Configurable {
-    private val config = ServiceManager.getService(EasyKdocConfigComponent::class.java).state
+    private val config: EasyKdocConfig = ServiceManager.getService(EasyKdocConfigComponent::class.java).state
     private val view = CommonConfigView()
 
     override fun getDisplayName(): @Nls(capitalization = Nls.Capitalization.Title) String {
@@ -36,10 +37,10 @@ class CommonConfigurable : Configurable {
         if (config.simpleFieldDoc != view.simpleDocButton.isSelected) {
             return true
         }
-        if (config.methodReturnType != view.methodReturnType) {
+        if (config.translator != view.translatorBox.selectedItem) {
             return true
         }
-        if (config.translator != view.translatorBox.selectedItem) {
+        if (config.paramType != view.paramTypeBox.selectedItem) {
             return true
         }
         if (config.appId != view.appIdTextField.text) {
@@ -66,8 +67,8 @@ class CommonConfigurable : Configurable {
         config.author = view.authorTextField.text
         config.dateFormat = view.dateFormatTextField.text
         config.simpleFieldDoc = view.simpleDocButton.isSelected
-        config.methodReturnType = view.methodReturnType
         config.translator = view.translatorBox.selectedItem!!.toString()
+        config.paramType = view.paramTypeBox.selectedItem!!.toString()
         config.appId = view.appIdTextField.text
         config.token = view.tokenTextField.text
         config.secretKey = view.secretKeyTextField.text

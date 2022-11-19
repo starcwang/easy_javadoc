@@ -43,17 +43,21 @@ class ParamsVariableGenerator : AbstractVariableGenerator() {
         }
         val paramsDoc = mutableListOf<String>()
         for (param in params) {
+            var thisParam = param
+            if (config.paramType == config.LINK_PARAM_TYPE) {
+                thisParam = "[${param}]"
+            }
             if (paramValues.containsKey(param)) {
                 if (paramsDoc.isEmpty()) {
-                    paramsDoc.add("@param " + param + " " + paramValues[param])
+                    paramsDoc.add("@param " + thisParam + " " + paramValues[param])
                 } else {
-                    paramsDoc.add("* @param " + param + " " + paramValues[param])
+                    paramsDoc.add("* @param " + thisParam + " " + paramValues[param])
                 }
             } else {
                 if (paramsDoc.isEmpty()) {
-                    paramsDoc.add("@param " + param + " " + translatorService.translate(param))
+                    paramsDoc.add("@param " + thisParam + " " + translatorService.translate(param))
                 } else {
-                    paramsDoc.add("* @param " + param + " " + translatorService.translate(param))
+                    paramsDoc.add("* @param " + thisParam + " " + translatorService.translate(param))
                 }
             }
         }

@@ -1,7 +1,7 @@
-# easy_javadoc 点一下star✨，是对作者最大的支持 
+# easy_doc 点一下star✨，是对作者最大的支持 
 # 交流Q群：733688083
 ## 介绍
-本项目是IntelliJ IDEA的插件，能帮助java开发者自动生成javadoc文档注释  
+本项目是IntelliJ IDEA的插件，能帮助java\kotlin开发者自动生成javadoc\kdoc文档注释  
 **支持的IDEA版本为 2018.1 及以上**    
 
 ![示例1](./doc/k03vffH6Hg.gif)
@@ -14,18 +14,14 @@
 - 支持文档翻译，选中需要翻译的文档，使用快捷键翻译注释，再也不用在词典和IDEA之间来回切换了
 
 ## 安装
-打开IntelliJ IDEA -> plugin，搜索 Easy Javadoc，安装重启即可
-
-## 配置
-打开配置页面
-![配置图](./doc/20190901155929.jpg)
-可看到相关配置
+打开IntelliJ IDEA -> plugins，java搜索`Easy Javadoc`，kotlin搜索`Easy Kdoc`，安装重启即可
 
 ## 使用
+简单视频教学：[👉猛戳👈](https://www.bilibili.com/video/BV1pB4y147nX)，感谢[郑清](https://space.bilibili.com/510086367)同学支持      
 结合Fast Request的视频教程，[👉猛戳👈](https://www.bilibili.com/video/BV1xg41127TF/)
 
 - 将**一闪一闪的光标**放置到想要生成注释的类、方法或者属性上，然后按下快捷键`ctrl \`或者`command \`，即可生成注释，你的方法名起的越贴切，注释越得体。  
-- 将**一闪一闪的光标**放置到想要生成注释的类上，然后按下快捷键`ctrl shift \`或者`command shift \`，即可批量生成文档注释。
+- 将**一闪一闪的光标**放置到想要生成注释的类上，然后按下快捷键`ctrl shift \`或者`command shift \`，即可批量生成文档注释。（Kdoc暂不支持）
 - **光标选中**要翻译的中文，然后按下快捷键`ctrl \`或者`command \`，即可自动变成英文，类似程序员起名神器。
 - **光标选中**要翻译的非中文，然后按下快捷键`ctrl \`或者`command \`，即弹出选中的翻译结果，再也不用在词典和IDEA之间来回切换了。
 - 方法的@return注释样例
@@ -42,6 +38,11 @@
 - 百度翻译申请地址：<https://api.fanyi.baidu.com/doc/21>
 - 腾讯翻译申请地址：<https://cloud.tencent.com/document/product/551/7372>
 - 阿里云翻译申请地址：<https://www.aliyun.com/product/ai/alimt>
+
+## 配置
+打开配置页面
+![配置图](./doc/common-config.png)
+可看到相关配置
 
 ## 默认快捷键（可通过IDEA快捷键设置修改）
 ### win
@@ -71,8 +72,11 @@
 这是因为IDEA的默认格式化将文档标签顺序改了，如果非得要自定义的顺序的话，则需要改IDEA如下设置![关闭Javadoc格式化](./doc/closeJavadocFormat.png)
 
 ## 更新履历
-- v2.0.0 2022-10-15
+- v2.0.0 2022-11-19
   - 重构
+  - 支持kotlin
+- v1.29 2022-11-06
+  - 优化一些问题
 - v1.28 2022-10-15
   - 优化导入导出文件(夹)选择界面
   - 优化一些问题

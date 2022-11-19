@@ -38,7 +38,7 @@ public class EasyDocConfig {
     /**
      * 翻译方式
      */
-    private String translator = "有道翻译";
+    private String  translator = "有道翻译";
     /**
      * 百度app id
      */

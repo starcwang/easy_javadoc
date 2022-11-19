@@ -32,15 +32,3 @@ compileKotlin {
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
-
-patchPluginXml {
-    changeNotes """
-      This plugin can help you complete the Chinese kdoc document quickly.<br>
-      Support three type of kdoc: field, method and class.<br>
-      <h3>v1.0 first version</h3>
-      <ul>
-          <li>support class, method and field kdoc</li>
-      </ul>
-      <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
-      """
-}

@@ -7,6 +7,7 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.ConfigurationException;
 import com.star.easydoc.common.config.EasyDocConfig;
 import com.star.easydoc.common.config.EasyDocConfig.TemplateConfig;
+import com.star.easydoc.javadoc.config.EasyJavadocConfig;
 import com.star.easydoc.javadoc.config.EasyJavadocConfigComponent;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +20,7 @@ import org.jetbrains.annotations.Nls.Capitalization;
  * @since 2019-11-10 17:35:00
  */
 public class ClassConfigurable extends AbstractTemplateConfigurable {
-    private EasyDocConfig config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
+    private EasyJavadocConfig config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
     private ClassConfigView view = new ClassConfigView(config);
 
     @Nls(capitalization = Capitalization.Title)

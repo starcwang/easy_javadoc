@@ -5,6 +5,7 @@ import java.util.Vector;
 import javax.swing.*;
 
 import com.star.easydoc.common.config.EasyDocConfig;
+import com.star.easydoc.javadoc.config.EasyJavadocConfig;
 
 /**
  * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
@@ -26,9 +27,9 @@ public abstract class AbstractTemplateConfigView {
         innerNames.add("含义");
     }
 
-    protected EasyDocConfig config;
+    protected EasyJavadocConfig config;
 
-    public AbstractTemplateConfigView(EasyDocConfig config) {
+    public AbstractTemplateConfigView(EasyJavadocConfig config) {
         this.config = config;
     }
 

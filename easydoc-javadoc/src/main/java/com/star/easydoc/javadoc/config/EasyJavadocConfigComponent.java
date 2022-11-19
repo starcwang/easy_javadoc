@@ -14,7 +14,6 @@ import com.intellij.openapi.util.Disposer;
 import com.intellij.util.messages.MessageBusConnection;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.star.easydoc.common.Consts;
-import com.star.easydoc.common.config.EasyDocConfig;
 import com.star.easydoc.common.config.EasyDocConfig.TemplateConfig;
 import com.star.easydoc.javadoc.listener.AppActivationListener;
 import org.jetbrains.annotations.NotNull;
@@ -25,19 +24,19 @@ import org.jetbrains.annotations.Nullable;
  * @date 2019/08/25
  */
 @State(name = "easyJavadoc", storages = {@Storage("easyJavadoc.xml")})
-public class EasyJavadocConfigComponent implements PersistentStateComponent<EasyDocConfig> {
+public class EasyJavadocConfigComponent implements PersistentStateComponent<EasyJavadocConfig> {
     /** 配置 */
-    private EasyDocConfig config;
+    private EasyJavadocConfig config;
 
     @Nullable
     @Override
-    public EasyDocConfig getState() {
+    public EasyJavadocConfig getState() {
         if (config == null) {
-            config = new EasyDocConfig();
+            config = new EasyJavadocConfig();
             config.setAuthor(System.getProperty("user.name"));
             config.setDateFormat(Consts.DEFAULT_DATE_FORMAT);
             config.setSimpleFieldDoc(true);
-            config.setMethodReturnType(EasyDocConfig.LINK_RETURN_TYPE);
+            config.setMethodReturnType(EasyJavadocConfig.LINK_RETURN_TYPE);
             config.setWordMap(new TreeMap<>());
             config.setTranslator(Consts.YOUDAO_TRANSLATOR);
             config.setClassTemplateConfig(new TemplateConfig());
@@ -48,7 +47,7 @@ public class EasyJavadocConfigComponent implements PersistentStateComponent<Easy
     }
 
     @Override
-    public void loadState(@NotNull EasyDocConfig state) {
+    public void loadState(@NotNull EasyJavadocConfig state) {
         XmlSerializerUtil.copyBean(state, Objects.requireNonNull(getState()));
 
         // 设置消息监听

@@ -1,13 +1,11 @@
 package com.star.easydoc.kdoc.service.variable.impl
 
-import com.google.common.collect.Lists
-import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiField
-import com.intellij.psi.PsiMethod
-import com.star.easydoc.common.Consts
+import org.apache.commons.lang3.StringUtils
+import org.jetbrains.kotlin.psi.KtClass
+import org.jetbrains.kotlin.psi.KtNamedFunction
+import org.jetbrains.kotlin.psi.KtProperty
 import java.util.*
-import java.util.stream.Collectors
 
 /**
  * @author [wangchao](mailto:wangchao.star@gmail.com)
@@ -16,36 +14,28 @@ import java.util.stream.Collectors
  */
 class SeeVariableGenerator : AbstractVariableGenerator() {
     override fun generate(element: PsiElement): String {
-        return if (element is PsiClass) {
-            val superClass = element.superClass
-            val interfaces = element.interfaces
-            val superList: MutableList<String> = Lists.newArrayList()
-            if (superClass != null && !"Object".equals(superClass.name, ignoreCase = true)) {
-                superList.add(superClass.name!!)
+        return if (element is KtClass) {
+            if (config.LINK_PARAM_TYPE == config.paramType) {
+                return "@see [${element.name}]"
+            } else {
+                return "@see ${element.name}"
             }
-            if (interfaces.isNotEmpty()) {
-                superList.addAll(interfaces.mapNotNull { obj: PsiClass -> obj.name }.toList())
-            }
-            superList.stream().map { sup: String -> "@see $sup" }.collect(Collectors.joining("\n"))
-        } else if (element is PsiMethod) {
-            val seeString = StringBuilder()
-            val parameterList = element.parameterList
-            for (parameter in parameterList.parameters) {
-                if (parameter == null || parameter.typeElement == null) {
-                    continue
+        } else if (element is KtNamedFunction) {
+            if (element.hasDeclaredReturnType()) {
+                if (config.LINK_PARAM_TYPE == config.paramType) {
+                    return "@see [${element.typeReference!!.text}]"
+                } else {
+                    return "@see ${element.typeReference!!.text}"
                 }
-                seeString.append("@see ").append(parameter.typeElement!!.text).append("\n")
+            } else {
+                return ""
             }
-            val returnTypeElement = element.returnTypeElement
-            if (returnTypeElement != null && "void" != returnTypeElement.text) {
-                seeString.append("@see ").append(returnTypeElement.text).append("\n")
+        } else if (element is KtProperty) {
+            if (config.LINK_PARAM_TYPE == config.paramType) {
+                return "@see [${StringUtils.strip(element.typeReference?.typeElement?.text, "?")}]"
+            } else {
+                return "@see ${StringUtils.strip(element.typeReference?.typeElement?.text, "?")}"
             }
-            seeString.toString()
-        } else if (element is PsiField) {
-            val type = element.type.presentableText
-            if (Consts.BASE_TYPE_SET.contains(type)) {
-                ""
-            } else "@see $type"
         } else {
             ""
         }

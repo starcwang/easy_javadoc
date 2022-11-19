@@ -21,7 +21,7 @@ import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiPackage;
 import com.intellij.psi.javadoc.PsiDocComment;
-import com.star.easydoc.common.config.EasyDocConfig;
+import com.star.easydoc.javadoc.config.EasyJavadocConfig;
 import com.star.easydoc.javadoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.javadoc.service.DocGeneratorService;
 import com.star.easydoc.service.WriterService;
@@ -45,7 +45,7 @@ public class GenerateAllJavadocAction extends AnAction {
      */
     private DocGeneratorService docGeneratorService = ServiceManager.getService(DocGeneratorService.class);
     private WriterService writerService = ServiceManager.getService(WriterService.class);
-    private EasyDocConfig config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
+    private EasyJavadocConfig config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
 
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
 
@@ -184,6 +184,6 @@ public class GenerateAllJavadocAction extends AnAction {
         PsiElementFactory factory = PsiElementFactory.SERVICE.getInstance(project);
         PsiDocComment psiDocComment = factory.createDocCommentFromText(comment);
 
-        writerService.write(project, psiElement, psiDocComment);
+        writerService.writeJavadoc(project, psiElement, psiDocComment);
     }
 }

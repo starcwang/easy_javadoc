@@ -1,7 +1,7 @@
 package com.star.easydoc.javadoc.service.variable.impl;
 
 import com.intellij.openapi.components.ServiceManager;
-import com.star.easydoc.common.config.EasyDocConfig;
+import com.star.easydoc.javadoc.config.EasyJavadocConfig;
 import com.star.easydoc.javadoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.javadoc.service.variable.VariableGenerator;
 
@@ -14,7 +14,7 @@ import com.star.easydoc.javadoc.service.variable.VariableGenerator;
 public abstract class AbstractVariableGenerator implements VariableGenerator {
 
     @Override
-    public EasyDocConfig getConfig() {
+    public EasyJavadocConfig getConfig() {
         return ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
     }
 }

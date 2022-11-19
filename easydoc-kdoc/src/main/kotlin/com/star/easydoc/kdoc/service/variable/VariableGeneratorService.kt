@@ -35,7 +35,7 @@ class VariableGeneratorService {
         "return" to ReturnVariableGenerator(),
         "see" to SeeVariableGenerator(),
         "since" to SinceVariableGenerator(),
-        "throws" to ThrowsVariableGenerator(),
+        "constructor" to ConstructorVariableGenerator(),
         "version" to VersionVariableGenerator())
 
     /**

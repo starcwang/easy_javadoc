@@ -18,13 +18,13 @@ import java.util.*
  * @date 2019/08/25
  */
 @State(name = "easyKdoc", storages = [Storage("easyKdoc.xml")])
-class EasyKdocConfigComponent : PersistentStateComponent<EasyDocConfig> {
+class EasyKdocConfigComponent : PersistentStateComponent<EasyKdocConfig> {
     /** 配置  */
-    private var config: EasyDocConfig? = null
+    private var config: EasyKdocConfig? = null
 
-    override fun getState(): EasyDocConfig {
+    override fun getState(): EasyKdocConfig {
         if (config == null) {
-            config = EasyDocConfig()
+            config = EasyKdocConfig()
             config!!.author = System.getProperty("user.name")
             config!!.dateFormat = Consts.DEFAULT_DATE_FORMAT
             config!!.simpleFieldDoc = true
@@ -38,8 +38,8 @@ class EasyKdocConfigComponent : PersistentStateComponent<EasyDocConfig> {
         return config!!
     }
 
-    override fun loadState(state: EasyDocConfig) {
-        XmlSerializerUtil.copyBean<EasyDocConfig?>(state, Objects.requireNonNull(getState())!!)
+    override fun loadState(state: EasyKdocConfig) {
+        XmlSerializerUtil.copyBean<EasyKdocConfig?>(state, Objects.requireNonNull(getState())!!)
 
         // 设置消息监听
         val app = ApplicationManager.getApplication()

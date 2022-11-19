@@ -14,6 +14,7 @@ import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.table.JBTable;
 import com.star.easydoc.common.config.EasyDocConfig;
 import com.star.easydoc.common.config.EasyDocConfig.CustomValue;
+import com.star.easydoc.javadoc.config.EasyJavadocConfig;
 import com.star.easydoc.javadoc.view.inner.CustomTemplateAddView;
 
 /**
@@ -96,7 +97,7 @@ public class MethodConfigView extends AbstractTemplateConfigView {
         customVariablePanel = toolbarDecorator.createPanel();
     }
 
-    public MethodConfigView(EasyDocConfig config) {
+    public MethodConfigView(EasyJavadocConfig config) {
         super(config);
         // 添加单选按钮事件
         defaultRadioButton.addChangeListener(e -> {

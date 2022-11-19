@@ -8,8 +8,8 @@ import com.intellij.ui.ListCellRendererWrapper
 import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.components.JBList
 import com.star.easydoc.common.Consts
-import com.star.easydoc.common.config.EasyDocConfig
 import com.star.easydoc.common.util.JsonUtil
+import com.star.easydoc.kdoc.config.EasyKdocConfig
 import com.star.easydoc.kdoc.config.EasyKdocConfigComponent
 import com.star.easydoc.kdoc.view.inner.SupportView
 import com.star.easydoc.kdoc.view.inner.WordMapAddView
@@ -30,7 +30,7 @@ import javax.swing.event.ChangeEvent
  */
 class CommonConfigView {
     private val translatorService = ServiceManager.getService(TranslatorService::class.java)
-    private val config: EasyDocConfig = ServiceManager.getService(EasyKdocConfigComponent::class.java).state
+    private val config: EasyKdocConfig = ServiceManager.getService(EasyKdocConfigComponent::class.java).state
     private lateinit var panel: JPanel
     private var wordMapPanel: JPanel? = null
     lateinit var authorTextField: JTextField
@@ -44,7 +44,9 @@ class CommonConfigView {
     private lateinit var fieldDocLabel: JLabel
     private lateinit var commonPanel: JPanel
     lateinit var translatorBox: JComboBox<*>
+    lateinit var paramTypeBox: JComboBox<*>
     private lateinit var translatorLabel: JLabel
+    lateinit var paramTypeLabel: JLabel
     private lateinit var importButton: JButton
     private lateinit var exportButton: JButton
     lateinit var appIdTextField: JTextField
@@ -60,9 +62,6 @@ class CommonConfigView {
     private lateinit var starButton: JButton
     private lateinit var payButton: JButton
     private lateinit var methodPanel: JPanel
-    private lateinit var methodReturnTypeLabel: JLabel
-    private lateinit var methodReturnCodeTypeButton: JRadioButton
-    private lateinit var methodReturnLinkTypeButton: JRadioButton
     lateinit var accessKeyIdTextField: JTextField
     lateinit var accessKeySecretTextField: JTextField
     private lateinit var accessKeyIdLabel: JLabel
@@ -80,14 +79,6 @@ class CommonConfigView {
             val button = e.source as JRadioButton
             simpleDocButton.isSelected = !button.isSelected
         }
-        methodReturnCodeTypeButton.addChangeListener { e: ChangeEvent ->
-            val button = e.source as JRadioButton
-            methodReturnLinkTypeButton.isSelected = !button.isSelected
-        }
-        methodReturnLinkTypeButton.addChangeListener { e: ChangeEvent ->
-            val button = e.source as JRadioButton
-            methodReturnCodeTypeButton.isSelected = !button.isSelected
-        }
         importButton.addActionListener {
             val chooser = JFileChooser()
             chooser.fileSelectionMode = JFileChooser.FILES_ONLY
@@ -98,7 +89,8 @@ class CommonConfigView {
             val file = chooser.selectedFile ?: return@addActionListener
             try {
                 val json = FileUtils.readFileToString(file, StandardCharsets.UTF_8.name())
-                val configuration = JsonUtil.fromJson(json, EasyDocConfig::class.java) ?: throw IllegalArgumentException("文件中内容格式不正确，请确认是否是json格式")
+                val configuration = JsonUtil.fromJson(json, EasyKdocConfig::class.java)
+                    ?: throw IllegalArgumentException("文件中内容格式不正确，请确认是否是json格式")
                 ServiceManager.getService(EasyKdocConfigComponent::class.java).loadState(configuration)
                 refresh()
             } catch (e: Exception) {
@@ -216,10 +208,17 @@ class CommonConfigView {
     }
 
     private fun createUIComponents() {
-        typeMapList = JBList<Map.Entry<String, String>>(CollectionListModel<Map.Entry<String, String>>(Lists.newArrayList<Map.Entry<String, String>>()))
+        typeMapList =
+            JBList<Map.Entry<String, String>>(CollectionListModel<Map.Entry<String, String>>(Lists.newArrayList<Map.Entry<String, String>>()))
         typeMapList.selectionMode = ListSelectionModel.SINGLE_SELECTION
         typeMapList.cellRenderer = object : ListCellRendererWrapper<Map.Entry<String, String>>() {
-            override fun customize(list: JList<*>, value: Map.Entry<String, String>, index: Int, selected: Boolean, hasFocus: Boolean) {
+            override fun customize(
+                list: JList<*>,
+                value: Map.Entry<String, String>,
+                index: Int,
+                selected: Boolean,
+                hasFocus: Boolean
+            ) {
                 setText(value.key + " -> " + value.value)
             }
         }
@@ -249,16 +248,10 @@ class CommonConfigView {
             setSimpleDocButton(false)
             setNormalDocButton(true)
         }
-        if (EasyDocConfig.CODE_RETURN_TYPE == config.methodReturnType) {
-            setMethodReturnCodeTypeButton(true)
-            setMethodReturnLinkTypeButton(false)
-        } else if (EasyDocConfig.LINK_RETURN_TYPE == config.methodReturnType) {
-            setMethodReturnCodeTypeButton(false)
-            setMethodReturnLinkTypeButton(true)
-        }
         setAuthorTextField(config.author)
         setDateFormatTextField(config.dateFormat)
         setTranslatorBox(config.translator)
+        setParamType(config.paramType)
         setAppIdTextField(config.appId)
         setTokenTextField(config.token)
         setSecretIdTextField(config.secretId)
@@ -270,7 +263,8 @@ class CommonConfigView {
 
     private fun refreshWordMap() {
         if (config.wordMap != null) {
-            typeMapList.model = CollectionListModel<Map.Entry<String, String>>(Lists.newArrayList<Map.Entry<String, String>>(config.wordMap.entries))
+            typeMapList.model =
+                CollectionListModel<Map.Entry<String, String>>(Lists.newArrayList<Map.Entry<String, String>>(config.wordMap.entries))
         }
     }
 
@@ -292,45 +286,36 @@ class CommonConfigView {
     fun setTranslatorBox(translator: String) {
         translatorBox.selectedItem = translator
     }
-
+    fun setParamType(paramType: String) {
+        paramTypeBox.selectedItem = paramType
+    }
     fun setDateFormatTextField(dateFormat: String) {
         dateFormatTextField.text = dateFormat
     }
 
-    fun setAppIdTextField(appId: String) {
+    fun setAppIdTextField(appId: String?) {
         appIdTextField.text = appId
     }
 
-    fun setTokenTextField(token: String) {
+    fun setTokenTextField(token: String?) {
         tokenTextField.text = token
     }
 
-    fun setSecretIdTextField(secretId: String) {
+    fun setSecretIdTextField(secretId: String?) {
         secretIdTextField.text = secretId
     }
 
-    fun setSecretKeyTextField(secretKey: String) {
+    fun setSecretKeyTextField(secretKey: String?) {
         secretKeyTextField.text = secretKey
     }
 
-    fun setAccessKeyIdTextField(accessKeyId: String) {
+    fun setAccessKeyIdTextField(accessKeyId: String?) {
         accessKeyIdTextField.text = accessKeyId
     }
 
-    fun setAccessKeySecretTextField(accessKeySecret: String) {
+    fun setAccessKeySecretTextField(accessKeySecret: String?) {
         accessKeySecretTextField.text = accessKeySecret
     }
-
-    fun setMethodReturnCodeTypeButton(selecetd: Boolean) {
-        methodReturnCodeTypeButton.isSelected = selecetd
-    }
-
-    fun setMethodReturnLinkTypeButton(selecetd: Boolean) {
-        methodReturnLinkTypeButton.isSelected = selecetd
-    }
-
-    val methodReturnType: String
-        get() = if (methodReturnCodeTypeButton.isSelected) EasyDocConfig.CODE_RETURN_TYPE else EasyDocConfig.LINK_RETURN_TYPE
 
     companion object {
         private val LOGGER = Logger.getInstance(CommonConfigView::class.java)

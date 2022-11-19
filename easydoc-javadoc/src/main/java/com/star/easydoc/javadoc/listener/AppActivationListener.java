@@ -15,7 +15,7 @@ import com.intellij.openapi.application.ApplicationActivationListener;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.wm.IdeFrame;
-import com.star.easydoc.common.config.EasyDocConfig;
+import com.star.easydoc.javadoc.config.EasyJavadocConfig;
 import com.star.easydoc.javadoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.javadoc.view.inner.SupportView;
 import com.star.easydoc.service.translator.TranslatorService;
@@ -86,7 +86,7 @@ public class AppActivationListener implements ApplicationActivationListener {
      * 服务初始化
      */
     private void serviceInit() {
-        EasyDocConfig config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
+        EasyJavadocConfig config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
 
         TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
         translatorService.init(config);

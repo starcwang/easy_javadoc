@@ -10,6 +10,7 @@ import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.star.easydoc.common.Consts;
 import com.star.easydoc.common.config.EasyDocConfig;
+import com.star.easydoc.javadoc.config.EasyJavadocConfig;
 import com.star.easydoc.javadoc.config.EasyJavadocConfigComponent;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nls;
@@ -22,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class CommonConfigurable implements Configurable {
 
-    private EasyDocConfig config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
+    private EasyJavadocConfig config = ServiceManager.getService(EasyJavadocConfigComponent.class).getState();
     private CommonConfigView view = new CommonConfigView();
 
     @Nls(capitalization = Capitalization.Title)

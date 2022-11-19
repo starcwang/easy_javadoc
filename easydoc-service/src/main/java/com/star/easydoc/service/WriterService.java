@@ -22,7 +22,7 @@ import org.jetbrains.kotlin.psi.KtElement;
 public class WriterService {
     private static final Logger LOGGER = Logger.getInstance(WriterService.class);
 
-    public void write(Project project, PsiElement psiElement, PsiDocComment comment) {
+    public void writeJavadoc(Project project, PsiElement psiElement, PsiDocComment comment) {
         try {
             WriteCommandAction.writeCommandAction(project).run(
                 (ThrowableRunnable<Throwable>)() -> {
@@ -52,7 +52,7 @@ public class WriterService {
         }
     }
 
-    public void write(Project project, KtElement psiElement, KDoc comment) {
+    public void writeKdoc(Project project, KtElement psiElement, KDoc comment) {
         try {
             WriteCommandAction.writeCommandAction(project).run(
                 (ThrowableRunnable<Throwable>)() -> {

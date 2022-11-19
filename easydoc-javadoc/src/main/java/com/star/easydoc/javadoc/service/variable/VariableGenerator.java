@@ -1,7 +1,7 @@
 package com.star.easydoc.javadoc.service.variable;
 
 import com.intellij.psi.PsiElement;
-import com.star.easydoc.common.config.EasyDocConfig;
+import com.star.easydoc.javadoc.config.EasyJavadocConfig;
 
 /**
  * 变量生成器
@@ -21,7 +21,7 @@ public interface VariableGenerator {
     /**
      * 获取配置
      *
-     * @return {@link EasyDocConfig}
+     * @return {@link EasyJavadocConfig}
      */
-    EasyDocConfig getConfig();
+    EasyJavadocConfig getConfig();
 }

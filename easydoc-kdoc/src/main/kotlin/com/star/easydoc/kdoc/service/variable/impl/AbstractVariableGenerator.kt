@@ -2,6 +2,7 @@ package com.star.easydoc.kdoc.service.variable.impl
 
 import com.intellij.openapi.components.ServiceManager
 import com.star.easydoc.common.config.EasyDocConfig
+import com.star.easydoc.kdoc.config.EasyKdocConfig
 import com.star.easydoc.kdoc.config.EasyKdocConfigComponent
 import com.star.easydoc.kdoc.service.variable.VariableGenerator
 
@@ -12,6 +13,6 @@ import com.star.easydoc.kdoc.service.variable.VariableGenerator
  * @date 2022/10/01
  */
 abstract class AbstractVariableGenerator : VariableGenerator {
-    override val config: EasyDocConfig
+    override val config: EasyKdocConfig
         get() = ServiceManager.getService(EasyKdocConfigComponent::class.java).state
 }

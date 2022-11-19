@@ -2,6 +2,7 @@ package com.star.easydoc.kdoc.service.variable
 
 import com.intellij.psi.PsiElement
 import com.star.easydoc.common.config.EasyDocConfig
+import com.star.easydoc.kdoc.config.EasyKdocConfig
 
 /**
  * 变量生成器
@@ -21,7 +22,7 @@ interface VariableGenerator {
     /**
      * 获取配置
      *
-     * @return [EasyDocConfig]
+     * @return [EasyKdocConfig]
      */
-    val config: EasyDocConfig
+    val config: EasyKdocConfig
 }

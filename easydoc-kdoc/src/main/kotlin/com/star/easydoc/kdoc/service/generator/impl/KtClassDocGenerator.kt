@@ -3,6 +3,7 @@ package com.star.easydoc.kdoc.service.generator.impl
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.psi.PsiElement
 import com.star.easydoc.common.config.EasyDocConfig
+import com.star.easydoc.kdoc.config.EasyKdocConfig
 import com.star.easydoc.kdoc.config.EasyKdocConfigComponent
 import com.star.easydoc.kdoc.service.generator.DocGenerator
 import com.star.easydoc.kdoc.service.variable.VariableGeneratorService
@@ -10,9 +11,11 @@ import org.apache.commons.lang3.StringUtils
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.uast.getContainingClass
 
-
+/**
+ * @constructor
+ */
 class KtClassDocGenerator : DocGenerator {
-    private val config: EasyDocConfig = ServiceManager.getService(EasyKdocConfigComponent::class.java).state
+    private val config: EasyKdocConfig = ServiceManager.getService(EasyKdocConfigComponent::class.java).state
     private val variableGeneratorService = ServiceManager.getService(VariableGeneratorService::class.java)
 
     override fun generate(psiElement: PsiElement): String {
@@ -40,6 +43,7 @@ class KtClassDocGenerator : DocGenerator {
                     " *\n" +
                     " * @author \$AUTHOR\$\n" +
                     " * @date \$DATE\$\n" +
+                    " * @constructor \$CONSTRUCTOR\$\n" +
                     " * \$PARAMS\$\n" +
                     " */".trimIndent(),
             config.classTemplateConfig.customMap, getClassInnerVariable(psi)

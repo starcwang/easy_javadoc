@@ -3,6 +3,7 @@ package com.star.easydoc.kdoc.service.generator.impl
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.psi.PsiElement
 import com.star.easydoc.common.config.EasyDocConfig
+import com.star.easydoc.kdoc.config.EasyKdocConfig
 import com.star.easydoc.kdoc.config.EasyKdocConfigComponent
 import com.star.easydoc.kdoc.service.generator.DocGenerator
 import com.star.easydoc.kdoc.service.variable.VariableGeneratorService
@@ -16,7 +17,7 @@ import org.jetbrains.kotlin.psi.KtNamedFunction
  * @date 2019/11/12
  */
 class KtNamedFunctionDocGenerator : DocGenerator {
-    private val config: EasyDocConfig = ServiceManager.getService(EasyKdocConfigComponent::class.java).state
+    private val config: EasyKdocConfig = ServiceManager.getService(EasyKdocConfigComponent::class.java).state
     private val variableGeneratorService = ServiceManager.getService(
         VariableGeneratorService::class.java
     )
@@ -45,7 +46,6 @@ class KtNamedFunctionDocGenerator : DocGenerator {
                     " * \$DOC\$\n" +
                     " *\n" +
                     " * \$PARAMS\$\n" +
-                    " * \$THROWS\$\n" +
                     " * \$RETURN\$\n" +
                     " */", config.methodTemplateConfig.customMap, getMethodInnerVariable(psi)
         )
