@@ -11,7 +11,7 @@ import com.intellij.openapi.application.ApplicationActivationListener;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.wm.IdeFrame;
-import com.star.easydoc.util.NotificationUtil;
+import com.star.easydoc.common.util.NotificationUtil;
 import com.star.easydoc.javadoc.config.EasyJavadocConfig;
 import com.star.easydoc.javadoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.javadoc.view.inner.SupportView;
@@ -46,7 +46,7 @@ public class AppActivationListener implements ApplicationActivationListener {
             return;
         }
 
-        AnAction starAction = new NotificationAction("✨ 去点star") {
+        AnAction starAction = new NotificationAction("⭐ 去点star") {
             @Override
             public void actionPerformed(@NotNull AnActionEvent e, @NotNull Notification notification) {
                 try {
@@ -59,7 +59,7 @@ public class AppActivationListener implements ApplicationActivationListener {
                 }
             }
         };
-        AnAction payAction = new NotificationAction("☕ 请喝咖啡") {
+        AnAction payAction = new NotificationAction("\uD83C\uDF57 加个鸡腿") {
             @Override
             public void actionPerformed(@NotNull AnActionEvent e, @NotNull Notification notification) {
                 SupportView supportView = new SupportView();

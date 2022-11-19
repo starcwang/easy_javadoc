@@ -1,4 +1,4 @@
-package com.star.easydoc.util;
+package com.star.easydoc.common.util;
 
 import com.intellij.icons.AllIcons.General;
 import com.intellij.notification.Notification;

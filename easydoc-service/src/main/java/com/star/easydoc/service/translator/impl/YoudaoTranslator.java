@@ -13,7 +13,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.diagnostic.Logger;
 import com.star.easydoc.common.util.HttpUtil;
 import com.star.easydoc.common.util.JsonUtil;
-import com.star.easydoc.util.NotificationUtil;
+import com.star.easydoc.common.util.NotificationUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 

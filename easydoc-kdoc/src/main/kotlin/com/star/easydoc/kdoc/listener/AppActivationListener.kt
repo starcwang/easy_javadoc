@@ -1,12 +1,13 @@
 package com.star.easydoc.kdoc.listener
 
-import com.intellij.icons.AllIcons
 import com.intellij.notification.*
+import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.ApplicationActivationListener
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.wm.IdeFrame
+import com.star.easydoc.common.util.NotificationUtil
 import com.star.easydoc.kdoc.config.EasyKdocConfigComponent
 import com.star.easydoc.kdoc.view.inner.SupportView
 import com.star.easydoc.service.translator.TranslatorService
@@ -37,17 +38,8 @@ class AppActivationListener : ApplicationActivationListener {
         if (System.currentTimeMillis() - lastNoticeTime < INTERVAL) {
             return
         }
-        val group = NotificationGroup(
-            "Easy Kdoc", NotificationDisplayType.BALLOON, true, null,
-            AllIcons.General.AddJdk
-        )
-        val notification = group.createNotification(
-            "支持EasyKdoc", "如果这款小而美的插件为您节约了不少时间，请支持一下开发者！",
-            NotificationType.INFORMATION, NotificationListener.URL_OPENING_LISTENER
-        )
 
-        // 去点star
-        notification.addAction(object : NotificationAction("✨ 去点star") {
+        val starAction: AnAction = object : NotificationAction("⭐ 去点star") {
             override fun actionPerformed(e: AnActionEvent, notification: Notification) {
                 try {
                     val dp = Desktop.getDesktop()
@@ -58,16 +50,21 @@ class AppActivationListener : ApplicationActivationListener {
                     LOGGER.error("打开链接失败:https://github.com/starcwang/easy_javadoc", ex)
                 }
             }
-        })
-
-        // 支付
-        notification.addAction(object : NotificationAction("☕ 请喝咖啡") {
+        }
+        val payAction: AnAction = object : NotificationAction("\uD83C\uDF57 加个鸡腿") {
             override fun actionPerformed(e: AnActionEvent, notification: Notification) {
                 val supportView = SupportView()
                 supportView.show()
             }
-        })
-        notification.notify(null)
+        }
+
+        NotificationUtil.notify(
+            "支持EasyKdoc",
+            "如果这款小而美的插件为您节约了不少时间，请支持一下开发者！",
+            starAction,
+            payAction
+        )
+
         lastNoticeTime = System.currentTimeMillis()
     }
 

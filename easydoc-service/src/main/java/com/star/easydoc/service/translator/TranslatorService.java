@@ -16,7 +16,6 @@ import com.star.easydoc.service.translator.impl.BaiduTranslator;
 import com.star.easydoc.service.translator.impl.JinshanTranslator;
 import com.star.easydoc.service.translator.impl.TencentTranslator;
 import com.star.easydoc.service.translator.impl.YoudaoTranslator;
-import com.star.easydoc.util.CollectionUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
