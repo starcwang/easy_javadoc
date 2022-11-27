@@ -15,7 +15,7 @@ import com.intellij.psi.PsiPackage;
 import com.intellij.psi.javadoc.PsiDocComment;
 import com.star.easydoc.common.util.LanguageUtil;
 import com.star.easydoc.javadoc.service.DocGeneratorService;
-import com.star.easydoc.service.WriterService;
+import com.star.easydoc.javadoc.service.WriterService;
 import com.star.easydoc.javadoc.view.inner.TranslateResultView;
 import com.star.easydoc.service.translator.TranslatorService;
 import org.apache.commons.lang3.StringUtils;

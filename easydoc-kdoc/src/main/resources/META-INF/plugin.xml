@@ -29,7 +29,7 @@
         <!-- Add your extensions here -->
         <applicationService serviceImplementation="com.star.easydoc.kdoc.config.EasyKdocConfigComponent" order="first"/>
         <applicationService serviceImplementation="com.star.easydoc.kdoc.service.DocGeneratorService"/>
-        <applicationService serviceImplementation="com.star.easydoc.service.WriterService"/>
+        <applicationService serviceImplementation="com.star.easydoc.kdoc.service.WriterService"/>
         <applicationService serviceImplementation="com.star.easydoc.service.translator.TranslatorService"/>
         <applicationService serviceImplementation="com.star.easydoc.kdoc.service.variable.VariableGeneratorService"/>
         <applicationConfigurable displayName="EasyKdoc" instance="com.star.easydoc.kdoc.view.CommonConfigurable">

@@ -6,8 +6,8 @@ import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.components.ServiceManager
 import com.star.easydoc.common.util.LanguageUtil
 import com.star.easydoc.kdoc.service.DocGeneratorService
+import com.star.easydoc.kdoc.service.WriterService
 import com.star.easydoc.kdoc.view.inner.TranslateResultView
-import com.star.easydoc.service.WriterService
 import com.star.easydoc.service.translator.TranslatorService
 import org.apache.commons.lang3.StringUtils
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc

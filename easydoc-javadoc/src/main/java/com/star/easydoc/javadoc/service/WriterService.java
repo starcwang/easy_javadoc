@@ -1,4 +1,4 @@
-package com.star.easydoc.service;
+package com.star.easydoc.javadoc.service;
 
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.diagnostic.Logger;
@@ -11,9 +11,6 @@ import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.javadoc.PsiDocComment;
 import com.intellij.util.ThrowableRunnable;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.kotlin.kdoc.psi.api.KDoc;
-import org.jetbrains.kotlin.psi.KtDeclaration;
-import org.jetbrains.kotlin.psi.KtElement;
 
 /**
  * @author wangchao
@@ -37,36 +34,6 @@ public class WriterService {
                             psiElement.getNode().addChild(comment.getNode(), psiElement.getFirstChild().getNode());
                         } else {
                             psiDocComment.replace(comment);
-                        }
-                    }
-
-                    // 格式化文档注释
-                    CodeStyleManager codeStyleManager = CodeStyleManager.getInstance(psiElement.getProject());
-                    PsiElement javadocElement = psiElement.getFirstChild();
-                    int startOffset = javadocElement.getTextOffset();
-                    int endOffset = javadocElement.getTextOffset() + javadocElement.getText().length();
-                    codeStyleManager.reformatText(psiElement.getContainingFile(), startOffset, endOffset + 1);
-                });
-        } catch (Throwable throwable) {
-            LOGGER.error("写入错误", throwable);
-        }
-    }
-
-    public void writeKdoc(Project project, KtElement psiElement, KDoc comment) {
-        try {
-            WriteCommandAction.writeCommandAction(project).run(
-                (ThrowableRunnable<Throwable>)() -> {
-                    if (psiElement.getContainingFile() == null) {
-                        return;
-                    }
-
-                    // 写入文档注释
-                    if (psiElement instanceof KtDeclaration) {
-                        KDoc kDoc = ((KtDeclaration)psiElement).getDocComment();
-                        if (kDoc == null) {
-                            psiElement.getNode().addChild(comment.getNode(), psiElement.getFirstChild().getNode());
-                        } else {
-                            kDoc.replace(comment);
                         }
                     }
 

@@ -24,7 +24,7 @@ import com.intellij.psi.javadoc.PsiDocComment;
 import com.star.easydoc.javadoc.config.EasyJavadocConfig;
 import com.star.easydoc.javadoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.javadoc.service.DocGeneratorService;
-import com.star.easydoc.service.WriterService;
+import com.star.easydoc.javadoc.service.WriterService;
 import com.star.easydoc.javadoc.view.inner.GenerateAllView;
 import com.star.easydoc.javadoc.view.inner.PackageDescribeView;
 import com.star.easydoc.service.translator.TranslatorService;

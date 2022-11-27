@@ -155,7 +155,7 @@
         <!-- Add your extensions here -->
         <applicationService serviceImplementation="com.star.easydoc.javadoc.config.EasyJavadocConfigComponent" order="first"/>
         <applicationService serviceImplementation="com.star.easydoc.javadoc.service.DocGeneratorService"/>
-        <applicationService serviceImplementation="com.star.easydoc.service.WriterService"/>
+        <applicationService serviceImplementation="com.star.easydoc.javadoc.service.WriterService"/>
         <applicationService serviceImplementation="com.star.easydoc.service.translator.TranslatorService"/>
         <applicationService serviceImplementation="com.star.easydoc.javadoc.service.variable.VariableGeneratorService"/>
         <applicationConfigurable displayName="EasyJavadoc" instance="com.star.easydoc.javadoc.view.CommonConfigurable">
