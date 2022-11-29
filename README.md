@@ -163,6 +163,7 @@
 ## 贡献者
 - [@kings1990](https://github.com/kings1990)
 - [@mixley](https://github.com/mixley)
+- [@kuolemax](https://github.com/kuolemax)
     
 ## 支持作者
 如果觉得插件很赞，为你节约了不少时间，那么就请作者喝杯咖啡吧~☕☕☕
