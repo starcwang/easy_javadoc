@@ -2,7 +2,6 @@ package com.star.easydoc.kdoc.service.generator.impl
 
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.psi.PsiElement
-import com.star.easydoc.common.config.EasyDocConfig
 import com.star.easydoc.kdoc.config.EasyKdocConfig
 import com.star.easydoc.kdoc.config.EasyKdocConfigComponent
 import com.star.easydoc.kdoc.service.generator.DocGenerator
@@ -41,13 +40,16 @@ class KtNamedFunctionDocGenerator : DocGenerator {
      * @return [java.lang.String]
      */
     private fun defaultGenerate(psi: KtNamedFunction): String {
+        val template = """
+            /**
+             * ${'$'}DOC$
+             * 
+             * ${'$'}PARAMS$
+             * ${'$'}RETURN$
+             */
+          """.trimIndent()
         return variableGeneratorService.generate(
-            psi, "/**\n" +
-                    " * \$DOC\$\n" +
-                    " *\n" +
-                    " * \$PARAMS\$\n" +
-                    " * \$RETURN\$\n" +
-                    " */", config.methodTemplateConfig.customMap, getMethodInnerVariable(psi)
+            psi, template, config.methodTemplateConfig.customMap, getMethodInnerVariable(psi)
         )
     }
 
@@ -74,7 +76,7 @@ class KtNamedFunctionDocGenerator : DocGenerator {
         val map: MutableMap<String?, Any?> = mutableMapOf()
         map["author"] = config.author
         map["methodName"] = psiMethod.name
-        map["methodReturnType"] = if (psiMethod.hasDeclaredReturnType()) "" else psiMethod.typeReference!!.text
+        map["methodReturnType"] = psiMethod.typeReference?.text
         map["methodParamTypes"] = psiMethod.valueParameters.map { StringUtils.strip(it.typeReference?.text, "?") }
             .toTypedArray()
         map["methodParamNames"] = psiMethod.valueParameters.map { it.name }.toTypedArray()
