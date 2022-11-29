@@ -20,7 +20,7 @@ allprojects {
 
     dependencies {
         testCompile group: 'junit', name: 'junit', version: '4.13.1'
-        compileOnly group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.4'
+        compileOnly group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.4.1'
         compileOnly group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.4'
     }
 
