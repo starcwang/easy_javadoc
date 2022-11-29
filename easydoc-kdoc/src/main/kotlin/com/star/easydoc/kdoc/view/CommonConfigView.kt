@@ -1,5 +1,7 @@
 package com.star.easydoc.kdoc.view
 
+import com.alibaba.fastjson2.JSON
+import com.alibaba.fastjson2.JSONWriter
 import com.google.common.collect.Lists
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.diagnostic.Logger
@@ -8,7 +10,6 @@ import com.intellij.ui.ListCellRendererWrapper
 import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.components.JBList
 import com.star.easydoc.common.Consts
-import com.star.easydoc.common.util.JsonUtil
 import com.star.easydoc.kdoc.config.EasyKdocConfig
 import com.star.easydoc.kdoc.config.EasyKdocConfigComponent
 import com.star.easydoc.kdoc.view.inner.SupportView
@@ -89,7 +90,7 @@ class CommonConfigView {
             val file = chooser.selectedFile ?: return@addActionListener
             try {
                 val json = FileUtils.readFileToString(file, StandardCharsets.UTF_8.name())
-                val configuration = JsonUtil.fromJson(json, EasyKdocConfig::class.java)
+                val configuration = JSON.parseObject(json, EasyKdocConfig::class.java)
                     ?: throw IllegalArgumentException("文件中内容格式不正确，请确认是否是json格式")
                 ServiceManager.getService(EasyKdocConfigComponent::class.java).loadState(configuration)
                 refresh()
@@ -107,7 +108,8 @@ class CommonConfigView {
             val file = chooser.selectedFile ?: return@addActionListener
             try {
                 val targetFile = File(file.absolutePath + "/easy_kdoc.json")
-                FileUtils.write(targetFile, JsonUtil.toJson(config), StandardCharsets.UTF_8.name())
+                FileUtils.write(targetFile, JSON.toJSONString(config, JSONWriter.Feature.PrettyFormat),
+                    StandardCharsets.UTF_8.name())
             } catch (e: Exception) {
                 LOGGER.error("写入文件异常", e)
             }

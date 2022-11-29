@@ -6,13 +6,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.alibaba.fastjson2.JSON;
+
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationAction;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.diagnostic.Logger;
 import com.star.easydoc.common.util.HttpUtil;
-import com.star.easydoc.common.util.JsonUtil;
 import com.star.easydoc.common.util.NotificationUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -36,7 +37,7 @@ public class YoudaoTranslator extends AbstractTranslator {
     @Override
     public String translateEn2Ch(String text) {
         try {
-            YoudaoResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(EN2CH_URL, HttpUtil.encode(text))),
+            YoudaoResponse response = JSON.parseObject(HttpUtil.get(String.format(EN2CH_URL, HttpUtil.encode(text))),
                 YoudaoResponse.class);
             return Objects.requireNonNull(response).getTranslateResult().stream()
                 .map(translateResults -> translateResults.stream().map(TranslateResult::getTgt).collect(Collectors.joining(" ")))
@@ -51,7 +52,7 @@ public class YoudaoTranslator extends AbstractTranslator {
     @Override
     public String translateCh2En(String text) {
         try {
-            YoudaoResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(CH2EN_URL, HttpUtil.encode(text))),
+            YoudaoResponse response = JSON.parseObject(HttpUtil.get(String.format(CH2EN_URL, HttpUtil.encode(text))),
                 YoudaoResponse.class);
             return Objects.requireNonNull(response).getTranslateResult().stream()
                 .map(translateResults -> translateResults.stream().map(TranslateResult::getTgt).collect(Collectors.joining(" ")))

@@ -9,6 +9,9 @@ import java.util.Map.Entry;
 
 import javax.swing.*;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONWriter.Feature;
+
 import com.google.common.collect.Lists;
 import com.intellij.json.JsonFileType;
 import com.intellij.openapi.components.ServiceManager;
@@ -22,7 +25,6 @@ import com.intellij.ui.ListCellRendererWrapper;
 import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.JBList;
 import com.star.easydoc.common.Consts;
-import com.star.easydoc.common.util.JsonUtil;
 import com.star.easydoc.javadoc.config.EasyJavadocConfig;
 import com.star.easydoc.javadoc.config.EasyJavadocConfigComponent;
 import com.star.easydoc.javadoc.view.inner.SupportView;
@@ -131,7 +133,7 @@ public class CommonConfigView {
             }
             try {
                 String json = FileUtils.readFileToString(new File(file.getPath()), StandardCharsets.UTF_8.name());
-                EasyJavadocConfig configuration = JsonUtil.fromJson(json, EasyJavadocConfig.class);
+                EasyJavadocConfig configuration = JSON.parseObject(json, EasyJavadocConfig.class);
                 if (configuration == null) {
                     throw new IllegalArgumentException("文件中内容格式不正确，请确认是否是json格式");
                 }
@@ -155,7 +157,7 @@ public class CommonConfigView {
             }
             try {
                 File targetFile = new File(file.getPath() + "/easy_javadoc.json");
-                FileUtils.write(targetFile, JsonUtil.toPrettyJson(this.config), StandardCharsets.UTF_8.name());
+                FileUtils.write(targetFile, JSON.toJSONString(this.config, Feature.PrettyFormat), StandardCharsets.UTF_8.name());
             } catch (Exception e) {
                 LOGGER.error("写入文件异常", e);
             }

@@ -3,10 +3,11 @@ package com.star.easydoc.service.translator.impl;
 import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.annotation.JSONField;
+
 import com.intellij.openapi.diagnostic.Logger;
 import com.star.easydoc.common.util.HttpUtil;
-import com.star.easydoc.common.util.JsonUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -52,7 +53,7 @@ public class BaiduTranslator extends AbstractTranslator {
             String salt = RandomStringUtils.randomNumeric(16);
             String sign = DigestUtils.md5Hex(getConfig().getAppId() + text + salt + getConfig().getToken());
             String eText = HttpUtil.encode(text);
-            BaiduResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(URL, getConfig().getAppId(), salt, sign, eText)),
+            BaiduResponse response = JSON.parseObject(HttpUtil.get(String.format(URL, getConfig().getAppId(), salt, sign, eText)),
                 BaiduResponse.class);
             if (response == null || "54003".equals(response.getErrorCode())) {
                 Thread.sleep(500);
@@ -65,13 +66,13 @@ public class BaiduTranslator extends AbstractTranslator {
     }
 
     private static class BaiduResponse {
-        @JsonProperty("error_code")
+        @JSONField(name = "error_code")
         private String errorCode;
-        @JsonProperty("error_msg")
+        @JSONField(name = "error_msg")
         private String errorMsg;
         private String from;
         private String to;
-        @JsonProperty("trans_result")
+        @JSONField(name = "trans_result")
         private List<TransResult> transResult;
 
         public void setFrom(String from) {

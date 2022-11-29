@@ -18,10 +18,11 @@ import java.util.UUID;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.annotation.JSONField;
+
 import com.intellij.openapi.diagnostic.Logger;
 import com.star.easydoc.common.util.HttpUtil;
-import com.star.easydoc.common.util.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -60,8 +61,8 @@ public class AliyunTranslator extends AbstractTranslator {
         request.setTargetLanguage(targetLanguage);
         request.setSourceText(text);
         try {
-            String json = sendPost(URL, JsonUtil.toJson(request), getConfig().getAccessKeyId(), getConfig().getAccessKeySecret());
-            AliyunResponseVO response = JsonUtil.fromJson(json, AliyunResponseVO.class);
+            String json = sendPost(URL, JSON.toJSONString(request), getConfig().getAccessKeyId(), getConfig().getAccessKeySecret());
+            AliyunResponseVO response = JSON.parseObject(json, AliyunResponseVO.class);
             return Objects.requireNonNull(response).getData().getTranslated();
         } catch (Exception e) {
             LOGGER.error("请求阿里云翻译接口异常：请检查本地网络是否可连接外网，也有可能被阿里云限流", e);
@@ -155,19 +156,19 @@ public class AliyunTranslator extends AbstractTranslator {
      */
     private static class AliyunRequestVO {
         /** 格式类型 */
-        @JsonProperty("FormatType")
+        @JSONField(name = "FormatType")
         private String formatType = "text";
         /** 源语言 */
-        @JsonProperty("SourceLanguage")
+        @JSONField(name = "SourceLanguage")
         private String sourceLanguage;
         /** 目标语言 */
-        @JsonProperty("TargetLanguage")
+        @JSONField(name = "TargetLanguage")
         private String targetLanguage;
         /** 文本 */
-        @JsonProperty("SourceText")
+        @JSONField(name = "SourceText")
         private String sourceText;
         /** 场景 */
-        @JsonProperty("Scene")
+        @JSONField(name = "Scene")
         private String scene = "general";
 
         public String getFormatType() {
@@ -216,13 +217,13 @@ public class AliyunTranslator extends AbstractTranslator {
      */
     private static class AliyunResponseVO {
         /** 代码 */
-        @JsonProperty("Code")
+        @JSONField(name = "Code")
         private String code;
         /** 请求id */
-        @JsonProperty("RequestId")
+        @JSONField(name = "RequestId")
         private String requestId;
         /** 数据 */
-        @JsonProperty("Data")
+        @JSONField(name = "Data")
         private AliyunResponseDataVO data;
 
         public String getCode() {
@@ -255,10 +256,10 @@ public class AliyunTranslator extends AbstractTranslator {
      */
     private static class AliyunResponseDataVO {
         /** 字数 */
-        @JsonProperty("WordCount")
+        @JSONField(name = "WordCount")
         private String wordCount;
         /** 翻译 */
-        @JsonProperty("Translated")
+        @JSONField(name = "Translated")
         private String translated;
 
         public String getWordCount() {

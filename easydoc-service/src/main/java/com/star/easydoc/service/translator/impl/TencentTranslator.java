@@ -10,10 +10,11 @@ import java.util.TreeMap;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.annotation.JSONField;
+
 import com.intellij.openapi.diagnostic.Logger;
 import com.star.easydoc.common.util.HttpUtil;
-import com.star.easydoc.common.util.JsonUtil;
 
 /**
  * 腾讯翻译
@@ -64,8 +65,7 @@ public class TencentTranslator extends AbstractTranslator {
             String str2sign = getStringToSign("GET", "tmt.tencentcloudapi.com", params);
             String signature = sign(str2sign, getConfig().getSecretKey(), "HmacSHA1");
             params.put("Signature", signature);
-            TencentResult result = JsonUtil
-                .fromJson(HttpUtil.get("https://tmt.tencentcloudapi.com", params), TencentResult.class);
+            TencentResult result = JSON.parseObject(HttpUtil.get("https://tmt.tencentcloudapi.com", params), TencentResult.class);
             response = result == null ? null : result.getResponse();
             if (response == null || (response.getError() != null && "RequestLimitExceeded".equals(response.getError().getCode()))) {
                 Thread.sleep(500);
@@ -94,7 +94,7 @@ public class TencentTranslator extends AbstractTranslator {
     }
 
     private static class TencentResult {
-        @JsonProperty("Response")
+        @JSONField(name = "Response")
         private TencentResponse response;
 
         public TencentResponse getResponse() {
@@ -107,15 +107,15 @@ public class TencentTranslator extends AbstractTranslator {
     }
 
     private static class TencentResponse {
-        @JsonProperty("RequestId")
+        @JSONField(name = "RequestId")
         private String requestId;
-        @JsonProperty("Source")
+        @JSONField(name = "Source")
         private String source;
-        @JsonProperty("Target")
+        @JSONField(name = "Target")
         private String target;
-        @JsonProperty("TargetText")
+        @JSONField(name = "TargetText")
         private String targetText;
-        @JsonProperty("Error")
+        @JSONField(name = "Error")
         private TencentError error;
 
         public String getRequestId() {
@@ -160,9 +160,9 @@ public class TencentTranslator extends AbstractTranslator {
     }
 
     private static class TencentError {
-        @JsonProperty("Code")
+        @JSONField(name = "Code")
         private String code;
-        @JsonProperty("Message")
+        @JSONField(name = "Message")
         private String message;
 
         public String getCode() {

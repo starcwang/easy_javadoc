@@ -3,9 +3,10 @@ package com.star.easydoc.service.translator.impl;
 import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.annotation.JSONField;
+
 import com.star.easydoc.common.util.HttpUtil;
-import com.star.easydoc.common.util.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -21,7 +22,7 @@ public class JinshanTranslator extends AbstractTranslator {
     @Override
     public String translateEn2Ch(String text) {
         try {
-            JinshanResponse response = JsonUtil.fromJson(HttpUtil.get(String.format(URL, HttpUtil.encode(text))), JinshanResponse.class);
+            JinshanResponse response = JSON.parseObject(HttpUtil.get(String.format(URL, HttpUtil.encode(text))), JinshanResponse.class);
             return Objects.requireNonNull(response).getSymbols().get(0).getParts().get(0).getMeans().get(0);
         } catch (Exception ignore) {
             return StringUtils.EMPTY;
@@ -36,9 +37,9 @@ public class JinshanTranslator extends AbstractTranslator {
 
     private static class JinshanResponse {
 
-        @JsonProperty("word_name")
+        @JSONField(name = "word_name")
         private String wordName;
-        @JsonProperty("is_CRI")
+        @JSONField(name = "is_CRI")
         private String isCRI;
         private Exchange exchange;
         private List<Symbols> symbols;
@@ -78,19 +79,19 @@ public class JinshanTranslator extends AbstractTranslator {
 
     private static class Exchange {
 
-        @JsonProperty("word_pl")
+        @JSONField(name = "word_pl")
         private List<String> wordPl;
-        @JsonProperty("word_third")
+        @JSONField(name = "word_third")
         private String wordThird;
-        @JsonProperty("word_past")
+        @JSONField(name = "word_past")
         private String wordPast;
-        @JsonProperty("word_done")
+        @JSONField(name = "word_done")
         private String wordDone;
-        @JsonProperty("word_ing")
+        @JSONField(name = "word_ing")
         private String wordIng;
-        @JsonProperty("word_er")
+        @JSONField(name = "word_er")
         private String wordEr;
-        @JsonProperty("word_est")
+        @JSONField(name = "word_est")
         private String wordEst;
 
         public List<String> getWordPl() {
@@ -175,17 +176,17 @@ public class JinshanTranslator extends AbstractTranslator {
 
     private static class Symbols {
 
-        @JsonProperty("ph_en")
+        @JSONField(name = "ph_en")
         private String phEn;
-        @JsonProperty("ph_am")
+        @JSONField(name = "ph_am")
         private String phAm;
-        @JsonProperty("ph_other")
+        @JSONField(name = "ph_other")
         private String phOther;
-        @JsonProperty("ph_en_mp3")
+        @JSONField(name = "ph_en_mp3")
         private String phEnMp3;
-        @JsonProperty("ph_am_mp3")
+        @JSONField(name = "ph_am_mp3")
         private String phAmMp3;
-        @JsonProperty("ph_tts_mp3")
+        @JSONField(name = "ph_tts_mp3")
         private String phTtsMp3;
         private List<Parts> parts;
 

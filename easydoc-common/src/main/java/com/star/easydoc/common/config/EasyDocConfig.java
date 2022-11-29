@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.alibaba.fastjson2.annotation.JSONField;
 
 /**
  * 持久化配置文件
@@ -358,12 +358,12 @@ public class EasyDocConfig {
         this.methodReturnType = methodReturnType;
     }
 
-    @JsonIgnore
+    @JSONField(serialize = false)
     public boolean isCodeMethodReturnType() {
         return CODE_RETURN_TYPE.equals(methodReturnType);
     }
 
-    @JsonIgnore
+    @JSONField(serialize = false)
     public boolean isLinkMethodReturnType() {
         return LINK_RETURN_TYPE.equals(methodReturnType);
     }

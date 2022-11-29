@@ -2,10 +2,11 @@ package com.star.easydoc.service.translator.impl;
 
 import java.util.Objects;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+
 import com.intellij.openapi.diagnostic.Logger;
 import com.star.easydoc.common.util.HttpUtil;
-import com.star.easydoc.common.util.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -50,8 +51,8 @@ public class GoogleTranslator extends AbstractTranslator {
     @Override
     public String translateEn2Ch(String text) {
         try {
-            JsonNode response = JsonUtil.fromJson(HttpUtil.get(String.format(EN2CH_URL, HttpUtil.encode(text))));
-            return Objects.requireNonNull(response).get(0).get(0).get(0).textValue();
+            JSONArray response = JSON.parseArray(HttpUtil.get(String.format(EN2CH_URL, HttpUtil.encode(text))));
+            return Objects.requireNonNull(response).getJSONArray(0).getJSONArray(0).getJSONArray(0).toJSONString();
         } catch (Exception e) {
             LOGGER.error("请求谷歌翻译接口异常：请检查本地网络是否可连接外网，也有可能已经被谷歌限流", e);
             return StringUtils.EMPTY;
@@ -61,8 +62,8 @@ public class GoogleTranslator extends AbstractTranslator {
     @Override
     public String translateCh2En(String text) {
         try {
-            JsonNode response = JsonUtil.fromJson(HttpUtil.get(String.format(CH2EN_URL, HttpUtil.encode(text))));
-            return Objects.requireNonNull(response).get(0).get(0).get(0).textValue();
+            JSONArray response = JSON.parseArray(HttpUtil.get(String.format(CH2EN_URL, HttpUtil.encode(text))));
+            return Objects.requireNonNull(response).getJSONArray(0).getJSONArray(0).getJSONArray(0).toJSONString();
         } catch (Exception e) {
             LOGGER.error("请求谷歌翻译接口异常：请检查本地网络是否可连接外网，也有可能已经被谷歌限流", e);
             return StringUtils.EMPTY;
