@@ -1,11 +1,16 @@
 package com.star.easydoc.javadoc.action;
 
+import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
+import com.intellij.openapi.application.Application;
+import com.intellij.openapi.application.ApplicationActivationListener;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Disposer;
 import com.intellij.psi.JavaDirectoryService;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiElement;
@@ -13,7 +18,9 @@ import com.intellij.psi.PsiElementFactory;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiPackage;
 import com.intellij.psi.javadoc.PsiDocComment;
+import com.intellij.util.messages.MessageBusConnection;
 import com.star.easydoc.common.util.LanguageUtil;
+import com.star.easydoc.javadoc.listener.AppActivationListener;
 import com.star.easydoc.javadoc.service.DocGeneratorService;
 import com.star.easydoc.javadoc.service.WriterService;
 import com.star.easydoc.javadoc.view.inner.TranslateResultView;
@@ -36,6 +43,15 @@ public class GenerateJavadocAction extends AnAction {
      */
     public GenerateJavadocAction() {
         super();
+
+        // 设置消息监听
+        AppActivationListener listener = new AppActivationListener();
+        Application app = ApplicationManager.getApplication();
+        Disposable disposable = Disposer.newDisposable();
+        Disposer.register(app, disposable);
+        MessageBusConnection connection = app.getMessageBus().connect(disposable);
+        connection.subscribe(ApplicationActivationListener.TOPIC, listener);
+        listener.activate();
     }
 
     @Override

@@ -34,6 +34,13 @@ public class AppActivationListener implements ApplicationActivationListener {
 
     @Override
     public synchronized void applicationActivated(@NotNull IdeFrame ideFrame) {
+        activate();
+    }
+
+    /**
+     * 激活
+     */
+    public synchronized void activate() {
         support();
         serviceInit();
     }
