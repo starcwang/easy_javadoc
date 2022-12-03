@@ -4,10 +4,12 @@ import com.intellij.psi.PsiElement
 import com.star.easydoc.kdoc.service.generator.DocGenerator
 import com.star.easydoc.kdoc.service.generator.impl.KtClassDocGenerator
 import com.star.easydoc.kdoc.service.generator.impl.KtNamedFunctionDocGenerator
+import com.star.easydoc.kdoc.service.generator.impl.KtObjectDocGenerator
 import com.star.easydoc.kdoc.service.generator.impl.KtPropertyDocGenerator
 import org.apache.commons.lang3.StringUtils
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtNamedFunction
+import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.KtProperty
 import java.util.*
 
@@ -18,6 +20,7 @@ import java.util.*
 class DocGeneratorService {
     private val docGeneratorMap = mapOf(
         KtClass::class to KtClassDocGenerator(),
+        KtObjectDeclaration::class to KtObjectDocGenerator(),
         KtNamedFunction::class to KtNamedFunctionDocGenerator(),
         KtProperty::class to KtPropertyDocGenerator()
     )

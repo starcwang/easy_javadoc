@@ -48,17 +48,15 @@ class ParamsVariableGenerator : AbstractVariableGenerator() {
                 thisParam = "[${param}]"
             }
             if (paramValues.containsKey(param)) {
-                if (paramsDoc.isEmpty()) {
-                    paramsDoc.add("@param " + thisParam + " " + paramValues[param])
-                } else {
-                    paramsDoc.add("* @param " + thisParam + " " + paramValues[param])
-                }
+                paramsDoc.add("${if (paramsDoc.isEmpty()) "" else "* "}@param $thisParam ${paramValues[param]}")
             } else {
-                if (paramsDoc.isEmpty()) {
-                    paramsDoc.add("@param " + thisParam + " " + translatorService.translate(param))
-                } else {
-                    paramsDoc.add("* @param " + thisParam + " " + translatorService.translate(param))
-                }
+                paramsDoc.add(
+                    "${if (paramsDoc.isEmpty()) "" else "* "}@param $thisParam ${
+                        translatorService.translate(
+                            param
+                        )
+                    }"
+                )
             }
         }
 

@@ -46,7 +46,7 @@ class GenerateKdocAction
         }
         val psiElement = anActionEvent.getData(LangDataKeys.PSI_ELEMENT)
 
-        if (psiElement == null || psiElement.getNode() == null) {
+        if (psiElement?.node == null) {
             return
         }
         val comment = docGeneratorService.generate(psiElement)
