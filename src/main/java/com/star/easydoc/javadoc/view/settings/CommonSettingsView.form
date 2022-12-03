@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.star.easydoc.javadoc.view.settings.CommonSettingsView">
+  <grid id="27dc6" binding="panel" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="713" height="760"/>
+    </constraints>
+    <properties>
+      <alignmentY value="0.5"/>
+      <doubleBuffered value="true"/>
+      <enabled value="true"/>
+      <focusCycleRoot value="false"/>
+      <focusTraversalPolicyProvider value="false"/>
+      <focusable value="true"/>
+      <inheritsPopupMenu value="false"/>
+      <opaque value="true"/>
+      <requestFocusEnabled value="true"/>
+      <verifyInputWhenFocusTarget value="true"/>
+      <visible value="true"/>
+    </properties>
+    <clientProperties>
+      <html.disable class="java.lang.Boolean" value="false"/>
+    </clientProperties>
+    <border type="none"/>
+    <children>
+      <grid id="7559d" binding="wordMapPanel" custom-create="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none" title="自定义单词映射"/>
+        <children/>
+      </grid>
+      <grid id="5208e" binding="classPanel" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="true"/>
+        </constraints>
+        <properties>
+          <inheritsPopupMenu value="true"/>
+          <name value=""/>
+          <toolTipText value=""/>
+        </properties>
+        <border type="none" title="类相关设置"/>
+        <children>
+          <component id="3b6e" class="javax.swing.JTextField" binding="authorTextField">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="f4bc2" class="javax.swing.JTextField" binding="dateFormatTextField">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="a0b9d" class="javax.swing.JLabel" binding="authorLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <requestFocusEnabled value="true"/>
+              <text value="作者"/>
+            </properties>
+          </component>
+          <component id="e08b7" class="javax.swing.JLabel" binding="dataFormatLabel">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="日期格式"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="60709" binding="fieldPanel" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="true"/>
+        </constraints>
+        <properties/>
+        <border type="none" title="属性相关设置"/>
+        <children>
+          <component id="c1f33" class="javax.swing.JLabel" binding="fieldDocLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="注释形式　"/>
+            </properties>
+          </component>
+          <component id="abde4" class="javax.swing.JRadioButton" binding="simpleDocButton">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="单行模式"/>
+            </properties>
+          </component>
+          <component id="eff1" class="javax.swing.JRadioButton" binding="normalDocButton">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="普通模式"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="70284" binding="commonPanel" layout-manager="GridLayoutManager" row-count="10" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="true"/>
+        </constraints>
+        <properties/>
+        <border type="none" title="通用设置"/>
+        <children>
+          <component id="6eddb" class="javax.swing.JLabel" binding="translatorLabel">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="翻译方式"/>
+            </properties>
+          </component>
+          <component id="3f5e1" class="javax.swing.JComboBox" binding="translatorBox">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <model>
+                <item value="有道翻译"/>
+                <item value="百度翻译"/>
+                <item value="腾讯翻译"/>
+                <item value="阿里云翻译"/>
+                <item value="关闭（只使用自定义翻译）"/>
+              </model>
+            </properties>
+          </component>
+          <component id="e36dc" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="配置"/>
+            </properties>
+          </component>
+          <component id="eef22" class="javax.swing.JButton" binding="importButton">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="导入"/>
+            </properties>
+          </component>
+          <component id="7cc83" class="javax.swing.JButton" binding="exportButton">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="导出"/>
+            </properties>
+          </component>
+          <component id="5db75" class="javax.swing.JTextField" binding="appIdTextField">
+            <constraints>
+              <grid row="2" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <visible value="true"/>
+            </properties>
+          </component>
+          <component id="c6087" class="javax.swing.JLabel" binding="appIdLabel">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="APP ID"/>
+              <visible value="true"/>
+            </properties>
+          </component>
+          <component id="24bce" class="javax.swing.JLabel" binding="tokenLabel">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="密钥"/>
+            </properties>
+          </component>
+          <component id="8e844" class="javax.swing.JButton" binding="resetButton">
+            <constraints>
+              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="重置"/>
+            </properties>
+          </component>
+          <component id="4cb7c" class="javax.swing.JButton" binding="clearButton">
+            <constraints>
+              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="清空缓存"/>
+            </properties>
+          </component>
+          <component id="32998" class="javax.swing.JTextField" binding="tokenTextField">
+            <constraints>
+              <grid row="3" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="d5e28" class="javax.swing.JLabel" binding="secretIdLabel">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="SecretId"/>
+            </properties>
+          </component>
+          <component id="e6ad3" class="javax.swing.JLabel" binding="secretKeyLabel">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="SecretKey"/>
+            </properties>
+          </component>
+          <component id="a62ff" class="javax.swing.JTextField" binding="secretIdTextField">
+            <constraints>
+              <grid row="4" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="a67ae" class="javax.swing.JTextField" binding="secretKeyTextField">
+            <constraints>
+              <grid row="5" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="4f24e" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="说明书"/>
+            </properties>
+          </component>
+          <component id="5bb5a" class="javax.swing.JButton" binding="starButton">
+            <constraints>
+              <grid row="9" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="去点star~⭐"/>
+            </properties>
+          </component>
+          <component id="14689" class="javax.swing.JButton" binding="payButton">
+            <constraints>
+              <grid row="9" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="请作者喝咖啡~☕"/>
+            </properties>
+          </component>
+          <component id="2faa5" class="javax.swing.JLabel" binding="accessKeyIdLabel">
+            <constraints>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="AccessKeyId"/>
+            </properties>
+          </component>
+          <component id="d79c8" class="javax.swing.JTextField" binding="accessKeyIdTextField">
+            <constraints>
+              <grid row="6" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="c6bc0" class="javax.swing.JLabel" binding="accessKeySecretLabel">
+            <constraints>
+              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="AccessKeySecret"/>
+            </properties>
+          </component>
+          <component id="d05f3" class="javax.swing.JTextField" binding="accessKeySecretTextField">
+            <constraints>
+              <grid row="7" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="8d883" class="javax.swing.JLabel" binding="paramTypeLabel">
+            <constraints>
+              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="参数模式"/>
+            </properties>
+          </component>
+          <component id="7c101" class="javax.swing.JComboBox" binding="paramTypeBox">
+            <constraints>
+              <grid row="8" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <model>
+                <item value="普通模式"/>
+                <item value="中括号模式"/>
+              </model>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="53aaf" binding="methodPanel" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="true"/>
+        </constraints>
+        <properties/>
+        <border type="none" title="方法相关设置"/>
+        <children>
+          <component id="1fbad" class="javax.swing.JLabel" binding="methodReturnTypeLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="返回值样式"/>
+            </properties>
+          </component>
+          <component id="37209" class="javax.swing.JRadioButton" binding="methodReturnCodeTypeButton">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="code模式"/>
+            </properties>
+          </component>
+          <component id="e44da" class="javax.swing.JRadioButton" binding="methodReturnLinkTypeButton">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="link模式"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

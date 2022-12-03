@@ -1,6 +1,2 @@
 rootProject.name = 'easy_doc'
-include 'easydoc-common'
-include 'easydoc-service'
-include 'easydoc-javadoc'
-include 'easydoc-kdoc'
 

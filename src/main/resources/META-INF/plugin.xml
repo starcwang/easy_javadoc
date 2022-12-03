@@ -1,0 +1,202 @@
+<idea-plugin>
+    <id>com.star.easydoc.easy-javadoc</id>
+    <name>Easy Javadoc</name>
+    <vendor email="wangchao.star@gmail.com" url="https://github.com/starcwang">wangchao</vendor>
+
+    <description><![CDATA[
+      This plugin can help you complete the Chinese javadoc/kdoc document quickly.<br>
+      Support three type of javadoc/kdoc: field, method and class.<br>
+      <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
+      <img src="https://raw.githubusercontent.com/starcwang/easy_javadoc/master/doc/k03vffH6Hg.gif" /><br>
+      <p>
+        能帮助开发者快速生成类、方法、属性等中文javadoc/kdoc
+      </p>
+    ]]></description>
+
+    <change-notes><![CDATA[
+      <h3>v3.0.0</h3>
+      <ul>
+          <li>support kotlin kdoc</li>
+      </ul>
+      <h3>v2.0.1</h3>
+      <ul>
+          <li>fix some bugs</li>
+      </ul>
+      <h3>v2.0.0</h3>
+      <ul>
+          <li>code refactoring</li>
+      </ul>
+      <h3>v1.29</h3>
+      <ul>
+          <li>fix some bugs</li>
+      </ul>
+      <h3>v1.28</h3>
+      <ul>
+          <li>optimize import and export</li>
+          <li>fix some bugs</li>
+      </ul>
+      <h3>v1.27</h3>
+      <ul>
+          <li>support aliyun translator</li>
+          <li>fix some bugs</li>
+      </ul>
+      <h3>v1.26</h3>
+      <ul>
+          <li>support package-info.java -- Contributed by mixley</li>
+      </ul>
+      <h3>v1.25 fix</h3>
+      <ul>
+          <li>fix some bugs</li>
+      </ul>
+      <h3>v1.24 fix</h3>
+      <ul>
+          <li>fix some bugs</li>
+      </ul>
+      <h3>v1.23 update</h3>
+      <ul>
+          <li>add logo</li>
+          <li>add listener</li>
+      </ul>
+      <h3>v1.22 update</h3>
+      <ul>
+          <li>keep generate all javadoc option</li>
+      </ul>
+      <h3>v1.21 update</h3>
+      <ul>
+          <li>method @return support code-mode and link-mode</li>
+          <li>optimization hints</li>
+      </ul>
+      <h3>v1.20 update</h3>
+      <ul>
+          <li>fix custom param bug</li>
+      </ul>
+      <h3>v1.19 update</h3>
+      <ul>
+          <li>fix @return bug</li>
+      </ul>
+      <h3>v1.18 update</h3>
+      <ul>
+          <li>support full custom translate</li>
+      </ul>
+      <h3>v1.17 update</h3>
+      <ul>
+          <li>support custom template</li>
+      </ul>
+      <h3>v1.16 update</h3>
+      <ul>
+          <li>@throws tag bug fix</li>
+      </ul>
+      <h3>v1.15 update</h3>
+      <ul>
+          <li>fix some bugs</li>
+      </ul>
+      <h3>v1.13 update</h3>
+      <ul>
+          <li>support baidu translator and tencent translator</li>
+          <li>add cache for translator</li>
+      </ul>
+      <h3>v1.12 update</h3>
+      <ul>
+          <li>fix some bugs</li>
+      </ul>
+      <h3>v1.11 update</h3>
+      <ul>
+          <li>fix some bugs</li>
+      </ul>
+      <h3>v1.10 update</h3>
+      <ul>
+          <li>support auto translate</li>
+          <li>fix some bugs</li>
+      </ul>
+      <h3>v1.9 update</h3>
+      <ul>
+          <li>fix some bugs</li>
+      </ul>
+      <h3>v1.8 update</h3>
+      <ul>
+          <li>support import and export</li>
+          <li>support more IDEA versions</li>
+      </ul>
+      <h3>v1.7 update</h3>
+      <ul>
+          <li>fix some bugs</li>
+      </ul>
+      <h3>v1.6 update</h3>
+      <ul>
+          <li>support custom template</li>
+          <li>support translate Chinese to English</li>
+          <li>fix some bugs</li>
+      </ul>
+      <h3>v1.5 update</h3>
+      <ul>
+          <li>support more idea versions</li>
+          <li>fix some bugs</li>
+      </ul>
+      <h3>v1.4 update</h3>
+      <ul>
+          <li>support for incremental updates</li>
+          <li>support whole sentences translation</li>
+          <li>add @throws label for the method javadoc</li>
+          <li>fix some bugs</li>
+      </ul>
+      <h3>v1.3 update</h3>
+      <ul>
+          <li>support bulk insert javadoc</li>
+          <li>fix some bugs</li>
+      </ul>
+      <h3>v1.1 update</h3>
+      <ul>
+          <li>add @link label in @return doc of the method javadoc</li>
+          <li>fix some bugs</li>
+      </ul>
+      <h3>v1.0 first version</h3>
+      <ul>
+          <li>support class, method and field javadoc</li>
+      </ul>
+      <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
+    ]]>
+    </change-notes>
+    
+    <idea-version since-build="181"/>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <applicationService serviceImplementation="com.star.easydoc.config.EasyDocConfigComponent" order="first"/>
+        <applicationService serviceImplementation="com.star.easydoc.javadoc.service.JavaDocGeneratorServiceImpl"/>
+        <applicationService serviceImplementation="com.star.easydoc.service.WriterService"/>
+        <applicationService serviceImplementation="com.star.easydoc.service.translator.TranslatorService"/>
+        <applicationService serviceImplementation="com.star.easydoc.javadoc.service.variable.VariableGeneratorService"/>
+        <applicationConfigurable displayName="EasyJavadoc" instance="com.star.easydoc.javadoc.view.settings.CommonConfigurable">
+            <configurable instance="com.star.easydoc.javadoc.view.settings.javadoc.template.ClassConfigurable"/>
+            <configurable instance="com.star.easydoc.javadoc.view.settings.javadoc.template.MethodConfigurable"/>
+            <configurable instance="com.star.easydoc.javadoc.view.settings.javadoc.template.FieldConfigurable"/>
+        </applicationConfigurable>
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+        <group id="com.star.javadoc" text="EasyJavadoc" description="EasyJavadoc" popup="true">
+            <separator/>
+            <group id="EasyJavadocSubGroup"/>
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <action id="javadoc.generator" class="com.star.easydoc.javadoc.action.GenerateJavadocAction" text="GenerateJavadoc"
+                    description="GenerateJavadoc">
+                <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta BACK_SLASH"/>
+                <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta BACK_SLASH"/>
+                <keyboard-shortcut keymap="Default for XWin" first-keystroke="ctrl BACK_SLASH"/>
+                <keyboard-shortcut keymap="$default" first-keystroke="meta BACK_SLASH"/>
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl BACK_SLASH"/>
+            </action>
+        </group>
+        <action id="javadoc.generatorAll" class="com.star.easydoc.javadoc.action.GenerateAllJavadocAction" text="生成文档注释">
+            <add-to-group group-id="JavaGenerateGroup1" anchor="before" relative-to-action="GenerateEquals"/>
+            <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta shift BACK_SLASH"/>
+            <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta shift BACK_SLASH"/>
+            <keyboard-shortcut keymap="Default for XWin" first-keystroke="ctrl shift BACK_SLASH"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="meta shift BACK_SLASH"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift BACK_SLASH"/>
+        </action>
+    </actions>
+
+    <depends>com.intellij.modules.java</depends>
+</idea-plugin>
