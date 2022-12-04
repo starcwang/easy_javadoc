@@ -1,10 +1,8 @@
 package com.star.easydoc.view.settings.kdoc
 
 import com.intellij.openapi.components.ServiceManager
-import com.intellij.openapi.diagnostic.Logger
+import com.star.easydoc.config.EasyDocConfig
 import com.star.easydoc.config.EasyDocConfigComponent
-import com.star.easydoc.service.translator.TranslatorService
-import com.star.easydoc.view.settings.CommonSettingsView
 import org.apache.commons.lang3.BooleanUtils
 import javax.swing.*
 import javax.swing.event.ChangeEvent
@@ -55,6 +53,19 @@ class KdocSettingsView {
 
     }
 
+    fun refresh() {
+        if (BooleanUtils.isTrue(config.simpleFieldDoc)) {
+            setSimpleDocButton(true)
+            setNormalDocButton(false)
+        } else {
+            setSimpleDocButton(false)
+            setNormalDocButton(true)
+        }
+        kdocParamTypeBox.selectedItem = config.kdocParamType
+        setAuthorTextField(config.kdocAuthor)
+        setDateFormatTextField(config.kdocDateFormat)
+    }
+
     val component: JComponent
         get() = panel
 
@@ -70,8 +81,27 @@ class KdocSettingsView {
         authorTextField.text = author
     }
 
+    fun getAuthorTextField(): String {
+        return authorTextField.text
+    }
+
+    fun getDateFormatTextField(): String {
+        return dateFormatTextField.text
+    }
 
     fun setDateFormatTextField(dateFormat: String?) {
         dateFormatTextField.text = dateFormat
+    }
+
+    fun getKdocParamType(): String {
+        return kdocParamTypeBox.selectedItem?.toString() ?: ""
+    }
+
+    fun setKdocParamType(kdocParamType: String) {
+        kdocParamTypeBox.selectedItem = kdocParamType
+    }
+
+    fun getKdocSimpleFieldDoc(): Boolean {
+        return simpleDocButton.isSelected
     }
 }

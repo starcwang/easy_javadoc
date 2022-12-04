@@ -25,7 +25,7 @@ class KtFieldSettingsConfigurable : AbstractTemplateConfigurable<KtFieldSettings
     }
 
     override fun isModified(): Boolean {
-        val templateConfig = config.fieldTemplateConfig
+        val templateConfig = config.kdocFieldTemplateConfig
         if (templateConfig.isDefault != view.isDefault) {
             return true
         }
@@ -33,7 +33,7 @@ class KtFieldSettingsConfigurable : AbstractTemplateConfigurable<KtFieldSettings
     }
 
     override fun apply() {
-        val templateConfig = config.fieldTemplateConfig
+        val templateConfig = config.kdocFieldTemplateConfig
         templateConfig.isDefault = view.isDefault
         templateConfig.template = view.template
         if (templateConfig.customMap == null) {
@@ -51,7 +51,7 @@ class KtFieldSettingsConfigurable : AbstractTemplateConfigurable<KtFieldSettings
     }
 
     override fun reset() {
-        val templateConfig = config.fieldTemplateConfig
+        val templateConfig = config.kdocFieldTemplateConfig
         view.isDefault = BooleanUtils.isTrue(templateConfig.isDefault)
         view.template = templateConfig.template
     }

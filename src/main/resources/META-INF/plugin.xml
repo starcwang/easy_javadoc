@@ -175,7 +175,7 @@
             <configurable parentId="easydoc.javadoc.settings" instance="com.star.easydoc.view.settings.javadoc.template.FieldSettingsConfigurable"/>
         </applicationConfigurable>
 
-        <applicationConfigurable parentId="easydoc.common.settings" id="easydoc.kdoc.settings" displayName="kdoc" instance="com.star.easydoc.view.settings.kdoc.KdocSettingsConfigurable">
+        <applicationConfigurable parentId="easydoc.common.settings" id="easydoc.kdoc.settings" displayName="Kdoc" instance="com.star.easydoc.view.settings.kdoc.KdocSettingsConfigurable">
             <configurable parentId="easydoc.kdoc.settings" instance="com.star.easydoc.view.settings.kdoc.template.KtClassSettingsConfigurable"/>
             <configurable parentId="easydoc.kdoc.settings" instance="com.star.easydoc.view.settings.kdoc.template.KtMethodSettingsConfigurable"/>
             <configurable parentId="easydoc.kdoc.settings" instance="com.star.easydoc.view.settings.kdoc.template.KtFieldSettingsConfigurable"/>

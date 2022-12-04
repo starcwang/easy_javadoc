@@ -3,10 +3,8 @@ package com.star.easydoc.view.settings.javadoc;
 import javax.swing.*;
 
 import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.diagnostic.Logger;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.config.EasyDocConfigComponent;
-import com.star.easydoc.service.translator.TranslatorService;
 import org.apache.commons.lang3.BooleanUtils;
 
 /**
@@ -15,8 +13,6 @@ import org.apache.commons.lang3.BooleanUtils;
  */
 public class JavadocSettingsView {
 
-    private static final Logger LOGGER = Logger.getInstance(JavadocSettingsView.class);
-    private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
     private EasyDocConfig config = ServiceManager.getService(EasyDocConfigComponent.class).getState();
 
     private JPanel panel;

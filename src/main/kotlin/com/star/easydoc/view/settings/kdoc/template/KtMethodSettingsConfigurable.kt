@@ -25,7 +25,7 @@ class KtMethodSettingsConfigurable : AbstractTemplateConfigurable<KtMethodSettin
     }
 
     override fun isModified(): Boolean {
-        val templateConfig = config.methodTemplateConfig
+        val templateConfig = config.kdocMethodTemplateConfig
         if (templateConfig.isDefault != view.isDefault) {
             return true
         }
@@ -33,7 +33,7 @@ class KtMethodSettingsConfigurable : AbstractTemplateConfigurable<KtMethodSettin
     }
 
     override fun apply() {
-        val templateConfig = config.methodTemplateConfig
+        val templateConfig = config.kdocMethodTemplateConfig
         templateConfig.isDefault = view.isDefault
         templateConfig.template = view.template
         if (templateConfig.customMap == null) {
@@ -51,7 +51,7 @@ class KtMethodSettingsConfigurable : AbstractTemplateConfigurable<KtMethodSettin
     }
 
     override fun reset() {
-        val templateConfig = config.methodTemplateConfig
+        val templateConfig = config.kdocMethodTemplateConfig
         view.isDefault = BooleanUtils.isTrue(templateConfig.isDefault)
         view.template = templateConfig.template
     }
