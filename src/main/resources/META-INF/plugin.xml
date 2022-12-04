@@ -156,7 +156,7 @@
       <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
     ]]>
     </change-notes>
-    
+
     <idea-version since-build="181"/>
 
     <extensions defaultExtensionNs="com.intellij">
@@ -166,11 +166,21 @@
         <applicationService serviceImplementation="com.star.easydoc.service.WriterService"/>
         <applicationService serviceImplementation="com.star.easydoc.service.translator.TranslatorService"/>
         <applicationService serviceImplementation="com.star.easydoc.javadoc.service.variable.VariableGeneratorService"/>
-        <applicationConfigurable displayName="EasyJavadoc" instance="com.star.easydoc.javadoc.view.settings.CommonConfigurable">
-            <configurable instance="com.star.easydoc.javadoc.view.settings.javadoc.template.ClassConfigurable"/>
-            <configurable instance="com.star.easydoc.javadoc.view.settings.javadoc.template.MethodConfigurable"/>
-            <configurable instance="com.star.easydoc.javadoc.view.settings.javadoc.template.FieldConfigurable"/>
+
+        <applicationConfigurable id="easydoc.common.settings" displayName="Easy Doc" instance="com.star.easydoc.view.settings.CommonSettingsConfigurable"/>
+
+        <applicationConfigurable parentId="easydoc.common.settings" id="easydoc.javadoc.settings" displayName="Javadoc" instance="com.star.easydoc.view.settings.javadoc.JavadocSettingsConfigurable">
+            <configurable parentId="easydoc.javadoc.settings" instance="com.star.easydoc.view.settings.javadoc.template.ClassSettingsConfigurable"/>
+            <configurable parentId="easydoc.javadoc.settings" instance="com.star.easydoc.view.settings.javadoc.template.MethodSettingsConfigurable"/>
+            <configurable parentId="easydoc.javadoc.settings" instance="com.star.easydoc.view.settings.javadoc.template.FieldSettingsConfigurable"/>
         </applicationConfigurable>
+
+        <applicationConfigurable parentId="easydoc.common.settings" id="easydoc.kdoc.settings" displayName="kdoc" instance="com.star.easydoc.view.settings.kdoc.KdocSettingsConfigurable">
+            <configurable parentId="easydoc.kdoc.settings" instance="com.star.easydoc.view.settings.kdoc.template.KtClassSettingsConfigurable"/>
+            <configurable parentId="easydoc.kdoc.settings" instance="com.star.easydoc.view.settings.kdoc.template.KtMethodSettingsConfigurable"/>
+            <configurable parentId="easydoc.kdoc.settings" instance="com.star.easydoc.view.settings.kdoc.template.KtFieldSettingsConfigurable"/>
+        </applicationConfigurable>
+
     </extensions>
 
     <actions>
@@ -179,7 +189,7 @@
             <separator/>
             <group id="EasyJavadocSubGroup"/>
             <add-to-group group-id="ToolsMenu" anchor="last"/>
-            <action id="javadoc.generator" class="com.star.easydoc.javadoc.action.GenerateJavadocAction" text="GenerateJavadoc"
+            <action id="javadoc.generator" class="com.star.easydoc.action.GenerateJavadocAction" text="GenerateJavadoc"
                     description="GenerateJavadoc">
                 <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta BACK_SLASH"/>
                 <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta BACK_SLASH"/>
@@ -188,7 +198,7 @@
                 <keyboard-shortcut keymap="$default" first-keystroke="ctrl BACK_SLASH"/>
             </action>
         </group>
-        <action id="javadoc.generatorAll" class="com.star.easydoc.javadoc.action.GenerateAllJavadocAction" text="生成文档注释">
+        <action id="javadoc.generatorAll" class="com.star.easydoc.action.GenerateAllJavadocAction" text="生成文档注释">
             <add-to-group group-id="JavaGenerateGroup1" anchor="before" relative-to-action="GenerateEquals"/>
             <keyboard-shortcut keymap="Mac OS X" first-keystroke="meta shift BACK_SLASH"/>
             <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="meta shift BACK_SLASH"/>

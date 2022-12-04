@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.star.easydoc.view.inner.CustomTemplateAddView">
+  <grid id="27dc6" binding="panel" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="500" height="854"/>
+    </constraints>
+    <properties>
+      <minimumSize width="350" height="300"/>
+      <preferredSize width="350" height="300"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="3c97f" class="javax.swing.JTextField" binding="methodName">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="3311a" class="javax.swing.JTextField" binding="groovyCode">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="4aef7" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="方法名"/>
+        </properties>
+      </component>
+      <component id="f03f7" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="自定义值"/>
+        </properties>
+      </component>
+      <component id="49b2f" class="javax.swing.JTextPane" binding="textPane">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+        </constraints>
+        <properties>
+          <enabled value="true"/>
+          <focusTraversalPolicyProvider value="false"/>
+          <requestFocusEnabled value="true"/>
+          <text value="脚本说明：&#10;&#10;脚本使用Groovy脚本引擎，展示返回值&#10;内置变量有：&#10;&#10;author: 作者&#10;className: 全路径类名，例如 java.lang.String&#10;simpleClassName: 类名，例如 String&#10;methodName: 方法名，例如 toString&#10;methodReturnType: 方法返回值全路径，例如 java.lang.String&#10;methodParamTypes: 方法入参全路径，例如 [java.lang.Integer, java.lang.String]&#10;methodParamNames: 方法入参名称，例如 [name, age]&#10;fieldName: 属性名，例如 name&#10;fieldType: 属性类型全路径，例如 java.lang.String&#10;&#10;暂时想到这么多，还有其他的需要请联系作者添加"/>
+          <visible value="true"/>
+        </properties>
+        <clientProperties>
+          <html.disable class="java.lang.Boolean" value="false"/>
+        </clientProperties>
+      </component>
+      <component id="400d0" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="类型"/>
+        </properties>
+      </component>
+      <component id="4df4f" class="javax.swing.JComboBox" binding="customTypeComboBox">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <model>
+            <item value="固定值"/>
+            <item value="Groovy脚本"/>
+          </model>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

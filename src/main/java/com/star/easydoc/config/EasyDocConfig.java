@@ -28,14 +28,17 @@ public class EasyDocConfig {
      * 作者
      */
     private String author = "admin";
+    private String kdocAuthor = "admin";
     /**
      * 日期格式
      */
     private String dateFormat = "yyyy/MM/dd";
+    private String kdocDateFormat = "yyyy/MM/dd";
     /**
      * 属性是否使用简单模式
      */
     private Boolean simpleFieldDoc = false;
+    private Boolean kdocSimpleFieldDoc = false;
     /**
      * 属性是否使用简单模式
      */
@@ -45,7 +48,7 @@ public class EasyDocConfig {
     /**
      * 翻译方式
      */
-    private String  translator = "有道翻译";
+    private String translator = "有道翻译";
     /**
      * 百度app id
      */
@@ -79,14 +82,17 @@ public class EasyDocConfig {
      * 类模板配置
      */
     private TemplateConfig classTemplateConfig = new TemplateConfig();
+    private TemplateConfig kdocClassTemplateConfig = new TemplateConfig();
     /**
      * 方法模板配置
      */
     private TemplateConfig methodTemplateConfig = new TemplateConfig();
+    private TemplateConfig kdocMethodTemplateConfig = new TemplateConfig();
     /**
      * 属性模板配置
      */
     private TemplateConfig fieldTemplateConfig = new TemplateConfig();
+    private TemplateConfig kdocFieldTemplateConfig = new TemplateConfig();
 
     /** 批量生成是否生成类注释 */
     private Boolean genAllClass;
@@ -231,6 +237,54 @@ public class EasyDocConfig {
             }
             return null;
         }
+    }
+
+    public String getKdocAuthor() {
+        return kdocAuthor;
+    }
+
+    public void setKdocAuthor(String kdocAuthor) {
+        this.kdocAuthor = kdocAuthor;
+    }
+
+    public String getKdocDateFormat() {
+        return kdocDateFormat;
+    }
+
+    public void setKdocDateFormat(String kdocDateFormat) {
+        this.kdocDateFormat = kdocDateFormat;
+    }
+
+    public Boolean getKdocSimpleFieldDoc() {
+        return kdocSimpleFieldDoc;
+    }
+
+    public void setKdocSimpleFieldDoc(Boolean kdocSimpleFieldDoc) {
+        this.kdocSimpleFieldDoc = kdocSimpleFieldDoc;
+    }
+
+    public TemplateConfig getKdocClassTemplateConfig() {
+        return kdocClassTemplateConfig;
+    }
+
+    public void setKdocClassTemplateConfig(TemplateConfig kdocClassTemplateConfig) {
+        this.kdocClassTemplateConfig = kdocClassTemplateConfig;
+    }
+
+    public TemplateConfig getKdocMethodTemplateConfig() {
+        return kdocMethodTemplateConfig;
+    }
+
+    public void setKdocMethodTemplateConfig(TemplateConfig kdocMethodTemplateConfig) {
+        this.kdocMethodTemplateConfig = kdocMethodTemplateConfig;
+    }
+
+    public TemplateConfig getKdocFieldTemplateConfig() {
+        return kdocFieldTemplateConfig;
+    }
+
+    public void setKdocFieldTemplateConfig(TemplateConfig kdocFieldTemplateConfig) {
+        this.kdocFieldTemplateConfig = kdocFieldTemplateConfig;
     }
 
     public String getKdocParamType() {
