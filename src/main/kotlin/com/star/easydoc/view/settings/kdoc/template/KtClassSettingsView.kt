@@ -60,12 +60,12 @@ class KtClassSettingsView(config: EasyDocConfig) : AbstractTemplateSettingsView(
         toolbarDecorator.setAddAction {
             val customTemplateAddView = CustomTemplateAddView()
             if (customTemplateAddView.showAndGet()) {
-                config.classTemplateConfig.customMap[customTemplateAddView.entry.key] = customTemplateAddView.entry.value
+                config.kdocClassTemplateConfig.customMap[customTemplateAddView.entry.key] = customTemplateAddView.entry.value
                 refreshCustomTable()
             }
         }
         toolbarDecorator.setRemoveAction {
-            val customMap = config.classTemplateConfig.customMap
+            val customMap = config.kdocClassTemplateConfig.customMap
             customMap.remove(customTable.getValueAt(customTable.getSelectedRow(), 0).toString())
             refreshCustomTable()
         }
@@ -109,8 +109,8 @@ class KtClassSettingsView(config: EasyDocConfig) : AbstractTemplateSettingsView(
     private fun refreshCustomTable() {
         // 初始化自定义变量表格
         var customMap: Map<String?, EasyDocConfig.CustomValue> = Maps.newHashMap()
-        if (config.classTemplateConfig != null && config.classTemplateConfig.customMap != null) {
-            customMap = config.classTemplateConfig.customMap
+        if (config.kdocClassTemplateConfig != null && config.kdocClassTemplateConfig.customMap != null) {
+            customMap = config.kdocClassTemplateConfig.customMap
         }
         val customData = Vector<Vector<String?>>(customMap.size)
         for ((key, value) in customMap) {

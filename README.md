@@ -14,7 +14,7 @@
 - 支持文档翻译，选中需要翻译的文档，使用快捷键翻译注释，再也不用在词典和IDEA之间来回切换了
 
 ## 安装
-打开IntelliJ IDEA -> plugins，java搜索`Easy Javadoc`，kotlin搜索`Easy Kdoc`，安装重启即可
+打开IntelliJ IDEA -> plugins，java搜索`Easy Javadoc`，安装重启即可
 
 ## 使用
 简单视频教学：[👉猛戳👈](https://www.bilibili.com/video/BV1pB4y147nX)，感谢[郑清](https://space.bilibili.com/510086367)同学支持      
@@ -72,6 +72,8 @@
 这是因为IDEA的默认格式化将文档标签顺序改了，如果非得要自定义的顺序的话，则需要改IDEA如下设置![关闭Javadoc格式化](./doc/closeJavadocFormat.png)
 
 ## 更新履历
+- v3.0.0 2022-12-11
+  - 支持kotlin语言，Kdoc生成
 - v2.0.1 2022-11-30
   - 修复一些问题
 - v2.0.0 2022-11-19

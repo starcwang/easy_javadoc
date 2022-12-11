@@ -5,7 +5,7 @@ import com.intellij.psi.PsiElement
 import com.star.easydoc.config.EasyDocConfig
 import com.star.easydoc.config.EasyDocConfigComponent
 import com.star.easydoc.javadoc.service.generator.DocGenerator
-import com.star.easydoc.kdoc.service.variable.VariableGeneratorService
+import com.star.easydoc.kdoc.service.variable.KdocVariableGeneratorService
 import org.apache.commons.lang3.StringUtils
 import org.jetbrains.kotlin.psi.KtNamedFunction
 
@@ -17,15 +17,15 @@ import org.jetbrains.kotlin.psi.KtNamedFunction
  */
 class KtNamedFunctionDocGenerator : DocGenerator {
     private val config: EasyDocConfig = ServiceManager.getService(EasyDocConfigComponent::class.java).state!!
-    private val variableGeneratorService = ServiceManager.getService(
-        VariableGeneratorService::class.java
+    private val kdocVariableGeneratorService = ServiceManager.getService(
+        KdocVariableGeneratorService::class.java
     )
 
     override fun generate(psiElement: PsiElement): String {
         if (psiElement !is KtNamedFunction) {
             return StringUtils.EMPTY
         }
-        return if (config.methodTemplateConfig != null && java.lang.Boolean.TRUE == config.methodTemplateConfig.isDefault
+        return if (config.kdocMethodTemplateConfig != null && config.kdocMethodTemplateConfig.isDefault
         ) {
             defaultGenerate(psiElement)
         } else {
@@ -48,8 +48,8 @@ class KtNamedFunctionDocGenerator : DocGenerator {
              * ${'$'}RETURN$
              */
           """.trimIndent()
-        return variableGeneratorService.generate(
-            psi, template, config.methodTemplateConfig.customMap, getMethodInnerVariable(psi)
+        return kdocVariableGeneratorService.generate(
+            psi, template, config.kdocMethodTemplateConfig.customMap, getMethodInnerVariable(psi)
         )
     }
 
@@ -60,9 +60,9 @@ class KtNamedFunctionDocGenerator : DocGenerator {
      * @return [java.lang.String]
      */
     private fun customGenerate(psi: KtNamedFunction): String {
-        return variableGeneratorService.generate(
-            psi, config.methodTemplateConfig.template,
-            config.methodTemplateConfig.customMap, getMethodInnerVariable(psi)
+        return kdocVariableGeneratorService.generate(
+            psi, config.kdocMethodTemplateConfig.template,
+            config.kdocMethodTemplateConfig.customMap, getMethodInnerVariable(psi)
         )
     }
 
@@ -74,7 +74,7 @@ class KtNamedFunctionDocGenerator : DocGenerator {
      */
     private fun getMethodInnerVariable(psiMethod: KtNamedFunction): Map<String?, Any?> {
         val map: MutableMap<String?, Any?> = mutableMapOf()
-        map["author"] = config.author
+        map["author"] = config.kdocAuthor
         map["methodName"] = psiMethod.name
         map["methodReturnType"] = psiMethod.typeReference?.text
         map["methodParamTypes"] = psiMethod.valueParameters.map { StringUtils.strip(it.typeReference?.text, "?") }

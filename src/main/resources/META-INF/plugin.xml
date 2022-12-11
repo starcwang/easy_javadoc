@@ -163,9 +163,11 @@
         <!-- Add your extensions here -->
         <applicationService serviceImplementation="com.star.easydoc.config.EasyDocConfigComponent" order="first"/>
         <applicationService serviceImplementation="com.star.easydoc.javadoc.service.JavaDocGeneratorServiceImpl"/>
+        <applicationService serviceImplementation="com.star.easydoc.kdoc.service.KdocGeneratorServiceImpl"/>
         <applicationService serviceImplementation="com.star.easydoc.service.WriterService"/>
         <applicationService serviceImplementation="com.star.easydoc.service.translator.TranslatorService"/>
-        <applicationService serviceImplementation="com.star.easydoc.javadoc.service.variable.VariableGeneratorService"/>
+        <applicationService serviceImplementation="com.star.easydoc.javadoc.service.variable.JavadocVariableGeneratorService"/>
+        <applicationService serviceImplementation="com.star.easydoc.kdoc.service.variable.KdocVariableGeneratorService"/>
 
         <applicationConfigurable id="easydoc.common.settings" displayName="Easy Doc" instance="com.star.easydoc.view.settings.CommonSettingsConfigurable"/>
 
@@ -209,4 +211,5 @@
     </actions>
 
     <depends>com.intellij.modules.java</depends>
+    <depends>org.jetbrains.kotlin</depends>
 </idea-plugin>

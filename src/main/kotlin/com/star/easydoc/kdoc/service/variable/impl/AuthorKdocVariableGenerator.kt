@@ -10,7 +10,7 @@ import com.star.easydoc.config.EasyDocConfig
  */
 class AuthorKdocVariableGenerator : AbstractKdocVariableGenerator() {
     override fun generate(element: PsiElement): String {
-        return config.author
+        return config.kdocAuthor
     }
 
 }

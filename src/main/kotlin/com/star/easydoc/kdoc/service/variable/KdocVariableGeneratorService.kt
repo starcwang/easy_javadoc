@@ -21,7 +21,7 @@ import java.util.regex.Pattern
  * @author wangchao
  * @date 2019/12/08
  */
-class VariableGeneratorService {
+class KdocVariableGeneratorService {
     private val pattern = Pattern.compile("\\$[a-zA-Z0-9_-]*\\$")
     private val config = ServiceManager.getService(EasyDocConfigComponent::class.java).state
 
@@ -122,6 +122,6 @@ class VariableGeneratorService {
     }
 
     companion object {
-        private val LOGGER = Logger.getInstance(VariableGeneratorService::class.java)
+        private val LOGGER = Logger.getInstance(KdocVariableGeneratorService::class.java)
     }
 }

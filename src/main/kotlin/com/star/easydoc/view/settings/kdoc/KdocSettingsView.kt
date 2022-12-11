@@ -54,7 +54,7 @@ class KdocSettingsView {
     }
 
     fun refresh() {
-        if (BooleanUtils.isTrue(config.simpleFieldDoc)) {
+        if (BooleanUtils.isTrue(config.kdocSimpleFieldDoc)) {
             setSimpleDocButton(true)
             setNormalDocButton(false)
         } else {

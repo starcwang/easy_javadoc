@@ -22,7 +22,7 @@ import com.star.easydoc.common.Consts;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.config.EasyDocConfigComponent;
 import com.star.easydoc.javadoc.service.generator.DocGenerator;
-import com.star.easydoc.javadoc.service.variable.VariableGeneratorService;
+import com.star.easydoc.javadoc.service.variable.JavadocVariableGeneratorService;
 import com.star.easydoc.service.translator.TranslatorService;
 import org.apache.commons.lang3.StringUtils;
 
@@ -36,8 +36,8 @@ public class MethodDocGenerator implements DocGenerator {
 
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
     private EasyDocConfig config = ServiceManager.getService(EasyDocConfigComponent.class).getState();
-    private VariableGeneratorService variableGeneratorService = ServiceManager.getService(
-        VariableGeneratorService.class);
+    private JavadocVariableGeneratorService javadocVariableGeneratorService = ServiceManager.getService(
+        JavadocVariableGeneratorService.class);
 
     @Override
     public String generate(PsiElement psiElement) {
@@ -278,7 +278,7 @@ public class MethodDocGenerator implements DocGenerator {
      * @return {@link java.lang.String}
      */
     private String customGenerate(PsiMethod psiMethod) {
-        return variableGeneratorService.generate(psiMethod, config.getMethodTemplateConfig().getTemplate(),
+        return javadocVariableGeneratorService.generate(psiMethod, config.getMethodTemplateConfig().getTemplate(),
             config.getMethodTemplateConfig().getCustomMap(), getMethodInnerVariable(psiMethod));
     }
 

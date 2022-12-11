@@ -14,7 +14,7 @@ import com.intellij.psi.javadoc.PsiDocComment;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.config.EasyDocConfigComponent;
 import com.star.easydoc.javadoc.service.generator.DocGenerator;
-import com.star.easydoc.javadoc.service.variable.VariableGeneratorService;
+import com.star.easydoc.javadoc.service.variable.JavadocVariableGeneratorService;
 import com.star.easydoc.service.translator.TranslatorService;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -29,7 +29,7 @@ public class FieldDocGenerator implements DocGenerator {
 
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
     private EasyDocConfig config = ServiceManager.getService(EasyDocConfigComponent.class).getState();
-    private VariableGeneratorService variableGeneratorService = ServiceManager.getService(VariableGeneratorService.class);
+    private JavadocVariableGeneratorService javadocVariableGeneratorService = ServiceManager.getService(JavadocVariableGeneratorService.class);
 
     @Override
     public String generate(PsiElement psiElement) {
@@ -67,7 +67,7 @@ public class FieldDocGenerator implements DocGenerator {
      * @return {@link String}
      */
     private String customGenerate(PsiField psiField) {
-        return variableGeneratorService.generate(psiField, config.getFieldTemplateConfig().getTemplate(),
+        return javadocVariableGeneratorService.generate(psiField, config.getFieldTemplateConfig().getTemplate(),
             config.getFieldTemplateConfig().getCustomMap(), getFieldInnerVariable(psiField));
     }
 

@@ -40,14 +40,14 @@ class KdocSettingsConfigurable : Configurable {
 
     override fun apply() {
         config.kdocAuthor = view.getAuthorTextField()
-        config.kdocAuthor = view.getDateFormatTextField()
+        config.kdocDateFormat = view.getDateFormatTextField()
         config.kdocSimpleFieldDoc = view.getKdocSimpleFieldDoc()
         config.kdocParamType = view.getKdocParamType()
 
         if (config.kdocAuthor == null) {
             throw ConfigurationException("作者不能为null")
         }
-        if (config.kdocAuthor == null) {
+        if (config.kdocDateFormat == null) {
             throw ConfigurationException("日期格式不能为null")
         }
         if (config.kdocSimpleFieldDoc == null) {

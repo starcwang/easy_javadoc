@@ -5,7 +5,7 @@ import com.intellij.psi.PsiElement
 import com.star.easydoc.config.EasyDocConfig
 import com.star.easydoc.config.EasyDocConfigComponent
 import com.star.easydoc.javadoc.service.generator.DocGenerator
-import com.star.easydoc.kdoc.service.variable.VariableGeneratorService
+import com.star.easydoc.kdoc.service.variable.KdocVariableGeneratorService
 import org.apache.commons.lang3.StringUtils
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
 
@@ -16,7 +16,7 @@ import org.jetbrains.kotlin.psi.KtObjectDeclaration
  */
 class KtObjectDocGenerator : DocGenerator {
     private val config: EasyDocConfig = ServiceManager.getService(EasyDocConfigComponent::class.java).state!!
-    private val variableGeneratorService = ServiceManager.getService(VariableGeneratorService::class.java)
+    private val kdocVariableGeneratorService = ServiceManager.getService(KdocVariableGeneratorService::class.java)
 
     private val defaultTemplate = """
         /**
@@ -32,14 +32,14 @@ class KtObjectDocGenerator : DocGenerator {
             return StringUtils.EMPTY
         }
 
-        return variableGeneratorService.generate(
+        return kdocVariableGeneratorService.generate(
             psiElement,
-            if (config.classTemplateConfig != null && true == config.classTemplateConfig.isDefault) {
+            if (config.kdocFieldTemplateConfig != null && config.kdocFieldTemplateConfig.isDefault) {
                 defaultTemplate
             } else {
-                config.classTemplateConfig.template
+                config.kdocFieldTemplateConfig.template
             },
-            config.classTemplateConfig.customMap,
+            config.kdocFieldTemplateConfig.customMap,
             getClassInnerVariable(psiElement)
         )
     }
@@ -53,7 +53,7 @@ class KtObjectDocGenerator : DocGenerator {
      */
     private fun getClassInnerVariable(psiObject: KtObjectDeclaration): Map<String?, Any?> {
         return mapOf(
-            "author" to config.author,
+            "author" to config.kdocAuthor,
             "className" to psiObject.fqName,
             "simpleClassName" to psiObject.name
         )

@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter
 class DateKdocVariableGenerator : AbstractKdocVariableGenerator() {
     override fun generate(element: PsiElement): String {
         return try {
-            LocalDateTime.now().format(DateTimeFormatter.ofPattern(config.dateFormat))
+            LocalDateTime.now().format(DateTimeFormatter.ofPattern(config.kdocDateFormat))
         } catch (e: Exception) {
             LOGGER.error("您输入的日期格式不正确，请到配置中修改类相关日期格式！", e)
             LocalDateTime.now().format(DateTimeFormatter.ofPattern(Consts.DEFAULT_DATE_FORMAT))

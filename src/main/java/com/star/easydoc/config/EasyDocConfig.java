@@ -24,6 +24,9 @@ public class EasyDocConfig {
     /** 中括号模式 */
     public static final String LINK_PARAM_TYPE = "中括号模式";
 
+    /** 版本 */
+    private String version;
+
     /**
      * 作者
      */
@@ -105,8 +108,12 @@ public class EasyDocConfig {
 
     public void reset() {
         author = "admin";
+        kdocAuthor = "admin";
         dateFormat = "yyyy/MM/dd";
+        kdocDateFormat = "yyyy/MM/dd";
         simpleFieldDoc = false;
+        kdocSimpleFieldDoc = false;
+        kdocParamType = LINK_PARAM_TYPE;
         translator = "有道翻译";
         appId = null;
         token = null;
@@ -116,8 +123,11 @@ public class EasyDocConfig {
         accessKeySecret = null;
         wordMap = new TreeMap<>();
         classTemplateConfig = new TemplateConfig();
+        kdocClassTemplateConfig = new TemplateConfig();
         methodTemplateConfig = new TemplateConfig();
+        kdocMethodTemplateConfig = new TemplateConfig();
         fieldTemplateConfig = new TemplateConfig();
+        kdocFieldTemplateConfig = new TemplateConfig();
     }
 
     /**
@@ -467,5 +477,13 @@ public class EasyDocConfig {
 
     public void setGenAllInnerClass(Boolean genAllInnerClass) {
         this.genAllInnerClass = genAllInnerClass;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }

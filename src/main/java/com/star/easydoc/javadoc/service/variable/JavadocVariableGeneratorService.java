@@ -32,8 +32,8 @@ import org.apache.commons.lang3.StringUtils;
  * @author wangchao
  * @date 2019/12/08
  */
-public class VariableGeneratorService {
-    private static final Logger LOGGER = Logger.getInstance(VariableGeneratorService.class);
+public class JavadocVariableGeneratorService {
+    private static final Logger LOGGER = Logger.getInstance(JavadocVariableGeneratorService.class);
     private Pattern pattern = Pattern.compile("\\$[a-zA-Z0-9_-]*\\$");
 
     /**
