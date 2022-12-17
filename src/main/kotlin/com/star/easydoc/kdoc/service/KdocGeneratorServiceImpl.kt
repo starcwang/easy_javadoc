@@ -34,8 +34,13 @@ class KdocGeneratorServiceImpl : DocGeneratorService {
                 break
             }
         }
-        return if (Objects.isNull(docGenerator)) {
-            StringUtils.EMPTY
-        } else docGenerator!!.generate(psiElement)
+        if (docGenerator == null) {
+            return StringUtils.EMPTY
+        }
+        val comment = docGenerator.generate(psiElement)
+        val lines = comment.split("\n")
+        return lines.filter { s ->
+             StringUtils.isNotBlank(StringUtils.strip(s.trim(), "*").trim())
+         }.joinToString(separator = "\n") { s -> s }
     }
 }
