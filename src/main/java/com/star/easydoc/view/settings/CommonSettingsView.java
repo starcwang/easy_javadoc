@@ -6,6 +6,7 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedMap;
 
 import javax.swing.*;
 
@@ -64,8 +65,16 @@ public class CommonSettingsView {
     private JTextField accessKeySecretTextField;
     private JLabel accessKeyIdLabel;
     private JLabel accessKeySecretLabel;
+    private JPanel projectPanel;
+    private JPanel projectListPanel;
+    private JPanel projectWordMapPanel;
     private JBList<Entry<String, String>> typeMapList;
+    private JBList<String> projectList;
+    private JBList<Entry<String, String>> projectTypeMapList;
 
+    /**
+     * 晚于{@link #createUIComponents}执行
+     */
     public CommonSettingsView() {
         refreshWordMap();
         setVisible(translatorBox.getSelectedItem());
@@ -150,6 +159,8 @@ public class CommonSettingsView {
             JComboBox<?> jComboBox = (JComboBox<?>)e.getSource();
             setVisible(jComboBox.getSelectedItem());
         });
+
+        projectList.addListSelectionListener(e -> refreshWordMap());
     }
 
     private void setVisible(Object selectedItem) {
@@ -212,7 +223,14 @@ public class CommonSettingsView {
         }
     }
 
+    /**
+     * 早于构造方法{@link #CommonSettingsView}执行
+     */
     private void createUIComponents() {
+        config = ServiceManager.getService(EasyDocConfigComponent.class).getState();
+        assert config != null;
+        config.mergeProject();
+
         typeMapList = new JBList<>(new CollectionListModel<>(Lists.newArrayList()));
         typeMapList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         typeMapList.setCellRenderer(new ListCellRendererWrapper<Entry<String, String>>() {
@@ -228,21 +246,61 @@ public class CommonSettingsView {
         toolbarDecorator.setAddAction(button -> {
             WordMapAddView wordMapAddView = new WordMapAddView();
             if (wordMapAddView.showAndGet()) {
-                if (config != null) {
-                    Entry<String, String> entry = wordMapAddView.getMapping();
-                    config.getWordMap().put(entry.getKey(), entry.getValue());
-                    refreshWordMap();
-                }
-            }
-        });
-        toolbarDecorator.setRemoveAction(anActionButton -> {
-            if (config != null) {
-                Map<String, String> typeMap = config.getWordMap();
-                typeMap.remove(typeMapList.getSelectedValue().getKey());
+                Entry<String, String> entry = wordMapAddView.getMapping();
+                config.getWordMap().put(entry.getKey(), entry.getValue());
                 refreshWordMap();
             }
         });
+        toolbarDecorator.setRemoveAction(anActionButton -> {
+            Map<String, String> typeMap = config.getWordMap();
+            typeMap.remove(typeMapList.getSelectedValue().getKey());
+            refreshWordMap();
+        });
         wordMapPanel = toolbarDecorator.createPanel();
+
+        projectTypeMapList = new JBList<>(new CollectionListModel<>(Lists.newArrayList()));
+        projectTypeMapList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        projectTypeMapList.setCellRenderer(new ListCellRendererWrapper<Entry<String, String>>() {
+            @Override
+            public void customize(JList list, Entry<String, String> value, int index, boolean selected, boolean hasFocus) {
+                setText(value.getKey() + " -> " + value.getValue());
+            }
+        });
+
+        projectTypeMapList.setEmptyText("请添加单词映射");
+        projectTypeMapList.setSelectedIndex(0);
+        ToolbarDecorator projectWordToolbarDecorator = ToolbarDecorator.createDecorator(projectTypeMapList);
+        projectWordToolbarDecorator.setAddAction(button -> {
+            WordMapAddView wordMapAddView = new WordMapAddView();
+            if (wordMapAddView.showAndGet()) {
+                Entry<String, String> entry = wordMapAddView.getMapping();
+                config.getProjectWordMap().get(projectList.getSelectedValue()).put(entry.getKey(), entry.getValue());
+                refreshWordMap();
+            }
+        });
+        projectWordToolbarDecorator.setRemoveAction(anActionButton -> {
+            Map<String, String> typeMap = config.getProjectWordMap().get(projectList.getSelectedValue());
+            typeMap.remove(projectTypeMapList.getSelectedValue().getKey());
+            refreshWordMap();
+        });
+        projectWordMapPanel = projectWordToolbarDecorator.createPanel();
+
+        projectList = new JBList<>(new CollectionListModel<>(Lists.newArrayList()));
+        projectList.setModel(new CollectionListModel<>(config.getProjectWordMap().keySet()));
+        projectList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        projectList.setCellRenderer(new ListCellRendererWrapper<String>() {
+            @Override
+            public void customize(JList list, String value, int index, boolean selected, boolean hasFocus) {
+                setText(value);
+            }
+        });
+        projectList.setSelectedIndex(0);
+
+        ToolbarDecorator projectToolbarDecorator = ToolbarDecorator.createDecorator(projectList);
+        projectToolbarDecorator.disableRemoveAction();
+        projectToolbarDecorator.disableAddAction();
+        projectToolbarDecorator.disableUpDownActions();
+        projectListPanel = projectToolbarDecorator.createPanel();
     }
 
     public void refresh() {
@@ -257,8 +315,20 @@ public class CommonSettingsView {
     }
 
     private void refreshWordMap() {
-        if (null != config && config.getWordMap() != null) {
-            typeMapList.setModel(new CollectionListModel<>(Lists.newArrayList(config.getWordMap().entrySet())));
+        typeMapList.setModel(new CollectionListModel<>(Lists.newArrayList(config.getWordMap().entrySet())));
+
+        String projectName = projectList.getSelectedValue();
+        if (projectName == null || projectName.isEmpty()) {
+            return;
+        }
+
+        if (config.getProjectWordMap() != null && !config.getProjectWordMap().isEmpty()) {
+            SortedMap<String, String> sortedMap = config.getProjectWordMap().get(projectName);
+            if (sortedMap == null) {
+                config.mergeProject();
+            }
+            sortedMap = config.getProjectWordMap().get(projectName);
+            projectTypeMapList.setModel(new CollectionListModel<>(Lists.newArrayList(sortedMap.entrySet())));
         }
     }
 

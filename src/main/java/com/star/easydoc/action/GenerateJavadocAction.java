@@ -10,6 +10,7 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.psi.JavaDirectoryService;
 import com.intellij.psi.PsiComment;
@@ -72,6 +73,9 @@ public class GenerateJavadocAction extends AnAction {
         if (project == null) {
             return;
         }
+
+        Project[] projects = ProjectManager.getInstance().getOpenProjects();
+
 
         // 选中翻译功能
         Editor editor = anActionEvent.getData(LangDataKeys.EDITOR);

@@ -6,6 +6,10 @@ import java.util.TreeMap;
 
 import com.alibaba.fastjson2.annotation.JSONField;
 
+import com.google.common.collect.Maps;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManager;
+
 /**
  * 持久化配置文件
  *
@@ -81,6 +85,9 @@ public class EasyDocConfig {
      */
     private SortedMap<String, String> wordMap = new TreeMap<>();
 
+    /** 项目级别单词映射 */
+    private SortedMap<String, SortedMap<String, String>> projectWordMap = new TreeMap<>();
+
     /**
      * 类模板配置
      */
@@ -122,12 +129,24 @@ public class EasyDocConfig {
         accessKeyId = null;
         accessKeySecret = null;
         wordMap = new TreeMap<>();
+        projectWordMap = new TreeMap<>();
         classTemplateConfig = new TemplateConfig();
         kdocClassTemplateConfig = new TemplateConfig();
         methodTemplateConfig = new TemplateConfig();
         kdocMethodTemplateConfig = new TemplateConfig();
         fieldTemplateConfig = new TemplateConfig();
         kdocFieldTemplateConfig = new TemplateConfig();
+        mergeProject();
+    }
+
+    public void mergeProject() {
+        Project[] projects = ProjectManager.getInstance().getOpenProjects();
+        if (projects.length == 0) {
+            return;
+        }
+        for (Project project : projects) {
+            projectWordMap.computeIfAbsent(project.getName(), k -> Maps.newTreeMap());
+        }
     }
 
     /**
@@ -249,6 +268,17 @@ public class EasyDocConfig {
         }
     }
 
+    public SortedMap<String, SortedMap<String, String>> getProjectWordMap() {
+        if (projectWordMap == null) {
+            projectWordMap = Maps.newTreeMap();
+        }
+        return projectWordMap;
+    }
+
+    public void setProjectWordMap(SortedMap<String, SortedMap<String, String>> projectWordMap) {
+        this.projectWordMap = projectWordMap;
+    }
+
     public String getKdocAuthor() {
         return kdocAuthor;
     }
@@ -339,7 +369,7 @@ public class EasyDocConfig {
 
     public SortedMap<String, String> getWordMap() {
         if (wordMap == null) {
-            wordMap = new TreeMap<>();
+            wordMap = Maps.newTreeMap();
         }
         return wordMap;
     }
