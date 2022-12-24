@@ -67,7 +67,7 @@ public class AppActivationListener implements ApplicationActivationListener {
             }
         };
 
-        AnAction feedbackAction = new NotificationAction("\uD83D\uDC4D 五星好评") {
+        AnAction reviewsAction = new NotificationAction("\uD83D\uDC4D 五星好评") {
             @Override
             public void actionPerformed(@NotNull AnActionEvent e, @NotNull Notification notification) {
                 try {
@@ -90,7 +90,7 @@ public class AppActivationListener implements ApplicationActivationListener {
         };
 
         NotificationUtil.notify("支持EasyJavadoc", "如果这款小而美的插件为您节约了不少时间，请支持一下开发者！",
-            starAction, feedbackAction, payAction);
+            starAction, reviewsAction, payAction);
 
         lastNoticeTime = System.currentTimeMillis();
     }
