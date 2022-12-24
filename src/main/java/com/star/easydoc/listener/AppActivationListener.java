@@ -66,6 +66,21 @@ public class AppActivationListener implements ApplicationActivationListener {
                 }
             }
         };
+
+        AnAction feedbackAction = new NotificationAction("\uD83D\uDC4D 五星好评") {
+            @Override
+            public void actionPerformed(@NotNull AnActionEvent e, @NotNull Notification notification) {
+                try {
+                    Desktop dp = Desktop.getDesktop();
+                    if (dp.isSupported(Desktop.Action.BROWSE)) {
+                        dp.browse(URI.create("https://plugins.jetbrains.com/plugin/12977-easy-javadoc/reviews"));
+                    }
+                } catch (Exception ex) {
+                    LOGGER.error("打开链接失败:https://plugins.jetbrains.com/plugin/12977-easy-javadoc/reviews", ex);
+                }
+            }
+        };
+
         AnAction payAction = new NotificationAction("\uD83C\uDF57 加个鸡腿") {
             @Override
             public void actionPerformed(@NotNull AnActionEvent e, @NotNull Notification notification) {
@@ -74,7 +89,8 @@ public class AppActivationListener implements ApplicationActivationListener {
             }
         };
 
-        NotificationUtil.notify("支持EasyJavadoc", "如果这款小而美的插件为您节约了不少时间，请支持一下开发者！", starAction, payAction);
+        NotificationUtil.notify("支持EasyJavadoc", "如果这款小而美的插件为您节约了不少时间，请支持一下开发者！",
+            starAction, feedbackAction, payAction);
 
         lastNoticeTime = System.currentTimeMillis();
     }
