@@ -70,6 +70,8 @@ public class CommonSettingsView {
     private JPanel projectPanel;
     private JPanel projectListPanel;
     private JPanel projectWordMapPanel;
+    private JButton reviewsButton;
+    private JPanel supportPanel;
     private JBList<Entry<String, String>> typeMapList;
     private JBList<String> projectList;
     private JBList<Entry<String, String>> projectTypeMapList;
@@ -150,6 +152,17 @@ public class CommonSettingsView {
                 }
             } catch (Exception e) {
                 LOGGER.error("打开链接失败:https://github.com/starcwang/easy_javadoc", e);
+            }
+        });
+
+        reviewsButton.addActionListener(event -> {
+            try {
+                Desktop dp = Desktop.getDesktop();
+                if (dp.isSupported(Desktop.Action.BROWSE)) {
+                    dp.browse(URI.create("https://plugins.jetbrains.com/plugin/12977-easy-javadoc/reviews"));
+                }
+            } catch (Exception e) {
+                LOGGER.error("打开链接失败:https://plugins.jetbrains.com/plugin/12977-easy-javadoc/reviews", e);
             }
         });
 
