@@ -5,6 +5,7 @@ import java.util.TreeMap;
 
 import javax.swing.*;
 
+import com.google.common.collect.Maps;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
@@ -74,6 +75,9 @@ public class CommonSettingsConfigurable implements Configurable {
         config.setAccessKeySecret(view.getAccessKeySecretTextField().getText());
         if (config.getWordMap() == null) {
             config.setWordMap(new TreeMap<>());
+        }
+        if (config.getProjectWordMap() == null) {
+            config.setProjectWordMap(Maps.newTreeMap());
         }
 
         if (config.getTranslator() == null || !Consts.ENABLE_TRANSLATOR_SET.contains(config.getTranslator())) {

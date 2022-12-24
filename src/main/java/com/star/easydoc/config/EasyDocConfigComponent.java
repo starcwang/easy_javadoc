@@ -1,8 +1,8 @@
 package com.star.easydoc.config;
 
 import java.util.Objects;
-import java.util.TreeMap;
 
+import com.google.common.collect.Maps;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
@@ -34,7 +34,8 @@ public class EasyDocConfigComponent implements PersistentStateComponent<EasyDocC
             config.setKdocSimpleFieldDoc(true);
             config.setKdocParamType(EasyDocConfig.LINK_PARAM_TYPE);
             config.setMethodReturnType(EasyDocConfig.LINK_RETURN_TYPE);
-            config.setWordMap(new TreeMap<>());
+            config.setWordMap(Maps.newTreeMap());
+            config.setProjectWordMap(Maps.newTreeMap());
             config.setTranslator(Consts.YOUDAO_TRANSLATOR);
             config.setClassTemplateConfig(new TemplateConfig());
             config.setKdocClassTemplateConfig(new TemplateConfig());

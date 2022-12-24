@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.star.easydoc.common.Consts;
-import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.common.util.CollectionUtil;
+import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.service.translator.impl.AliyunTranslator;
 import com.star.easydoc.service.translator.impl.BaiduTranslator;
 import com.star.easydoc.service.translator.impl.JinshanTranslator;
@@ -157,12 +157,12 @@ public class TranslatorService {
      * @return boolean
      */
     private boolean hasCustomWord(List<String> words) {
-        return CollectionUtil.containsAny(config.getWordMap().keySet(), words);
+        return CollectionUtil.containsAny(config.getWordMapWithProject().keySet(), words);
     }
 
     private String getFromCustom(String word) {
-        return ObjectUtils.firstNonNull(config.getWordMap().get(word),
-            config.getWordMap().get(word.toLowerCase()));
+        Map<String, String> map = config.getWordMapWithProject();
+        return ObjectUtils.firstNonNull(map.get(word), map.get(word.toLowerCase()));
     }
 
     private String getFromOthers(String word) {

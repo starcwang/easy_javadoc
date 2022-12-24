@@ -1,8 +1,10 @@
 package com.star.easydoc.action;
 
+import com.intellij.ide.DataManager;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationActivationListener;
@@ -73,9 +75,6 @@ public class GenerateJavadocAction extends AnAction {
         if (project == null) {
             return;
         }
-
-        Project[] projects = ProjectManager.getInstance().getOpenProjects();
-
 
         // 选中翻译功能
         Editor editor = anActionEvent.getData(LangDataKeys.EDITOR);

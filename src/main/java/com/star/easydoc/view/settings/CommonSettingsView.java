@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.swing.*;
 
@@ -14,6 +15,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONWriter.Feature;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.intellij.json.JsonFileType;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
@@ -77,6 +79,7 @@ public class CommonSettingsView {
      */
     public CommonSettingsView() {
         refreshWordMap();
+        refreshProjectWordMap();
         setVisible(translatorBox.getSelectedItem());
 
         importButton.addActionListener(event -> {
@@ -160,7 +163,7 @@ public class CommonSettingsView {
             setVisible(jComboBox.getSelectedItem());
         });
 
-        projectList.addListSelectionListener(e -> refreshWordMap());
+        projectList.addListSelectionListener(e -> refreshProjectWordMap());
     }
 
     private void setVisible(Object selectedItem) {
@@ -251,6 +254,7 @@ public class CommonSettingsView {
                 refreshWordMap();
             }
         });
+        toolbarDecorator.disableUpDownActions();
         toolbarDecorator.setRemoveAction(anActionButton -> {
             Map<String, String> typeMap = config.getWordMap();
             typeMap.remove(typeMapList.getSelectedValue().getKey());
@@ -271,17 +275,23 @@ public class CommonSettingsView {
         projectTypeMapList.setSelectedIndex(0);
         ToolbarDecorator projectWordToolbarDecorator = ToolbarDecorator.createDecorator(projectTypeMapList);
         projectWordToolbarDecorator.setAddAction(button -> {
+            String projectName = projectList.getSelectedValue();
+            if (projectName == null || projectName.isEmpty()) {
+                return;
+            }
             WordMapAddView wordMapAddView = new WordMapAddView();
             if (wordMapAddView.showAndGet()) {
                 Entry<String, String> entry = wordMapAddView.getMapping();
-                config.getProjectWordMap().get(projectList.getSelectedValue()).put(entry.getKey(), entry.getValue());
-                refreshWordMap();
+                config.getProjectWordMap().computeIfAbsent(projectName, f -> Maps.newTreeMap())
+                    .put(entry.getKey(), entry.getValue());
+                refreshProjectWordMap();
             }
         });
+        projectWordToolbarDecorator.disableUpDownActions();
         projectWordToolbarDecorator.setRemoveAction(anActionButton -> {
             Map<String, String> typeMap = config.getProjectWordMap().get(projectList.getSelectedValue());
             typeMap.remove(projectTypeMapList.getSelectedValue().getKey());
-            refreshWordMap();
+            refreshProjectWordMap();
         });
         projectWordMapPanel = projectWordToolbarDecorator.createPanel();
 
@@ -312,24 +322,41 @@ public class CommonSettingsView {
         setAccessKeyIdTextField(config.getAccessKeyId());
         setAccessKeySecretTextField(config.getAccessKeySecret());
         refreshWordMap();
+        projectList.clearSelection();
+        refreshProjectWordMap();
     }
 
     private void refreshWordMap() {
-        typeMapList.setModel(new CollectionListModel<>(Lists.newArrayList(config.getWordMap().entrySet())));
+        if (null != config && config.getWordMap() != null) {
+            typeMapList.setModel(new CollectionListModel<>(Lists.newArrayList(config.getWordMap().entrySet())));
+        }
+    }
 
+    private void refreshProjectWordMap() {
         String projectName = projectList.getSelectedValue();
+        SortedMap<String, TreeMap<String, String>> projectWordMap = config.getProjectWordMap();
+        if (projectWordMap == null) {
+            projectWordMap = Maps.newTreeMap();
+        }
+
+        // 没选择，默认页面
         if (projectName == null || projectName.isEmpty()) {
+            projectList.setModel(new CollectionListModel<>(projectWordMap.keySet()));
+            projectTypeMapList.setModel(new CollectionListModel<>(Lists.newArrayList()));
             return;
         }
 
-        if (config.getProjectWordMap() != null && !config.getProjectWordMap().isEmpty()) {
-            SortedMap<String, String> sortedMap = config.getProjectWordMap().get(projectName);
-            if (sortedMap == null) {
-                config.mergeProject();
-            }
-            sortedMap = config.getProjectWordMap().get(projectName);
-            projectTypeMapList.setModel(new CollectionListModel<>(Lists.newArrayList(sortedMap.entrySet())));
+        // 有选择，但配置中没有 -> 尝试初始化一次
+        SortedMap<String, String> wordMap = projectWordMap.get(projectName);
+        if (wordMap == null || wordMap.isEmpty()) {
+            config.mergeProject();
         }
+        wordMap = projectWordMap.get(projectName);
+        // 还是没有
+        if (wordMap == null) {
+            wordMap = Maps.newTreeMap();
+        }
+        projectTypeMapList.setModel(new CollectionListModel<>(Lists.newArrayList(wordMap.entrySet())));
     }
 
     public JComboBox getTranslatorBox() {

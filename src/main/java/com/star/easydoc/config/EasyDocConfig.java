@@ -7,6 +7,8 @@ import java.util.TreeMap;
 import com.alibaba.fastjson2.annotation.JSONField;
 
 import com.google.common.collect.Maps;
+import com.intellij.ide.DataManager;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 
@@ -86,7 +88,7 @@ public class EasyDocConfig {
     private SortedMap<String, String> wordMap = new TreeMap<>();
 
     /** 项目级别单词映射 */
-    private SortedMap<String, SortedMap<String, String>> projectWordMap = new TreeMap<>();
+    private SortedMap<String, TreeMap<String, String>> projectWordMap = new TreeMap<>();
 
     /**
      * 类模板配置
@@ -268,14 +270,14 @@ public class EasyDocConfig {
         }
     }
 
-    public SortedMap<String, SortedMap<String, String>> getProjectWordMap() {
+    public SortedMap<String, TreeMap<String, String>> getProjectWordMap() {
         if (projectWordMap == null) {
             projectWordMap = Maps.newTreeMap();
         }
         return projectWordMap;
     }
 
-    public void setProjectWordMap(SortedMap<String, SortedMap<String, String>> projectWordMap) {
+    public void setProjectWordMap(SortedMap<String, TreeMap<String, String>> projectWordMap) {
         this.projectWordMap = projectWordMap;
     }
 
@@ -374,6 +376,22 @@ public class EasyDocConfig {
         return wordMap;
     }
 
+    @JSONField(serialize = false, deserialize = false)
+    public Map<String, String> getWordMapWithProject() {
+        Map<String, String> map = Maps.newHashMap();
+        if (wordMap != null) {
+            map.putAll(wordMap);
+        }
+        Project project = DataManager.getInstance().getDataContextFromFocus().getResultSync().getData(CommonDataKeys.PROJECT);
+        if (project != null) {
+            Map<String, String> projectMap = projectWordMap.get(project.getName());
+            if (projectMap != null) {
+                map.putAll(projectMap);
+            }
+        }
+        return map;
+    }
+
     public void setWordMap(SortedMap<String, String> wordMap) {
         this.wordMap = wordMap;
     }
@@ -467,12 +485,12 @@ public class EasyDocConfig {
         this.methodReturnType = methodReturnType;
     }
 
-    @JSONField(serialize = false)
+    @JSONField(serialize = false, deserialize = false)
     public boolean isCodeMethodReturnType() {
         return CODE_RETURN_TYPE.equals(methodReturnType);
     }
 
-    @JSONField(serialize = false)
+    @JSONField(serialize = false, deserialize = false)
     public boolean isLinkMethodReturnType() {
         return LINK_RETURN_TYPE.equals(methodReturnType);
     }
