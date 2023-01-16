@@ -61,6 +61,12 @@ public class CommonSettingsConfigurable implements Configurable {
         if (!Objects.equals(config.getAccessKeySecret(), view.getAccessKeySecretTextField().getText())) {
             return true;
         }
+        if (!Objects.equals(config.getYoudaoAppKey(), view.getYoudaoAppKeyTextField().getText())) {
+            return true;
+        }
+        if (!Objects.equals(config.getYoudaoAppSecret(), view.getYoudaoAppSecretTextField().getText())) {
+            return true;
+        }
         return false;
     }
 
@@ -73,6 +79,8 @@ public class CommonSettingsConfigurable implements Configurable {
         config.setSecretId(view.getSecretIdTextField().getText());
         config.setAccessKeyId(view.getAccessKeyIdTextField().getText());
         config.setAccessKeySecret(view.getAccessKeySecretTextField().getText());
+        config.setYoudaoAppKey(view.getYoudaoAppKeyTextField().getText());
+        config.setYoudaoAppSecret(view.getYoudaoAppSecretTextField().getText());
         if (config.getWordMap() == null) {
             config.setWordMap(new TreeMap<>());
         }
@@ -105,6 +113,14 @@ public class CommonSettingsConfigurable implements Configurable {
             }
             if (StringUtils.isBlank(config.getAccessKeySecret())) {
                 throw new ConfigurationException("accessKeySecret不能为空");
+            }
+        }
+        if (Consts.YOUDAO_AI_TRANSLATOR.equals(config.getTranslator())) {
+            if (StringUtils.isBlank(config.getYoudaoAppKey())) {
+                throw new ConfigurationException("appKey不能为空");
+            }
+            if (StringUtils.isBlank(config.getYoudaoAppSecret())) {
+                throw new ConfigurationException("appSecret不能为空");
             }
         }
     }

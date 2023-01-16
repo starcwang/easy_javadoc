@@ -72,6 +72,10 @@ public class CommonSettingsView {
     private JPanel projectWordMapPanel;
     private JButton reviewsButton;
     private JPanel supportPanel;
+    private JTextField youdaoAppKeyTextField;
+    private JTextField youdaoAppSecretTextField;
+    private JLabel youdaoAppKeyLabel;
+    private JLabel youdaoAppSecretLabel;
     private JBList<Entry<String, String>> typeMapList;
     private JBList<String> projectList;
     private JBList<Entry<String, String>> projectTypeMapList;
@@ -187,6 +191,8 @@ public class CommonSettingsView {
             secretKeyLabel.setVisible(false);
             accessKeyIdLabel.setVisible(false);
             accessKeySecretLabel.setVisible(false);
+            youdaoAppKeyLabel.setVisible(false);
+            youdaoAppSecretLabel.setVisible(false);
 
             appIdTextField.setVisible(true);
             tokenTextField.setVisible(true);
@@ -194,6 +200,8 @@ public class CommonSettingsView {
             secretKeyTextField.setVisible(false);
             accessKeyIdTextField.setVisible(false);
             accessKeySecretTextField.setVisible(false);
+            youdaoAppKeyTextField.setVisible(false);
+            youdaoAppSecretTextField.setVisible(false);
         } else if (Consts.TENCENT_TRANSLATOR.equals(selectedItem)) {
             appIdLabel.setVisible(false);
             tokenLabel.setVisible(false);
@@ -201,6 +209,8 @@ public class CommonSettingsView {
             secretKeyLabel.setVisible(true);
             accessKeyIdLabel.setVisible(false);
             accessKeySecretLabel.setVisible(false);
+            youdaoAppKeyLabel.setVisible(false);
+            youdaoAppSecretLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
             tokenTextField.setVisible(false);
@@ -208,6 +218,8 @@ public class CommonSettingsView {
             secretKeyTextField.setVisible(true);
             accessKeyIdTextField.setVisible(false);
             accessKeySecretTextField.setVisible(false);
+            youdaoAppKeyTextField.setVisible(false);
+            youdaoAppSecretTextField.setVisible(false);
         } else if (Consts.ALIYUN_TRANSLATOR.equals(selectedItem)) {
             appIdLabel.setVisible(false);
             tokenLabel.setVisible(false);
@@ -215,6 +227,8 @@ public class CommonSettingsView {
             secretKeyLabel.setVisible(false);
             accessKeyIdLabel.setVisible(true);
             accessKeySecretLabel.setVisible(true);
+            youdaoAppKeyLabel.setVisible(false);
+            youdaoAppSecretLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
             tokenTextField.setVisible(false);
@@ -222,13 +236,17 @@ public class CommonSettingsView {
             secretKeyTextField.setVisible(false);
             accessKeyIdTextField.setVisible(true);
             accessKeySecretTextField.setVisible(true);
-        } else {
+            youdaoAppKeyTextField.setVisible(false);
+            youdaoAppSecretTextField.setVisible(false);
+        } else if (Consts.YOUDAO_AI_TRANSLATOR.equals(selectedItem)) {
             appIdLabel.setVisible(false);
             tokenLabel.setVisible(false);
             secretIdLabel.setVisible(false);
             secretKeyLabel.setVisible(false);
             accessKeyIdLabel.setVisible(false);
             accessKeySecretLabel.setVisible(false);
+            youdaoAppKeyLabel.setVisible(true);
+            youdaoAppSecretLabel.setVisible(true);
 
             appIdTextField.setVisible(false);
             tokenTextField.setVisible(false);
@@ -236,6 +254,26 @@ public class CommonSettingsView {
             secretKeyTextField.setVisible(false);
             accessKeyIdTextField.setVisible(false);
             accessKeySecretTextField.setVisible(false);
+            youdaoAppKeyTextField.setVisible(true);
+            youdaoAppSecretTextField.setVisible(true);
+        } else {
+            appIdLabel.setVisible(false);
+            tokenLabel.setVisible(false);
+            secretIdLabel.setVisible(false);
+            secretKeyLabel.setVisible(false);
+            accessKeyIdLabel.setVisible(false);
+            accessKeySecretLabel.setVisible(false);
+            youdaoAppKeyLabel.setVisible(false);
+            youdaoAppSecretLabel.setVisible(false);
+
+            appIdTextField.setVisible(false);
+            tokenTextField.setVisible(false);
+            secretIdTextField.setVisible(false);
+            secretKeyTextField.setVisible(false);
+            accessKeyIdTextField.setVisible(false);
+            accessKeySecretTextField.setVisible(false);
+            youdaoAppKeyTextField.setVisible(false);
+            youdaoAppSecretTextField.setVisible(false);
         }
     }
 
@@ -334,6 +372,8 @@ public class CommonSettingsView {
         setSecretKeyTextField(config.getSecretKey());
         setAccessKeyIdTextField(config.getAccessKeyId());
         setAccessKeySecretTextField(config.getAccessKeySecret());
+        setYoudaoAppKeyTextField(config.getYoudaoAppKey());
+        setYoudaoAppSecretTextField(config.getYoudaoAppSecret());
         refreshWordMap();
         projectList.clearSelection();
         refreshProjectWordMap();
@@ -432,4 +472,19 @@ public class CommonSettingsView {
         this.accessKeySecretTextField.setText(accessKeySecret);
     }
 
+    public JTextField getYoudaoAppKeyTextField() {
+        return youdaoAppKeyTextField;
+    }
+
+    public JTextField getYoudaoAppSecretTextField() {
+        return youdaoAppSecretTextField;
+    }
+
+    public void setYoudaoAppKeyTextField(String youdaoAppKey) {
+        this.youdaoAppKeyTextField.setText(youdaoAppKey);
+    }
+
+    public void setYoudaoAppSecretTextField(String youdaoAppSecret) {
+        this.youdaoAppSecretTextField.setText(youdaoAppSecret);
+    }
 }

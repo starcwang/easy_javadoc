@@ -83,6 +83,14 @@ public class EasyDocConfig {
      */
     private String accessKeySecret;
     /**
+     * 有道APP_KEY
+     */
+    private String youdaoAppKey;
+    /**
+     * 有道APP_SECRET
+     */
+    private String youdaoAppSecret;
+    /**
      * 单词映射
      */
     private SortedMap<String, String> wordMap = new TreeMap<>();
@@ -130,6 +138,8 @@ public class EasyDocConfig {
         secretId = null;
         accessKeyId = null;
         accessKeySecret = null;
+        youdaoAppKey = null;
+        youdaoAppSecret = null;
         wordMap = new TreeMap<>();
         projectWordMap = new TreeMap<>();
         classTemplateConfig = new TemplateConfig();
@@ -475,6 +485,22 @@ public class EasyDocConfig {
 
     public void setAccessKeySecret(String accessKeySecret) {
         this.accessKeySecret = accessKeySecret;
+    }
+
+    public String getYoudaoAppKey() {
+        return youdaoAppKey;
+    }
+
+    public void setYoudaoAppKey(String youdaoAppKey) {
+        this.youdaoAppKey = youdaoAppKey;
+    }
+
+    public String getYoudaoAppSecret() {
+        return youdaoAppSecret;
+    }
+
+    public void setYoudaoAppSecret(String youdaoAppSecret) {
+        this.youdaoAppSecret = youdaoAppSecret;
     }
 
     public String getMethodReturnType() {

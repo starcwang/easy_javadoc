@@ -28,7 +28,8 @@ public class Consts {
 
     /** 可用翻译设置 */
     public static final Set<String> ENABLE_TRANSLATOR_SET = ImmutableSet.of(Consts.YOUDAO_TRANSLATOR,
-        Consts.BAIDU_TRANSLATOR, Consts.TENCENT_TRANSLATOR, Consts.ALIYUN_TRANSLATOR, Consts.CLOSE_TRANSLATOR);
+        Consts.BAIDU_TRANSLATOR, Consts.TENCENT_TRANSLATOR, Consts.ALIYUN_TRANSLATOR, Consts.YOUDAO_AI_TRANSLATOR,
+        Consts.CLOSE_TRANSLATOR);
 
     /**
      * 腾讯翻译
@@ -50,6 +51,10 @@ public class Consts {
      * 阿里云翻译
      */
     public static final String ALIYUN_TRANSLATOR = "阿里云翻译";
+    /**
+     * 有道智云翻译
+     */
+    public static final String YOUDAO_AI_TRANSLATOR = "有道智云翻译";
     /**
      * 关闭翻译
      */
