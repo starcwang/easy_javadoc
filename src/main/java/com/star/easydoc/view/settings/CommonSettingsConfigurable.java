@@ -67,6 +67,12 @@ public class CommonSettingsConfigurable implements Configurable {
         if (!Objects.equals(config.getYoudaoAppSecret(), view.getYoudaoAppSecretTextField().getText())) {
             return true;
         }
+        if (!Objects.equals(config.getMicrosoftKey(), view.getMicrosoftKeyTextField().getText())) {
+            return true;
+        }
+        if (!Objects.equals(config.getGoogleKey(), view.getGoogleKeyTextField().getText())) {
+            return true;
+        }
         return false;
     }
 
@@ -81,6 +87,8 @@ public class CommonSettingsConfigurable implements Configurable {
         config.setAccessKeySecret(view.getAccessKeySecretTextField().getText());
         config.setYoudaoAppKey(view.getYoudaoAppKeyTextField().getText());
         config.setYoudaoAppSecret(view.getYoudaoAppSecretTextField().getText());
+        config.setMicrosoftKey(view.getMicrosoftKeyTextField().getText());
+        config.setGoogleKey(view.getGoogleKeyTextField().getText());
         if (config.getWordMap() == null) {
             config.setWordMap(new TreeMap<>());
         }
@@ -121,6 +129,16 @@ public class CommonSettingsConfigurable implements Configurable {
             }
             if (StringUtils.isBlank(config.getYoudaoAppSecret())) {
                 throw new ConfigurationException("appSecret不能为空");
+            }
+        }
+        if (Consts.MICROSOFT_TRANSLATOR.equals(config.getTranslator())) {
+            if (StringUtils.isBlank(config.getMicrosoftKey())) {
+                throw new ConfigurationException("microsoftKey不能为空");
+            }
+        }
+        if (Consts.GOOGLE_TRANSLATOR.equals(config.getTranslator())) {
+            if (StringUtils.isBlank(config.getGoogleKey())) {
+                throw new ConfigurationException("googleKey不能为空");
             }
         }
     }

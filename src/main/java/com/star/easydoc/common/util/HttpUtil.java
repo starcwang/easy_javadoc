@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Maps;
 import com.intellij.openapi.diagnostic.Logger;
-import org.apache.commons.codec.Charsets;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -41,6 +41,18 @@ public class HttpUtil {
      * @return {@link String}
      */
     public static String get(String url) {
+        return get(url, CONNECT_TIMEOUT, SOCKET_TIMEOUT);
+    }
+
+    /**
+     * get请求
+     *
+     * @param url url
+     * @param connectTimeout 连接超时
+     * @param socketTimeout 读超时
+     * @return {@link String}
+     */
+    public static String get(String url, int connectTimeout, int socketTimeout) {
         if (StringUtils.isBlank(url)) {
             return null;
         }
@@ -50,7 +62,7 @@ public class HttpUtil {
         try {
             httpclient = HttpClients.createDefault();
             HttpGet httpGet = new HttpGet(url);
-            httpGet.setConfig(RequestConfig.custom().setSocketTimeout(SOCKET_TIMEOUT).setConnectTimeout(CONNECT_TIMEOUT).build());
+            httpGet.setConfig(RequestConfig.custom().setSocketTimeout(socketTimeout).setConnectTimeout(connectTimeout).build());
             response = httpclient.execute(httpGet);
             result = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
         } catch (IOException e) {
@@ -87,7 +99,7 @@ public class HttpUtil {
      */
     public static String encode(String word) {
         try {
-            return URLEncoder.encode(word, Charsets.UTF_8.name());
+            return URLEncoder.encode(word, StandardCharsets.UTF_8.name());
         } catch (UnsupportedEncodingException e) {
             LOGGER.warn("url转义失败,word=" + word, e);
             return StringUtils.EMPTY;
@@ -128,6 +140,22 @@ public class HttpUtil {
             HttpClientUtils.closeQuietly(httpclient);
         }
         return result;
+    }
+
+    /**
+     * post请求（json）
+     *
+     * @param url url
+     * @param headers headers
+     * @param body 内容
+     * @return {@link String}
+     */
+    public static String postJson(String url, Map<String, String> headers, String body) {
+        if (headers == null) {
+            headers = Maps.newHashMap();
+        }
+        headers.put("Content-Type", "application/json;charset=utf-8");
+        return post(url, headers, body);
     }
 
 }

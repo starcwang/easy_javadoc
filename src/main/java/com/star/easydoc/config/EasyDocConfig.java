@@ -91,6 +91,14 @@ public class EasyDocConfig {
      */
     private String youdaoAppSecret;
     /**
+     * 谷歌key
+     */
+    private String googleKey;
+    /**
+     * 微软key
+     */
+    private String microsoftKey;
+    /**
      * 单词映射
      */
     private SortedMap<String, String> wordMap = new TreeMap<>();
@@ -559,5 +567,21 @@ public class EasyDocConfig {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public String getGoogleKey() {
+        return googleKey;
+    }
+
+    public void setGoogleKey(String googleKey) {
+        this.googleKey = googleKey;
+    }
+
+    public String getMicrosoftKey() {
+        return microsoftKey;
+    }
+
+    public void setMicrosoftKey(String microsoftKey) {
+        this.microsoftKey = microsoftKey;
     }
 }

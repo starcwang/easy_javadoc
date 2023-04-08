@@ -13,7 +13,9 @@ import com.star.easydoc.common.util.CollectionUtil;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.service.translator.impl.AliyunTranslator;
 import com.star.easydoc.service.translator.impl.BaiduTranslator;
+import com.star.easydoc.service.translator.impl.GoogleTranslator;
 import com.star.easydoc.service.translator.impl.JinshanTranslator;
+import com.star.easydoc.service.translator.impl.MicrosoftTranslator;
 import com.star.easydoc.service.translator.impl.TencentTranslator;
 import com.star.easydoc.service.translator.impl.YoudaoAiTranslator;
 import com.star.easydoc.service.translator.impl.YoudaoTranslator;
@@ -50,6 +52,8 @@ public class TranslatorService {
                 .put(Consts.JINSHAN_TRANSLATOR, new JinshanTranslator().init(config))
                 .put(Consts.YOUDAO_AI_TRANSLATOR, new YoudaoAiTranslator().init(config))
                 .put(Consts.YOUDAO_TRANSLATOR, new YoudaoTranslator().init(config))
+                .put(Consts.MICROSOFT_TRANSLATOR, new MicrosoftTranslator().init(config))
+                .put(Consts.GOOGLE_TRANSLATOR, new GoogleTranslator().init(config))
                 .build();
             this.config = config;
         }
