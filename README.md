@@ -3,7 +3,7 @@
 ## 介绍
 本项目是IntelliJ IDEA的插件，能帮助java\kotlin开发者自动生成javadoc\kdoc文档注释  
 **支持的IDEA版本为 2018.1 及以上**    
-**即将不支持2018**、2019版本    
+即将不支持2018、2019版本    
 
 ![示例1](./doc/k03vffH6Hg.gif)
   
