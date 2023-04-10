@@ -29,7 +29,7 @@ targetCompatibility = 1.8
 intellij {
     plugins = ['Kotlin']
 //    plugins 'java'
-    version '2018.1'
+    version '2019.1'
     pluginName 'Easy Javadoc'
     updateSinceUntilBuild false
 }

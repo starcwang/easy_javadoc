@@ -11,6 +11,7 @@ import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
+import com.star.easydoc.common.Consts;
 
 /**
  * 持久化配置文件
@@ -57,7 +58,7 @@ public class EasyDocConfig {
     /**
      * 翻译方式
      */
-    private String translator = "有道翻译";
+    private String translator = Consts.YOUDAO_TRANSLATOR;
     /**
      * 百度app id
      */
@@ -139,7 +140,7 @@ public class EasyDocConfig {
         simpleFieldDoc = false;
         kdocSimpleFieldDoc = false;
         kdocParamType = LINK_PARAM_TYPE;
-        translator = "有道翻译";
+        translator = Consts.YOUDAO_TRANSLATOR;
         appId = null;
         token = null;
         secretKey = null;
@@ -161,9 +162,6 @@ public class EasyDocConfig {
 
     public void mergeProject() {
         Project[] projects = ProjectManager.getInstance().getOpenProjects();
-        if (projects.length == 0) {
-            return;
-        }
         for (Project project : projects) {
             projectWordMap.computeIfAbsent(project.getName(), k -> Maps.newTreeMap());
         }
@@ -258,7 +256,7 @@ public class EasyDocConfig {
     /**
      * 变量类型
      */
-    public static enum VariableType {
+    public enum VariableType {
         /**
          * 固定值
          */
@@ -400,7 +398,10 @@ public class EasyDocConfig {
         if (wordMap != null) {
             map.putAll(wordMap);
         }
-        Project project = DataManager.getInstance().getDataContextFromFocus().getResultSync().getData(CommonDataKeys.PROJECT);
+        Project project = DataManager.getInstance()
+                .getDataContextFromFocus()
+                .getResultSync()
+                .getData(CommonDataKeys.PROJECT);
         if (project != null) {
             Map<String, String> projectMap = projectWordMap.get(project.getName());
             if (projectMap != null) {
