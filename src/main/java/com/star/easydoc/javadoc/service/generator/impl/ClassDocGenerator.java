@@ -10,13 +10,22 @@ import java.util.Objects;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.intellij.dvcs.repo.VcsRepositoryManager;
+import com.intellij.ide.DataManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.project.ProjectCoreUtil;
+import com.intellij.openapi.project.ProjectManager;
+import com.intellij.openapi.roots.ui.configuration.ProjectSettingsService;
+import com.intellij.openapi.vcs.ProjectLevelVcsManager;
+import com.intellij.openapi.vcs.configurable.VcsManagerConfigurable;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.javadoc.PsiDocTag;
 import com.intellij.psi.javadoc.PsiDocTagValue;
+import com.intellij.vcs.log.impl.VcsLogManager;
 import com.star.easydoc.common.Consts;
+import com.star.easydoc.common.util.VcsUtil;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.config.EasyDocConfigComponent;
 import com.star.easydoc.javadoc.service.generator.DocGenerator;
@@ -208,6 +217,7 @@ public class ClassDocGenerator implements DocGenerator {
         map.put("author", config.getAuthor());
         map.put("className", psiClass.getQualifiedName());
         map.put("simpleClassName", psiClass.getName());
+        map.put("branch", VcsUtil.getCurrentBranch());
         return map;
     }
 

@@ -11,6 +11,7 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.javadoc.PsiDocComment;
+import com.star.easydoc.common.util.VcsUtil;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.config.EasyDocConfigComponent;
 import com.star.easydoc.javadoc.service.generator.DocGenerator;
@@ -137,6 +138,7 @@ public class FieldDocGenerator implements DocGenerator {
         map.put("author", config.getAuthor());
         map.put("fieldName", psiField.getName());
         map.put("fieldType", psiField.getType().getCanonicalText());
+        map.put("branch", VcsUtil.getCurrentBranch());
         return map;
     }
 }

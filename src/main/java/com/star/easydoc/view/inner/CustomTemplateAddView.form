@@ -53,7 +53,7 @@
           <enabled value="true"/>
           <focusTraversalPolicyProvider value="false"/>
           <requestFocusEnabled value="true"/>
-          <text value="脚本说明：&#10;&#10;脚本使用Groovy脚本引擎，展示返回值&#10;内置变量有：&#10;&#10;author: 作者&#10;className: 全路径类名，例如 java.lang.String&#10;simpleClassName: 类名，例如 String&#10;methodName: 方法名，例如 toString&#10;methodReturnType: 方法返回值全路径，例如 java.lang.String&#10;methodParamTypes: 方法入参全路径，例如 [java.lang.Integer, java.lang.String]&#10;methodParamNames: 方法入参名称，例如 [name, age]&#10;fieldName: 属性名，例如 name&#10;fieldType: 属性类型全路径，例如 java.lang.String&#10;&#10;暂时想到这么多，还有其他的需要请联系作者添加"/>
+          <text value="脚本说明：&#10;&#10;脚本使用Groovy脚本引擎，展示返回值&#10;内置变量有：&#10;&#10;author: 作者&#10;className: 全路径类名，例如 java.lang.String&#10;simpleClassName: 类名，例如 String&#10;methodName: 方法名，例如 toString&#10;methodReturnType: 方法返回值全路径，例如 java.lang.String&#10;methodParamTypes: 方法入参全路径，例如 [java.lang.Integer, java.lang.String]&#10;methodParamNames: 方法入参名称，例如 [name, age]&#10;fieldName: 属性名，例如 name&#10;fieldType: 属性类型全路径，例如 java.lang.String&#10;branch: 当前分支名&#10;&#10;暂时想到这么多，还有其他的需要请联系作者添加"/>
           <visible value="true"/>
         </properties>
         <clientProperties>

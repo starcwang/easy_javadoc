@@ -2,6 +2,7 @@ package com.star.easydoc.kdoc.service.generator.impl
 
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.psi.PsiElement
+import com.star.easydoc.common.util.VcsUtil
 import com.star.easydoc.config.EasyDocConfig
 import com.star.easydoc.config.EasyDocConfigComponent
 import com.star.easydoc.javadoc.service.generator.DocGenerator
@@ -80,6 +81,7 @@ class KtNamedFunctionDocGenerator : DocGenerator {
         map["methodParamTypes"] = psiMethod.valueParameters.map { StringUtils.strip(it.typeReference?.text, "?") }
             .toTypedArray()
         map["methodParamNames"] = psiMethod.valueParameters.map { it.name }.toTypedArray()
+        map["branch"] = VcsUtil.getCurrentBranch()
         return map
     }
 }

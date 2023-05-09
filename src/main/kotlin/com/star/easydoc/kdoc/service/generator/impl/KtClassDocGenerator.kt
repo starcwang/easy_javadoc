@@ -2,6 +2,7 @@ package com.star.easydoc.kdoc.service.generator.impl
 
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.psi.PsiElement
+import com.star.easydoc.common.util.VcsUtil
 import com.star.easydoc.config.EasyDocConfig
 import com.star.easydoc.config.EasyDocConfigComponent
 import com.star.easydoc.javadoc.service.generator.DocGenerator
@@ -72,6 +73,7 @@ class KtClassDocGenerator : DocGenerator {
         map["author"] = config.kdocAuthor
         map["className"] = psiClass.fqName
         map["simpleClassName"] = psiClass.name
+        map["branch"] = VcsUtil.getCurrentBranch()
         return map
     }
 

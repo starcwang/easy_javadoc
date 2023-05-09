@@ -27,10 +27,8 @@ import org.jetbrains.annotations.NotNull;
 public class AppActivationListener implements ApplicationActivationListener {
     private static final Logger LOGGER = Logger.getInstance(AppActivationListener.class);
 
-    /** 上一次通知时间 */
-    private volatile long lastNoticeTime = 0L;
-    /** 通知时间间隔 */
-    private static final long INTERVAL = 7 * 24 * 60 * 60 * 1000L;
+    /** 是否已经通知 */
+    private volatile boolean hasNotice = false;
 
     @Override
     public synchronized void applicationActivated(@NotNull IdeFrame ideFrame) {
@@ -49,7 +47,7 @@ public class AppActivationListener implements ApplicationActivationListener {
      * 支持
      */
     private void support() {
-        if (System.currentTimeMillis() - lastNoticeTime < INTERVAL) {
+        if (hasNotice) {
             return;
         }
 
@@ -92,7 +90,7 @@ public class AppActivationListener implements ApplicationActivationListener {
         NotificationUtil.notify("支持EasyJavadoc", "如果这款小而美的插件为您节约了不少时间，请支持一下开发者！",
             starAction, reviewsAction, payAction);
 
-        lastNoticeTime = System.currentTimeMillis();
+        hasNotice = true;
     }
 
     /**

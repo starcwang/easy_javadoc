@@ -19,6 +19,7 @@ import com.intellij.psi.PsiTypeParameter;
 import com.intellij.psi.javadoc.PsiDocTag;
 import com.intellij.psi.javadoc.PsiDocTagValue;
 import com.star.easydoc.common.Consts;
+import com.star.easydoc.common.util.VcsUtil;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.config.EasyDocConfigComponent;
 import com.star.easydoc.javadoc.service.generator.DocGenerator;
@@ -292,11 +293,12 @@ public class MethodDocGenerator implements DocGenerator {
         Map<String, Object> map = Maps.newHashMap();
         map.put("author", config.getAuthor());
         map.put("methodName", psiMethod.getName());
-        map.put("methodReturnType", psiMethod.getReturnType() == null ? "" : psiMethod.getReturnType().getPresentableText());
+        map.put("methodReturnType", psiMethod.getReturnType() == null ? "" : psiMethod.getReturnType().getCanonicalText());
         map.put("methodParamTypes",
             Arrays.stream(psiMethod.getTypeParameters()).map(PsiTypeParameter::getQualifiedName).toArray(String[]::new));
         map.put("methodParamNames",
             Arrays.stream(psiMethod.getParameterList().getParameters()).map(PsiParameter::getName).toArray(String[]::new));
+        map.put("branch", VcsUtil.getCurrentBranch());
         return map;
     }
 }
