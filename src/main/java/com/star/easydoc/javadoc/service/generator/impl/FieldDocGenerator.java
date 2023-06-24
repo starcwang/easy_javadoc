@@ -138,7 +138,7 @@ public class FieldDocGenerator implements DocGenerator {
         map.put("author", config.getAuthor());
         map.put("fieldName", psiField.getName());
         map.put("fieldType", psiField.getType().getCanonicalText());
-        map.put("branch", VcsUtil.getCurrentBranch());
+        map.put("branch", VcsUtil.getCurrentBranch(psiField.getProject()));
         return map;
     }
 }

@@ -1,6 +1,8 @@
 package com.star.easydoc.common.util;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 字符串工具类
@@ -9,6 +11,9 @@ import java.util.List;
  * @date 2022/01/01
  */
 public class StringUtil {
+
+    /** 私有构造方法 */
+    private StringUtil() {}
 
     /**
      * 检查传入字符串是否以给定的任意前缀开始
@@ -24,6 +29,19 @@ public class StringUtil {
             }
         }
         return false;
+    }
+
+    /**
+     * 英文单词分割
+     *
+     * @param word 名称
+     * @return 分割后内容
+     */
+    public static List<String> split(String word) {
+        word = word.replaceAll("(?<=[^A-Z])[A-Z][^A-Z]", "_$0");
+        word = word.replaceAll("[A-Z]{2,}", "_$0");
+        word = word.replaceAll("_+", "_");
+        return Arrays.stream(word.split("_")).map(String::toLowerCase).collect(Collectors.toList());
     }
 
 }

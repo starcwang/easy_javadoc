@@ -76,7 +76,7 @@ class KtPropertyDocGenerator : DocGenerator {
         map["author"] = config.kdocAuthor
         map["fieldName"] = psiField.name
         map["fieldType"] = StringUtils.strip(psiField.typeReference?.typeElement?.text, "?")
-        map["branch"] = VcsUtil.getCurrentBranch()
+        map["branch"] = VcsUtil.getCurrentBranch(psiField.project)
         return map
     }
 

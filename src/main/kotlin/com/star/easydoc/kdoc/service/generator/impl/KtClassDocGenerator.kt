@@ -73,7 +73,7 @@ class KtClassDocGenerator : DocGenerator {
         map["author"] = config.kdocAuthor
         map["className"] = psiClass.fqName
         map["simpleClassName"] = psiClass.name
-        map["branch"] = VcsUtil.getCurrentBranch()
+        map["branch"] = VcsUtil.getCurrentBranch(psiClass.project)
         return map
     }
 

@@ -298,7 +298,7 @@ public class MethodDocGenerator implements DocGenerator {
             Arrays.stream(psiMethod.getTypeParameters()).map(PsiTypeParameter::getQualifiedName).toArray(String[]::new));
         map.put("methodParamNames",
             Arrays.stream(psiMethod.getParameterList().getParameters()).map(PsiParameter::getName).toArray(String[]::new));
-        map.put("branch", VcsUtil.getCurrentBranch());
+        map.put("branch", VcsUtil.getCurrentBranch(psiMethod.getProject()));
         return map;
     }
 }

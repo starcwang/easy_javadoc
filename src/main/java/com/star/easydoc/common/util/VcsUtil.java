@@ -22,14 +22,11 @@ public class VcsUtil {
      * 获取当前分支
      * 当前分支可能为空
      *
+     * @param project 项目
      * @return {@link String}
      */
-    public static String getCurrentBranch() {
-        Project theProject = ProjectCoreUtil.theProject;
-        if (theProject == null) {
-            return "";
-        }
-        VcsRepositoryManager manager = VcsRepositoryManager.getInstance(ProjectCoreUtil.theProject);
+    public static String getCurrentBranch(Project project) {
+        VcsRepositoryManager manager = VcsRepositoryManager.getInstance(project);
         Optional<Repository> firstRepository = manager.getRepositories().stream().findFirst();
         if (!firstRepository.isPresent()) {
             return "";

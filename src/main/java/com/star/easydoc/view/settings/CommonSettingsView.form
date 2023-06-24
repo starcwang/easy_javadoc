@@ -62,6 +62,7 @@
                 <item value="有道智云翻译"/>
                 <item value="微软翻译"/>
                 <item value="谷歌翻译"/>
+                <item value="仅单词分割"/>
                 <item value="关闭（只使用自定义翻译）"/>
               </model>
             </properties>

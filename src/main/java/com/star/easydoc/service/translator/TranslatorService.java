@@ -1,14 +1,25 @@
 package com.star.easydoc.service.translator;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.star.easydoc.common.Consts;
 import com.star.easydoc.common.util.CollectionUtil;
+import com.star.easydoc.common.util.StringUtil;
 import com.star.easydoc.config.EasyDocConfig;
-import com.star.easydoc.service.translator.impl.*;
+import com.star.easydoc.service.translator.impl.AliyunTranslator;
+import com.star.easydoc.service.translator.impl.BaiduTranslator;
+import com.star.easydoc.service.translator.impl.GoogleTranslator;
+import com.star.easydoc.service.translator.impl.JinshanTranslator;
+import com.star.easydoc.service.translator.impl.MicrosoftTranslator;
+import com.star.easydoc.service.translator.impl.SimpleSplitterTranslator;
+import com.star.easydoc.service.translator.impl.TencentTranslator;
+import com.star.easydoc.service.translator.impl.YoudaoAiTranslator;
+import com.star.easydoc.service.translator.impl.YoudaoTranslator;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -36,16 +47,16 @@ public class TranslatorService {
                 return;
             }
             translatorMap = ImmutableMap.<String, Translator>builder()
-                    .put(Consts.BAIDU_TRANSLATOR, new BaiduTranslator().init(config))
-                    .put(Consts.ALIYUN_TRANSLATOR, new AliyunTranslator().init(config))
-                    .put(Consts.TENCENT_TRANSLATOR, new TencentTranslator().init(config))
-                    .put(Consts.JINSHAN_TRANSLATOR, new JinshanTranslator().init(config))
-                    .put(Consts.YOUDAO_AI_TRANSLATOR, new YoudaoAiTranslator().init(config))
-                    .put(Consts.YOUDAO_TRANSLATOR, new YoudaoTranslator().init(config))
-                    .put(Consts.MICROSOFT_TRANSLATOR, new MicrosoftTranslator().init(config))
-                    .put(Consts.GOOGLE_TRANSLATOR, new GoogleTranslator().init(config))
-                    .put(Consts.CLOSE_TRANSLATOR, new DirectTranslator().init(config))
-                    .build();
+                .put(Consts.BAIDU_TRANSLATOR, new BaiduTranslator().init(config))
+                .put(Consts.ALIYUN_TRANSLATOR, new AliyunTranslator().init(config))
+                .put(Consts.TENCENT_TRANSLATOR, new TencentTranslator().init(config))
+                .put(Consts.JINSHAN_TRANSLATOR, new JinshanTranslator().init(config))
+                .put(Consts.YOUDAO_AI_TRANSLATOR, new YoudaoAiTranslator().init(config))
+                .put(Consts.YOUDAO_TRANSLATOR, new YoudaoTranslator().init(config))
+                .put(Consts.MICROSOFT_TRANSLATOR, new MicrosoftTranslator().init(config))
+                .put(Consts.GOOGLE_TRANSLATOR, new GoogleTranslator().init(config))
+                .put(Consts.SIMPLE_SPLITTER, new SimpleSplitterTranslator().init(config))
+                .build();
             this.config = config;
         }
     }
@@ -63,7 +74,7 @@ public class TranslatorService {
             return custom;
         }
 
-        List<String> words = split(source);
+        List<String> words = StringUtil.split(source);
         if (hasCustomWord(words)) {
             // 有自定义单词，使用默认模式，单个单词翻译
             StringBuilder sb = new StringBuilder();
@@ -112,9 +123,9 @@ public class TranslatorService {
         String[] chs = StringUtils.split(ch);
         List<String> chList = chs == null ? Lists.newArrayList() : Lists.newArrayList(chs);
         chList = chList.stream()
-                .filter(c -> !Consts.STOP_WORDS.contains(c.toLowerCase()))
-                .map(str -> str.replaceAll("[,.'\\-+;:`~]+", ""))
-                .collect(Collectors.toList());
+            .filter(c -> !Consts.STOP_WORDS.contains(c.toLowerCase()))
+            .map(str -> str.replaceAll("[,.'\\-+;:`~]+", ""))
+            .collect(Collectors.toList());
 
         if (CollectionUtil.isEmpty(chList)) {
             return "";
@@ -138,13 +149,6 @@ public class TranslatorService {
             }
         }
         return sb.toString();
-    }
-
-    private List<String> split(String word) {
-        word = word.replaceAll("(?<=[^A-Z])[A-Z][^A-Z]", "_$0");
-        word = word.replaceAll("[A-Z]{2,}", "_$0");
-        word = word.replaceAll("_+", "_");
-        return Arrays.stream(word.split("_")).map(String::toLowerCase).collect(Collectors.toList());
     }
 
     /**

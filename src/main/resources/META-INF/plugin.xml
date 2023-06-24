@@ -14,14 +14,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
-      <h3>v3.3.1</h3>
+      <h3>v3.4.0</h3>
       <ul>
-          <li>修复类全路径问题</li>
-          <li>自定义变量添加当前分支名变量</li>
-          <li>控制弹窗频次，现在为新打开时弹窗</li>
-      </ul>
-      <ul>
-          <li>支持类、方法和属性快速生成中文javadoc</li>
+          <li>支持单词分割模式</li>
+          <li>升级IDEA最小支持版本为2019</li>
+          <li>修复package-info.java空指针问题</li>
       </ul>
       <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
     ]]>
@@ -35,6 +32,7 @@
         <applicationService serviceImplementation="com.star.easydoc.javadoc.service.JavaDocGeneratorServiceImpl"/>
         <applicationService serviceImplementation="com.star.easydoc.kdoc.service.KdocGeneratorServiceImpl"/>
         <applicationService serviceImplementation="com.star.easydoc.service.WriterService"/>
+        <applicationService serviceImplementation="com.star.easydoc.service.PackageInfoService"/>
         <applicationService serviceImplementation="com.star.easydoc.service.translator.TranslatorService"/>
         <applicationService serviceImplementation="com.star.easydoc.javadoc.service.variable.JavadocVariableGeneratorService"/>
         <applicationService serviceImplementation="com.star.easydoc.kdoc.service.variable.KdocVariableGeneratorService"/>
