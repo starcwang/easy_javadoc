@@ -24,7 +24,7 @@
     ]]>
     </change-notes>
 
-    <idea-version since-build="2019.1"/>
+    <idea-version since-build="191"/>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
