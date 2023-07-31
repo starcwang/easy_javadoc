@@ -25,7 +25,7 @@ public class MethodSettingsConfigurable extends AbstractTemplateConfigurable<Met
     @Nls(capitalization = Capitalization.Title)
     @Override
     public String getDisplayName() {
-        return "Method Template";
+        return "EasyDocMethodTemplate";
     }
 
     @Override

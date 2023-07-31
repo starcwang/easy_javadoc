@@ -21,7 +21,7 @@ class KtMethodSettingsConfigurable : AbstractTemplateConfigurable<KtMethodSettin
     }
 
     override fun getDisplayName(): String {
-        return "Method Template"
+        return "EasyDocKtMethodTemplate"
     }
 
     override fun isModified(): Boolean {

@@ -60,7 +60,7 @@ class KdocSettingsConfigurable : Configurable {
 
     @Nls(capitalization = Capitalization.Title)
     override fun getDisplayName(): String {
-        return "Kdoc"
+        return "EasyDocKdoc"
     }
 
     override fun reset() {

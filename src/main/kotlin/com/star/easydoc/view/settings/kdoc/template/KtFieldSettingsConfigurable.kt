@@ -21,7 +21,7 @@ class KtFieldSettingsConfigurable : AbstractTemplateConfigurable<KtFieldSettings
     }
 
     override fun getDisplayName(): String {
-        return "Field Template"
+        return "EasyDocKtFieldTemplate"
     }
 
     override fun isModified(): Boolean {

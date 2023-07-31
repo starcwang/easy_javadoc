@@ -29,7 +29,7 @@ public class CommonSettingsConfigurable implements Configurable {
     @Nls(capitalization = Capitalization.Title)
     @Override
     public String getDisplayName() {
-        return "EasyJavadoc";
+        return "EasyDoc";
     }
 
     @Nullable

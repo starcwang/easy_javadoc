@@ -25,7 +25,7 @@ public class FieldSettingsConfigurable extends AbstractTemplateConfigurable<Fiel
     @Nls(capitalization = Capitalization.Title)
     @Override
     public String getDisplayName() {
-        return "Field Template";
+        return "EasyDocFieldTemplate";
     }
 
     @Override

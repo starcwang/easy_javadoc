@@ -25,7 +25,7 @@ public class JavadocSettingsConfigurable implements Configurable {
     @Nls(capitalization = Capitalization.Title)
     @Override
     public String getDisplayName() {
-        return "Javadoc";
+        return "EasyDocJavadoc";
     }
 
     @Nullable

@@ -25,7 +25,7 @@ public class ClassSettingsConfigurable extends AbstractTemplateConfigurable<Clas
     @Nls(capitalization = Capitalization.Title)
     @Override
     public String getDisplayName() {
-        return "Class Template";
+        return "EasyDocClassTemplate";
     }
 
     @Override

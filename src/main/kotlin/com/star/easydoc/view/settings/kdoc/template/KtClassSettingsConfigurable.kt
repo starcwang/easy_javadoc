@@ -19,7 +19,7 @@ class KtClassSettingsConfigurable : AbstractTemplateConfigurable<KtClassSettings
 
 
     override fun getDisplayName(): String {
-        return "Class Template"
+        return "EasyDocKtClassTemplate"
     }
 
     override fun getView(): KtClassSettingsView {
