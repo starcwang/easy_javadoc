@@ -8,6 +8,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiJavaDocumentedElement;
 import com.intellij.psi.codeStyle.CodeStyleManager;
+import com.intellij.psi.impl.source.tree.PsiWhiteSpaceImpl;
 import com.intellij.psi.javadoc.PsiDocComment;
 import com.intellij.util.ThrowableRunnable;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +23,7 @@ import org.jetbrains.kotlin.psi.KtElement;
 public class WriterService {
     private static final Logger LOGGER = Logger.getInstance(WriterService.class);
 
-    public void writeJavadoc(Project project, PsiElement psiElement, PsiDocComment comment) {
+    public void writeJavadoc(Project project, PsiElement psiElement, PsiDocComment comment, int emptyLineNum) {
         try {
             WriteCommandAction.writeCommandAction(project).run(
                 (ThrowableRunnable<Throwable>)() -> {
@@ -46,6 +47,17 @@ public class WriterService {
                     int startOffset = javadocElement.getTextOffset();
                     int endOffset = javadocElement.getTextOffset() + javadocElement.getText().length();
                     codeStyleManager.reformatText(psiElement.getContainingFile(), startOffset, endOffset + 1);
+
+                    // 添加空行
+                    if (emptyLineNum > 0) {
+                        PsiElement whiteSpaceElement = psiElement.getChildren()[1];
+                        if (whiteSpaceElement instanceof PsiWhiteSpaceImpl) {
+                            // 修改whiteSpace
+                            String space = StringUtils.repeat("\n", emptyLineNum + 1);
+                            String exists = StringUtils.stripStart(whiteSpaceElement.getText(), "\n");
+                            ((PsiWhiteSpaceImpl)whiteSpaceElement).replaceWithText(space + exists);
+                        }
+                    }
                 });
         } catch (Throwable throwable) {
             LOGGER.error("写入错误", throwable);

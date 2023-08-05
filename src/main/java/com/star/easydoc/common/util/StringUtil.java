@@ -44,4 +44,28 @@ public class StringUtil {
         return Arrays.stream(word.split("_")).map(String::toLowerCase).collect(Collectors.toList());
     }
 
+    /**
+     * 统计字符串结尾为c的数量
+     *
+     * @param str 字符串
+     * @param c 字符
+     * @return int
+     */
+    public static int endCount(String str, char c) {
+        // 计算空行数
+        if (str == null || str.length() == 0) {
+            return 0;
+        }
+        char[] chars = str.toCharArray();
+        int count = 0;
+        for (int i = chars.length - 1; i >= 0; i--) {
+            if (chars[i] == c) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        return count;
+    }
+
 }

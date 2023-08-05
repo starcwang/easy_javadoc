@@ -1,10 +1,8 @@
 package com.star.easydoc.action;
 
-import com.intellij.ide.DataManager;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationActivationListener;
@@ -12,7 +10,6 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.psi.JavaDirectoryService;
 import com.intellij.psi.PsiComment;
@@ -25,13 +22,14 @@ import com.intellij.psi.PsiPackage;
 import com.intellij.psi.javadoc.PsiDocComment;
 import com.intellij.util.messages.MessageBusConnection;
 import com.star.easydoc.common.util.LanguageUtil;
-import com.star.easydoc.listener.AppActivationListener;
+import com.star.easydoc.common.util.StringUtil;
 import com.star.easydoc.javadoc.service.JavaDocGeneratorServiceImpl;
-import com.star.easydoc.service.PackageInfoService;
-import com.star.easydoc.view.inner.TranslateResultView;
 import com.star.easydoc.kdoc.service.KdocGeneratorServiceImpl;
+import com.star.easydoc.listener.AppActivationListener;
+import com.star.easydoc.service.PackageInfoService;
 import com.star.easydoc.service.WriterService;
 import com.star.easydoc.service.translator.TranslatorService;
+import com.star.easydoc.view.inner.TranslateResultView;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.kotlin.kdoc.psi.api.KDoc;
@@ -87,7 +85,11 @@ public class GenerateJavadocAction extends AnAction {
                 }
                 // 自动翻译
                 else {
-                    String result = translatorService.autoTranslate(selectedText);
+                    String eng = selectedText;
+                    if (!selectedText.contains(StringUtils.SPACE)) {
+                        eng = StringUtils.join(StringUtil.split(selectedText), StringUtils.SPACE);
+                    }
+                    String result = translatorService.autoTranslate(eng);
                     new TranslateResultView(result).show();
                 }
                 return;
@@ -137,7 +139,7 @@ public class GenerateJavadocAction extends AnAction {
         PsiElementFactory factory = PsiElementFactory.SERVICE.getInstance(project);
         PsiDocComment psiDocComment = factory.createDocCommentFromText(comment);
 
-        writerService.writeJavadoc(project, psiElement, psiDocComment);
+        writerService.writeJavadoc(project, psiElement, psiDocComment, StringUtil.endCount(comment, '\n'));
     }
 
     private void kdocProcess(Project project, KtFile psiFile, PsiElement psiElement) {

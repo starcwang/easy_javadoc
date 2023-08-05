@@ -23,6 +23,7 @@ import com.intellij.psi.PsiJavaFile;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiPackage;
 import com.intellij.psi.javadoc.PsiDocComment;
+import com.star.easydoc.common.util.StringUtil;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.config.EasyDocConfigComponent;
 import com.star.easydoc.javadoc.service.JavaDocGeneratorServiceImpl;
@@ -211,6 +212,6 @@ public class GenerateAllJavadocAction extends AnAction {
         PsiElementFactory factory = PsiElementFactory.SERVICE.getInstance(project);
         PsiDocComment psiDocComment = factory.createDocCommentFromText(comment);
 
-        writerService.writeJavadoc(project, psiElement, psiDocComment);
+        writerService.writeJavadoc(project, psiElement, psiDocComment, StringUtil.endCount(comment, '\n'));
     }
 }
