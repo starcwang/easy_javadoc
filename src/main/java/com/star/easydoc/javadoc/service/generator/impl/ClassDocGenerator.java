@@ -110,7 +110,7 @@ public class ClassDocGenerator implements DocGenerator {
             + "*\n"
             + "* @author " + config.getAuthor() + "\n"
             + "* @date " + dateString + "\n"
-            + "*/\n";
+            + "*/";
     }
 
     /**

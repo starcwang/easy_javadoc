@@ -93,8 +93,7 @@ public class FieldDocGenerator implements DocGenerator {
             commentItems.add(1, buildDesc(elements, desc));
             return Joiner.on(StringUtils.EMPTY).skipNulls().join(commentItems);
         }
-        return String.format("/**%s* %s%s */%s", "\n", translatorService.translate(name), "\n",
-            "\n");
+        return String.format("/**%s* %s%s */", "\n", translatorService.translate(name), "\n");
     }
 
     /**

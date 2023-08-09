@@ -122,7 +122,7 @@ public class MethodDocGenerator implements DocGenerator {
             sb.append("* @throws ").append(exceptionName).append(" ")
                 .append(translatorService.translate(exceptionName)).append("\n");
         }
-        sb.append("*/\n");
+        sb.append("*/");
         return sb.toString();
     }
 

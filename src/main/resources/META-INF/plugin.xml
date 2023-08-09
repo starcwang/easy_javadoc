@@ -14,10 +14,9 @@
     ]]></description>
 
     <change-notes><![CDATA[
-      <h3>v3.4.2</h3>
+      <h3>v3.4.3</h3>
       <ul>
-          <li>javadoc自定义模式支持结尾添加换行</li>
-          <li>优化选中后的英译中切词翻译</li>
+          <li>修复默认模板出现空行的问题</li>
       </ul>
       <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
     ]]>
