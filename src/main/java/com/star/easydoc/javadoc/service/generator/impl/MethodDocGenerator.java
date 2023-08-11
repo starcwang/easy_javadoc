@@ -5,12 +5,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiClassType;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
@@ -65,8 +67,8 @@ public class MethodDocGenerator implements DocGenerator {
         List<String> paramNameList = Arrays.stream(psiMethod.getParameterList().getParameters())
             .map(PsiParameter::getName).collect(Collectors.toList());
         String returnName = psiMethod.getReturnTypeElement() == null ? "" : psiMethod.getReturnTypeElement().getText();
-        List<String> exceptionNameList = Arrays.stream(psiMethod.getThrowsList().getReferencedTypes())
-            .map(PsiClassType::getName).collect(Collectors.toList());
+        List<PsiClassType> exceptionTypeList = Arrays.stream(psiMethod.getThrowsList().getReferencedTypes())
+            .collect(Collectors.toList());
 
         // 有注释，进行兼容处理
         if (psiMethod.getDocComment() != null) {
@@ -85,7 +87,7 @@ public class MethodDocGenerator implements DocGenerator {
             endList.add(buildReturn(elements, returnName));
 
             // 异常
-            endList.addAll(buildException(elements, exceptionNameList));
+            endList.addAll(buildException(elements, exceptionTypeList, psiMethod.getProject()));
 
             List<String> commentItems = Lists.newLinkedList();
             for (PsiElement element : elements) {
@@ -118,9 +120,10 @@ public class MethodDocGenerator implements DocGenerator {
                 }
             }
         }
-        for (String exceptionName : exceptionNameList) {
-            sb.append("* @throws ").append(exceptionName).append(" ")
-                .append(translatorService.translate(exceptionName)).append("\n");
+        for (PsiClassType exceptionType : exceptionTypeList) {
+            sb.append("* @throws ").append(exceptionType.getName()).append(" ")
+                .append(translatorService.translateWithClass(
+                    exceptionType.getName(), exceptionType.getCanonicalText(), psiMethod.getProject())).append("\n");
         }
         sb.append("*/");
         return sb.toString();
@@ -130,11 +133,12 @@ public class MethodDocGenerator implements DocGenerator {
      * 构建异常
      *
      * @param elements 元素
-     * @param exceptionNameList 异常名称数组
+     * @param exceptionTypeList 异常类型数组
      * @return {@link java.util.List<java.lang.String>}
      */
-    private List<String> buildException(List<PsiElement> elements, List<String> exceptionNameList) {
+    private List<String> buildException(List<PsiElement> elements, List<PsiClassType> exceptionTypeList, Project project) {
         List<String> paramDocList = Lists.newArrayList();
+        Set<String> exceptionNameSet = exceptionTypeList.stream().map(PsiClassType::getName).collect(Collectors.toSet());
         for (Iterator<PsiElement> iterator = elements.iterator(); iterator.hasNext(); ) {
             PsiElement element = iterator.next();
             if (!"PsiDocTag:@throws".equalsIgnoreCase(element.toString())
@@ -154,14 +158,22 @@ public class MethodDocGenerator implements DocGenerator {
                 iterator.remove();
                 continue;
             }
-            if (!exceptionNameList.contains(exceptionName)) {
+            if (!exceptionNameSet.contains(exceptionName)) {
                 iterator.remove();
                 continue;
             }
-            exceptionNameList.remove(exceptionName);
+            exceptionNameSet.remove(exceptionName);
+            for (Iterator<PsiClassType> iter = exceptionTypeList.iterator(); iter.hasNext(); ) {
+                PsiClassType psiClassType = iter.next();
+                if (psiClassType.getName().equals(exceptionName)) {
+                    iter.remove();
+                }
+            }
         }
-        for (String exceptionName : exceptionNameList) {
-            paramDocList.add("@throws " + exceptionName + " " + translatorService.translate(exceptionName) + "\n");
+        for (PsiClassType exceptionType : exceptionTypeList) {
+            paramDocList.add("@throws " + exceptionType.getName()
+                + " " + translatorService.translateWithClass(
+                    exceptionType.getName(), exceptionType.getCanonicalText(), project) + "\n");
         }
         return paramDocList;
     }

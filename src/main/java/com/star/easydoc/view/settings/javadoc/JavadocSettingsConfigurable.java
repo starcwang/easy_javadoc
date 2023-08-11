@@ -42,6 +42,9 @@ public class JavadocSettingsConfigurable implements Configurable {
         if (!Objects.equals(config.getDateFormat(), view.getDateFormatTextField().getText())) {
             return true;
         }
+        if (!Objects.equals(config.getDocPriority(), view.getDocPriority())) {
+            return true;
+        }
         if (!Objects.equals(config.getSimpleFieldDoc(), view.getSimpleDocButton().isSelected())) {
             return true;
         }
@@ -57,12 +60,16 @@ public class JavadocSettingsConfigurable implements Configurable {
         config.setDateFormat(view.getDateFormatTextField().getText());
         config.setSimpleFieldDoc(view.getSimpleDocButton().isSelected());
         config.setMethodReturnType(view.getMethodReturnType());
+        config.setDocPriority(view.getDocPriority());
 
         if (config.getAuthor() == null) {
             throw new ConfigurationException("作者不能为null");
         }
         if (config.getDateFormat() == null) {
             throw new ConfigurationException("日期格式不能为null");
+        }
+        if (config.getDocPriority() == null) {
+            throw new ConfigurationException("类注释优先级不能为null");
         }
         if (config.getSimpleFieldDoc() == null) {
             throw new ConfigurationException("注释形式不能为null");

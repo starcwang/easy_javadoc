@@ -30,6 +30,10 @@ public class JavadocSettingsView {
     private JRadioButton methodReturnCodeTypeButton;
     private JRadioButton methodReturnLinkTypeButton;
     private JPanel commonPanel;
+    private JRadioButton methodReturnDocTypeButton;
+    private JRadioButton docFirstRadioButton;
+    private JRadioButton onlyTranslateRadioButton;
+    private JLabel docPriorityLabel;
 
     public JavadocSettingsView() {
         simpleDocButton.addChangeListener(e -> {
@@ -67,6 +71,24 @@ public class JavadocSettingsView {
                 methodReturnCodeTypeButton.setSelected(true);
             }
         });
+
+        docFirstRadioButton.addChangeListener(e -> {
+            JRadioButton button = (JRadioButton)e.getSource();
+            if (button.isSelected()) {
+                onlyTranslateRadioButton.setSelected(false);
+            } else {
+                onlyTranslateRadioButton.setSelected(true);
+            }
+        });
+
+        onlyTranslateRadioButton.addChangeListener(e -> {
+            JRadioButton button = (JRadioButton)e.getSource();
+            if (button.isSelected()) {
+                docFirstRadioButton.setSelected(false);
+            } else {
+                docFirstRadioButton.setSelected(true);
+            }
+        });
     }
 
     private void createUIComponents() {
@@ -90,6 +112,7 @@ public class JavadocSettingsView {
         }
         setAuthorTextField(config.getAuthor());
         setDateFormatTextField(config.getDateFormat());
+        setDocPriority(config.getDocPriority());
     }
 
     public JComponent getComponent() {
@@ -139,6 +162,21 @@ public class JavadocSettingsView {
     public String getMethodReturnType() {
         return methodReturnCodeTypeButton.isSelected() ?
             EasyDocConfig.CODE_RETURN_TYPE : EasyDocConfig.LINK_RETURN_TYPE;
+    }
+
+    public String getDocPriority() {
+        return docFirstRadioButton.isSelected() ?
+            EasyDocConfig.DOC_FIRST : EasyDocConfig.ONLY_TRANSLATE;
+    }
+
+    public void setDocPriority(String docPriority) {
+        if (EasyDocConfig.DOC_FIRST.equals(docPriority)) {
+            docFirstRadioButton.setSelected(true);
+            onlyTranslateRadioButton.setSelected(false);
+        } else {
+            docFirstRadioButton.setSelected(false);
+            onlyTranslateRadioButton.setSelected(true);
+        }
     }
 
 }

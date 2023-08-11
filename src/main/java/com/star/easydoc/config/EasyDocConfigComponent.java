@@ -29,6 +29,7 @@ public class EasyDocConfigComponent implements PersistentStateComponent<EasyDocC
             config.setAuthor(System.getProperty("user.name"));
             config.setKdocAuthor(System.getProperty("user.name"));
             config.setDateFormat(Consts.DEFAULT_DATE_FORMAT);
+            config.setDocPriority(EasyDocConfig.DOC_FIRST);
             config.setKdocDateFormat(Consts.DEFAULT_DATE_FORMAT);
             config.setSimpleFieldDoc(true);
             config.setKdocSimpleFieldDoc(true);

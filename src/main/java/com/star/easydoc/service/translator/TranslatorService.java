@@ -7,6 +7,13 @@ import java.util.stream.Collectors;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.intellij.openapi.project.Project;
+import com.intellij.psi.JavaPsiFacade;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.impl.source.javadoc.PsiDocTokenImpl;
+import com.intellij.psi.javadoc.PsiDocComment;
+import com.intellij.psi.search.GlobalSearchScope;
 import com.star.easydoc.common.Consts;
 import com.star.easydoc.common.util.CollectionUtil;
 import com.star.easydoc.common.util.StringUtil;
@@ -92,6 +99,43 @@ public class TranslatorService {
         } else {
             // 没有自定义单词，使用整句翻译，翻译更准确
             return getFromOthers(StringUtils.join(words, StringUtils.SPACE));
+        }
+    }
+
+    /**
+     * 英译中
+     *
+     * @param source 源
+     * @return {@link String}
+     */
+    public String translateWithClass(String source, String className, Project project) {
+        // 开关判断
+        if (EasyDocConfig.ONLY_TRANSLATE.equals(config.getDocPriority())) {
+            return translate(source);
+        }
+
+        if (StringUtils.isNotBlank(className)) {
+            PsiClass aClass = JavaPsiFacade.getInstance(project).findClass(className,
+                GlobalSearchScope.projectScope(project));
+            if (aClass == null) {
+                return translate(source);
+            }
+            PsiDocComment docComment = aClass.getDocComment();
+            if (docComment == null) {
+                return translate(source);
+            }
+            PsiElement[] descriptionElements = docComment.getDescriptionElements();
+            for (PsiElement element : descriptionElements) {
+                if (element instanceof PsiDocTokenImpl) {
+                    String doc = element.getText().replaceAll("[ \\n\\t*]+", "");
+                    if (StringUtils.isNotBlank(doc)) {
+                        return doc;
+                    }
+                }
+            }
+            return translate(source);
+        } else {
+            return translate(source);
         }
     }
 

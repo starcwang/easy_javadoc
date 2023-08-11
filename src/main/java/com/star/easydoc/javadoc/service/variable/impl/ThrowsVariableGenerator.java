@@ -23,13 +23,14 @@ public class ThrowsVariableGenerator extends AbstractVariableGenerator {
         if (!(element instanceof PsiMethod)) {
             return "";
         }
-        List<String> exceptionNameList = Arrays.stream(((PsiMethod)element).getThrowsList().getReferencedTypes())
-            .map(PsiClassType::getName).collect(Collectors.toList());
-        if (exceptionNameList.isEmpty()) {
+        List<PsiClassType> exceptionTypeList = Arrays.stream(((PsiMethod)element).getThrowsList().getReferencedTypes())
+            .collect(Collectors.toList());
+        if (exceptionTypeList.isEmpty()) {
             return "";
         }
-        return exceptionNameList.stream()
-            .map(name -> "@throws " + name + " " + translatorService.translate(name))
+        return exceptionTypeList.stream()
+            .map(type -> "@throws " + type.getName() + " "
+                + translatorService.translateWithClass(type.getName(), type.getCanonicalText(), element.getProject()))
             .collect(Collectors.joining("\n"));
     }
 }

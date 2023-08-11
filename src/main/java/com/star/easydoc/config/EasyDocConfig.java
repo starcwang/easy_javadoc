@@ -25,11 +25,18 @@ public class EasyDocConfig {
     public static final String CODE_RETURN_TYPE = "code";
     /** 方法返回值为link类型 */
     public static final String LINK_RETURN_TYPE = "link";
+    /** 方法返回值为doc类型 */
+    public static final String DOC_RETURN_TYPE = "doc";
 
     /** 普通模式 */
     public static final String NORMAL_PARAM_TYPE = "普通模式";
     /** 中括号模式 */
     public static final String LINK_PARAM_TYPE = "中括号模式";
+
+    /** 类注释优先 */
+    public static final String DOC_FIRST = "docFirst";
+    /** 仅翻译 */
+    public static final String ONLY_TRANSLATE = "onlyTranslate";
 
     /** 版本 */
     private String version;
@@ -55,6 +62,10 @@ public class EasyDocConfig {
     private String methodReturnType = LINK_RETURN_TYPE;
     /** kdoc 参数类型 */
     private String kdocParamType = LINK_PARAM_TYPE;
+
+    /** 注释优先级 */
+    private String docPriority = DOC_FIRST;
+
     /**
      * 翻译方式
      */
@@ -139,6 +150,7 @@ public class EasyDocConfig {
         kdocDateFormat = "yyyy/MM/dd";
         simpleFieldDoc = false;
         kdocSimpleFieldDoc = false;
+        docPriority = DOC_FIRST;
         kdocParamType = LINK_PARAM_TYPE;
         translator = Consts.YOUDAO_TRANSLATOR;
         appId = null;
@@ -573,6 +585,7 @@ public class EasyDocConfig {
     public String getGoogleKey() {
         return googleKey;
     }
+    
 
     public void setGoogleKey(String googleKey) {
         this.googleKey = googleKey;
@@ -584,5 +597,13 @@ public class EasyDocConfig {
 
     public void setMicrosoftKey(String microsoftKey) {
         this.microsoftKey = microsoftKey;
+    }
+
+    public String getDocPriority() {
+        return docPriority;
+    }
+
+    public void setDocPriority(String docPriority) {
+        this.docPriority = docPriority;
     }
 }
