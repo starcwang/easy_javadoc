@@ -75,7 +75,8 @@ public class JavadocSettingsConfigurable implements Configurable {
             throw new ConfigurationException("注释形式不能为null");
         }
         if (!EasyDocConfig.CODE_RETURN_TYPE.equals(config.getMethodReturnType())
-            && !EasyDocConfig.LINK_RETURN_TYPE.equals(config.getMethodReturnType())) {
+            && !EasyDocConfig.LINK_RETURN_TYPE.equals(config.getMethodReturnType())
+            && !EasyDocConfig.DOC_RETURN_TYPE.equals(config.getMethodReturnType())) {
             throw new ConfigurationException("方法返回模式不能为空");
         }
     }

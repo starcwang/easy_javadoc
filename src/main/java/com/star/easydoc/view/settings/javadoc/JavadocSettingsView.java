@@ -5,6 +5,7 @@ import javax.swing.*;
 import com.intellij.openapi.components.ServiceManager;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.config.EasyDocConfigComponent;
+import gherkin.lexer.Tr;
 import org.apache.commons.lang3.BooleanUtils;
 
 /**
@@ -58,8 +59,7 @@ public class JavadocSettingsView {
             JRadioButton button = (JRadioButton)e.getSource();
             if (button.isSelected()) {
                 methodReturnLinkTypeButton.setSelected(false);
-            } else {
-                methodReturnLinkTypeButton.setSelected(true);
+                methodReturnDocTypeButton.setSelected(false);
             }
         });
 
@@ -67,8 +67,15 @@ public class JavadocSettingsView {
             JRadioButton button = (JRadioButton)e.getSource();
             if (button.isSelected()) {
                 methodReturnCodeTypeButton.setSelected(false);
-            } else {
-                methodReturnCodeTypeButton.setSelected(true);
+                methodReturnDocTypeButton.setSelected(false);
+            }
+        });
+
+        methodReturnDocTypeButton.addChangeListener(e -> {
+            JRadioButton button = (JRadioButton)e.getSource();
+            if (button.isSelected()) {
+                methodReturnCodeTypeButton.setSelected(false);
+                methodReturnLinkTypeButton.setSelected(false);
             }
         });
 
@@ -106,9 +113,15 @@ public class JavadocSettingsView {
         if (EasyDocConfig.CODE_RETURN_TYPE.equals(config.getMethodReturnType())) {
             setMethodReturnCodeTypeButton(true);
             setMethodReturnLinkTypeButton(false);
+            setMethodReturnDocTypeButton(false);
         } else if (EasyDocConfig.LINK_RETURN_TYPE.equals(config.getMethodReturnType())) {
             setMethodReturnCodeTypeButton(false);
             setMethodReturnLinkTypeButton(true);
+            setMethodReturnDocTypeButton(false);
+        } else if (EasyDocConfig.DOC_RETURN_TYPE.equals(config.getMethodReturnType())) {
+            setMethodReturnCodeTypeButton(false);
+            setMethodReturnLinkTypeButton(false);
+            setMethodReturnDocTypeButton(true);
         }
         setAuthorTextField(config.getAuthor());
         setDateFormatTextField(config.getDateFormat());
@@ -159,9 +172,19 @@ public class JavadocSettingsView {
         methodReturnLinkTypeButton.setSelected(selecetd);
     }
 
+    public void setMethodReturnDocTypeButton(boolean selecetd) {
+        methodReturnDocTypeButton.setSelected(selecetd);
+    }
+
     public String getMethodReturnType() {
-        return methodReturnCodeTypeButton.isSelected() ?
-            EasyDocConfig.CODE_RETURN_TYPE : EasyDocConfig.LINK_RETURN_TYPE;
+        if (methodReturnCodeTypeButton.isSelected()) {
+            return EasyDocConfig.CODE_RETURN_TYPE;
+        } else if (methodReturnLinkTypeButton.isSelected()) {
+            return EasyDocConfig.LINK_RETURN_TYPE;
+        } else if (methodReturnDocTypeButton.isSelected()) {
+            return EasyDocConfig.DOC_RETURN_TYPE;
+        }
+        return null;
     }
 
     public String getDocPriority() {

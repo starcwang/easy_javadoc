@@ -105,9 +105,17 @@ public class AliyunTranslator extends AbstractTranslator {
      * 获取时间
      */
     private String toGMTString(Date date) {
-        SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss z", Locale.UK);
-        df.setTimeZone(new SimpleTimeZone(0, "GMT"));
-        return df.format(date);
+        SimpleDateFormat df1 = new SimpleDateFormat("E, dd ", Locale.UK);
+        SimpleDateFormat df2 = new SimpleDateFormat("MMM", Locale.UK);
+        SimpleDateFormat df3 = new SimpleDateFormat(" yyyy HH:mm:ss z", Locale.UK);
+        df1.setTimeZone(new SimpleTimeZone(0, "GMT"));
+        df2.setTimeZone(new SimpleTimeZone(0, "GMT"));
+        df3.setTimeZone(new SimpleTimeZone(0, "GMT"));
+        String month = df2.format(date);
+        if (month.length() > 3) {
+            month = month.substring(0, 3);
+        }
+        return df1.format(date) + month + df3.format(date);
     }
 
     /**

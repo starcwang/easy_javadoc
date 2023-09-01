@@ -542,6 +542,11 @@ public class EasyDocConfig {
         return LINK_RETURN_TYPE.equals(methodReturnType);
     }
 
+    @JSONField(serialize = false, deserialize = false)
+    public boolean isDocMethodReturnType() {
+        return DOC_RETURN_TYPE.equals(methodReturnType);
+    }
+
     public Boolean getGenAllClass() {
         return genAllClass;
     }

@@ -17,6 +17,7 @@ import com.intellij.psi.PsiClassType;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiParameter;
+import com.intellij.psi.PsiTypeElement;
 import com.intellij.psi.PsiTypeParameter;
 import com.intellij.psi.javadoc.PsiDocTag;
 import com.intellij.psi.javadoc.PsiDocTagValue;
@@ -66,7 +67,8 @@ public class MethodDocGenerator implements DocGenerator {
     private String defaultGenerate(PsiMethod psiMethod) {
         List<String> paramNameList = Arrays.stream(psiMethod.getParameterList().getParameters())
             .map(PsiParameter::getName).collect(Collectors.toList());
-        String returnName = psiMethod.getReturnTypeElement() == null ? "" : psiMethod.getReturnTypeElement().getText();
+        PsiTypeElement returns = psiMethod.getReturnTypeElement() == null ? null : psiMethod.getReturnTypeElement();
+        String returnName = returns == null ? "" : returns.getText();
         List<PsiClassType> exceptionTypeList = Arrays.stream(psiMethod.getThrowsList().getReferencedTypes())
             .collect(Collectors.toList());
 
@@ -84,7 +86,7 @@ public class MethodDocGenerator implements DocGenerator {
             endList.addAll(buildParams(elements, paramNameList));
 
             // 返回
-            endList.add(buildReturn(elements, returnName));
+            endList.add(buildReturn(elements, returns));
 
             // 异常
             endList.addAll(buildException(elements, exceptionTypeList, psiMethod.getProject()));
@@ -117,6 +119,9 @@ public class MethodDocGenerator implements DocGenerator {
                     sb.append("* @return {@code ").append(returnName).append("}").append("\n");
                 } else if (config.isLinkMethodReturnType()) {
                     sb.append(getLinkTypeReturnDoc(returnName));
+                } else if (config.isDocMethodReturnType()) {
+                    sb.append("* @return " +
+                        translatorService.translateWithClass(returnName, returns.getType().getCanonicalText(), psiMethod.getProject()) + "\n");
                 }
             }
         }
@@ -182,11 +187,15 @@ public class MethodDocGenerator implements DocGenerator {
      * 构建返回
      *
      * @param elements 元素
-     * @param returnName 返回名称
+     * @param returns 返回名称
      * @return {@link java.lang.String}
      */
-    private String buildReturn(List<PsiElement> elements, String returnName) {
+    private String buildReturn(List<PsiElement> elements, PsiTypeElement returns) {
         boolean isInsert = true;
+        if (returns == null) {
+            return "";
+        }
+        String returnName = returns.getText();
         for (Iterator<PsiElement> iterator = elements.iterator(); iterator.hasNext(); ) {
             PsiElement element = iterator.next();
             if (!"PsiDocTag:@return".equalsIgnoreCase(element.toString())) {
@@ -209,6 +218,10 @@ public class MethodDocGenerator implements DocGenerator {
                     return "@return {@code " + returnName + "}\n";
                 } else if (config.isLinkMethodReturnType()) {
                     return getLinkTypeReturnDoc(returnName);
+                } else if (config.isDocMethodReturnType()) {
+                    return "* @return " +
+                        translatorService.translateWithClass(returnName, returns.getType().getCanonicalText(),
+                            returns.getProject()) + "\n";
                 }
             }
         }
