@@ -10,7 +10,6 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.star.easydoc.common.util.HttpUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * 百度翻译
@@ -21,46 +20,41 @@ import org.apache.commons.lang3.StringUtils;
 public class BaiduTranslator extends AbstractTranslator {
     private static final Logger LOGGER = Logger.getInstance(BaiduTranslator.class);
 
-    private static final String URL = "http://api.fanyi.baidu.com/api/trans/vip/translate?from=auto&to=auto&appid=%s&salt=%s&sign=%s&q=%s";
+    private static final String URL
+        = "http://api.fanyi.baidu.com/api/trans/vip/translate?from=auto&to=auto&appid=%s&salt=%s&sign=%s&q=%s";
 
     @Override
     public String translateEn2Ch(String text) {
-        try {
-            return get(text);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        } catch (Exception e) {
-            LOGGER.error("请求百度翻译接口异常：请检查本地网络是否可连接外网，也有可能被百度限流", e);
-        }
-        return StringUtils.EMPTY;
+        return get(text);
+
     }
 
     @Override
     public String translateCh2En(String text) {
+        return get(text);
+    }
+
+    private String get(String text) {
+        String json = null;
+        String result = "";
         try {
-            return get(text);
+            for (int i = 0; i < 10; i++) {
+                String salt = RandomStringUtils.randomNumeric(16);
+                String sign = DigestUtils.md5Hex(getConfig().getAppId() + text + salt + getConfig().getToken());
+                String eText = HttpUtil.encode(text);
+                json = HttpUtil.get(String.format(URL, getConfig().getAppId(), salt, sign, eText));
+                BaiduResponse response = JSON.parseObject(json, BaiduResponse.class);
+                if (response == null || "54003".equals(response.getErrorCode())) {
+                    Thread.sleep(500);
+                } else {
+                    result = Objects.requireNonNull(response).getTransResult().get(0).getDst();
+                    break;
+                }
+            }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         } catch (Exception e) {
-            LOGGER.error("请求百度翻译接口异常：请检查本地网络是否可连接外网，也有可能被百度限流", e);
-        }
-        return StringUtils.EMPTY;
-    }
-
-    private String get(String text) throws InterruptedException {
-        String result = "";
-        for (int i = 0; i < 10; i++) {
-            String salt = RandomStringUtils.randomNumeric(16);
-            String sign = DigestUtils.md5Hex(getConfig().getAppId() + text + salt + getConfig().getToken());
-            String eText = HttpUtil.encode(text);
-            BaiduResponse response = JSON.parseObject(HttpUtil.get(String.format(URL, getConfig().getAppId(), salt, sign, eText)),
-                BaiduResponse.class);
-            if (response == null || "54003".equals(response.getErrorCode())) {
-                Thread.sleep(500);
-            } else {
-                result = Objects.requireNonNull(response).getTransResult().get(0).getDst();
-                break;
-            }
+            LOGGER.error("请求百度翻译接口异常:请检查本地网络是否可连接外网,也有可能被百度限流,response=" + json, e);
         }
         return result;
     }

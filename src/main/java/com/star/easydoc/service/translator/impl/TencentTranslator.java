@@ -15,6 +15,7 @@ import com.alibaba.fastjson2.annotation.JSONField;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.star.easydoc.common.util.HttpUtil;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 腾讯翻译
@@ -27,51 +28,48 @@ public class TencentTranslator extends AbstractTranslator {
 
     @Override
     public String translateEn2Ch(String text) {
-        try {
-            TencentResponse response = get(text, "zh");
-            return response.getTargetText();
-        } catch (Exception e) {
-            LOGGER.error("请求腾讯翻译接口异常", e);
-        }
-        return "";
+        TencentResponse response = get(text, "zh");
+        return response == null ? StringUtils.EMPTY : response.getTargetText();
     }
 
     @Override
     public String translateCh2En(String text) {
-        try {
-            TencentResponse response = get(text, "en");
-            return response.getTargetText();
-        } catch (Exception e) {
-            LOGGER.error("请求腾讯翻译接口异常", e);
-        }
-        return "";
+        TencentResponse response = get(text, "en");
+        return response == null ? StringUtils.EMPTY : response.getTargetText();
     }
 
-    private TencentResponse get(String text, String target) throws Exception {
+    private TencentResponse get(String text, String target) {
         TencentResponse response = null;
-        for (int i = 0; i < 10; i++) {
-            SortedMap<String, Object> params = new TreeMap<>();
-            params.put("Nonce", new SecureRandom().nextInt(java.lang.Integer.MAX_VALUE));
-            params.put("Timestamp", System.currentTimeMillis() / 1000);
-            params.put("Region", "ap-beijing");
-            params.put("SecretId", getConfig().getSecretId());
-            params.put("Action", "TextTranslate");
-            params.put("Version", "2018-03-21");
-            params.put("SourceText", text);
-            params.put("Source", "auto");
-            params.put("Target", target);
-            params.put("ProjectId", 0);
+        String json = null;
+        try {
+            for (int i = 0; i < 10; i++) {
+                SortedMap<String, Object> params = new TreeMap<>();
+                params.put("Nonce", new SecureRandom().nextInt(java.lang.Integer.MAX_VALUE));
+                params.put("Timestamp", System.currentTimeMillis() / 1000);
+                params.put("Region", "ap-beijing");
+                params.put("SecretId", getConfig().getSecretId());
+                params.put("Action", "TextTranslate");
+                params.put("Version", "2018-03-21");
+                params.put("SourceText", text);
+                params.put("Source", "auto");
+                params.put("Target", target);
+                params.put("ProjectId", 0);
 
-            String str2sign = getStringToSign("GET", "tmt.tencentcloudapi.com", params);
-            String signature = sign(str2sign, getConfig().getSecretKey(), "HmacSHA1");
-            params.put("Signature", signature);
-            TencentResult result = JSON.parseObject(HttpUtil.get("https://tmt.tencentcloudapi.com", params), TencentResult.class);
-            response = result == null ? null : result.getResponse();
-            if (response == null || (response.getError() != null && "RequestLimitExceeded".equals(response.getError().getCode()))) {
-                Thread.sleep(500);
-            } else {
-                break;
+                String str2sign = getStringToSign("GET", "tmt.tencentcloudapi.com", params);
+                String signature = sign(str2sign, getConfig().getSecretKey(), "HmacSHA1");
+                params.put("Signature", signature);
+                json = HttpUtil.get("https://tmt.tencentcloudapi.com", params);
+                TencentResult result = JSON.parseObject(json, TencentResult.class);
+                response = result == null ? null : result.getResponse();
+                if (response == null || (response.getError() != null && "RequestLimitExceeded".equals(
+                    response.getError().getCode()))) {
+                    Thread.sleep(500);
+                } else {
+                    break;
+                }
             }
+        } catch (Exception e) {
+            LOGGER.error("请求腾讯翻译接口异常,response=" + json, e);
         }
         return response;
     }

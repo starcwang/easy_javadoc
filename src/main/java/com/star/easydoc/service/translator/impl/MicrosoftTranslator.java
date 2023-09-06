@@ -38,6 +38,7 @@ public class MicrosoftTranslator extends AbstractTranslator {
     }
 
     private String translate(String url, String text) {
+        String json = null;
         try {
             JSONObject textObject = new JSONObject();
             textObject.put("Text", text);
@@ -45,10 +46,11 @@ public class MicrosoftTranslator extends AbstractTranslator {
             body.add(textObject);
             Map<String, String> headers = Maps.newHashMap();
             headers.put("Ocp-Apim-Subscription-Key", getConfig().getMicrosoftKey());
-            JSONArray response = JSON.parseArray(HttpUtil.postJson(url, headers, JSON.toJSONString(body)));
+            json = HttpUtil.postJson(url, headers, JSON.toJSONString(body));
+            JSONArray response = JSON.parseArray(json);
             return Objects.requireNonNull(response).getJSONObject(0).getJSONArray("translations").getJSONObject(0).getString("text");
         } catch (Exception e) {
-            LOGGER.error("请求微软翻译接口异常：请检查本地网络是否可连接外网", e);
+            LOGGER.error("请求微软翻译接口异常:请检查本地网络是否可连接外网,response=" + json, e);
             return StringUtils.EMPTY;
         }
     }

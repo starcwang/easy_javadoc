@@ -5,12 +5,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.alibaba.fastjson2.JSON;
 
 import com.google.common.collect.Maps;
 import com.intellij.openapi.diagnostic.Logger;
 import com.star.easydoc.common.util.HttpUtil;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 有道智云翻译
@@ -47,13 +49,15 @@ public class YoudaoAiTranslator extends AbstractTranslator {
         params.put("q", text);
         params.put("salt", salt);
         params.put("sign", sign);
-        String result = HttpUtil.get(YOUDAO_URL, params);
-        YoudaoAiResponse response = JSON.parseObject(result, YoudaoAiResponse.class);
-        if (response == null) {
-            LOGGER.error("请求有道智云接口异常，返回为空");
-            return "";
+        String json = null;
+        try {
+            json = HttpUtil.get(YOUDAO_URL, params);
+            YoudaoAiResponse response = JSON.parseObject(json, YoudaoAiResponse.class);
+            return Objects.requireNonNull(response).getTranslation().get(0);
+        } catch (Exception e) {
+            LOGGER.error("请求有道智云接口异常,返回为空,response=" + json, e);
+            return StringUtils.EMPTY;
         }
-        return response.getTranslation().get(0);
     }
 
     /**

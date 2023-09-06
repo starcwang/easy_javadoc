@@ -60,12 +60,13 @@ public class AliyunTranslator extends AbstractTranslator {
         request.setSourceLanguage(sourceLanguage);
         request.setTargetLanguage(targetLanguage);
         request.setSourceText(text);
+        String json = null;
         try {
-            String json = sendPost(URL, JSON.toJSONString(request), getConfig().getAccessKeyId(), getConfig().getAccessKeySecret());
+            json = sendPost(URL, JSON.toJSONString(request), getConfig().getAccessKeyId(), getConfig().getAccessKeySecret());
             AliyunResponseVO response = JSON.parseObject(json, AliyunResponseVO.class);
             return Objects.requireNonNull(response).getData().getTranslated();
         } catch (Exception e) {
-            LOGGER.error("请求阿里云翻译接口异常：请检查本地网络是否可连接外网，也有可能被阿里云限流", e);
+            LOGGER.error("请求阿里云翻译接口异常:请检查本地网络是否可连接外网,也有可能被阿里云限流,response=" + json, e);
             return StringUtils.EMPTY;
         }
     }

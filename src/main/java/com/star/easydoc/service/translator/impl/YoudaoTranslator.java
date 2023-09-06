@@ -3,19 +3,13 @@ package com.star.easydoc.service.translator.impl;
 import java.awt.*;
 import java.net.URI;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import com.alibaba.fastjson2.JSON;
 
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationAction;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.diagnostic.Logger;
-import com.star.easydoc.common.util.HttpUtil;
 import com.star.easydoc.common.util.NotificationUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -36,32 +30,14 @@ public class YoudaoTranslator extends AbstractTranslator {
 
     @Override
     public String translateEn2Ch(String text) {
-        try {
-            YoudaoResponse response = JSON.parseObject(HttpUtil.get(String.format(EN2CH_URL, HttpUtil.encode(text))),
-                YoudaoResponse.class);
-            return Objects.requireNonNull(response).getTranslateResult().stream()
-                .map(translateResults -> translateResults.stream().map(TranslateResult::getTgt).collect(Collectors.joining(" ")))
-                .collect(Collectors.joining("\n"));
-        } catch (Exception e) {
-            LOGGER.error("请求有道翻译接口异常：请检查本地网络是否可连接外网，也有可能已经被有道限流", e);
-            checkNotify();
-            return StringUtils.EMPTY;
-        }
+        LOGGER.error("有道免费接口已被官方禁用,请申请私人账号,各大厂商基本都免费");
+        return "";
     }
 
     @Override
     public String translateCh2En(String text) {
-        try {
-            YoudaoResponse response = JSON.parseObject(HttpUtil.get(String.format(CH2EN_URL, HttpUtil.encode(text))),
-                YoudaoResponse.class);
-            return Objects.requireNonNull(response).getTranslateResult().stream()
-                .map(translateResults -> translateResults.stream().map(TranslateResult::getTgt).collect(Collectors.joining(" ")))
-                .collect(Collectors.joining("\n"));
-        } catch (Exception e) {
-            LOGGER.error("请求有道翻译接口异常：请检查本地网络是否可连接外网，也有可能已经被有道限流", e);
-            checkNotify();
-            return StringUtils.EMPTY;
-        }
+        LOGGER.error("有道免费接口已被官方禁用,请申请私人账号,各大厂商基本都免费");
+        return "";
     }
 
     /**
