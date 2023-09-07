@@ -14,9 +14,9 @@
     ]]></description>
 
     <change-notes><![CDATA[
-      <h3>v3.5.1</h3>
+      <h3>v3.5.2</h3>
       <ul>
-          <li>打印异常日志</li>
+          <li>修复阿里云中译英失败问题</li>
       </ul>
       <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
     ]]>

@@ -3,10 +3,8 @@ package com.star.easydoc.service.translator.impl;
 import java.io.IOException;
 import java.net.URL;
 import java.security.InvalidKeyException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -23,7 +21,9 @@ import com.alibaba.fastjson2.annotation.JSONField;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.star.easydoc.common.util.HttpUtil;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.net.util.Base64;
 
 /**
  * 阿里云翻译
@@ -74,19 +74,11 @@ public class AliyunTranslator extends AbstractTranslator {
     /**
      * 计算MD5+BASE64
      */
-    private String md5AndBase64(String s) throws NoSuchAlgorithmException {
+    private String md5AndBase64(String s) {
         if (s == null) {
             return null;
         }
-        String encodeStr = "";
-        byte[] utfBytes = s.getBytes();
-        MessageDigest mdTemp;
-        mdTemp = MessageDigest.getInstance("MD5");
-        mdTemp.update(utfBytes);
-        byte[] md5Bytes = mdTemp.digest();
-        Base64.Encoder encoder = Base64.getEncoder();
-        encodeStr = encoder.encodeToString(md5Bytes);
-        return encodeStr;
+        return Base64.encodeBase64String(DigestUtils.md5(s)).trim();
     }
 
     /**
@@ -98,7 +90,7 @@ public class AliyunTranslator extends AbstractTranslator {
         Mac mac = Mac.getInstance("HmacSHA1");
         mac.init(signingKey);
         byte[] rawHmac = mac.doFinal(data.getBytes());
-        result = Base64.getEncoder().encodeToString(rawHmac);
+        result = Base64.encodeBase64String(rawHmac).trim();
         return result;
     }
 
