@@ -29,7 +29,7 @@ import org.apache.http.util.EntityUtils;
  */
 public class HttpUtil {
     private static final Logger LOGGER = Logger.getInstance(HttpUtil.class);
-    private static final int CONNECT_TIMEOUT = 300;
+    private static final int CONNECT_TIMEOUT = 1000;
     private static final int SOCKET_TIMEOUT = 1000;
 
     private HttpUtil() {}

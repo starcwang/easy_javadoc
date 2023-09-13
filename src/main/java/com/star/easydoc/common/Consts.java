@@ -29,7 +29,8 @@ public class Consts {
     /** 可用翻译设置 */
     public static final Set<String> ENABLE_TRANSLATOR_SET = ImmutableSet.of(Consts.YOUDAO_TRANSLATOR,
         Consts.BAIDU_TRANSLATOR, Consts.TENCENT_TRANSLATOR, Consts.ALIYUN_TRANSLATOR, Consts.YOUDAO_AI_TRANSLATOR,
-        Consts.MICROSOFT_TRANSLATOR, Consts.GOOGLE_TRANSLATOR, Consts.SIMPLE_SPLITTER, Consts.CLOSE_TRANSLATOR);
+        Consts.MICROSOFT_TRANSLATOR, Consts.MICROSOFT_FREE_TRANSLATOR, Consts.GOOGLE_TRANSLATOR, Consts.SIMPLE_SPLITTER,
+        Consts.CLOSE_TRANSLATOR);
 
     /**
      * 腾讯翻译
@@ -59,6 +60,10 @@ public class Consts {
      * 微软翻译
      */
     public static final String MICROSOFT_TRANSLATOR = "微软翻译";
+    /**
+     * 微软免费翻译
+     */
+    public static final String MICROSOFT_FREE_TRANSLATOR = "微软免费翻译";
     /**
      * 谷歌翻译
      */
