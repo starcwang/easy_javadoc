@@ -5,6 +5,7 @@ import java.net.URL;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -23,7 +24,6 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.star.easydoc.common.util.HttpUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.net.util.Base64;
 
 /**
  * 阿里云翻译
@@ -78,7 +78,7 @@ public class AliyunTranslator extends AbstractTranslator {
         if (s == null) {
             return null;
         }
-        return Base64.encodeBase64String(DigestUtils.md5(s)).trim();
+        return Base64.getEncoder().encodeToString(DigestUtils.md5(s));
     }
 
     /**
@@ -90,8 +90,7 @@ public class AliyunTranslator extends AbstractTranslator {
         Mac mac = Mac.getInstance("HmacSHA1");
         mac.init(signingKey);
         byte[] rawHmac = mac.doFinal(data.getBytes());
-        result = Base64.encodeBase64String(rawHmac).trim();
-        return result;
+        return Base64.getEncoder().encodeToString(rawHmac).trim();
     }
 
     /**
