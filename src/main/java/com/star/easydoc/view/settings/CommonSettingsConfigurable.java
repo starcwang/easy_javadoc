@@ -73,6 +73,9 @@ public class CommonSettingsConfigurable implements Configurable {
         if (!Objects.equals(config.getGoogleKey(), view.getGoogleKeyTextField().getText())) {
             return true;
         }
+        if (!Objects.equals(config.getChatGlmApiKey(), view.getChatGlmApiKeyTextField().getText())) {
+            return true;
+        }
         return false;
     }
 
@@ -89,6 +92,7 @@ public class CommonSettingsConfigurable implements Configurable {
         config.setYoudaoAppSecret(view.getYoudaoAppSecretTextField().getText());
         config.setMicrosoftKey(view.getMicrosoftKeyTextField().getText());
         config.setGoogleKey(view.getGoogleKeyTextField().getText());
+        config.setChatGlmApiKey(view.getChatGlmApiKeyTextField().getText());
         if (config.getWordMap() == null) {
             config.setWordMap(new TreeMap<>());
         }
@@ -139,6 +143,11 @@ public class CommonSettingsConfigurable implements Configurable {
         if (Consts.GOOGLE_TRANSLATOR.equals(config.getTranslator())) {
             if (StringUtils.isBlank(config.getGoogleKey())) {
                 throw new ConfigurationException("googleKey不能为空");
+            }
+        }
+        if (Consts.CHATGLM_TRANSLATOR.equals(config.getTranslator())) {
+            if (StringUtils.isBlank(config.getChatGlmApiKey())) {
+                throw new ConfigurationException("apiKey不能为空");
             }
         }
     }

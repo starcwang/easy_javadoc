@@ -29,8 +29,8 @@ public class Consts {
     /** 可用翻译设置 */
     public static final Set<String> ENABLE_TRANSLATOR_SET = ImmutableSet.of(Consts.YOUDAO_TRANSLATOR,
         Consts.BAIDU_TRANSLATOR, Consts.TENCENT_TRANSLATOR, Consts.ALIYUN_TRANSLATOR, Consts.YOUDAO_AI_TRANSLATOR,
-        Consts.MICROSOFT_TRANSLATOR, Consts.MICROSOFT_FREE_TRANSLATOR, Consts.GOOGLE_TRANSLATOR, Consts.SIMPLE_SPLITTER,
-        Consts.CLOSE_TRANSLATOR);
+        Consts.MICROSOFT_TRANSLATOR, Consts.MICROSOFT_FREE_TRANSLATOR, Consts.GOOGLE_TRANSLATOR,
+        Consts.CHATGLM_TRANSLATOR, Consts.SIMPLE_SPLITTER, Consts.CLOSE_TRANSLATOR);
 
     /**
      * 腾讯翻译
@@ -68,6 +68,10 @@ public class Consts {
      * 谷歌翻译
      */
     public static final String GOOGLE_TRANSLATOR = "谷歌翻译";
+    /**
+     * 智谱清言
+     */
+    public static final String CHATGLM_TRANSLATOR = "智谱清言";
     /**
      * 仅单词分割
      */

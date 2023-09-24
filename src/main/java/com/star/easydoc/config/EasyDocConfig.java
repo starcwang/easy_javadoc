@@ -106,6 +106,11 @@ public class EasyDocConfig {
      * 谷歌key
      */
     private String googleKey;
+
+    /**
+     * chatglmApiKey
+     */
+    private String chatGlmApiKey;
     /**
      * 微软key
      */
@@ -610,5 +615,13 @@ public class EasyDocConfig {
 
     public void setDocPriority(String docPriority) {
         this.docPriority = docPriority;
+    }
+
+    public String getChatGlmApiKey() {
+        return chatGlmApiKey;
+    }
+
+    public void setChatGlmApiKey(String chatGlmApiKey) {
+        this.chatGlmApiKey = chatGlmApiKey;
     }
 }
