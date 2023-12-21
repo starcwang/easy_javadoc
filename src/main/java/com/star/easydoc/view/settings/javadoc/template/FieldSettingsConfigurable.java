@@ -14,25 +14,36 @@ import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nls.Capitalization;
 
 /**
- * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
- * @version 1.0.0
- * @since 2019-11-10 17:35:00
+ * FieldSettingsConfigurable 是一个用于设置文档生成字段模板的可配置类，
+ * 继承自 AbstractTemplateConfigurable 并实现了对应的方法。
  */
 public class FieldSettingsConfigurable extends AbstractTemplateConfigurable<FieldSettingsView> {
     private EasyDocConfig config = ServiceManager.getService(EasyDocConfigComponent.class).getState();
     private FieldSettingsView view = new FieldSettingsView(config);
 
+    /**
+     * 获取可配置类显示的名称。
+     * @return 可配置类显示的名称
+     */
     @Nls(capitalization = Capitalization.Title)
     @Override
     public String getDisplayName() {
         return "EasyDocFieldTemplate";
     }
 
+    /**
+     * 获取可配置类对应的视图。
+     * @return 可配置类对应的视图
+     */
     @Override
     public FieldSettingsView getView() {
         return view;
     }
 
+    /**
+     * 检查配置是否被修改。
+     * @return 配置是否被修改
+     */
     @Override
     public boolean isModified() {
         TemplateConfig templateConfig = config.getFieldTemplateConfig();
@@ -45,6 +56,10 @@ public class FieldSettingsConfigurable extends AbstractTemplateConfigurable<Fiel
         return false;
     }
 
+    /**
+     * 应用配置更改。将视图中修改的配置应用到实际配置中。
+     * @throws ConfigurationException 配置异常，如自定义模板为空或格式不正确
+     */
     @Override
     public void apply() throws ConfigurationException {
         TemplateConfig templateConfig = config.getFieldTemplateConfig();
@@ -64,6 +79,9 @@ public class FieldSettingsConfigurable extends AbstractTemplateConfigurable<Fiel
         }
     }
 
+    /**
+     * 将配置重置为默认值。将实际配置中的值恢复到视图的默认状态。
+     */
     @Override
     public void reset() {
         TemplateConfig templateConfig = config.getFieldTemplateConfig();
