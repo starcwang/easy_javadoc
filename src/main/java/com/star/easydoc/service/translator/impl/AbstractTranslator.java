@@ -65,7 +65,7 @@ public abstract class AbstractTranslator implements Translator {
 
 
     /**
-     * 对接口中初始化的方法进行重写，初始化配置信息，并返回当前对象 刘喆
+     * 对接口中初始化的方法进行重写，初始化配置信息，并返回当前对象
      *
      */
     @Override
