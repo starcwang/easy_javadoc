@@ -23,6 +23,7 @@ import com.star.easydoc.view.inner.CustomTemplateAddView;
  */
 public class FieldSettingsView extends AbstractTemplateSettingsView {
 
+    // 定义私有变量
     private JPanel panel;
     private JTextArea templateTextArea;
     private JPanel innerVariablePanel;
@@ -35,14 +36,16 @@ public class FieldSettingsView extends AbstractTemplateSettingsView {
     private JTable customTable;
     private static Map<String, String> innerMap;
 
+    // 静态初始化块，为内置变量Map赋初值
     static {
         innerMap = Maps.newHashMap();
         innerMap.put("$DOC$", "注释信息");
         innerMap.put("$SEE$", "字段类型");
     }
 
+    // 创建用户界面组件
     private void createUIComponents() {
-        // 初始化内置变量表格
+        // 初始化内置变量表格数据
         Vector<Vector<String>> innerData = new Vector<>(innerMap.size());
         for (Entry<String, String> entry : innerMap.entrySet()) {
             String key = entry.getKey();
@@ -50,8 +53,10 @@ public class FieldSettingsView extends AbstractTemplateSettingsView {
             Vector<String> row = new Vector<>(2);
             row.add(key);
             row.add(value);
+
             innerData.add(row);
         }
+        // 创建内置变量表格
         DefaultTableModel innerModel = new DefaultTableModel(innerData, innerNames);
         innerTable = new JBTable(innerModel) {
             @Override
@@ -61,10 +66,11 @@ public class FieldSettingsView extends AbstractTemplateSettingsView {
         };
         innerScrollPane = new JBScrollPane(innerTable);
 
-        //设置表格显示的大小。
+        // 设置表格显示的大小。
         innerTable.setPreferredScrollableViewportSize(new Dimension(-1, innerTable.getRowHeight() * innerTable.getRowCount()));
         innerTable.setFillsViewportHeight(true);
 
+        // 创建自定义变量表格
         customTable = new JBTable() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -72,8 +78,11 @@ public class FieldSettingsView extends AbstractTemplateSettingsView {
             }
         };
         refreshCustomTable();
+
+        // 创建自定义变量表格工具栏
         ToolbarDecorator toolbarDecorator = ToolbarDecorator.createDecorator(customTable);
         toolbarDecorator.setAddAction(button -> {
+            // 添加自定义变量
             CustomTemplateAddView customTemplateAddView = new CustomTemplateAddView();
             if (customTemplateAddView.showAndGet()) {
                 if (config != null) {
@@ -84,6 +93,7 @@ public class FieldSettingsView extends AbstractTemplateSettingsView {
             }
         });
         toolbarDecorator.setRemoveAction(anActionButton -> {
+            // 删除自定义变量
             if (config != null) {
                 Map<String, CustomValue> customMap = config.getFieldTemplateConfig().getCustomMap();
                 customMap.remove(customTable.getValueAt(customTable.getSelectedRow(), 0).toString());
@@ -93,9 +103,10 @@ public class FieldSettingsView extends AbstractTemplateSettingsView {
         customVariablePanel = toolbarDecorator.createPanel();
     }
 
+    // 构造函数
     public FieldSettingsView(EasyDocConfig config) {
         super(config);
-        // 添加单选按钮事件
+        // 添加单选按钮事件监听器
         defaultRadioButton.addChangeListener(e -> {
             JRadioButton button = (JRadioButton)e.getSource();
             if (button.isSelected()) {
@@ -124,13 +135,15 @@ public class FieldSettingsView extends AbstractTemplateSettingsView {
         });
     }
 
+    // 获取组件
     @Override
     public JComponent getComponent() {
         return panel;
     }
 
+    // 刷新自定义变量表格
     private void refreshCustomTable() {
-        // 初始化自定义变量表格
+        // 初始化自定义变量表格数据
         Map<String, CustomValue> customMap = Maps.newHashMap();
         if (config != null && config.getFieldTemplateConfig() != null && config.getFieldTemplateConfig().getCustomMap() != null) {
             customMap = config.getFieldTemplateConfig().getCustomMap();
@@ -145,16 +158,19 @@ public class FieldSettingsView extends AbstractTemplateSettingsView {
             row.add(value.getValue());
             customData.add(row);
         }
+        // 设置自定义变量表格模型
         DefaultTableModel customModel = new DefaultTableModel(customData, customNames);
         customTable.setModel(customModel);
         customTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         customTable.getColumnModel().getColumn(0).setPreferredWidth((int)(customTable.getWidth() * 0.3));
     }
 
+    // 判断是否为默认选项
     public boolean isDefault() {
         return defaultRadioButton.isSelected();
     }
 
+    // 设置是否为默认选项
     public void setDefault(boolean isDefault) {
         if (isDefault) {
             defaultRadioButton.setSelected(true);
@@ -165,10 +181,12 @@ public class FieldSettingsView extends AbstractTemplateSettingsView {
         }
     }
 
+    // 获取模板内容
     public String getTemplate() {
         return templateTextArea.getText();
     }
 
+    // 设置模板内容
     public void setTemplate(String template) {
         templateTextArea.setText(template);
     }
