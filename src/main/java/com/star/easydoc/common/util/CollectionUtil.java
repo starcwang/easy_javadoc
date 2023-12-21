@@ -13,7 +13,7 @@ public class CollectionUtil {
     private CollectionUtil() {}
 
     /**
-     * 是否空
+     * 判断集合是否为空
      *
      * @param collection 集合
      * @return boolean
@@ -23,7 +23,7 @@ public class CollectionUtil {
     }
 
     /**
-     * 是否不空
+     * 判断集合是否为不空
      *
      * @param collection 集合
      * @return boolean
@@ -33,7 +33,7 @@ public class CollectionUtil {
     }
 
     /**
-     * 包含任何
+     * 判断两个集合是否有交集
      *
      * @param coll1 coll1
      * @param coll2 coll2
