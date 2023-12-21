@@ -21,14 +21,22 @@ public class PackageInfoService {
     public static final String PACKAGE_INFO_DESCRIBE = "PACKAGE_INFO_DESCRIBE";
     private static JavaDocGeneratorServiceImpl docGeneratorService = ServiceManager.getService(JavaDocGeneratorServiceImpl.class);
 
+    /**
+     * 处理包的注释和生成package-info.java文件
+     *
+     * @param psiPackage 包对象
+     * @param comment    注释内容
+     */
     public void handle(PsiPackage psiPackage, String comment) {
         try {
             Project project = psiPackage.getProject();
             PsiDirectory psiDirectory = psiPackage.getDirectories()[0];
             //是文件夹，文件夹处理
             VirtualFile virtualFile = psiDirectory.getVirtualFile().findChild(PackageInfoService.INFO_FILE_NAME);
+            // 检查是否已存在package-info.java文件
             if (virtualFile == null) {
                 //文件不存在则创建文件
+                // 如果文件不存在，则创建文件并添加注释内容
                 String result = docGeneratorService.generate(psiPackage).replace("${" + PACKAGE_INFO_DESCRIBE + "}", comment) +
                     "package " + psiPackage.getQualifiedName() + ";\n";
                 WriteCommandAction.writeCommandAction(project).run(() -> {
@@ -42,6 +50,7 @@ public class PackageInfoService {
                 //处理完就结束了
                 return;
             } else {
+                // 如果文件已存在，则读取文件内容，并在注释中添加新的注释内容
                 try (InputStream inputStream = virtualFile.getInputStream()) {
                     int available = inputStream.available();
                     byte[] bytes = new byte[available];
@@ -74,6 +83,7 @@ public class PackageInfoService {
             }
         } catch (Exception ignore) {
         }
+        // 刷新文件管理器
         VirtualFileManager.getInstance().refreshWithoutFileWatcher(true);
     }
 

@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
  * @version 1.0.0
  * @since 2019-11-12 00:22:00
  */
-public class CustomTemplateAddView extends DialogWrapper {
+public class CustomTemplateAddView extends DialogWrapper {// 自定义模型添加窗口
     private JPanel panel;
     private JTextField methodName;
     private JTextField groovyCode;
@@ -37,7 +37,7 @@ public class CustomTemplateAddView extends DialogWrapper {
 
     @Nullable
     @Override
-    protected ValidationInfo doValidate() {
+    protected ValidationInfo doValidate() {// 自定义方法窗口
         if (methodName.getText() == null || methodName.getText().length() <= 0
             || !methodName.getText().startsWith("$") || !methodName.getText().endsWith("$")) {
             return new ValidationInfo("请输入方法名，并用$前后包裹，例如:$NAME$", methodName);
@@ -51,6 +51,7 @@ public class CustomTemplateAddView extends DialogWrapper {
         return super.doValidate();
     }
 
+    // 获取自定义方法实体
     public Map.Entry<String, CustomValue> getEntry() {
         return new SimpleEntry<>(methodName.getText(),
             new CustomValue(VariableType.fromDesc(String.valueOf(customTypeComboBox.getSelectedItem())), groovyCode.getText()));
