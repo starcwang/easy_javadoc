@@ -1,4 +1,4 @@
-package com.star.easydoc.javadoc.service.action;
+package com.star.easydoc.action;
 
 import java.util.Arrays;
 import java.util.List;

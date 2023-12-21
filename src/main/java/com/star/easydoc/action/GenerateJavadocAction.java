@@ -1,4 +1,4 @@
-package com.star.easydoc.javadoc.service.action;
+package com.star.easydoc.action;
 
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.AnAction;
