@@ -8,7 +8,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectCoreUtil;
 
 /**
- * 版本控制工具类
+ * 版本控制工具类，获取版本控制相关信息
  *
  * @author wangchao
  * @date 2023/05/09
@@ -21,7 +21,7 @@ public class VcsUtil {
     /**
      * 获取当前分支
      * 当前分支可能为空
-     *
+     *i
      * @param project 项目
      * @return {@link String}
      */

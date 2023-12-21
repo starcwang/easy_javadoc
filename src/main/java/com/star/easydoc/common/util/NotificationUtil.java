@@ -28,18 +28,22 @@ public class NotificationUtil {
      * @param actions 动作
      */
     public static void notify(String title, String content, AnAction... actions) {
+        // 创建一个通知组，指定名称为"Easy Javadoc"，显示类型为BALLOON，允许多个通知一起显示，传入null作为project，使用默认的icon
         NotificationGroup group = new NotificationGroup("Easy Javadoc", NotificationDisplayType.BALLOON, true, null,
-            General.AddJdk);
+                General.AddJdk);
+        // 创建一个通知，包括标题、内容、通知类型为INFORMATION，以及打开URL的通知监听器
         Notification notification = group.createNotification(
-            title, content,
-            NotificationType.INFORMATION, NotificationListener.URL_OPENING_LISTENER);
+                title, content,
+                NotificationType.INFORMATION, NotificationListener.URL_OPENING_LISTENER);
 
+        // 如果传入的actions不为空，则遍历所有的action，将其添加到notification中
         if (ArrayUtils.isNotEmpty(actions)) {
             for (AnAction action : actions) {
                 notification.addAction(action);
             }
         }
 
+        // 发送通知
         notification.notify(null);
     }
 }
