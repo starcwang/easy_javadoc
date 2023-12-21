@@ -13,27 +13,30 @@ import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nls.Capitalization;
 import org.jetbrains.annotations.Nullable;
 
+
+
 /**
- * @author wangchao
- * @date 2019/08/25
+ * 实现了Configurable接口。该类的作用是提供EasyDocJavadoc插件的设置界面
  */
 public class JavadocSettingsConfigurable implements Configurable {
-
+    // 获取EasyDocConfigComponent的状态
     private EasyDocConfig config = ServiceManager.getService(EasyDocConfigComponent.class).getState();
+    // 创建JavadocSettingsView对象
     private JavadocSettingsView view = new JavadocSettingsView();
-
+    // 获取显示名称
     @Nls(capitalization = Capitalization.Title)
     @Override
+
     public String getDisplayName() {
         return "EasyDocJavadoc";
     }
-
+    // 创建设置界面
     @Nullable
     @Override
     public JComponent createComponent() {
         return view.getComponent();
     }
-
+    // 判断设置是否被修改
     @Override
     public boolean isModified() {
         if (!Objects.equals(config.getAuthor(), view.getAuthorTextField().getText())) {
@@ -53,7 +56,7 @@ public class JavadocSettingsConfigurable implements Configurable {
         }
         return false;
     }
-
+    // 应用设置
     @Override
     public void apply() throws ConfigurationException {
         config.setAuthor(view.getAuthorTextField().getText());
@@ -61,7 +64,7 @@ public class JavadocSettingsConfigurable implements Configurable {
         config.setSimpleFieldDoc(view.getSimpleDocButton().isSelected());
         config.setMethodReturnType(view.getMethodReturnType());
         config.setDocPriority(view.getDocPriority());
-
+        // 检查设置是否合法
         if (config.getAuthor() == null) {
             throw new ConfigurationException("作者不能为null");
         }
@@ -80,7 +83,7 @@ public class JavadocSettingsConfigurable implements Configurable {
             throw new ConfigurationException("方法返回模式不能为空");
         }
     }
-
+    // 重置设置
     @Override
     public void reset() {
         view.refresh();
