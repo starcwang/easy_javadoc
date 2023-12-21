@@ -20,7 +20,7 @@ public class BeanUtil {
     private BeanUtil() {}
 
     /**
-     * 复制属性
+     * 复制属性，主要用于属性赋值
      *
      * @param source 源
      * @param target 目标

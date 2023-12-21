@@ -1,4 +1,4 @@
-package com.star.easydoc.action;
+package com.star.easydoc.javadoc.service.action;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,39 +47,55 @@ import org.jetbrains.kotlin.psi.KtFile;
 public class GenerateAllJavadocAction extends AnAction {
 
     /**
-     * 文档服务
+     * 文档生成器服务
      */
     private JavaDocGeneratorServiceImpl docGeneratorService = ServiceManager.getService(JavaDocGeneratorServiceImpl.class);
     private WriterService writerService = ServiceManager.getService(WriterService.class);
     private EasyDocConfig config = ServiceManager.getService(EasyDocConfigComponent.class).getState();
-
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
     private PackageInfoService packageInfoService = ServiceManager.getService(PackageInfoService.class);
 
+
+    /**
+     * 处理动作事件的方法。
+     *
+     * @param e 动作事件对象。
+     */
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         Project project = e.getData(LangDataKeys.PROJECT);
         // 前置规则校验
         PsiElement psiElement = e.getData(LangDataKeys.PSI_ELEMENT);
         PsiFile psiFile = e.getData(LangDataKeys.PSI_FILE);
+
         if (psiFile == null || psiElement == null) {
             return;
         }
 
         if (psiFile instanceof PsiJavaFile) {
+            // 处理Java文件的文档注释
             javadocProcess(project, psiFile, psiElement);
         } else if (psiFile instanceof KtFile) {
-            kdocProcess(project, (KtFile)psiFile, (KtElement)psiElement);
+            // 处理Kotlin文件的文档注释
+            kdocProcess(project, (KtFile) psiFile, (KtElement) psiElement);
         }
     }
 
     /**
      * javadoc处理
      */
+    /**
+     * 对选择的文件夹或类进行Javadoc处理
+     *
+     * @param project 项目
+     * @param psiFile Psi文件
+     * @param psiElement Psi元素
+     */
     private void javadocProcess(Project project, PsiFile psiFile, PsiElement psiElement) {
 
-        //对文件夹选择的额外处理下
+        // 对文件夹选择的额外处理下
         if (psiElement instanceof PsiDirectory) {
+            // 弹出选择对话框，选择多个Packages创建package-info
             PackageChooserDialog selector = new PackageChooserDialog("选择多个Packages创建package-info", project);
             PsiPackage psiPackage = JavaDirectoryService.getInstance().getPackage((PsiDirectory)psiElement);
             if (psiPackage != null) {
@@ -87,20 +103,24 @@ public class GenerateAllJavadocAction extends AnAction {
             }
             selector.show();
 
+            // 获取选择的包列表
             List<PsiPackage> packages = selector.getSelectedPackages();
             if (packages == null || packages.isEmpty()) {
                 return;
             }
-            //执行
-            Map<PsiPackage, String> packMap = packages.stream()
-                .collect(Collectors.toMap(s -> s, s -> translatorService.autoTranslate(s.getName())));
-            //显示列表，一个个的修改后再提交写入更好
 
+            // 执行操作，packages列表中的每个PsiPackage对象和其对应的名称进行映射，并将结果存储到packMap变量中。
+            Map<PsiPackage, String> packMap = packages.stream()
+                    .collect(Collectors.toMap(s -> s, s -> translatorService.autoTranslate(s.getName())));
+
+            // 显示列表，一个个的修改后再提交写入更好
             PackageDescribeView packageDescribeView = new PackageDescribeView(packMap);
             if (packageDescribeView.showAndGet()) {
-                //重新获取一次
+
+                // 重新获取修改后的映射
                 Map<PsiPackage, String> finalMap = packageDescribeView.getFinalMap();
-                //下面是执行，可以考虑并发
+
+                // 执行操作，考虑并发
                 for (Map.Entry<PsiPackage, String> entry : finalMap.entrySet()) {
                     packageInfoService.handle(entry.getKey(), entry.getValue());
                 }
@@ -111,6 +131,7 @@ public class GenerateAllJavadocAction extends AnAction {
         if (!(psiElement instanceof PsiClass)) {
             return;
         }
+
         // 弹出选择框
         GenerateAllView generateAllView = new GenerateAllView();
         generateAllView.getClassCheckBox().setSelected(Optional.ofNullable(config.getGenAllClass()).orElse(false));
@@ -125,6 +146,7 @@ public class GenerateAllJavadocAction extends AnAction {
             boolean isGenField = generateAllView.getFieldCheckBox().isSelected();
             boolean isGenInnerClass = generateAllView.getInnerClassCheckBox().isSelected();
 
+            // 更新配置信息
             config.setGenAllClass(isGenClass);
             config.setGenAllMethod(isGenMethod);
             config.setGenAllField(isGenField);

@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
 /**
- * 常量
+ * 定义常量
  *
  * @author wangchao
  * @date 2019/12/08
