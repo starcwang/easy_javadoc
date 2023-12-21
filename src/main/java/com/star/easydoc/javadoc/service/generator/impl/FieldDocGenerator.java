@@ -28,16 +28,26 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class FieldDocGenerator implements DocGenerator {
 
+    /*   翻译服务   */
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
+    /*   配置信息   */
     private EasyDocConfig config = ServiceManager.getService(EasyDocConfigComponent.class).getState();
+    /*   变量生成器服务   */
     private JavadocVariableGeneratorService javadocVariableGeneratorService = ServiceManager.getService(JavadocVariableGeneratorService.class);
 
+    /**
+     * 生成指定内部变量的注释
+     * @param psiElement psiElement
+     * @return
+     */
     @Override
     public String generate(PsiElement psiElement) {
+        // 判断是否为变量类型
         if (!(psiElement instanceof PsiField)) {
             return StringUtils.EMPTY;
         }
         PsiField psiField = (PsiField)psiElement;
+        // 判断生成注释类型（默认或自定义）
         if (config != null && config.getFieldTemplateConfig() != null
             && Boolean.TRUE.equals(config.getFieldTemplateConfig().getIsDefault())) {
             return defaultGenerate(psiField);
@@ -55,8 +65,10 @@ public class FieldDocGenerator implements DocGenerator {
      */
     private String defaultGenerate(PsiField psiField) {
         if (BooleanUtils.isTrue(config.getSimpleFieldDoc())) {
+            // 单行模式
             return genSimpleDoc(psiField.getName());
         } else {
+            // 正常模式（多行注释）
             return genNormalDoc(psiField, psiField.getName());
         }
     }

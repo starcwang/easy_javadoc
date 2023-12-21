@@ -48,6 +48,10 @@ public class EasyDocConfigComponent implements PersistentStateComponent<EasyDocC
         return config;
     }
 
+    /**
+     * 外部更改配置时调用方法，将外部配置复制到当前配置当中
+     * @param state loaded component state
+     */
     @Override
     public void loadState(@NotNull EasyDocConfig state) {
         XmlSerializerUtil.copyBean(state, Objects.requireNonNull(getState()));

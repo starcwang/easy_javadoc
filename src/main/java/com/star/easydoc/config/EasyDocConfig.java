@@ -58,6 +58,7 @@ public class EasyDocConfig {
     private Boolean kdocSimpleFieldDoc = false;
     /**
      * 属性是否使用简单模式
+     *                  (方法返回值类型)
      */
     private String methodReturnType = LINK_RETURN_TYPE;
     /** kdoc 参数类型 */
@@ -143,6 +144,9 @@ public class EasyDocConfig {
     /** 批量生成是否递归内部类 */
     private Boolean genAllInnerClass;
 
+    /**
+     * 重置默认设置
+     */
     public void reset() {
         author = "admin";
         kdocAuthor = "admin";
@@ -172,6 +176,9 @@ public class EasyDocConfig {
         mergeProject();
     }
 
+    /**
+     * 循环项目列表，为所有项目建立以项目名称为键的条目并存储于projectWordMap
+     */
     public void mergeProject() {
         Project[] projects = ProjectManager.getInstance().getOpenProjects();
         for (Project project : projects) {
@@ -228,7 +235,7 @@ public class EasyDocConfig {
     }
 
     /**
-     * 自定义值
+     * 自定义值（类型，值）
      */
     public static class CustomValue {
         /**
@@ -288,6 +295,11 @@ public class EasyDocConfig {
             return desc;
         }
 
+        /**
+         * 通过描述获取类型
+         * @param desc  描述
+         * @return      符合描述的类型
+         */
         public static VariableType fromDesc(String desc) {
             for (VariableType value : values()) {
                 if (value.desc.equals(desc)) {

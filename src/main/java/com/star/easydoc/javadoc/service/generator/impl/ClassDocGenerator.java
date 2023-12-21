@@ -40,22 +40,41 @@ import org.apache.commons.lang3.StringUtils;
  * @date 2019/11/12
  */
 public class ClassDocGenerator implements DocGenerator {
+    /**
+     *  日志信息记录
+     */
     private static final Logger LOGGER = Logger.getInstance(ClassDocGenerator.class);
 
+    /**
+     * 翻译服务
+     */
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
+    /**
+     * 插件配置信息
+     */
     private EasyDocConfig config = ServiceManager.getService(EasyDocConfigComponent.class).getState();
+
     private JavadocVariableGeneratorService javadocVariableGeneratorService = ServiceManager.getService(JavadocVariableGeneratorService.class);
 
+    /**
+     * 生成类注释
+     *
+     * @param psiElement psiElement 要生成doc的元素
+     * @return                      生成的doc
+     */
     @Override
     public String generate(PsiElement psiElement) {
+        // 判断元素是否为类
         if (!(psiElement instanceof PsiClass)) {
             return StringUtils.EMPTY;
         }
         PsiClass psiClass = (PsiClass)psiElement;
         if (config != null && config.getClassTemplateConfig() != null
             && Boolean.TRUE.equals(config.getClassTemplateConfig().getIsDefault())) {
+            // 默认生成模式
             return defaultGenerate(psiClass);
         } else {
+            // 自定义生成模式
             return customGenerate(psiClass);
         }
 
@@ -70,8 +89,10 @@ public class ClassDocGenerator implements DocGenerator {
     private String defaultGenerate(PsiClass psiClass) {
         String dateString;
         try {
+            // 时间（@Date ...）
             dateString = LocalDateTime.now().format(DateTimeFormatter.ofPattern(config.getDateFormat()));
         } catch (Exception e) {
+            // 设置的时间格式错误，使用默认格式
             LOGGER.error("您输入的日期格式不正确，请到配置中修改类相关日期格式！");
             dateString = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern(Consts.DEFAULT_DATE_FORMAT));
@@ -84,6 +105,8 @@ public class ClassDocGenerator implements DocGenerator {
             List<String> endList = Lists.newArrayList();
             // 注释
             String desc = translatorService.translate(psiClass.getName());
+
+            // 描述信息
             startList.add(buildDesc(elements, desc));
 
             // 作者
@@ -96,12 +119,15 @@ public class ClassDocGenerator implements DocGenerator {
             for (PsiElement element : elements) {
                 commentItems.add(element.getText());
             }
+            // 插入描述信息
             for (String s : startList) {
                 commentItems.add(1, s);
             }
+            // 插入作者和日期信息
             for (String s : endList) {
                 commentItems.add(commentItems.size() - 1, s);
             }
+            // 将commentItems中的元素（描述、作者和日期信息）使用空字符串连接起来
             return Joiner.on(StringUtils.EMPTY).skipNulls().join(commentItems);
         }
         // 编译后会自动优化成StringBuilder
@@ -115,27 +141,31 @@ public class ClassDocGenerator implements DocGenerator {
 
     /**
      * 构建描述
-     *
+     * （避免生成重复描述信息）
      * @param elements 元素
      * @param desc 描述
      * @return {@link java.lang.String}
      */
     private String buildDesc(List<PsiElement> elements, String desc) {
         for (PsiElement element : elements) {
+            // 不是文档注释信息，跳过
             if (!"PsiDocToken:DOC_COMMENT_DATA".equalsIgnoreCase(element.toString())) {
                 continue;
             }
+            // 提取描述的文本内容
             String source = element.getText().replaceAll("[/* \n]+", StringUtils.EMPTY);
+            // 如果原来的与翻译后得到的desc相等，返回空
             if (Objects.equals(source, desc)) {
                 return null;
             }
         }
+        // 否则返回翻译后的文本
         return desc;
     }
 
     /**
      * 构建作者
-     *
+     * （避免生成重复author信息）
      * @param elements 元素
      * @return {@link java.lang.String}
      */
@@ -143,26 +173,30 @@ public class ClassDocGenerator implements DocGenerator {
         boolean isInsert = true;
         for (Iterator<PsiElement> iterator = elements.iterator(); iterator.hasNext(); ) {
             PsiElement element = iterator.next();
+            // 不是author信息，直接跳过
             if (!"PsiDocTag:@author".equalsIgnoreCase(element.toString())) {
                 continue;
             }
             PsiDocTagValue value = ((PsiDocTag)element).getValueElement();
             if (value == null || StringUtils.isBlank(value.getText())) {
+                // 有@autor，但@author中没有内容，删除author
                 iterator.remove();
             } else {
                 isInsert = false;
             }
         }
         if (isInsert) {
+            // 删除后加入新的@author
             return "@author " + config.getAuthor() + "\n";
         } else {
+            // 有@author并且有内容，返回null
             return null;
         }
     }
 
     /**
      * 构建日期
-     *
+     * （同上）
      * @param elements 元素
      * @return {@link java.lang.String}
      */
