@@ -290,7 +290,7 @@ public class MethodDocGenerator implements DocGenerator {
                 continue;
             }
             String source = element.getText().replaceAll("[/* \n]+", StringUtils.EMPTY);
-            if (Objects.equals(source, desc)) {
+            if (StringUtils.isNotBlank(source)) {
                 return null;
             }
         }

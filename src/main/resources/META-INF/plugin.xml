@@ -14,9 +14,9 @@
     ]]></description>
 
     <change-notes><![CDATA[
-      <h3>v3.6.0</h3>
+      <h3>v3.7.0</h3>
       <ul>
-          <li>支持微软免费翻译</li>
+          <li>当有注释的时候，不生成新注释</li>
       </ul>
       <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
     ]]>
