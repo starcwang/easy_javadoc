@@ -18,6 +18,7 @@
       <ul>
           <li>当有注释的时候，不生成新注释</li>
           <li>修复中译英在有停用词的情况下，首字母大写的问题</li>
+          <li>支持系统HTTP代理</li>
       </ul>
       <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
     ]]>
