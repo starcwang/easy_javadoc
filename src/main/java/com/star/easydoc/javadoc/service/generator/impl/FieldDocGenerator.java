@@ -55,7 +55,7 @@ public class FieldDocGenerator implements DocGenerator {
      */
     private String defaultGenerate(PsiField psiField) {
         if (BooleanUtils.isTrue(config.getSimpleFieldDoc())) {
-            return genSimpleDoc(psiField.getName());
+            return genSimpleDoc(psiField, psiField.getName());
         } else {
             return genNormalDoc(psiField, psiField.getName());
         }
@@ -109,7 +109,7 @@ public class FieldDocGenerator implements DocGenerator {
                 continue;
             }
             String source = element.getText().replaceAll("[/* \n]+", StringUtils.EMPTY);
-            if (Objects.equals(source, desc)) {
+            if (StringUtils.isNotBlank(source)) {
                 return null;
             }
         }
@@ -122,7 +122,19 @@ public class FieldDocGenerator implements DocGenerator {
      * @param name 的名字
      * @return {@link java.lang.String}
      */
-    private String genSimpleDoc(String name) {
+    private String genSimpleDoc(PsiField psiField, String name) {
+        PsiDocComment comment = psiField.getDocComment();
+        if (comment != null) {
+            for (PsiElement element : comment.getChildren()) {
+                if (!"PsiDocToken:DOC_COMMENT_DATA".equalsIgnoreCase(element.toString())) {
+                    continue;
+                }
+                String source = element.getText().replaceAll("[/* \n]+", StringUtils.EMPTY);
+                if (StringUtils.isNotBlank(source)) {
+                    return null;
+                }
+            }
+        }
         return String.format("/** %s */", translatorService.translate(name));
     }
 

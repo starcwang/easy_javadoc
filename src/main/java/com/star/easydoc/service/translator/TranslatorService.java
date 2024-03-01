@@ -189,7 +189,7 @@ public class TranslatorService {
             if (Consts.STOP_WORDS.contains(chList.get(i).toLowerCase())) {
                 continue;
             }
-            if (i == 0) {
+            if (sb.length() == 0) {
                 sb.append(chList.get(i).toLowerCase());
             } else {
                 String lowCh = chList.get(i).toLowerCase();

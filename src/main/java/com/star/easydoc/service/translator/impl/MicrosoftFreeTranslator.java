@@ -31,7 +31,7 @@ public class MicrosoftFreeTranslator extends AbstractTranslator {
     private Long exp = null;
 
     /** 重试次数 */
-    private static final int RETRY_TIMES = 10;
+    private static final int RETRY_TIMES = 3;
 
     /** 锁 */
     private static final Object LOCK = new Object();

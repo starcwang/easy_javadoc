@@ -2,16 +2,25 @@ package com.star.easydoc.common.util;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
+import java.net.Proxy;
+import java.net.Proxy.Type;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Maps;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.util.proxy.CommonProxy;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.config.RequestConfig.Builder;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -60,12 +69,19 @@ public class HttpUtil {
         CloseableHttpClient httpclient = null;
         CloseableHttpResponse response = null;
         try {
+            // 代理
+            HttpHost httpHost = getProxy(url);
+            Builder build = RequestConfig.custom().setSocketTimeout(socketTimeout).setConnectTimeout(connectTimeout);
+            if (httpHost != null) {
+                build.setProxy(httpHost);
+            }
+
             httpclient = HttpClients.createDefault();
             HttpGet httpGet = new HttpGet(url);
-            httpGet.setConfig(RequestConfig.custom().setSocketTimeout(socketTimeout).setConnectTimeout(connectTimeout).build());
+            httpGet.setConfig(build.build());
             response = httpclient.execute(httpGet);
             result = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOGGER.warn("请求" + url + "异常", e);
         } finally {
             HttpClientUtils.closeQuietly(response);
@@ -122,6 +138,14 @@ public class HttpUtil {
         CloseableHttpClient httpclient = null;
         CloseableHttpResponse response = null;
         try {
+            // 代理
+            HttpHost httpHost = getProxy(url);
+
+            Builder builder = RequestConfig.custom().setSocketTimeout(SOCKET_TIMEOUT).setConnectTimeout(
+                CONNECT_TIMEOUT);
+            if (httpHost != null) {
+                builder.setProxy(httpHost);
+            }
             httpclient = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost(url);
             if (headers != null) {
@@ -129,7 +153,7 @@ public class HttpUtil {
                     httpPost.addHeader(e.getKey(), e.getValue());
                 }
             }
-            httpPost.setConfig(RequestConfig.custom().setSocketTimeout(SOCKET_TIMEOUT).setConnectTimeout(CONNECT_TIMEOUT).build());
+            httpPost.setConfig(builder.build());
             httpPost.setEntity(new StringEntity(body, StandardCharsets.UTF_8));
             response = httpclient.execute(httpPost);
             result = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
@@ -140,6 +164,22 @@ public class HttpUtil {
             HttpClientUtils.closeQuietly(httpclient);
         }
         return result;
+    }
+
+    private static HttpHost getProxy(String url) throws MalformedURLException {
+        List<Proxy> proxies = CommonProxy.getInstance().select(new URL(url));
+        // 代理
+        HttpHost httpHost = null;
+        if (proxies != null && !proxies.isEmpty()) {
+            for (Proxy proxy : proxies) {
+                if (proxy == null || Type.DIRECT.equals(proxy.type())) {
+                    continue;
+                }
+                InetSocketAddress address = (InetSocketAddress)proxy.address();
+                httpHost = new HttpHost(address.getHostName(), address.getPort());
+            }
+        }
+        return httpHost;
     }
 
     /**

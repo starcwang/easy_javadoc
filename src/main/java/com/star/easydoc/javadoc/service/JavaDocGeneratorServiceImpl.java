@@ -32,6 +32,7 @@ public class JavaDocGeneratorServiceImpl implements DocGeneratorService {
         .put(PsiPackage.class, new PackageInfoDocGenerator())
         .build();
 
+    @Override
     public String generate(PsiElement psiElement) {
         DocGenerator docGenerator = null;
         for (Entry<Class<? extends PsiElement>, DocGenerator> entry : docGeneratorMap.entrySet()) {
