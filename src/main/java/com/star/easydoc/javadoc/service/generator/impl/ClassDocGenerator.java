@@ -5,30 +5,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.intellij.dvcs.repo.VcsRepositoryManager;
-import com.intellij.ide.DataManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.project.ProjectCoreUtil;
-import com.intellij.openapi.project.ProjectManager;
-import com.intellij.openapi.roots.ui.configuration.ProjectSettingsService;
-import com.intellij.openapi.vcs.ProjectLevelVcsManager;
-import com.intellij.openapi.vcs.configurable.VcsManagerConfigurable;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.javadoc.PsiDocTag;
 import com.intellij.psi.javadoc.PsiDocTagValue;
-import com.intellij.vcs.log.impl.VcsLogManager;
 import com.star.easydoc.common.Consts;
 import com.star.easydoc.common.util.VcsUtil;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.config.EasyDocConfigComponent;
-import com.star.easydoc.javadoc.service.generator.DocGenerator;
 import com.star.easydoc.javadoc.service.variable.JavadocVariableGeneratorService;
 import com.star.easydoc.service.translator.TranslatorService;
 import org.apache.commons.lang3.StringUtils;
@@ -39,7 +29,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author wangchao
  * @date 2019/11/12
  */
-public class ClassDocGenerator implements DocGenerator {
+public class ClassDocGenerator extends AbstractDocGenerator {
     private static final Logger LOGGER = Logger.getInstance(ClassDocGenerator.class);
 
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
@@ -202,8 +192,9 @@ public class ClassDocGenerator implements DocGenerator {
      * @return {@link java.lang.String}
      */
     private String customGenerate(PsiClass psiClass) {
-        return javadocVariableGeneratorService.generate(psiClass, config.getClassTemplateConfig().getTemplate(),
+        String targetJavadoc = javadocVariableGeneratorService.generate(psiClass, config.getClassTemplateConfig().getTemplate(),
             config.getClassTemplateConfig().getCustomMap(), getClassInnerVariable(psiClass));
+        return merge(psiClass, targetJavadoc);
     }
 
     /**

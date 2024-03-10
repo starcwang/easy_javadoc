@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,7 +24,6 @@ import com.star.easydoc.common.Consts;
 import com.star.easydoc.common.util.VcsUtil;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.config.EasyDocConfigComponent;
-import com.star.easydoc.javadoc.service.generator.DocGenerator;
 import com.star.easydoc.javadoc.service.variable.JavadocVariableGeneratorService;
 import com.star.easydoc.service.translator.TranslatorService;
 import org.apache.commons.lang3.StringUtils;
@@ -36,7 +34,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author wangchao
  * @date 2019/11/12
  */
-public class MethodDocGenerator implements DocGenerator {
+public class MethodDocGenerator extends AbstractDocGenerator {
 
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
     private EasyDocConfig config = ServiceManager.getService(EasyDocConfigComponent.class).getState();
@@ -304,8 +302,9 @@ public class MethodDocGenerator implements DocGenerator {
      * @return {@link java.lang.String}
      */
     private String customGenerate(PsiMethod psiMethod) {
-        return javadocVariableGeneratorService.generate(psiMethod, config.getMethodTemplateConfig().getTemplate(),
+        String targetJavadoc =  javadocVariableGeneratorService.generate(psiMethod, config.getMethodTemplateConfig().getTemplate(),
             config.getMethodTemplateConfig().getCustomMap(), getMethodInnerVariable(psiMethod));
+        return merge(psiMethod, targetJavadoc);
     }
 
     /**
