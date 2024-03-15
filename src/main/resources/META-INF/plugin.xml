@@ -36,6 +36,7 @@
         <applicationService serviceImplementation="com.star.easydoc.service.translator.TranslatorService"/>
         <applicationService serviceImplementation="com.star.easydoc.javadoc.service.variable.JavadocVariableGeneratorService"/>
         <applicationService serviceImplementation="com.star.easydoc.kdoc.service.variable.KdocVariableGeneratorService"/>
+        <applicationService serviceImplementation="com.star.easydoc.service.gpt.GptService"/>
 
         <applicationConfigurable id="easydoc.common.settings" displayName="EasyDoc" instance="com.star.easydoc.view.settings.CommonSettingsConfigurable"/>
 

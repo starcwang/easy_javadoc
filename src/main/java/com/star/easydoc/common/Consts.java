@@ -32,6 +32,9 @@ public class Consts {
         Consts.MICROSOFT_TRANSLATOR, Consts.MICROSOFT_FREE_TRANSLATOR, Consts.GOOGLE_TRANSLATOR,
         Consts.CHATGLM_TRANSLATOR, Consts.SIMPLE_SPLITTER, Consts.CLOSE_TRANSLATOR);
 
+    /** AI翻译集合 */
+    public static final Set<String> AI_TRANSLATOR = ImmutableSet.of(Consts.CHATGLM_TRANSLATOR);
+
     /**
      * 腾讯翻译
      */
@@ -71,7 +74,7 @@ public class Consts {
     /**
      * 智谱清言
      */
-    public static final String CHATGLM_TRANSLATOR = "智谱清言";
+    public static final String CHATGLM_GPT = "智谱清言";
     /**
      * 仅单词分割
      */

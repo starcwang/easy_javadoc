@@ -1,36 +1,31 @@
 package com.star.easydoc.javadoc.service.generator.impl;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.intellij.dvcs.repo.VcsRepositoryManager;
-import com.intellij.ide.DataManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.project.ProjectCoreUtil;
-import com.intellij.openapi.project.ProjectManager;
-import com.intellij.openapi.roots.ui.configuration.ProjectSettingsService;
-import com.intellij.openapi.vcs.ProjectLevelVcsManager;
-import com.intellij.openapi.vcs.configurable.VcsManagerConfigurable;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.javadoc.PsiDocTag;
 import com.intellij.psi.javadoc.PsiDocTagValue;
-import com.intellij.vcs.log.impl.VcsLogManager;
+import com.intellij.util.ResourceUtil;
 import com.star.easydoc.common.Consts;
 import com.star.easydoc.common.util.VcsUtil;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.config.EasyDocConfigComponent;
 import com.star.easydoc.javadoc.service.generator.DocGenerator;
 import com.star.easydoc.javadoc.service.variable.JavadocVariableGeneratorService;
+import com.star.easydoc.service.gpt.GptService;
 import com.star.easydoc.service.translator.TranslatorService;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -43,8 +38,10 @@ public class ClassDocGenerator implements DocGenerator {
     private static final Logger LOGGER = Logger.getInstance(ClassDocGenerator.class);
 
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
+    private GptService gptService = ServiceManager.getService(GptService.class);
     private EasyDocConfig config = ServiceManager.getService(EasyDocConfigComponent.class).getState();
-    private JavadocVariableGeneratorService javadocVariableGeneratorService = ServiceManager.getService(JavadocVariableGeneratorService.class);
+    private JavadocVariableGeneratorService javadocVariableGeneratorService = ServiceManager.getService(
+        JavadocVariableGeneratorService.class);
 
     @Override
     public String generate(PsiElement psiElement) {
@@ -52,13 +49,25 @@ public class ClassDocGenerator implements DocGenerator {
             return StringUtils.EMPTY;
         }
         PsiClass psiClass = (PsiClass)psiElement;
+        // AI
+        if (Consts.AI_TRANSLATOR.contains(config.getTranslator())) {
+            return generateWithAI(psiClass);
+        } else {
+            return generateWithTranslate(psiClass);
+        }
+    }
+
+    private String generateWithAI(PsiClass psiClass) {
+        return defaultGenerateWithAI(psiClass);
+    }
+
+    private String generateWithTranslate(PsiClass psiClass) {
         if (config != null && config.getClassTemplateConfig() != null
             && Boolean.TRUE.equals(config.getClassTemplateConfig().getIsDefault())) {
             return defaultGenerate(psiClass);
         } else {
             return customGenerate(psiClass);
         }
-
     }
 
     /**
@@ -111,6 +120,17 @@ public class ClassDocGenerator implements DocGenerator {
             + "* @author " + config.getAuthor() + "\n"
             + "* @date " + dateString + "\n"
             + "*/";
+    }
+
+    private String defaultGenerateWithAI(PsiClass psiClass) {
+        String prompt;
+        try {
+            prompt = IOUtils.toString(ResourceUtil.getResource(getClass(), "classpath:prompts", "javadoc.ftl"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        prompt = prompt.replace("{code}", psiClass.toString());
+        return gptService.chat(prompt);
     }
 
     /**
