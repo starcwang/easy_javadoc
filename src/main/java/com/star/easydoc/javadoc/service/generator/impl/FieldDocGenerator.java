@@ -36,7 +36,11 @@ public class FieldDocGenerator extends AbstractDocGenerator {
             return StringUtils.EMPTY;
         }
         PsiField psiField = (PsiField)psiElement;
-        if (config != null && config.getFieldTemplateConfig() != null
+        PsiDocComment docComment = psiField.getDocComment();
+        if (EasyDocConfig.COVER_MODE_IGNORE.equals(config.getCoverMode()) && docComment != null) {
+            return null;
+        }
+        if (config.getFieldTemplateConfig() != null
             && Boolean.TRUE.equals(config.getFieldTemplateConfig().getIsDefault())) {
             return defaultGenerate(psiField);
         } else {

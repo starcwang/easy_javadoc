@@ -38,8 +38,15 @@ public class EasyDocConfig {
     /** 仅翻译 */
     public static final String ONLY_TRANSLATE = "onlyTranslate";
 
+    /** 覆盖模式 */
+    public static final String COVER_MODE_IGNORE = "忽略";
+    public static final String COVER_MODE_MERGE = "智能合并";
+
     /** 版本 */
     private String version;
+
+    /** 覆盖模式 */
+    private String coverMode = COVER_MODE_MERGE;
 
     /**
      * 作者
@@ -610,5 +617,13 @@ public class EasyDocConfig {
 
     public void setDocPriority(String docPriority) {
         this.docPriority = docPriority;
+    }
+
+    public String getCoverMode() {
+        return coverMode;
+    }
+
+    public void setCoverMode(String coverMode) {
+        this.coverMode = coverMode;
     }
 }

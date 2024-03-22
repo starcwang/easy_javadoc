@@ -13,6 +13,7 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.javadoc.PsiDocComment;
 import com.intellij.psi.javadoc.PsiDocTag;
 import com.intellij.psi.javadoc.PsiDocTagValue;
 import com.star.easydoc.common.Consts;
@@ -34,7 +35,8 @@ public class ClassDocGenerator extends AbstractDocGenerator {
 
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
     private EasyDocConfig config = ServiceManager.getService(EasyDocConfigComponent.class).getState();
-    private JavadocVariableGeneratorService javadocVariableGeneratorService = ServiceManager.getService(JavadocVariableGeneratorService.class);
+    private JavadocVariableGeneratorService javadocVariableGeneratorService = ServiceManager.getService(
+        JavadocVariableGeneratorService.class);
 
     @Override
     public String generate(PsiElement psiElement) {
@@ -42,7 +44,11 @@ public class ClassDocGenerator extends AbstractDocGenerator {
             return StringUtils.EMPTY;
         }
         PsiClass psiClass = (PsiClass)psiElement;
-        if (config != null && config.getClassTemplateConfig() != null
+        PsiDocComment docComment = psiClass.getDocComment();
+        if (EasyDocConfig.COVER_MODE_IGNORE.equals(config.getCoverMode()) && docComment != null) {
+            return null;
+        }
+        if (config.getClassTemplateConfig() != null
             && Boolean.TRUE.equals(config.getClassTemplateConfig().getIsDefault())) {
             return defaultGenerate(psiClass);
         } else {
@@ -67,7 +73,7 @@ public class ClassDocGenerator extends AbstractDocGenerator {
                 .format(DateTimeFormatter.ofPattern(Consts.DEFAULT_DATE_FORMAT));
         }
         // 有注释，进行兼容处理
-        if (psiClass.getDocComment() != null) {
+        if (EasyDocConfig.COVER_MODE_MERGE.equals(config.getCoverMode()) && psiClass.getDocComment() != null) {
             List<PsiElement> elements = Lists.newArrayList(psiClass.getDocComment().getChildren());
 
             List<String> startList = Lists.newArrayList();
@@ -192,7 +198,8 @@ public class ClassDocGenerator extends AbstractDocGenerator {
      * @return {@link java.lang.String}
      */
     private String customGenerate(PsiClass psiClass) {
-        String targetJavadoc = javadocVariableGeneratorService.generate(psiClass, config.getClassTemplateConfig().getTemplate(),
+        String targetJavadoc = javadocVariableGeneratorService.generate(psiClass,
+            config.getClassTemplateConfig().getTemplate(),
             config.getClassTemplateConfig().getCustomMap(), getClassInnerVariable(psiClass));
         return merge(psiClass, targetJavadoc);
     }

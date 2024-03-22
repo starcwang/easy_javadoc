@@ -51,6 +51,9 @@ public class JavadocSettingsConfigurable implements Configurable {
         if (!Objects.equals(config.getMethodReturnType(), view.getMethodReturnType())) {
             return true;
         }
+        if (!Objects.equals(config.getCoverMode(), String.valueOf(view.getCoverModeBox().getSelectedItem()))) {
+            return true;
+        }
         return false;
     }
 
@@ -61,6 +64,7 @@ public class JavadocSettingsConfigurable implements Configurable {
         config.setSimpleFieldDoc(view.getSimpleDocButton().isSelected());
         config.setMethodReturnType(view.getMethodReturnType());
         config.setDocPriority(view.getDocPriority());
+        config.setCoverMode(String.valueOf(view.getCoverModeBox().getSelectedItem()));
 
         if (config.getAuthor() == null) {
             throw new ConfigurationException("作者不能为null");
@@ -73,6 +77,9 @@ public class JavadocSettingsConfigurable implements Configurable {
         }
         if (config.getSimpleFieldDoc() == null) {
             throw new ConfigurationException("注释形式不能为null");
+        }
+        if (config.getCoverMode() == null) {
+            throw new ConfigurationException("注释覆盖模式不能为null");
         }
         if (!EasyDocConfig.CODE_RETURN_TYPE.equals(config.getMethodReturnType())
             && !EasyDocConfig.LINK_RETURN_TYPE.equals(config.getMethodReturnType())

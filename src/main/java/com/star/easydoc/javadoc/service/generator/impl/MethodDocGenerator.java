@@ -18,6 +18,7 @@ import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiParameter;
 import com.intellij.psi.PsiTypeElement;
 import com.intellij.psi.PsiTypeParameter;
+import com.intellij.psi.javadoc.PsiDocComment;
 import com.intellij.psi.javadoc.PsiDocTag;
 import com.intellij.psi.javadoc.PsiDocTagValue;
 import com.star.easydoc.common.Consts;
@@ -47,8 +48,11 @@ public class MethodDocGenerator extends AbstractDocGenerator {
             return StringUtils.EMPTY;
         }
         PsiMethod psiMethod = (PsiMethod)psiElement;
-
-        if (config != null && config.getMethodTemplateConfig() != null
+        PsiDocComment docComment = psiMethod.getDocComment();
+        if (EasyDocConfig.COVER_MODE_IGNORE.equals(config.getCoverMode()) && docComment != null) {
+            return null;
+        }
+        if (config.getMethodTemplateConfig() != null
             && Boolean.TRUE.equals(config.getMethodTemplateConfig().getIsDefault())) {
             return defaultGenerate(psiMethod);
         } else {
@@ -71,7 +75,7 @@ public class MethodDocGenerator extends AbstractDocGenerator {
             .collect(Collectors.toList());
 
         // 有注释，进行兼容处理
-        if (psiMethod.getDocComment() != null) {
+        if (EasyDocConfig.COVER_MODE_MERGE.equals(config.getCoverMode()) && psiMethod.getDocComment() != null) {
             List<PsiElement> elements = Lists.newArrayList(psiMethod.getDocComment().getChildren());
 
             List<String> startList = Lists.newArrayList();
@@ -107,7 +111,8 @@ public class MethodDocGenerator extends AbstractDocGenerator {
         sb.append("* ").append(translatorService.translate(psiMethod.getName())).append("\n");
         sb.append("*\n");
         for (String paramName : paramNameList) {
-            sb.append("* @param ").append(paramName).append(" ").append(translatorService.translate(paramName)).append("\n");
+            sb.append("* @param ").append(paramName).append(" ").append(translatorService.translate(paramName)).append(
+                "\n");
         }
         if (returnName.length() > 0 && !"void".equals(returnName)) {
             if (Consts.BASE_TYPE_SET.contains(returnName)) {
@@ -119,7 +124,8 @@ public class MethodDocGenerator extends AbstractDocGenerator {
                     sb.append(getLinkTypeReturnDoc(returnName));
                 } else if (config.isDocMethodReturnType()) {
                     sb.append("* @return " +
-                        translatorService.translateWithClass(returnName, returns.getType().getCanonicalText(), psiMethod.getProject()) + "\n");
+                        translatorService.translateWithClass(returnName, returns.getType().getCanonicalText(),
+                            psiMethod.getProject()) + "\n");
                 }
             }
         }
@@ -139,9 +145,11 @@ public class MethodDocGenerator extends AbstractDocGenerator {
      * @param exceptionTypeList 异常类型数组
      * @return {@link java.util.List<java.lang.String>}
      */
-    private List<String> buildException(List<PsiElement> elements, List<PsiClassType> exceptionTypeList, Project project) {
+    private List<String> buildException(List<PsiElement> elements, List<PsiClassType> exceptionTypeList,
+        Project project) {
         List<String> paramDocList = Lists.newArrayList();
-        Set<String> exceptionNameSet = exceptionTypeList.stream().map(PsiClassType::getName).collect(Collectors.toSet());
+        Set<String> exceptionNameSet = exceptionTypeList.stream().map(PsiClassType::getName).collect(
+            Collectors.toSet());
         for (Iterator<PsiElement> iterator = elements.iterator(); iterator.hasNext(); ) {
             PsiElement element = iterator.next();
             if (!"PsiDocTag:@throws".equalsIgnoreCase(element.toString())
@@ -151,9 +159,11 @@ public class MethodDocGenerator extends AbstractDocGenerator {
             String exceptionName = null;
             String exceptionData = null;
             for (PsiElement child : element.getChildren()) {
-                if (StringUtils.isBlank(exceptionName) && "PsiElement(DOC_TAG_VALUE_ELEMENT)".equals(child.toString())) {
+                if (StringUtils.isBlank(exceptionName) && "PsiElement(DOC_TAG_VALUE_ELEMENT)".equals(
+                    child.toString())) {
                     exceptionName = StringUtils.trim(child.getText());
-                } else if (StringUtils.isBlank(exceptionData) && "PsiDocToken:DOC_COMMENT_DATA".equals(child.toString())) {
+                } else if (StringUtils.isBlank(exceptionData) && "PsiDocToken:DOC_COMMENT_DATA".equals(
+                    child.toString())) {
                     exceptionData = StringUtils.trim(child.getText());
                 }
             }
@@ -176,7 +186,7 @@ public class MethodDocGenerator extends AbstractDocGenerator {
         for (PsiClassType exceptionType : exceptionTypeList) {
             paramDocList.add("@throws " + exceptionType.getName()
                 + " " + translatorService.translateWithClass(
-                    exceptionType.getName(), exceptionType.getCanonicalText(), project) + "\n");
+                exceptionType.getName(), exceptionType.getCanonicalText(), project) + "\n");
         }
         return paramDocList;
     }
@@ -302,7 +312,8 @@ public class MethodDocGenerator extends AbstractDocGenerator {
      * @return {@link java.lang.String}
      */
     private String customGenerate(PsiMethod psiMethod) {
-        String targetJavadoc =  javadocVariableGeneratorService.generate(psiMethod, config.getMethodTemplateConfig().getTemplate(),
+        String targetJavadoc = javadocVariableGeneratorService.generate(psiMethod,
+            config.getMethodTemplateConfig().getTemplate(),
             config.getMethodTemplateConfig().getCustomMap(), getMethodInnerVariable(psiMethod));
         return merge(psiMethod, targetJavadoc);
     }
