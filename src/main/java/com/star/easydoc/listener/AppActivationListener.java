@@ -27,8 +27,11 @@ import org.jetbrains.annotations.NotNull;
 public class AppActivationListener implements ApplicationActivationListener {
     private static final Logger LOGGER = Logger.getInstance(AppActivationListener.class);
 
-    /** 是否已经通知 */
-    private volatile boolean hasNotice = false;
+    /** 锁判断 */
+    private volatile boolean isActivate = false;
+
+    /** 锁 */
+    private static final Object LOCK = new Object();
 
     @Override
     public synchronized void applicationActivated(@NotNull IdeFrame ideFrame) {
@@ -38,19 +41,21 @@ public class AppActivationListener implements ApplicationActivationListener {
     /**
      * 激活
      */
-    public synchronized void activate() {
-        support();
-        serviceInit();
+    public void activate() {
+        synchronized (LOCK) {
+            if (isActivate) {
+                return;
+            }
+            support();
+            serviceInit();
+            isActivate = true;
+        }
     }
 
     /**
      * 支持
      */
     private void support() {
-        if (hasNotice) {
-            return;
-        }
-
         AnAction starAction = new NotificationAction("⭐ 去点star") {
             @Override
             public void actionPerformed(@NotNull AnActionEvent e, @NotNull Notification notification) {
@@ -87,10 +92,10 @@ public class AppActivationListener implements ApplicationActivationListener {
             }
         };
 
+        NotificationUtil.notify("关于EasyJavadoc快捷键",
+            "EasyJavadoc默认的快捷键是command(ctrl)+\\,和新版IDEA的AI Assistant插件冲突,请自行修改快捷键");
         NotificationUtil.notify("支持EasyJavadoc", "如果这款小而美的插件为您节约了不少时间，请支持一下开发者！",
             starAction, reviewsAction, payAction);
-
-        hasNotice = true;
     }
 
     /**
