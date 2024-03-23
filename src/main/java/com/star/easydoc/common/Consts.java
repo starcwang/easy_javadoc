@@ -30,10 +30,10 @@ public class Consts {
     public static final Set<String> ENABLE_TRANSLATOR_SET = ImmutableSet.of(Consts.YOUDAO_TRANSLATOR,
         Consts.BAIDU_TRANSLATOR, Consts.TENCENT_TRANSLATOR, Consts.ALIYUN_TRANSLATOR, Consts.YOUDAO_AI_TRANSLATOR,
         Consts.MICROSOFT_TRANSLATOR, Consts.MICROSOFT_FREE_TRANSLATOR, Consts.GOOGLE_TRANSLATOR,
-        Consts.CHATGLM_TRANSLATOR, Consts.SIMPLE_SPLITTER, Consts.CLOSE_TRANSLATOR);
+        Consts.CHATGLM_GPT, Consts.SIMPLE_SPLITTER, Consts.CLOSE_TRANSLATOR);
 
     /** AI翻译集合 */
-    public static final Set<String> AI_TRANSLATOR = ImmutableSet.of(Consts.CHATGLM_TRANSLATOR);
+    public static final Set<String> AI_TRANSLATOR = ImmutableSet.of(Consts.CHATGLM_GPT);
 
     /**
      * 腾讯翻译

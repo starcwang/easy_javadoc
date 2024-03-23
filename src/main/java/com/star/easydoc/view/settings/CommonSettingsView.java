@@ -334,7 +334,7 @@ public class CommonSettingsView {
             microsoftKeyTextField.setVisible(false);
             googleKeyTextField.setVisible(true);
             chatGlmApiKeyTextField.setVisible(false);
-        } else if (Consts.CHATGLM_TRANSLATOR.equals(selectedItem)) {
+        } else if (Consts.CHATGLM_GPT.equals(selectedItem)) {
             appIdLabel.setVisible(false);
             tokenLabel.setVisible(false);
             secretIdLabel.setVisible(false);

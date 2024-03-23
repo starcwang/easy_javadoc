@@ -10,6 +10,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.star.easydoc.common.util.HttpUtil;
 
 /**
@@ -28,15 +29,16 @@ public class ChatGlmGptSupplier extends AbstractGptSupplier {
 
         String token = generateToken(APP_KEY, 3600);
 
-        Map<String, String> headers = ImmutableMap.of("Authorization:", token,
-            "Content-Type", "application/json");
+        Map<String, String> headers = Maps.newHashMap();
+        headers.put("Authorization:", token);
+        headers.put("Content-Type", "application/json");
 
         Message message = new Message();
         message.setContent(text);
         message.setRole("user");
         ChatGlmRequest request = new ChatGlmRequest();
         request.setMessages(Lists.newArrayList(message));
-
+        // todo debug
         String result = HttpUtil.postJson(URL, headers, JSON.toJSONString(request));
 
         System.out.println("Result: " + result);

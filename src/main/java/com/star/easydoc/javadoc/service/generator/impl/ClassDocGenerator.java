@@ -125,7 +125,7 @@ public class ClassDocGenerator implements DocGenerator {
     private String defaultGenerateWithAI(PsiClass psiClass) {
         String prompt;
         try {
-            prompt = IOUtils.toString(ResourceUtil.getResource(getClass(), "classpath:prompts", "javadoc.ftl"));
+            prompt = IOUtils.toString(ResourceUtil.getResource(getClass(), "prompts", "javadoc.txt"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

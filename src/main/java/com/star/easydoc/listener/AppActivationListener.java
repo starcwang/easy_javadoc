@@ -14,6 +14,7 @@ import com.intellij.openapi.wm.IdeFrame;
 import com.star.easydoc.common.util.NotificationUtil;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.config.EasyDocConfigComponent;
+import com.star.easydoc.service.gpt.GptService;
 import com.star.easydoc.service.translator.TranslatorService;
 import com.star.easydoc.view.inner.SupportView;
 import org.jetbrains.annotations.NotNull;
@@ -101,6 +102,8 @@ public class AppActivationListener implements ApplicationActivationListener {
 
         TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
         translatorService.init(config);
+        GptService gptService = ServiceManager.getService(GptService.class);
+        gptService.init(config);
     }
 
     @Override
