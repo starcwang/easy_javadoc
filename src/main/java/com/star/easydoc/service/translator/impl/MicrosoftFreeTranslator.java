@@ -59,11 +59,11 @@ public class MicrosoftFreeTranslator extends AbstractTranslator {
                     break;
                 }
             } catch (Exception e) {
-                LOGGER.warn("获取微软翻译token失败,重试第" + i + "次");
+                LOGGER.warn("get microsoft token failed,retrying " + i);
             }
         }
         if (thisToken == null || thisToken.isEmpty()) {
-            throw new RuntimeException("重试" + RETRY_TIMES + "次后获取微软token仍失败");
+            throw new RuntimeException("it still fails after " + RETRY_TIMES + " retries");
         }
         Long thisExp = JSON.parseObject(Base64.getUrlDecoder().decode(thisToken.split("\\.")[1])).getLong("exp");
         token = thisToken;
@@ -112,7 +112,7 @@ public class MicrosoftFreeTranslator extends AbstractTranslator {
             return Objects.requireNonNull(response).getJSONObject(0).getJSONArray("translations").getJSONObject(0)
                 .getString("text");
         } catch (Exception e) {
-            LOGGER.error("请求微软免费翻译接口异常:请检查本地网络是否可连接外网,response=" + json, e);
+            LOGGER.error("microsoft free translate error: please check your network,response=" + json, e);
             return StringUtils.EMPTY;
         }
     }

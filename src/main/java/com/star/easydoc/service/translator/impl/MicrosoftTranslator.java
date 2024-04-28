@@ -46,11 +46,14 @@ public class MicrosoftTranslator extends AbstractTranslator {
             body.add(textObject);
             Map<String, String> headers = Maps.newHashMap();
             headers.put("Ocp-Apim-Subscription-Key", getConfig().getMicrosoftKey());
+            if (StringUtils.isNotBlank(getConfig().getMicrosoftRegion())) {
+                headers.put("Ocp-Apim-Subscription-Region", getConfig().getMicrosoftRegion());
+            }
             json = HttpUtil.postJson(url, headers, JSON.toJSONString(body));
             JSONArray response = JSON.parseArray(json);
             return Objects.requireNonNull(response).getJSONObject(0).getJSONArray("translations").getJSONObject(0).getString("text");
         } catch (Exception e) {
-            LOGGER.error("请求微软翻译接口异常:请检查本地网络是否可连接外网,response=" + json, e);
+            LOGGER.error("microsoft translate error: please check your appkey and network,response=" + json, e);
             return StringUtils.EMPTY;
         }
     }

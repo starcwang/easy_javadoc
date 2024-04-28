@@ -10,6 +10,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiJavaDocumentedElement;
 import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.javadoc.PsiDocComment;
+import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.service.translator.TranslatorService;
 import org.apache.commons.lang.StringUtils;
 
@@ -23,16 +24,20 @@ public class DocVariableGenerator extends AbstractVariableGenerator {
 
     @Override
     public String generate(PsiElement element) {
-        if (element instanceof PsiNamedElement) {
-            PsiDocComment docComment = ((PsiJavaDocumentedElement)element).getDocComment();
-            if (docComment != null) {
-                PsiElement[] descriptionElements = docComment.getDescriptionElements();
-                List<String> descTextList = Arrays.stream(descriptionElements).map(PsiElement::getText).collect(Collectors.toList());
-                String result = Joiner.on(StringUtils.EMPTY).skipNulls().join(descTextList);
-                return StringUtils.isNotBlank(result) ? result : translatorService.translate(((PsiNamedElement)element).getName());
-            }
+        if (!(element instanceof PsiNamedElement)) {
+            return "";
+        }
+        PsiDocComment docComment = ((PsiJavaDocumentedElement)element).getDocComment();
+
+        // force模式
+        if (docComment == null || EasyDocConfig.COVER_MODE_FORCE.equals(getConfig().getCoverMode())) {
             return translatorService.translate(((PsiNamedElement)element).getName());
         }
-        return "";
+
+        PsiElement[] descriptionElements = docComment.getDescriptionElements();
+        List<String> descTextList = Arrays.stream(descriptionElements).map(PsiElement::getText).collect(
+            Collectors.toList());
+        String result = Joiner.on(StringUtils.EMPTY).skipNulls().join(descTextList);
+        return StringUtils.isNotBlank(result) ? result : translatorService.translate(((PsiNamedElement)element).getName());
     }
 }

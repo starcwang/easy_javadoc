@@ -69,7 +69,7 @@ public class TencentTranslator extends AbstractTranslator {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("请求腾讯翻译接口异常,response=" + json, e);
+            LOGGER.error("tencent translate error: please check your appkey and network,response=" + json, e);
         }
         return response;
     }

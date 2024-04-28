@@ -8,6 +8,7 @@ import com.intellij.psi.PsiElementFactory;
 import com.intellij.psi.PsiJavaDocumentedElement;
 import com.intellij.psi.javadoc.PsiDocComment;
 import com.intellij.psi.javadoc.PsiDocTag;
+import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.javadoc.service.generator.DocGenerator;
 
 /**
@@ -25,7 +26,9 @@ public abstract class AbstractDocGenerator implements DocGenerator {
      */
     protected String merge(PsiJavaDocumentedElement psiElement, String targetDoc) {
         PsiDocComment sDoc = psiElement.getDocComment();
-        if (sDoc == null) {
+
+        // 强制覆盖直接返回
+        if (sDoc == null || EasyDocConfig.COVER_MODE_FORCE.equals(getConfig().getCoverMode())) {
             return targetDoc;
         }
 
@@ -40,11 +43,17 @@ public abstract class AbstractDocGenerator implements DocGenerator {
                 continue;
             }
             PsiDocTag docTag = (PsiDocTag)child;
+            if (docTag.getName().equals("param") || docTag.getName().equals("throws")
+                || docTag.getName().equals("exception")) {
+                docList.add(child.getText());
+                continue;
+            }
             boolean append = true;
             for (PsiDocTag sTag : sTags) {
                 if (sTag.getName().equals(docTag.getName())) {
                     docList.add(sTag.getText());
                     append = false;
+                    break;
                 }
             }
             if (append) {
@@ -53,4 +62,11 @@ public abstract class AbstractDocGenerator implements DocGenerator {
         }
         return String.join("\n", docList);
     }
+
+    /**
+     * 获取配置
+     *
+     * @return {@code EasyDocConfig }
+     */
+    protected abstract EasyDocConfig getConfig();
 }

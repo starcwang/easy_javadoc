@@ -65,7 +65,7 @@ public class AppActivationListener implements ApplicationActivationListener {
                         dp.browse(URI.create("https://github.com/starcwang/easy_javadoc"));
                     }
                 } catch (Exception ex) {
-                    LOGGER.error("打开链接失败:https://github.com/starcwang/easy_javadoc", ex);
+                    LOGGER.error("open url failed:https://github.com/starcwang/easy_javadoc", ex);
                 }
             }
         };
@@ -79,7 +79,7 @@ public class AppActivationListener implements ApplicationActivationListener {
                         dp.browse(URI.create("https://plugins.jetbrains.com/plugin/12977-easy-javadoc/reviews"));
                     }
                 } catch (Exception ex) {
-                    LOGGER.error("打开链接失败:https://plugins.jetbrains.com/plugin/12977-easy-javadoc/reviews", ex);
+                    LOGGER.error("open url failed:https://plugins.jetbrains.com/plugin/12977-easy-javadoc/reviews", ex);
                 }
             }
         };

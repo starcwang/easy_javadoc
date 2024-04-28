@@ -30,13 +30,13 @@ public class YoudaoTranslator extends AbstractTranslator {
 
     @Override
     public String translateEn2Ch(String text) {
-        LOGGER.error("有道免费接口已被官方禁用,请申请私人账号,各大厂商基本都免费");
+        LOGGER.error("youdao free translate has bean disabled by official, please apply for a private account");
         return "";
     }
 
     @Override
     public String translateCh2En(String text) {
-        LOGGER.error("有道免费接口已被官方禁用,请申请私人账号,各大厂商基本都免费");
+        LOGGER.error("youdao free translate has bean disabled by official, please apply for a private account");
         return "";
     }
 
@@ -56,7 +56,7 @@ public class YoudaoTranslator extends AbstractTranslator {
                         dp.browse(URI.create("https://api.fanyi.baidu.com/doc/21"));
                     }
                 } catch (Exception ex) {
-                    LOGGER.error("打开链接失败:https://api.fanyi.baidu.com/doc/21", ex);
+                    LOGGER.error("open url failed:https://api.fanyi.baidu.com/doc/21", ex);
                 }
             }
         };
@@ -69,7 +69,7 @@ public class YoudaoTranslator extends AbstractTranslator {
                         dp.browse(URI.create("https://cloud.tencent.com/document/product/551/7372"));
                     }
                 } catch (Exception ex) {
-                    LOGGER.error("打开链接失败:https://cloud.tencent.com/document/product/551/7372", ex);
+                    LOGGER.error("open url failed:https://cloud.tencent.com/document/product/551/7372", ex);
                 }
             }
         };
@@ -82,7 +82,7 @@ public class YoudaoTranslator extends AbstractTranslator {
                         dp.browse(URI.create("https://www.aliyun.com/product/ai/alimt"));
                     }
                 } catch (Exception ex) {
-                    LOGGER.error("打开链接失败:https://www.aliyun.com/product/ai/alimt", ex);
+                    LOGGER.error("open url failed:https://www.aliyun.com/product/ai/alimt", ex);
                 }
             }
         };

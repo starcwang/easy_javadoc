@@ -80,6 +80,7 @@
               <model>
                 <item value="忽略"/>
                 <item value="智能合并"/>
+                <item value="强制覆盖"/>
               </model>
             </properties>
           </component>

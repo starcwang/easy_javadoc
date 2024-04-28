@@ -66,7 +66,7 @@ public class AliyunTranslator extends AbstractTranslator {
             AliyunResponseVO response = JSON.parseObject(json, AliyunResponseVO.class);
             return Objects.requireNonNull(response).getData().getTranslated();
         } catch (Exception e) {
-            LOGGER.error("请求阿里云翻译接口异常:请检查本地网络是否可连接外网,也有可能被阿里云限流,response=" + json, e);
+            LOGGER.error("aliyun translate error: please check your appkey and network,response=" + json, e);
             return StringUtils.EMPTY;
         }
     }
