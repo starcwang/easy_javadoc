@@ -23,6 +23,9 @@ public class ChatGlmGptSupplier extends AbstractGptSupplier {
 
     private static final String URL = "https://open.bigmodel.cn/api/paas/v4/chat/completions";
 
+    /** 超时 */
+    private static final int TIMEOUT = 30 * 1000;
+
     @Override
     public String chat(String content) {
 
@@ -38,7 +41,7 @@ public class ChatGlmGptSupplier extends AbstractGptSupplier {
         ChatGlmRequest request = new ChatGlmRequest();
         request.setMessages(Lists.newArrayList(message));
 
-        String response = HttpUtil.postJson(URL, headers, JSON.toJSONString(request), 60 * 1000);
+        String response = HttpUtil.postJson(URL, headers, JSON.toJSONString(request), TIMEOUT);
 
         String result = JSON.parseObject(response).getJSONArray("choices").getJSONObject(0).getJSONObject("message")
             .getString("content");
