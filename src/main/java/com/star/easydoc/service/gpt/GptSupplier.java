@@ -11,10 +11,10 @@ public interface GptSupplier {
     /**
      * 获取回答
      *
-     * @param text 问题
+     * @param content 问题
      * @return 答案
      */
-    String chat(String text);
+    String chat(String content);
 
     /**
      * 初始化

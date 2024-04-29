@@ -1,5 +1,6 @@
 package com.star.easydoc.javadoc.service.generator.impl;
 
+import java.io.IOException;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
@@ -7,10 +8,14 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.javadoc.PsiDocComment;
+import com.intellij.util.ResourceUtil;
+import com.star.easydoc.common.Consts;
 import com.star.easydoc.common.util.VcsUtil;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.config.EasyDocConfigComponent;
 import com.star.easydoc.javadoc.service.variable.JavadocVariableGeneratorService;
+import com.star.easydoc.service.gpt.GptService;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -23,6 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 public class FieldDocGenerator extends AbstractDocGenerator {
 
     private EasyDocConfig config = ServiceManager.getService(EasyDocConfigComponent.class).getState();
+    private GptService gptService = ServiceManager.getService(GptService.class);
     private JavadocVariableGeneratorService javadocVariableGeneratorService = ServiceManager.getService(
         JavadocVariableGeneratorService.class);
 
@@ -41,6 +47,12 @@ public class FieldDocGenerator extends AbstractDocGenerator {
         if (EasyDocConfig.COVER_MODE_IGNORE.equals(config.getCoverMode()) && docComment != null) {
             return null;
         }
+
+        // AI
+        if (Consts.AI_TRANSLATOR.contains(config.getTranslator())) {
+            return generateWithAI(psiField);
+        }
+        
         String template;
         if (BooleanUtils.isTrue(config.getSimpleFieldDoc())) {
             template = SIMPLE_TEMPLATE;
@@ -54,6 +66,17 @@ public class FieldDocGenerator extends AbstractDocGenerator {
         String targetJavadoc = javadocVariableGeneratorService.generate(psiField, template,
             config.getFieldTemplateConfig().getCustomMap(), getFieldInnerVariable(psiField));
         return merge(psiField, targetJavadoc);
+    }
+
+    private String generateWithAI(PsiElement psiElement) {
+        String prompt;
+        try {
+            prompt = IOUtils.toString(ResourceUtil.getResource(getClass(), "prompts/chatglm", "field.prompt"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        prompt = prompt.replace("{code}", psiElement.getText());
+        return gptService.chat(prompt);
     }
 
     /**

@@ -12,6 +12,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.star.easydoc.common.util.HttpUtil;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * 智谱清言api 文档 https://open.bigmodel.cn/dev/api#glm-4
@@ -22,49 +23,30 @@ public class ChatGlmGptSupplier extends AbstractGptSupplier {
 
     private static final String URL = "https://open.bigmodel.cn/api/paas/v4/chat/completions";
 
-    private String APP_KEY = "628ae29270b54d55e3a6e650ccff48a5.Hol6aMPA7ppF1lJx";
-
     @Override
-    public String chat(String text) {
+    public String chat(String content) {
 
-        String token = generateToken(APP_KEY, 3600);
+        String token = generateToken(getConfig().getChatGlmApiKey(), 60);
 
         Map<String, String> headers = Maps.newHashMap();
-        headers.put("Authorization:", token);
+        headers.put("Authorization", token);
         headers.put("Content-Type", "application/json");
 
         Message message = new Message();
-        message.setContent(text);
+        message.setContent(content);
         message.setRole("user");
         ChatGlmRequest request = new ChatGlmRequest();
         request.setMessages(Lists.newArrayList(message));
-        // todo debug
-        String result = HttpUtil.postJson(URL, headers, JSON.toJSONString(request));
 
-        System.out.println("Result: " + result);
-        return result;
+        String response = HttpUtil.postJson(URL, headers, JSON.toJSONString(request), 60 * 1000);
+
+        String result = JSON.parseObject(response).getJSONArray("choices").getJSONObject(0).getJSONObject("message")
+            .getString("content");
+
+        return "/**" + StringUtils.substringBeforeLast(StringUtils.substringAfterLast(result, "/**"), "*/") + "*/";
     }
 
-    public String translateEn2Ch(String text) {
-
-        String token = generateToken(APP_KEY, 3600);
-
-        Map<String, String> headers = ImmutableMap.of("Authorization:", token,
-            "Content-Type", "application/json");
-        System.out.println("Generated JWT: " + token);
-
-        String result = HttpUtil.postJson(URL, headers,
-            "{\"model\":\"glm-4\",\"messages\":[{\"role\": \"user\", \"content\": \"你好,你会下中国象棋吗\"}]}");
-
-        System.out.println("Result: " + result);
-        return "";
-    }
-
-    public String translateCh2En(String text) {
-        return "";
-    }
-
-    public String generateToken(String apikey, int expSeconds) {
+    public static String generateToken(String apikey, int expSeconds) {
         try {
             String[] parts = apikey.split("\\.");
             if (parts.length != 2) {
@@ -78,14 +60,12 @@ public class ChatGlmGptSupplier extends AbstractGptSupplier {
 
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
-            String token = JWT.create()
+            return JWT.create()
                 .withClaim("api_key", id)
                 .withExpiresAt(exp)
                 .withClaim("timestamp", currentTimeMillis)
                 .withHeader(ImmutableMap.of("alg", "HS256", "sign_type", "SIGN"))
                 .sign(algorithm);
-
-            return token;
         } catch (Exception e) {
             throw new RuntimeException("Error generating JWT token", e);
         }
@@ -125,7 +105,7 @@ public class ChatGlmGptSupplier extends AbstractGptSupplier {
         }
     }
 
-    public static class Message {
+    private static class Message {
         /** 消息的角色信息，system，assistant，user */
         private String role;
         /** 消息内容 */

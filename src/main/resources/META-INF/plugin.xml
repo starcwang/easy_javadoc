@@ -14,11 +14,9 @@
     ]]></description>
 
     <change-notes><![CDATA[
-      <h3>v3.9.0</h3>
+      <h3>v4.0.0</h3>
       <ul>
-          <li>重构默认模板</li>
-          <li>添加注释强制覆盖模式</li>
-          <li>微软翻译支持设置Ocp-Apim-Subscription-Region</li>
+          <li>支持智谱清言AI大模型</li>
       </ul>
       <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
     ]]>

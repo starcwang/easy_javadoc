@@ -1,6 +1,8 @@
 package com.star.easydoc.javadoc.service.generator.impl;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
@@ -64,14 +66,16 @@ public class ClassDocGenerator extends AbstractDocGenerator {
         return merge(psiClass, targetJavadoc);
     }
 
-    private String defaultGenerateWithAI(PsiClass psiClass) {
+    private String generateWithAI(PsiElement psiElement) {
         String prompt;
         try {
-            prompt = IOUtils.toString(ResourceUtil.getResource(getClass(), "prompts", "javadoc.txt"));
+            prompt = IOUtils.toString(ResourceUtil.getResource(getClass(), "prompts/chatglm", "class.prompt"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        prompt = prompt.replace("{code}", psiClass.toString());
+        prompt = prompt.replace("{author}", getConfig().getAuthor());
+        prompt = prompt.replace("{date}", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+        prompt = prompt.replace("{code}", psiElement.getText());
         return gptService.chat(prompt);
     }
 

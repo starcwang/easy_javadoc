@@ -128,9 +128,10 @@ public class HttpUtil {
      * @param url url
      * @param headers headers
      * @param body 内容
+     * @param timeout 超时时间
      * @return {@link String}
      */
-    public static String post(String url, Map<String, String> headers, String body) {
+    public static String post(String url, Map<String, String> headers, String body, int timeout) {
         if (StringUtils.isBlank(url)) {
             return null;
         }
@@ -141,8 +142,7 @@ public class HttpUtil {
             // 代理
             HttpHost httpHost = getProxy(url);
 
-            Builder builder = RequestConfig.custom().setSocketTimeout(SOCKET_TIMEOUT).setConnectTimeout(
-                CONNECT_TIMEOUT);
+            Builder builder = RequestConfig.custom().setSocketTimeout(timeout).setConnectTimeout(timeout);
             if (httpHost != null) {
                 builder.setProxy(httpHost);
             }
@@ -164,6 +164,19 @@ public class HttpUtil {
             HttpClientUtils.closeQuietly(httpclient);
         }
         return result;
+    }
+
+
+    /**
+     * post请求
+     *
+     * @param url url
+     * @param headers headers
+     * @param body 内容
+     * @return {@link String}
+     */
+    public static String post(String url, Map<String, String> headers, String body) {
+        return post(url, headers, body, SOCKET_TIMEOUT);
     }
 
     private static HttpHost getProxy(String url) throws MalformedURLException {
@@ -190,12 +203,24 @@ public class HttpUtil {
      * @param body 内容
      * @return {@link String}
      */
-    public static String postJson(String url, Map<String, String> headers, String body) {
+    public static String postJson(String url, Map<String, String> headers, String body, int timeout) {
         if (headers == null) {
             headers = Maps.newHashMap();
         }
         headers.put("Content-Type", "application/json;charset=utf-8");
-        return post(url, headers, body);
+        return post(url, headers, body, timeout);
+    }
+
+    /**
+     * post请求（json）
+     *
+     * @param url url
+     * @param headers headers
+     * @param body 内容
+     * @return {@link String}
+     */
+    public static String postJson(String url, Map<String, String> headers, String body) {
+        return postJson(url, headers, body, SOCKET_TIMEOUT);
     }
 
 }

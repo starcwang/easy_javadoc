@@ -42,15 +42,15 @@ public class GptService {
     /**
      * 聊天
      *
-     * @param text 消息
+     * @param content 消息
      * @return {@code String}
      */
-    public String chat(String text) {
+    public String chat(String content) {
         GptSupplier translator = gptSupplierMap.get(config.getTranslator());
         if (Objects.isNull(translator)) {
             return StringUtils.EMPTY;
         }
-        return translator.chat(text);
+        return translator.chat(content);
     }
 
 }
