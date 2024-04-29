@@ -15,6 +15,7 @@ import com.intellij.psi.PsiParameter;
 import com.intellij.psi.impl.source.PsiMethodImpl;
 import com.intellij.psi.javadoc.PsiDocComment;
 import com.intellij.psi.javadoc.PsiDocTag;
+import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.service.translator.TranslatorService;
 import org.apache.commons.lang.StringUtils;
 
@@ -44,24 +45,26 @@ public class ParamsVariableGenerator extends AbstractVariableGenerator {
         Map<String, PsiDocTag> psiDocTagMap = new HashMap<>();
         if (docComment != null) {
             PsiDocTag[] paramsDocArray = docComment.findTagsByName("param");
-            psiDocTagMap = Arrays.stream(paramsDocArray).collect(Collectors.toMap(q -> q.getDataElements()[0].getText(), tag -> tag));
+            for (PsiDocTag psiDocTag : paramsDocArray) {
+                psiDocTagMap.put(psiDocTag.getDataElements()[0].getText(), psiDocTag);
+            }
         }
 
         for (String paramName : paramNameList) {
             PsiDocTag psiDocTag = psiDocTagMap.get(paramName);
-            if (psiDocTag == null) {
+            if (psiDocTag == null || psiDocTag.getDataElements().length < 2) {
                 // 不存在则插入一个需要翻译的
                 paramGroupList.add(new ParamGroup(paramName, translatorService.translate(paramName)));
                 continue;
             }
             PsiElement eleParamDesc = psiDocTag.getDataElements()[1];
             String desc = eleParamDesc.getText();
-            if (StringUtils.isNotEmpty(desc)) {
+            if (StringUtils.isEmpty(desc) || EasyDocConfig.COVER_MODE_FORCE.equals(getConfig().getCoverMode())) {
+                // 不存在注释或强制覆盖则翻译
+                paramGroupList.add(new ParamGroup(paramName, translatorService.translate(paramName)));
+            } else {
                 // 如果已经存在注释则直接返回
                 paramGroupList.add(new ParamGroup(paramName, desc));
-            } else {
-                // 不存在注释则翻译
-                paramGroupList.add(new ParamGroup(paramName, translatorService.translate(paramName)));
             }
         }
         List<String> perLine = Lists.newArrayList();

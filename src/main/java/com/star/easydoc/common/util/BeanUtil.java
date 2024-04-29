@@ -38,7 +38,7 @@ public class BeanUtil {
                 targetField.set(target, sourceField.get(source));
             }
         } catch (Exception e) {
-            LOGGER.error("拷贝属性异常", e);
+            LOGGER.error("copy error", e);
         }
     }
 }

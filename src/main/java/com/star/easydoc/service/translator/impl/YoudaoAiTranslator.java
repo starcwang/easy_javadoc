@@ -55,7 +55,7 @@ public class YoudaoAiTranslator extends AbstractTranslator {
             YoudaoAiResponse response = JSON.parseObject(json, YoudaoAiResponse.class);
             return Objects.requireNonNull(response).getTranslation().get(0);
         } catch (Exception e) {
-            LOGGER.error("请求有道智云接口异常,返回为空,response=" + json, e);
+            LOGGER.error("youdao ai translate error: please check your appkey and network,response=" + json, e);
             return StringUtils.EMPTY;
         }
     }

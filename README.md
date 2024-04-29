@@ -18,10 +18,12 @@
 ## 安装
 打开IntelliJ IDEA -> plugins，java搜索`Easy Javadoc`，安装重启即可
 
-## 使用
-简单视频教学：[👉猛戳👈](https://www.bilibili.com/video/BV1pB4y147nX)，感谢[郑清](https://space.bilibili.com/510086367)同学支持      
-结合Fast Request的视频教程，[👉猛戳👈](https://www.bilibili.com/video/BV1xg41127TF/)
+## 视频教程
+- [👉IDEA插件-Easy Javadoc(代码注释)👈](https://www.bilibili.com/video/BV1pB4y147nX)，感谢[程序员郑清](https://space.bilibili.com/510086367)同学支持      
+- [👉IDEA实用的注释插件！Easy javadoc!👈](https://www.bilibili.com/video/BV15M411S7Mw)，感谢[Java不良帅](https://space.bilibili.com/1850252013)同学支持      
+- 结合Fast Request的视频教程，[👉巧妙结合Javadoc,IDEA插件之Fast Request+Easy Javadoc双剑合璧,放大招了👈](https://www.bilibili.com/video/BV1xg41127TF/)
 
+## 使用
 - 将**一闪一闪的光标**放置到想要生成注释的类、方法或者属性上，然后按下快捷键`ctrl \`或者`command \`，即可生成注释，你的方法名起的越贴切，注释越得体。  
 - 将**一闪一闪的光标**放置到想要生成注释的类上，然后按下快捷键`ctrl shift \`或者`command shift \`，即可批量生成文档注释。（Kdoc暂不支持）
 - **光标选中**要翻译的中文，然后按下快捷键`ctrl \`或者`command \`，即可自动变成英文，类似程序员起名神器。
@@ -82,6 +84,14 @@
 这是因为IDEA的默认格式化将文档标签顺序改了，如果非得要自定义的顺序的话，则需要改IDEA如下设置![关闭Javadoc格式化](./doc/closeJavadocFormat.png)
 
 ## 更新履历
+- v3.9.0 2024-04-28
+  - 重构默认模板
+  - 添加注释强制覆盖模式
+  - 微软翻译支持设置Ocp-Apim-Subscription-Region
+- v3.8.0 2024-03-21
+  - 支持设置和已有注释的合并模式
+- v3.7.1 2024-03-11
+  - 支持自定义模式下，和已有doc合并
 - v3.7.0 2024-02-06
   - 当已经有注释的时候，不会生成新注释覆盖掉老的
   - 修复中译英在有停用词的情况下，首字母大写的问题

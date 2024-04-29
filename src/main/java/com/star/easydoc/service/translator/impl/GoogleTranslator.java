@@ -41,7 +41,7 @@ public class GoogleTranslator extends AbstractTranslator {
             return Objects.requireNonNull(response).getJSONObject("data").getJSONArray("translations")
                 .getJSONObject(0).getString("translatedText");
         } catch (Exception e) {
-            LOGGER.error("请求谷歌翻译接口异常:请检查本地网络是否可连接外网(需翻墙),也有可能是国内网络不稳定,response=" + json, e);
+            LOGGER.error("google translate error: please check your appkey and network,response=" + json, e);
             return StringUtils.EMPTY;
         }
     }

@@ -82,7 +82,7 @@ public class HttpUtil {
             response = httpclient.execute(httpGet);
             result = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
         } catch (Exception e) {
-            LOGGER.warn("请求" + url + "异常", e);
+            LOGGER.warn("request " + url + " failed", e);
         } finally {
             HttpClientUtils.closeQuietly(response);
             HttpClientUtils.closeQuietly(httpclient);
@@ -117,7 +117,7 @@ public class HttpUtil {
         try {
             return URLEncoder.encode(word, StandardCharsets.UTF_8.name());
         } catch (UnsupportedEncodingException e) {
-            LOGGER.warn("url转义失败,word=" + word, e);
+            LOGGER.warn("url encode failed,word=" + word, e);
             return StringUtils.EMPTY;
         }
     }
@@ -158,7 +158,7 @@ public class HttpUtil {
             response = httpclient.execute(httpPost);
             result = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            LOGGER.warn("请求" + url + "异常", e);
+            LOGGER.warn("request " + url + " failed", e);
         } finally {
             HttpClientUtils.closeQuietly(response);
             HttpClientUtils.closeQuietly(httpclient);

@@ -82,6 +82,8 @@ public class CommonSettingsView {
     private JLabel googleKeyLabel;
     private JTextField chatGlmApiKeyTextField;
     private JLabel chatGlmApiKeyLabel;
+    private JTextField microsoftRegionTextField;
+    private JLabel microsoftRegionLabel;
     private JBList<Entry<String, String>> typeMapList;
     private JBList<String> projectList;
     private JBList<Entry<String, String>> projectTypeMapList;
@@ -102,19 +104,19 @@ public class CommonSettingsView {
                 return;
             }
             if (!file.exists()) {
-                LOGGER.error("文件不存在:{}", file.getPath());
+                LOGGER.error("file not exists:{}", file.getPath());
                 return;
             }
             try {
                 String json = FileUtils.readFileToString(new File(file.getPath()), StandardCharsets.UTF_8.name());
                 EasyDocConfig configuration = JSON.parseObject(json, EasyDocConfig.class);
                 if (configuration == null) {
-                    throw new IllegalArgumentException("文件中内容格式不正确，请确认是否是json格式");
+                    throw new IllegalArgumentException("json error, please make sure the file format is json.");
                 }
                 ServiceManager.getService(EasyDocConfigComponent.class).loadState(configuration);
                 refresh();
             } catch (Exception e) {
-                LOGGER.error("读取文件异常", e);
+                LOGGER.error("read file error", e);
             }
         });
 
@@ -126,14 +128,14 @@ public class CommonSettingsView {
                 return;
             }
             if (!file.exists()) {
-                LOGGER.error("文件夹不存在:{}", file.getPath());
+                LOGGER.error("folder not exists:{}", file.getPath());
                 return;
             }
             try {
                 File targetFile = new File(file.getPath() + "/easy_javadoc.json");
                 FileUtils.write(targetFile, JSON.toJSONString(this.config, Feature.PrettyFormat), StandardCharsets.UTF_8.name());
             } catch (Exception e) {
-                LOGGER.error("写入文件异常", e);
+                LOGGER.error("write file error", e);
             }
         });
 
@@ -161,7 +163,7 @@ public class CommonSettingsView {
                     dp.browse(URI.create("https://github.com/starcwang/easy_javadoc"));
                 }
             } catch (Exception e) {
-                LOGGER.error("打开链接失败:https://github.com/starcwang/easy_javadoc", e);
+                LOGGER.error("open url failed:https://github.com/starcwang/easy_javadoc", e);
             }
         });
 
@@ -172,7 +174,7 @@ public class CommonSettingsView {
                     dp.browse(URI.create("https://plugins.jetbrains.com/plugin/12977-easy-javadoc/reviews"));
                 }
             } catch (Exception e) {
-                LOGGER.error("打开链接失败:https://plugins.jetbrains.com/plugin/12977-easy-javadoc/reviews", e);
+                LOGGER.error("open url failed:https://plugins.jetbrains.com/plugin/12977-easy-javadoc/reviews", e);
             }
         });
 
@@ -200,6 +202,7 @@ public class CommonSettingsView {
             youdaoAppKeyLabel.setVisible(false);
             youdaoAppSecretLabel.setVisible(false);
             microsoftKeyLabel.setVisible(false);
+            microsoftRegionLabel.setVisible(false);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(false);
 
@@ -212,6 +215,7 @@ public class CommonSettingsView {
             youdaoAppKeyTextField.setVisible(false);
             youdaoAppSecretTextField.setVisible(false);
             microsoftKeyTextField.setVisible(false);
+            microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(false);
         } else if (Consts.TENCENT_TRANSLATOR.equals(selectedItem)) {
@@ -224,6 +228,7 @@ public class CommonSettingsView {
             youdaoAppKeyLabel.setVisible(false);
             youdaoAppSecretLabel.setVisible(false);
             microsoftKeyLabel.setVisible(false);
+            microsoftRegionLabel.setVisible(false);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(false);
 
@@ -236,6 +241,7 @@ public class CommonSettingsView {
             youdaoAppKeyTextField.setVisible(false);
             youdaoAppSecretTextField.setVisible(false);
             microsoftKeyTextField.setVisible(false);
+            microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(false);
         } else if (Consts.ALIYUN_TRANSLATOR.equals(selectedItem)) {
@@ -248,6 +254,7 @@ public class CommonSettingsView {
             youdaoAppKeyLabel.setVisible(false);
             youdaoAppSecretLabel.setVisible(false);
             microsoftKeyLabel.setVisible(false);
+            microsoftRegionLabel.setVisible(false);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(false);
 
@@ -260,6 +267,7 @@ public class CommonSettingsView {
             youdaoAppKeyTextField.setVisible(false);
             youdaoAppSecretTextField.setVisible(false);
             microsoftKeyTextField.setVisible(false);
+            microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(false);
         } else if (Consts.YOUDAO_AI_TRANSLATOR.equals(selectedItem)) {
@@ -272,6 +280,7 @@ public class CommonSettingsView {
             youdaoAppKeyLabel.setVisible(true);
             youdaoAppSecretLabel.setVisible(true);
             microsoftKeyLabel.setVisible(false);
+            microsoftRegionLabel.setVisible(false);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(false);
 
@@ -284,6 +293,7 @@ public class CommonSettingsView {
             youdaoAppKeyTextField.setVisible(true);
             youdaoAppSecretTextField.setVisible(true);
             microsoftKeyTextField.setVisible(false);
+            microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(false);
         } else if (Consts.MICROSOFT_TRANSLATOR.equals(selectedItem)) {
@@ -296,6 +306,7 @@ public class CommonSettingsView {
             youdaoAppKeyLabel.setVisible(false);
             youdaoAppSecretLabel.setVisible(false);
             microsoftKeyLabel.setVisible(true);
+            microsoftRegionLabel.setVisible(true);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(false);
 
@@ -308,6 +319,7 @@ public class CommonSettingsView {
             youdaoAppKeyTextField.setVisible(false);
             youdaoAppSecretTextField.setVisible(false);
             microsoftKeyTextField.setVisible(true);
+            microsoftRegionTextField.setVisible(true);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(false);
         } else if (Consts.GOOGLE_TRANSLATOR.equals(selectedItem)) {
@@ -320,6 +332,7 @@ public class CommonSettingsView {
             youdaoAppKeyLabel.setVisible(false);
             youdaoAppSecretLabel.setVisible(false);
             microsoftKeyLabel.setVisible(false);
+            microsoftRegionLabel.setVisible(false);
             googleKeyLabel.setVisible(true);
             chatGlmApiKeyLabel.setVisible(false);
 
@@ -332,6 +345,7 @@ public class CommonSettingsView {
             youdaoAppKeyTextField.setVisible(false);
             youdaoAppSecretTextField.setVisible(false);
             microsoftKeyTextField.setVisible(false);
+            microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(true);
             chatGlmApiKeyTextField.setVisible(false);
         } else if (Consts.CHATGLM_GPT.equals(selectedItem)) {
@@ -368,6 +382,7 @@ public class CommonSettingsView {
             youdaoAppKeyLabel.setVisible(false);
             youdaoAppSecretLabel.setVisible(false);
             microsoftKeyLabel.setVisible(false);
+            microsoftRegionLabel.setVisible(false);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(false);
 
@@ -380,6 +395,7 @@ public class CommonSettingsView {
             youdaoAppKeyTextField.setVisible(false);
             youdaoAppSecretTextField.setVisible(false);
             microsoftKeyTextField.setVisible(false);
+            microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(false);
         }
@@ -483,6 +499,7 @@ public class CommonSettingsView {
         setYoudaoAppKeyTextField(config.getYoudaoAppKey());
         setYoudaoAppSecretTextField(config.getYoudaoAppSecret());
         setMicrosoftKeyTextField(config.getMicrosoftKey());
+        setMicrosoftRegionTextField(config.getMicrosoftRegion());
         setGoogleKeyTextField(config.getGoogleKey());
         setChatGlmApiKeyTextField(config.getChatGlmApiKey());
         refreshWordMap();
@@ -603,8 +620,16 @@ public class CommonSettingsView {
         return microsoftKeyTextField;
     }
 
+    public JTextField getMicrosoftRegionTextField() {
+        return microsoftRegionTextField;
+    }
+
     public void setMicrosoftKeyTextField(String microsoftKey) {
         this.microsoftKeyTextField.setText(microsoftKey);
+    }
+
+    public void setMicrosoftRegionTextField(String microsoftRegion) {
+        this.microsoftRegionTextField.setText(microsoftRegion);
     }
 
     public JTextField getGoogleKeyTextField() {

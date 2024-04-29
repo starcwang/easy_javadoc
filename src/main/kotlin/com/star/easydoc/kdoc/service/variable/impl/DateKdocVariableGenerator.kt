@@ -16,7 +16,7 @@ class DateKdocVariableGenerator : AbstractKdocVariableGenerator() {
         return try {
             LocalDateTime.now().format(DateTimeFormatter.ofPattern(config.kdocDateFormat))
         } catch (e: Exception) {
-            LOGGER.error("您输入的日期格式不正确，请到配置中修改类相关日期格式！", e)
+            LOGGER.error("date format error", e)
             LocalDateTime.now().format(DateTimeFormatter.ofPattern(Consts.DEFAULT_DATE_FORMAT))
         }
     }

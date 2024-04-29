@@ -60,7 +60,7 @@ public class WriterService {
                     }
                 });
         } catch (Throwable throwable) {
-            LOGGER.error("写入错误", throwable);
+            LOGGER.error("write code error", throwable);
         }
     }
 
@@ -76,7 +76,7 @@ public class WriterService {
                     editor.getSelectionModel().setSelection(start, start + text.length());
                 });
         } catch (Throwable throwable) {
-            LOGGER.error("写入错误", throwable);
+            LOGGER.error("write code error", throwable);
         }
     }
 

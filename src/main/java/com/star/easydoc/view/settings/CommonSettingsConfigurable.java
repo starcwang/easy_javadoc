@@ -70,6 +70,9 @@ public class CommonSettingsConfigurable implements Configurable {
         if (!Objects.equals(config.getMicrosoftKey(), view.getMicrosoftKeyTextField().getText())) {
             return true;
         }
+        if (!Objects.equals(config.getMicrosoftRegion(), view.getMicrosoftRegionTextField().getText())) {
+            return true;
+        }
         if (!Objects.equals(config.getGoogleKey(), view.getGoogleKeyTextField().getText())) {
             return true;
         }
@@ -91,6 +94,7 @@ public class CommonSettingsConfigurable implements Configurable {
         config.setYoudaoAppKey(view.getYoudaoAppKeyTextField().getText());
         config.setYoudaoAppSecret(view.getYoudaoAppSecretTextField().getText());
         config.setMicrosoftKey(view.getMicrosoftKeyTextField().getText());
+        config.setMicrosoftRegion(view.getMicrosoftRegionTextField().getText());
         config.setGoogleKey(view.getGoogleKeyTextField().getText());
         config.setChatGlmApiKey(view.getChatGlmApiKeyTextField().getText());
         if (config.getWordMap() == null) {

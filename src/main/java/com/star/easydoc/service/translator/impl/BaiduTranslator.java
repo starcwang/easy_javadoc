@@ -54,7 +54,7 @@ public class BaiduTranslator extends AbstractTranslator {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         } catch (Exception e) {
-            LOGGER.error("请求百度翻译接口异常:请检查本地网络是否可连接外网,也有可能被百度限流,response=" + json, e);
+            LOGGER.error("baidu translate error: please check your key and network,response=" + json, e);
         }
         return result;
     }

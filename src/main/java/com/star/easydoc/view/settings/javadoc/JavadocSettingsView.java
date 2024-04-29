@@ -5,7 +5,6 @@ import javax.swing.*;
 import com.intellij.openapi.components.ServiceManager;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.config.EasyDocConfigComponent;
-import gherkin.lexer.Tr;
 import org.apache.commons.lang3.BooleanUtils;
 
 /**
@@ -35,6 +34,8 @@ public class JavadocSettingsView {
     private JRadioButton docFirstRadioButton;
     private JRadioButton onlyTranslateRadioButton;
     private JLabel docPriorityLabel;
+    private JComboBox<?> coverModeBox;
+    private JLabel coverModeLabel;
 
     public JavadocSettingsView() {
         simpleDocButton.addChangeListener(e -> {
@@ -96,6 +97,8 @@ public class JavadocSettingsView {
                 docFirstRadioButton.setSelected(true);
             }
         });
+
+        coverModeBox.setSelectedItem(config.getCoverMode());
     }
 
     private void createUIComponents() {
@@ -126,6 +129,7 @@ public class JavadocSettingsView {
         setAuthorTextField(config.getAuthor());
         setDateFormatTextField(config.getDateFormat());
         setDocPriority(config.getDocPriority());
+        coverModeBox.setSelectedItem(config.getCoverMode());
     }
 
     public JComponent getComponent() {
@@ -174,6 +178,14 @@ public class JavadocSettingsView {
 
     public void setMethodReturnDocTypeButton(boolean selecetd) {
         methodReturnDocTypeButton.setSelected(selecetd);
+    }
+
+    public JComboBox<?> getCoverModeBox() {
+        return coverModeBox;
+    }
+
+    public void setCoverModeBox(JComboBox<?> coverModeBox) {
+        this.coverModeBox = coverModeBox;
     }
 
     public String getMethodReturnType() {

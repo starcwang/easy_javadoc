@@ -38,8 +38,16 @@ public class EasyDocConfig {
     /** 仅翻译 */
     public static final String ONLY_TRANSLATE = "onlyTranslate";
 
+    /** 覆盖模式 */
+    public static final String COVER_MODE_IGNORE = "忽略";
+    public static final String COVER_MODE_MERGE = "智能合并";
+    public static final String COVER_MODE_FORCE = "强制覆盖";
+
     /** 版本 */
     private String version;
+
+    /** 覆盖模式 */
+    private String coverMode = COVER_MODE_MERGE;
 
     /**
      * 作者
@@ -115,6 +123,8 @@ public class EasyDocConfig {
      * 微软key
      */
     private String microsoftKey;
+    /** Microsoft 区域 */
+    private String microsoftRegion;
     /**
      * 单词映射
      */
@@ -623,5 +633,21 @@ public class EasyDocConfig {
 
     public void setChatGlmApiKey(String chatGlmApiKey) {
         this.chatGlmApiKey = chatGlmApiKey;
+    }
+
+    public String getCoverMode() {
+        return coverMode;
+    }
+
+    public void setCoverMode(String coverMode) {
+        this.coverMode = coverMode;
+    }
+
+    public String getMicrosoftRegion() {
+        return microsoftRegion;
+    }
+
+    public void setMicrosoftRegion(String microsoftRegion) {
+        this.microsoftRegion = microsoftRegion;
     }
 }

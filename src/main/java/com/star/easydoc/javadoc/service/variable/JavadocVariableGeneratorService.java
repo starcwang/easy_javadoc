@@ -115,8 +115,8 @@ public class JavadocVariableGeneratorService {
                 try {
                     return new GroovyShell(new Binding(innerVariableMap)).evaluate(value.getValue()).toString();
                 } catch (Exception e) {
-                    LOGGER.error(String.format("自定义变量%s的groovy脚本执行异常，请检查语法是否正确且有正确返回值:%s", placeholder,
-                        value.getValue()), e);
+                    LOGGER.error(String.format("groovy %s execute error, please check the syntax and return values:%s",
+                        placeholder, value.getValue()), e);
                     return value.getValue();
                 }
             default:
