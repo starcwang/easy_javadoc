@@ -46,6 +46,9 @@ public class ParamsVariableGenerator extends AbstractVariableGenerator {
         if (docComment != null) {
             PsiDocTag[] paramsDocArray = docComment.findTagsByName("param");
             for (PsiDocTag psiDocTag : paramsDocArray) {
+                if (psiDocTag.getDataElements().length < 1) {
+                    continue;
+                }
                 psiDocTagMap.put(psiDocTag.getDataElements()[0].getText(), psiDocTag);
             }
         }
