@@ -9,7 +9,7 @@ apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'kotlin'
 
 group 'com.star.easydoc'
-version '4.0.1'
+version '4.0.2'
 
 repositories {
     mavenCentral()

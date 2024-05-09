@@ -91,6 +91,7 @@ public class FieldDocGenerator extends AbstractDocGenerator {
         map.put("fieldName", psiField.getName());
         map.put("fieldType", psiField.getType().getCanonicalText());
         map.put("branch", VcsUtil.getCurrentBranch(psiField.getProject()));
+        map.put("projectName", psiField.getProject().getName());
         return map;
     }
 

@@ -91,6 +91,7 @@ public class ClassDocGenerator extends AbstractDocGenerator {
         map.put("className", psiClass.getQualifiedName());
         map.put("simpleClassName", psiClass.getName());
         map.put("branch", VcsUtil.getCurrentBranch(psiClass.getProject()));
+        map.put("projectName", psiClass.getProject().getName());
         return map;
     }
 

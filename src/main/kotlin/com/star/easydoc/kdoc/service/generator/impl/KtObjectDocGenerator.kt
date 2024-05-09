@@ -57,6 +57,7 @@ class KtObjectDocGenerator : DocGenerator {
             "author" to config.kdocAuthor,
             "className" to psiObject.fqName,
             "simpleClassName" to psiObject.name,
+            "projectName" to psiObject.project.name,
             "branch" to VcsUtil.getCurrentBranch(psiObject.project)
         )
     }

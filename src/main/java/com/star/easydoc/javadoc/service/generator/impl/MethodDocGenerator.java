@@ -99,6 +99,7 @@ public class MethodDocGenerator extends AbstractDocGenerator {
             Arrays.stream(psiMethod.getParameterList().getParameters()).map(PsiParameter::getName)
                 .toArray(String[]::new));
         map.put("branch", VcsUtil.getCurrentBranch(psiMethod.getProject()));
+        map.put("projectName", psiMethod.getProject().getName());
         return map;
     }
 

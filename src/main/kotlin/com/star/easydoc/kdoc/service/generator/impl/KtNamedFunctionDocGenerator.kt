@@ -82,6 +82,7 @@ class KtNamedFunctionDocGenerator : DocGenerator {
             .toTypedArray()
         map["methodParamNames"] = psiMethod.valueParameters.map { it.name }.toTypedArray()
         map["branch"] = VcsUtil.getCurrentBranch(psiMethod.project)
+        map["projectName"] = psiMethod.project.name
         return map
     }
 }

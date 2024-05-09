@@ -74,6 +74,7 @@ class KtClassDocGenerator : DocGenerator {
         map["className"] = psiClass.fqName
         map["simpleClassName"] = psiClass.name
         map["branch"] = VcsUtil.getCurrentBranch(psiClass.project)
+        map["projectName"] = psiClass.project.name
         return map
     }
 
