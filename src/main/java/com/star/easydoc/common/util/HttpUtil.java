@@ -57,6 +57,17 @@ public class HttpUtil {
      * get请求
      *
      * @param url url
+     * @param timeout 超时
+     * @return {@link String}
+     */
+    public static String get(String url, int timeout) {
+        return get(url, timeout, timeout);
+    }
+
+    /**
+     * get请求
+     *
+     * @param url url
      * @param connectTimeout 连接超时
      * @param socketTimeout 读超时
      * @return {@link String}
@@ -95,16 +106,17 @@ public class HttpUtil {
      *
      * @param url url
      * @param params 参数
+     * @param timeout 超时
      * @return {@link String}
      */
-    public static String get(String url, Map<String, Object> params) {
+    public static String get(String url, Map<String, Object> params, int timeout) {
         if (StringUtils.isBlank(url)) {
             return null;
         }
         String paramStr = params.entrySet().stream()
             .map(e -> e.getKey() + "=" + encode(String.valueOf(e.getValue()))).collect(Collectors.joining("&"));
         url = url.contains("?") ? url + "&" + paramStr : url + "?" + paramStr;
-        return get(url);
+        return get(url, timeout);
     }
 
     /**

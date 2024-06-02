@@ -14,10 +14,10 @@
     ]]></description>
 
     <change-notes><![CDATA[
-      <h3>v4.0.2</h3>
+      <h3>v4.1.0</h3>
       <ul>
-          <li>add custom param: projectName</li>
-          <li>delete youdao translate</li>
+          <li>add google free translator</li>
+          <li>support timeout settings</li>
       </ul>
       <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
     ]]>

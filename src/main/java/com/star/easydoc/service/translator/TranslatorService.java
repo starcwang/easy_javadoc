@@ -22,6 +22,7 @@ import com.star.easydoc.service.gpt.impl.ChatGlmGptSupplier;
 import com.star.easydoc.service.translator.impl.AliyunTranslator;
 import com.star.easydoc.service.translator.impl.BaiduTranslator;
 import com.star.easydoc.service.translator.impl.ChatGlmGptTranslator;
+import com.star.easydoc.service.translator.impl.GoogleFreeTranslator;
 import com.star.easydoc.service.translator.impl.GoogleTranslator;
 import com.star.easydoc.service.translator.impl.JinshanTranslator;
 import com.star.easydoc.service.translator.impl.MicrosoftFreeTranslator;
@@ -66,6 +67,7 @@ public class TranslatorService {
                 .put(Consts.MICROSOFT_TRANSLATOR, new MicrosoftTranslator().init(config))
                 .put(Consts.MICROSOFT_FREE_TRANSLATOR, new MicrosoftFreeTranslator().init(config))
                 .put(Consts.GOOGLE_TRANSLATOR, new GoogleTranslator().init(config))
+                .put(Consts.GOOGLE_FREE_TRANSLATOR, new GoogleFreeTranslator().init(config))
                 .put(Consts.SIMPLE_SPLITTER, new SimpleSplitterTranslator().init(config))
 
                 // ai

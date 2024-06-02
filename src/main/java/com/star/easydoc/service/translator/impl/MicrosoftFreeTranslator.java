@@ -54,7 +54,7 @@ public class MicrosoftFreeTranslator extends AbstractTranslator {
         String thisToken = null;
         for (int i = 1; i <= RETRY_TIMES; i++) {
             try {
-                thisToken = HttpUtil.get(TOKEN_URL, 1000, 3000);
+                thisToken = HttpUtil.get(TOKEN_URL, getConfig().getTimeout());
                 if (thisToken != null && !thisToken.isEmpty()) {
                     break;
                 }
@@ -107,7 +107,7 @@ public class MicrosoftFreeTranslator extends AbstractTranslator {
             body.add(textObject);
             Map<String, String> headers = Maps.newHashMap();
             headers.put("Authorization", "Bearer " + getToken());
-            json = HttpUtil.postJson(url, headers, JSON.toJSONString(body));
+            json = HttpUtil.postJson(url, headers, JSON.toJSONString(body), getConfig().getTimeout());
             JSONArray response = JSON.parseArray(json);
             return Objects.requireNonNull(response).getJSONObject(0).getJSONArray("translations").getJSONObject(0)
                 .getString("text");

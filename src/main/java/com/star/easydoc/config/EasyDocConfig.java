@@ -73,11 +73,18 @@ public class EasyDocConfig {
 
     /** 注释优先级 */
     private String docPriority = DOC_FIRST;
+    /** 默认超时 */
+    public static final int DEFAULT_TIMEOUT = 1000;
 
     /**
      * 翻译方式
      */
     private String translator = Consts.YOUDAO_TRANSLATOR;
+
+    /**
+     * 翻译方式
+     */
+    private int timeout = DEFAULT_TIMEOUT;
     /**
      * 百度app id
      */
@@ -168,6 +175,7 @@ public class EasyDocConfig {
         docPriority = DOC_FIRST;
         kdocParamType = LINK_PARAM_TYPE;
         translator = Consts.YOUDAO_TRANSLATOR;
+        timeout = DEFAULT_TIMEOUT;
         appId = null;
         token = null;
         secretKey = null;
@@ -649,5 +657,13 @@ public class EasyDocConfig {
 
     public void setMicrosoftRegion(String microsoftRegion) {
         this.microsoftRegion = microsoftRegion;
+    }
+
+    public int getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
     }
 }

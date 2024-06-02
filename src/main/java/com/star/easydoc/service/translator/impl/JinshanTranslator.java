@@ -22,7 +22,8 @@ public class JinshanTranslator extends AbstractTranslator {
     @Override
     public String translateEn2Ch(String text) {
         try {
-            JinshanResponse response = JSON.parseObject(HttpUtil.get(String.format(URL, HttpUtil.encode(text))), JinshanResponse.class);
+            JinshanResponse response = JSON.parseObject(HttpUtil.get(String.format(URL, HttpUtil.encode(text)),
+                    getConfig().getTimeout()), JinshanResponse.class);
             return Objects.requireNonNull(response).getSymbols().get(0).getParts().get(0).getMeans().get(0);
         } catch (Exception ignore) {
             return StringUtils.EMPTY;

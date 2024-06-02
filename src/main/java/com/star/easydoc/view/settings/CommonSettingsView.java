@@ -84,6 +84,8 @@ public class CommonSettingsView {
     private JLabel chatGlmApiKeyLabel;
     private JTextField microsoftRegionTextField;
     private JLabel microsoftRegionLabel;
+    private JTextField timeoutTextField;
+    private JLabel timeoutLabel;
     private JBList<Entry<String, String>> typeMapList;
     private JBList<String> projectList;
     private JBList<Entry<String, String>> projectTypeMapList;
@@ -490,6 +492,7 @@ public class CommonSettingsView {
 
     public void refresh() {
         setTranslatorBox(config.getTranslator());
+        setTimeout(config.getTimeout());
         setAppIdTextField(config.getAppId());
         setTokenTextField(config.getToken());
         setSecretIdTextField(config.getSecretId());
@@ -646,5 +649,13 @@ public class CommonSettingsView {
 
     public void setChatGlmApiKeyTextField(String apiKey) {
         this.chatGlmApiKeyTextField.setText(apiKey);
+    }
+
+    public JTextField getTimeoutTextField() {
+        return timeoutTextField;
+    }
+
+    public void setTimeout(int timeout) {
+        this.timeoutTextField.setText(String.valueOf(timeout));
     }
 }

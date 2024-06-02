@@ -51,7 +51,7 @@ public class YoudaoAiTranslator extends AbstractTranslator {
         params.put("sign", sign);
         String json = null;
         try {
-            json = HttpUtil.get(YOUDAO_URL, params);
+            json = HttpUtil.get(YOUDAO_URL, params, getConfig().getTimeout());
             YoudaoAiResponse response = JSON.parseObject(json, YoudaoAiResponse.class);
             return Objects.requireNonNull(response).getTranslation().get(0);
         } catch (Exception e) {

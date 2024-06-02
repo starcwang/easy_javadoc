@@ -43,6 +43,9 @@ public class CommonSettingsConfigurable implements Configurable {
         if (!Objects.equals(config.getTranslator(), view.getTranslatorBox().getSelectedItem())) {
             return true;
         }
+        if (!Objects.equals(String.valueOf(config.getTimeout()), view.getTimeoutTextField().getText())) {
+            return true;
+        }
         if (!Objects.equals(config.getAppId(), view.getAppIdTextField().getText())) {
             return true;
         }
@@ -154,6 +157,11 @@ public class CommonSettingsConfigurable implements Configurable {
                 throw new ConfigurationException("apiKey不能为空");
             }
         }
+        if (StringUtils.isBlank(view.getTimeoutTextField().getText())
+            || !view.getTimeoutTextField().getText().matches("^[1-9][0-9]*$")) {
+            throw new ConfigurationException("超时时间必须为数字");
+        }
+        config.setTimeout(Integer.parseInt(view.getTimeoutTextField().getText()));
     }
 
     @Override

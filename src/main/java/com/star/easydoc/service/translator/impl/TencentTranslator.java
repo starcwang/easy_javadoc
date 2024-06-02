@@ -58,7 +58,7 @@ public class TencentTranslator extends AbstractTranslator {
                 String str2sign = getStringToSign("GET", "tmt.tencentcloudapi.com", params);
                 String signature = sign(str2sign, getConfig().getSecretKey(), "HmacSHA1");
                 params.put("Signature", signature);
-                json = HttpUtil.get("https://tmt.tencentcloudapi.com", params);
+                json = HttpUtil.get("https://tmt.tencentcloudapi.com", params, getConfig().getTimeout());
                 TencentResult result = JSON.parseObject(json, TencentResult.class);
                 response = result == null ? null : result.getResponse();
                 if (response == null || (response.getError() != null && "RequestLimitExceeded".equals(

@@ -148,7 +148,7 @@ public class AliyunTranslator extends AbstractTranslator {
         headers.put("x-acs-signature-method", "HMAC-SHA1");
         headers.put("x-acs-version", "2019-01-02");  // 版本可选
 
-        return HttpUtil.post(url, headers, body);
+        return HttpUtil.post(url, headers, body, getConfig().getTimeout());
     }
 
     /**

@@ -3,6 +3,7 @@ package com.star.easydoc.service.translator.impl;
 import java.util.Objects;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 
 import com.intellij.openapi.diagnostic.Logger;
@@ -15,13 +16,13 @@ import org.apache.commons.lang3.StringUtils;
  * @author wangchao
  * @date 2023/04/08
  */
-public class GoogleTranslator extends AbstractTranslator {
-    private static final Logger LOGGER = Logger.getInstance(GoogleTranslator.class);
+public class GoogleFreeTranslator extends AbstractTranslator {
+    private static final Logger LOGGER = Logger.getInstance(GoogleFreeTranslator.class);
 
     private static final String EN2CH_URL
-        = "https://translation.googleapis.com/language/translate/v2?q=%s&source=en&target=zh&key=%s&format=text";
+        = "https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&sl=en&tl=zh-CN&q=%s";
     private static final String CH2EN_URL
-        = "https://translation.googleapis.com/language/translate/v2?q=%s&source=zh&target=en&key=%s&format=text";
+        = "https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&sl=zh-CN&tl=en&q=%s";
 
     @Override
     public String translateEn2Ch(String text) {
@@ -36,13 +37,11 @@ public class GoogleTranslator extends AbstractTranslator {
     private String translate(String url, String text) {
         String json = null;
         try {
-            json = HttpUtil.get(String.format(url, HttpUtil.encode(text), getConfig().getGoogleKey()),
-                getConfig().getTimeout());
-            JSONObject response = JSON.parseObject(json);
-            return Objects.requireNonNull(response).getJSONObject("data").getJSONArray("translations")
-                .getJSONObject(0).getString("translatedText");
+            json = HttpUtil.get(String.format(url, HttpUtil.encode(text)), getConfig().getTimeout());
+            JSONArray jsonArray = JSON.parseArray(json);
+            return jsonArray.getJSONArray(0).getJSONArray(0).getString(0);
         } catch (Exception e) {
-            LOGGER.error("google translate error: please check your appkey and network,response=" + json, e);
+            LOGGER.error("google free translate error: please check your network,response=" + json, e);
             return StringUtils.EMPTY;
         }
     }

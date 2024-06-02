@@ -42,7 +42,8 @@ public class BaiduTranslator extends AbstractTranslator {
                 String salt = RandomStringUtils.randomNumeric(16);
                 String sign = DigestUtils.md5Hex(getConfig().getAppId() + text + salt + getConfig().getToken());
                 String eText = HttpUtil.encode(text);
-                json = HttpUtil.get(String.format(URL, getConfig().getAppId(), salt, sign, eText));
+                json = HttpUtil.get(String.format(URL, getConfig().getAppId(), salt, sign, eText),
+                    getConfig().getTimeout());
                 BaiduResponse response = JSON.parseObject(json, BaiduResponse.class);
                 if (response == null || "54003".equals(response.getErrorCode())) {
                     Thread.sleep(500);

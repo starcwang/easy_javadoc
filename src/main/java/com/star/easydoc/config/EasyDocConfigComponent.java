@@ -38,6 +38,7 @@ public class EasyDocConfigComponent implements PersistentStateComponent<EasyDocC
             config.setWordMap(Maps.newTreeMap());
             config.setProjectWordMap(Maps.newTreeMap());
             config.setTranslator(Consts.YOUDAO_TRANSLATOR);
+            config.setTimeout(EasyDocConfig.DEFAULT_TIMEOUT);
             config.setClassTemplateConfig(new TemplateConfig());
             config.setKdocClassTemplateConfig(new TemplateConfig());
             config.setMethodTemplateConfig(new TemplateConfig());
