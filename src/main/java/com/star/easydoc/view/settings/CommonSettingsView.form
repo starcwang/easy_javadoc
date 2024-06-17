@@ -63,7 +63,9 @@
                 <item value="微软免费翻译"/>
                 <item value="谷歌翻译"/>
                 <item value="谷歌免费翻译"/>
-                <item value="智谱清言"/>
+                <item value="智谱清言4"/>
+                <item value="智谱清言3"/>
+                <item value="DeepSeek-Coder-V2"/>
                 <item value="仅单词分割"/>
                 <item value="关闭（只使用自定义翻译）"/>
               </model>

@@ -1,11 +1,11 @@
 package com.star.easydoc.service.translator.impl;
 
 /**
- * 微软免费翻译
+ * deepseek-coder-v2
  *
  * @author wangchao
  * @date 2023/09/13
  */
-public class ChatGlmGptTranslator extends MicrosoftFreeTranslator {
+public class DeepSeekCoderV2Translator extends MicrosoftFreeTranslator {
 
 }

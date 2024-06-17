@@ -72,7 +72,7 @@ public class MethodDocGenerator extends AbstractDocGenerator {
     private String generateWithAI(PsiElement psiElement) {
         String prompt;
         try {
-            prompt = IOUtils.toString(ResourceUtil.getResource(getClass(), "prompts/chatglm", "method.prompt"));
+            prompt = IOUtils.toString(ResourceUtil.getResource(getClass(), "prompts/ai", "method.prompt"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

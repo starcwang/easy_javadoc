@@ -71,7 +71,7 @@ public class FieldDocGenerator extends AbstractDocGenerator {
     private String generateWithAI(PsiElement psiElement) {
         String prompt;
         try {
-            prompt = IOUtils.toString(ResourceUtil.getResource(getClass(), "prompts/chatglm", "field.prompt"));
+            prompt = IOUtils.toString(ResourceUtil.getResource(getClass(), "prompts/ai", "field.prompt"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

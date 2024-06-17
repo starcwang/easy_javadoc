@@ -18,19 +18,7 @@ import com.star.easydoc.common.Consts;
 import com.star.easydoc.common.util.CollectionUtil;
 import com.star.easydoc.common.util.StringUtil;
 import com.star.easydoc.config.EasyDocConfig;
-import com.star.easydoc.service.gpt.impl.ChatGlmGptSupplier;
-import com.star.easydoc.service.translator.impl.AliyunTranslator;
-import com.star.easydoc.service.translator.impl.BaiduTranslator;
-import com.star.easydoc.service.translator.impl.ChatGlmGptTranslator;
-import com.star.easydoc.service.translator.impl.GoogleFreeTranslator;
-import com.star.easydoc.service.translator.impl.GoogleTranslator;
-import com.star.easydoc.service.translator.impl.JinshanTranslator;
-import com.star.easydoc.service.translator.impl.MicrosoftFreeTranslator;
-import com.star.easydoc.service.translator.impl.MicrosoftTranslator;
-import com.star.easydoc.service.translator.impl.SimpleSplitterTranslator;
-import com.star.easydoc.service.translator.impl.TencentTranslator;
-import com.star.easydoc.service.translator.impl.YoudaoAiTranslator;
-import com.star.easydoc.service.translator.impl.YoudaoTranslator;
+import com.star.easydoc.service.translator.impl.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -71,7 +59,9 @@ public class TranslatorService {
                 .put(Consts.SIMPLE_SPLITTER, new SimpleSplitterTranslator().init(config))
 
                 // ai
-                .put(Consts.CHATGLM_GPT, new ChatGlmGptTranslator().init(config))
+                .put(Consts.CHATGLM_GPT_4, new ChatGlm4GptTranslator().init(config))
+                .put(Consts.CHATGLM_GPT_3, new ChatGlm4GptTranslator().init(config))
+                .put(Consts.DEEP_SEEK_CODER_V2, new DeepSeekCoderV2Translator().init(config))
                 .build();
             this.config = config;
         }

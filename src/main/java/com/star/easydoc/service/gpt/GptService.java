@@ -6,7 +6,9 @@ import java.util.Objects;
 import com.google.common.collect.ImmutableMap;
 import com.star.easydoc.common.Consts;
 import com.star.easydoc.config.EasyDocConfig;
-import com.star.easydoc.service.gpt.impl.ChatGlmGptSupplier;
+import com.star.easydoc.service.gpt.impl.ChatGlm3GptSupplier;
+import com.star.easydoc.service.gpt.impl.ChatGlm4GptSupplier;
+import com.star.easydoc.service.gpt.impl.DeepSeekCoderV2GptSupplier;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -33,7 +35,9 @@ public class GptService {
                 return;
             }
             gptSupplierMap = ImmutableMap.<String, GptSupplier>builder()
-                .put(Consts.CHATGLM_GPT, new ChatGlmGptSupplier().init(config))
+                .put(Consts.CHATGLM_GPT_4, new ChatGlm4GptSupplier().init(config))
+                .put(Consts.CHATGLM_GPT_3, new ChatGlm3GptSupplier().init(config))
+                .put(Consts.DEEP_SEEK_CODER_V2, new DeepSeekCoderV2GptSupplier().init(config))
                 .build();
             this.config = config;
         }

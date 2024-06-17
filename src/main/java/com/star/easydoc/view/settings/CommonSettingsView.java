@@ -350,7 +350,10 @@ public class CommonSettingsView {
             microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(true);
             chatGlmApiKeyTextField.setVisible(false);
-        } else if (Consts.CHATGLM_GPT.equals(selectedItem)) {
+        } else if (Consts.CHATGLM_GPT_4.equals(selectedItem)
+                || Consts.CHATGLM_GPT_3.equals(selectedItem)
+                || Consts.DEEP_SEEK_CODER_V2.equals(selectedItem)
+        ) {
             appIdLabel.setVisible(false);
             tokenLabel.setVisible(false);
             secretIdLabel.setVisible(false);

@@ -152,7 +152,17 @@ public class CommonSettingsConfigurable implements Configurable {
                 throw new ConfigurationException("googleKey不能为空");
             }
         }
-        if (Consts.CHATGLM_GPT.equals(config.getTranslator())) {
+        if (Consts.CHATGLM_GPT_4.equals(config.getTranslator())) {
+            if (StringUtils.isBlank(config.getChatGlmApiKey())) {
+                throw new ConfigurationException("apiKey不能为空");
+            }
+        }
+        if (Consts.CHATGLM_GPT_3.equals(config.getTranslator())) {
+            if (StringUtils.isBlank(config.getChatGlmApiKey())) {
+                throw new ConfigurationException("apiKey不能为空");
+            }
+        }
+        if (Consts.DEEP_SEEK_CODER_V2.equals(config.getTranslator())) {
             if (StringUtils.isBlank(config.getChatGlmApiKey())) {
                 throw new ConfigurationException("apiKey不能为空");
             }
