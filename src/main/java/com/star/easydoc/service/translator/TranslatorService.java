@@ -59,9 +59,7 @@ public class TranslatorService {
                 .put(Consts.SIMPLE_SPLITTER, new SimpleSplitterTranslator().init(config))
 
                 // ai
-                .put(Consts.CHATGLM_GPT_4, new ChatGlm4GptTranslator().init(config))
-                .put(Consts.CHATGLM_GPT_3, new ChatGlm4GptTranslator().init(config))
-                .put(Consts.DEEP_SEEK_CODER_V2, new DeepSeekCoderV2Translator().init(config))
+                .put(Consts.OPENAI_COMPATIBLE, new OpenAiCompatibleTranslator().init(config))
                 .build();
             this.config = config;
         }

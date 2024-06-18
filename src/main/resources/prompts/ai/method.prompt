@@ -8,6 +8,8 @@
 - 不要返回你建议的内容，只返回javadoc注释
 - 不要返回不确定的信息
 - 注释尽量简洁明了
+- 作者是 {author}
+- 当前时间是 {date}
 例如：
 给定代码：
 public int add(Integer a, Integer b) throws IllegalArgumentException {
@@ -24,6 +26,8 @@ public int add(Integer a, Integer b) throws IllegalArgumentException {
  * @param b 第二个参数
  * @return 两个参数的和
  * @throws IllegalArgumentException 参数为空时抛出异常
+ * @author 作者
+ * @date 2024/04/29
  */
 
 下面是代码

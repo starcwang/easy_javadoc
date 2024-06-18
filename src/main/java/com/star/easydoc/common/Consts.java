@@ -30,11 +30,11 @@ public class Consts {
     public static final Set<String> ENABLE_TRANSLATOR_SET = ImmutableSet.of(Consts.YOUDAO_TRANSLATOR,
         Consts.BAIDU_TRANSLATOR, Consts.TENCENT_TRANSLATOR, Consts.ALIYUN_TRANSLATOR, Consts.YOUDAO_AI_TRANSLATOR,
         Consts.MICROSOFT_TRANSLATOR, Consts.MICROSOFT_FREE_TRANSLATOR, Consts.GOOGLE_TRANSLATOR,
-        Consts.GOOGLE_FREE_TRANSLATOR, Consts.CHATGLM_GPT_4,Consts.CHATGLM_GPT_3, Consts.DEEP_SEEK_CODER_V2, Consts.SIMPLE_SPLITTER, Consts.CLOSE_TRANSLATOR);
+        Consts.GOOGLE_FREE_TRANSLATOR, Consts.OPENAI_COMPATIBLE, Consts.SIMPLE_SPLITTER, Consts.CLOSE_TRANSLATOR);
 
     /** AI翻译集合 */
     public static final Set<String> AI_TRANSLATOR =
-            ImmutableSet.of(Consts.CHATGLM_GPT_4, Consts.CHATGLM_GPT_3, Consts.DEEP_SEEK_CODER_V2);
+            ImmutableSet.of(Consts.OPENAI_COMPATIBLE);
 
     /**
      * 腾讯翻译
@@ -77,17 +77,10 @@ public class Consts {
      */
     public static final String GOOGLE_FREE_TRANSLATOR = "谷歌免费翻译";
     /**
-     * 智谱清言4
+     * openai兼容
      */
-    public static final String CHATGLM_GPT_4 = "智谱清言4";
-    /**
-     * 智谱清言3
-     */
-    public static final String CHATGLM_GPT_3 = "智谱清言3";
-    /**
-     * DeepSeek-Coder-V2
-     */
-    public static final String DEEP_SEEK_CODER_V2 = "DeepSeek-Coder-V2";
+    public static final String OPENAI_COMPATIBLE = "openai兼容";
+
     /**
      * 仅单词分割
      */

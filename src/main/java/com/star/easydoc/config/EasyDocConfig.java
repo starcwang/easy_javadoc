@@ -123,9 +123,17 @@ public class EasyDocConfig {
     private String googleKey;
 
     /**
-     * chatglmApiKey
+     * openaiApiKey
      */
-    private String chatGlmApiKey;
+    private String openaiApiKey;
+    /**
+     * aiModel:远程/本地
+     */
+    private String aiModel;
+    /**
+     * openai自定义chat url
+     */
+    private String openaiCustomUrl;
     /**
      * 微软key
      */
@@ -635,12 +643,28 @@ public class EasyDocConfig {
         this.docPriority = docPriority;
     }
 
-    public String getChatGlmApiKey() {
-        return chatGlmApiKey;
+    public String getOpenaiApiKey() {
+        return openaiApiKey;
     }
 
-    public void setChatGlmApiKey(String chatGlmApiKey) {
-        this.chatGlmApiKey = chatGlmApiKey;
+    public void setOpenaiApiKey(String openaiApiKey) {
+        this.openaiApiKey = openaiApiKey;
+    }
+
+    public String getAiModel() {
+        return aiModel;
+    }
+
+    public void setAiModel(String aiModel) {
+        this.aiModel = aiModel;
+    }
+
+    public String getOpenaiCustomUrl() {
+        return openaiCustomUrl;
+    }
+
+    public void setOpenaiCustomUrl(String openaiCustomUrl) {
+        this.openaiCustomUrl = openaiCustomUrl;
     }
 
     public String getCoverMode() {

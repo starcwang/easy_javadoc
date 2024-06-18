@@ -79,7 +79,13 @@ public class CommonSettingsConfigurable implements Configurable {
         if (!Objects.equals(config.getGoogleKey(), view.getGoogleKeyTextField().getText())) {
             return true;
         }
-        if (!Objects.equals(config.getChatGlmApiKey(), view.getChatGlmApiKeyTextField().getText())) {
+        if (!Objects.equals(config.getOpenaiApiKey(), view.getChatOpenAiCompatibleKeyTextField().getText())) {
+            return true;
+        }
+        if (!Objects.equals(config.getOpenaiCustomUrl(), view.getChatOpenAiCompatibleUrlTextField().getText())) {
+            return true;
+        }
+        if (!Objects.equals(config.getAiModel(), view.getChatOpenAiCompatibleModelTextField().getText())) {
             return true;
         }
         return false;
@@ -99,7 +105,9 @@ public class CommonSettingsConfigurable implements Configurable {
         config.setMicrosoftKey(view.getMicrosoftKeyTextField().getText());
         config.setMicrosoftRegion(view.getMicrosoftRegionTextField().getText());
         config.setGoogleKey(view.getGoogleKeyTextField().getText());
-        config.setChatGlmApiKey(view.getChatGlmApiKeyTextField().getText());
+        config.setOpenaiApiKey(view.getChatOpenAiCompatibleKeyTextField().getText());
+        config.setAiModel(view.getChatOpenAiCompatibleModelTextField().getText());
+        config.setOpenaiCustomUrl(view.getChatOpenAiCompatibleUrlTextField().getText());
         if (config.getWordMap() == null) {
             config.setWordMap(new TreeMap<>());
         }
@@ -152,19 +160,10 @@ public class CommonSettingsConfigurable implements Configurable {
                 throw new ConfigurationException("googleKey不能为空");
             }
         }
-        if (Consts.CHATGLM_GPT_4.equals(config.getTranslator())) {
-            if (StringUtils.isBlank(config.getChatGlmApiKey())) {
-                throw new ConfigurationException("apiKey不能为空");
-            }
-        }
-        if (Consts.CHATGLM_GPT_3.equals(config.getTranslator())) {
-            if (StringUtils.isBlank(config.getChatGlmApiKey())) {
-                throw new ConfigurationException("apiKey不能为空");
-            }
-        }
-        if (Consts.DEEP_SEEK_CODER_V2.equals(config.getTranslator())) {
-            if (StringUtils.isBlank(config.getChatGlmApiKey())) {
-                throw new ConfigurationException("apiKey不能为空");
+        if (Consts.OPENAI_COMPATIBLE.equals(config.getTranslator())) {
+            // 本地 ollama 无需 api
+            if (StringUtils.isAnyBlank(config.getAiModel(), config.getOpenaiCustomUrl())) {
+                throw new ConfigurationException("模型和url不能为空");
             }
         }
         if (StringUtils.isBlank(view.getTimeoutTextField().getText())
