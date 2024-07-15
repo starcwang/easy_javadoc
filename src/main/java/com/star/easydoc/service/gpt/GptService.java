@@ -6,7 +6,7 @@ import java.util.Objects;
 import com.google.common.collect.ImmutableMap;
 import com.star.easydoc.common.Consts;
 import com.star.easydoc.config.EasyDocConfig;
-import com.star.easydoc.service.gpt.impl.ChatGlmGptSupplier;
+import com.star.easydoc.service.gpt.impl.OpenAiCompatibleSupplier;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -33,7 +33,7 @@ public class GptService {
                 return;
             }
             gptSupplierMap = ImmutableMap.<String, GptSupplier>builder()
-                .put(Consts.CHATGLM_GPT, new ChatGlmGptSupplier().init(config))
+                .put(Consts.OPENAI_COMPATIBLE, new OpenAiCompatibleSupplier().init(config))
                 .build();
             this.config = config;
         }
