@@ -31,7 +31,7 @@ public abstract class AbstractTranslator implements Translator {
         if (res != null && res.length() > 0) {
             en2chCacheMap.put(text, res);
         }
-        return res;
+        return res == null ? "" : res;
     }
 
     @Override
@@ -47,7 +47,7 @@ public abstract class AbstractTranslator implements Translator {
         if (res != null && res.length() > 0) {
             ch2enCacheMap.put(text, res);
         }
-        return res;
+        return res == null ? "" : res;
     }
 
     @Override

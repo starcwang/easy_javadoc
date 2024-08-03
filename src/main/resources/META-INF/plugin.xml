@@ -14,10 +14,9 @@
     ]]></description>
 
     <change-notes><![CDATA[
-      <h3>v4.1.0</h3>
+      <h3>v4.2.0</h3>
       <ul>
-          <li>add google free translator</li>
-          <li>support timeout settings</li>
+          <li>add local dictionary</li>
       </ul>
       <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
     ]]>
