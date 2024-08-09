@@ -43,6 +43,9 @@ public class AppActivationListener implements ApplicationActivationListener {
      * 激活
      */
     public void activate() {
+        if (isActivate) {
+            return;
+        }
         synchronized (LOCK) {
             if (isActivate) {
                 return;

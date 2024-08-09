@@ -50,6 +50,7 @@ public class GenerateJavadocAction extends AnAction {
     private TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);
     private WriterService writerService = ServiceManager.getService(WriterService.class);
     private PackageInfoService packageInfoService = ServiceManager.getService(PackageInfoService.class);
+    private AppActivationListener listener;
 
     /**
      * 初始化
@@ -58,7 +59,7 @@ public class GenerateJavadocAction extends AnAction {
         super();
 
         // 设置消息监听
-        AppActivationListener listener = new AppActivationListener();
+        listener = new AppActivationListener();
         Application app = ApplicationManager.getApplication();
         Disposable disposable = Disposer.newDisposable();
         Disposer.register(app, disposable);
@@ -69,6 +70,9 @@ public class GenerateJavadocAction extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
+        // 初始化检查
+        listener.activate();
+
         Project project = anActionEvent.getData(LangDataKeys.PROJECT);
         if (project == null) {
             return;
