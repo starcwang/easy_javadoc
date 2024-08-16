@@ -434,9 +434,9 @@ public class EasyDocConfig {
             map.putAll(wordMap);
         }
         Project project = DataManager.getInstance()
-                .getDataContextFromFocus()
-                .getResultSync()
-                .getData(CommonDataKeys.PROJECT);
+            .getDataContextFromFocus()
+            .getResultSync()
+            .getData(CommonDataKeys.PROJECT);
         if (project != null) {
             Map<String, String> projectMap = projectWordMap.get(project.getName());
             if (projectMap != null) {
@@ -613,7 +613,6 @@ public class EasyDocConfig {
     public String getGoogleKey() {
         return googleKey;
     }
-    
 
     public void setGoogleKey(String googleKey) {
         this.googleKey = googleKey;

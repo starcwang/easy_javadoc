@@ -18,7 +18,6 @@ import com.star.easydoc.common.Consts;
 import com.star.easydoc.common.util.CollectionUtil;
 import com.star.easydoc.common.util.StringUtil;
 import com.star.easydoc.config.EasyDocConfig;
-import com.star.easydoc.service.gpt.impl.ChatGlmGptSupplier;
 import com.star.easydoc.service.translator.impl.AliyunTranslator;
 import com.star.easydoc.service.translator.impl.BaiduTranslator;
 import com.star.easydoc.service.translator.impl.GoogleFreeTranslator;

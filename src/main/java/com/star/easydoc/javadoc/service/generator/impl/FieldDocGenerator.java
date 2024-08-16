@@ -52,7 +52,7 @@ public class FieldDocGenerator extends AbstractDocGenerator {
         if (Consts.AI_TRANSLATOR.contains(config.getTranslator())) {
             return generateWithAI(psiField);
         }
-        
+
         String template;
         if (BooleanUtils.isTrue(config.getSimpleFieldDoc())) {
             template = SIMPLE_TEMPLATE;

@@ -83,7 +83,7 @@ public class Consts {
     /**
      * 本地词典
      */
-    public static final String LOCAL_DICTIONARY  = "本地词典";
+    public static final String LOCAL_DICTIONARY = "本地词典";
     /**
      * 仅单词分割
      */

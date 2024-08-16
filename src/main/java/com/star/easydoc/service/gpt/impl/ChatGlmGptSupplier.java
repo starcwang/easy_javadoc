@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * 智谱清言api 文档 https://open.bigmodel.cn/dev/api#glm-4
+ *
  * @author wangchao
  * @date 2024/03/05
  */
