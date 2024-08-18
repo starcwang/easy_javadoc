@@ -169,13 +169,13 @@ public class CommonSettingsConfigurable implements Configurable {
                 throw new ConfigurationException("自定义地址只支持http或https接口");
             }
             if (!config.getCustomUrl().contains("{from}")) {
-                throw new ConfigurationException("自定义地址需要包含源语言占位符，请查看说明文档");
+                throw new ConfigurationException("自定义地址需要包含{from}占位符，请查看说明文档");
             }
             if (!config.getCustomUrl().contains("{to}")) {
-                throw new ConfigurationException("自定义地址需要包含目标语言占位符，请查看说明文档");
+                throw new ConfigurationException("自定义地址需要包含{to}占位符，请查看说明文档");
             }
             if (!config.getCustomUrl().contains("{query}")) {
-                throw new ConfigurationException("自定义地址需要包含内容占位符，请查看说明文档");
+                throw new ConfigurationException("自定义地址需要包含{query}占位符，请查看说明文档");
             }
         }
         if (StringUtils.isBlank(view.getTimeoutTextField().getText())
