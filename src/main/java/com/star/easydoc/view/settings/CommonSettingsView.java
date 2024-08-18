@@ -33,6 +33,7 @@ import com.star.easydoc.config.EasyDocConfigComponent;
 import com.star.easydoc.service.translator.TranslatorService;
 import com.star.easydoc.view.inner.SupportView;
 import com.star.easydoc.view.inner.WordMapAddView;
+import gherkin.lexer.Tr;
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -86,6 +87,9 @@ public class CommonSettingsView {
     private JLabel microsoftRegionLabel;
     private JTextField timeoutTextField;
     private JLabel timeoutLabel;
+    private JTextField customUrlTextField;
+    private JLabel customUrlLabel;
+    private JButton customUrlHelpButton;
     private JBList<Entry<String, String>> typeMapList;
     private JBList<String> projectList;
     private JBList<Entry<String, String>> projectTypeMapList;
@@ -207,6 +211,7 @@ public class CommonSettingsView {
             microsoftRegionLabel.setVisible(false);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(false);
+            customUrlLabel.setVisible(false);
 
             appIdTextField.setVisible(true);
             tokenTextField.setVisible(true);
@@ -220,6 +225,8 @@ public class CommonSettingsView {
             microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(false);
+            customUrlTextField.setVisible(false);
+            customUrlHelpButton.setVisible(false);
         } else if (Consts.TENCENT_TRANSLATOR.equals(selectedItem)) {
             appIdLabel.setVisible(false);
             tokenLabel.setVisible(false);
@@ -233,6 +240,7 @@ public class CommonSettingsView {
             microsoftRegionLabel.setVisible(false);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(false);
+            customUrlLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
             tokenTextField.setVisible(false);
@@ -246,6 +254,8 @@ public class CommonSettingsView {
             microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(false);
+            customUrlTextField.setVisible(false);
+            customUrlHelpButton.setVisible(false);
         } else if (Consts.ALIYUN_TRANSLATOR.equals(selectedItem)) {
             appIdLabel.setVisible(false);
             tokenLabel.setVisible(false);
@@ -259,6 +269,7 @@ public class CommonSettingsView {
             microsoftRegionLabel.setVisible(false);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(false);
+            customUrlLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
             tokenTextField.setVisible(false);
@@ -272,6 +283,8 @@ public class CommonSettingsView {
             microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(false);
+            customUrlTextField.setVisible(false);
+            customUrlHelpButton.setVisible(false);
         } else if (Consts.YOUDAO_AI_TRANSLATOR.equals(selectedItem)) {
             appIdLabel.setVisible(false);
             tokenLabel.setVisible(false);
@@ -285,6 +298,7 @@ public class CommonSettingsView {
             microsoftRegionLabel.setVisible(false);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(false);
+            customUrlLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
             tokenTextField.setVisible(false);
@@ -298,6 +312,8 @@ public class CommonSettingsView {
             microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(false);
+            customUrlTextField.setVisible(false);
+            customUrlHelpButton.setVisible(false);
         } else if (Consts.MICROSOFT_TRANSLATOR.equals(selectedItem)) {
             appIdLabel.setVisible(false);
             tokenLabel.setVisible(false);
@@ -311,6 +327,7 @@ public class CommonSettingsView {
             microsoftRegionLabel.setVisible(true);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(false);
+            customUrlLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
             tokenTextField.setVisible(false);
@@ -324,6 +341,8 @@ public class CommonSettingsView {
             microsoftRegionTextField.setVisible(true);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(false);
+            customUrlTextField.setVisible(false);
+            customUrlHelpButton.setVisible(false);
         } else if (Consts.GOOGLE_TRANSLATOR.equals(selectedItem)) {
             appIdLabel.setVisible(false);
             tokenLabel.setVisible(false);
@@ -337,6 +356,7 @@ public class CommonSettingsView {
             microsoftRegionLabel.setVisible(false);
             googleKeyLabel.setVisible(true);
             chatGlmApiKeyLabel.setVisible(false);
+            customUrlLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
             tokenTextField.setVisible(false);
@@ -350,6 +370,8 @@ public class CommonSettingsView {
             microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(true);
             chatGlmApiKeyTextField.setVisible(false);
+            customUrlTextField.setVisible(false);
+            customUrlHelpButton.setVisible(false);
         } else if (Consts.CHATGLM_GPT.equals(selectedItem)) {
             appIdLabel.setVisible(false);
             tokenLabel.setVisible(false);
@@ -362,6 +384,7 @@ public class CommonSettingsView {
             microsoftKeyLabel.setVisible(false);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(true);
+            customUrlLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
             tokenTextField.setVisible(false);
@@ -374,6 +397,35 @@ public class CommonSettingsView {
             microsoftKeyTextField.setVisible(false);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(true);
+            customUrlTextField.setVisible(false);
+            customUrlHelpButton.setVisible(false);
+        } else if (Consts.CUSTOM_URL.equals(selectedItem)) {
+            appIdLabel.setVisible(false);
+            tokenLabel.setVisible(false);
+            secretIdLabel.setVisible(false);
+            secretKeyLabel.setVisible(false);
+            accessKeyIdLabel.setVisible(false);
+            accessKeySecretLabel.setVisible(false);
+            youdaoAppKeyLabel.setVisible(false);
+            youdaoAppSecretLabel.setVisible(false);
+            microsoftKeyLabel.setVisible(false);
+            googleKeyLabel.setVisible(false);
+            chatGlmApiKeyLabel.setVisible(false);
+            customUrlLabel.setVisible(true);
+
+            appIdTextField.setVisible(false);
+            tokenTextField.setVisible(false);
+            secretIdTextField.setVisible(false);
+            secretKeyTextField.setVisible(false);
+            accessKeyIdTextField.setVisible(false);
+            accessKeySecretTextField.setVisible(false);
+            youdaoAppKeyTextField.setVisible(false);
+            youdaoAppSecretTextField.setVisible(false);
+            microsoftKeyTextField.setVisible(false);
+            googleKeyTextField.setVisible(false);
+            chatGlmApiKeyTextField.setVisible(false);
+            customUrlTextField.setVisible(true);
+            customUrlHelpButton.setVisible(true);
         } else {
             appIdLabel.setVisible(false);
             tokenLabel.setVisible(false);
@@ -387,6 +439,7 @@ public class CommonSettingsView {
             microsoftRegionLabel.setVisible(false);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(false);
+            customUrlLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
             tokenTextField.setVisible(false);
@@ -400,6 +453,8 @@ public class CommonSettingsView {
             microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(false);
+            customUrlTextField.setVisible(false);
+            customUrlHelpButton.setVisible(false);
         }
     }
 
@@ -505,6 +560,7 @@ public class CommonSettingsView {
         setMicrosoftRegionTextField(config.getMicrosoftRegion());
         setGoogleKeyTextField(config.getGoogleKey());
         setChatGlmApiKeyTextField(config.getChatGlmApiKey());
+        setCustomUrlTextField(config.getCustomUrl());
         refreshWordMap();
         projectList.clearSelection();
         refreshProjectWordMap();
@@ -657,5 +713,13 @@ public class CommonSettingsView {
 
     public void setTimeout(int timeout) {
         this.timeoutTextField.setText(String.valueOf(timeout));
+    }
+
+    public JTextField getCustomUrlTextField() {
+        return customUrlTextField;
+    }
+
+    public void setCustomUrlTextField(String customUrl) {
+        this.customUrlTextField.setText(customUrl);
     }
 }

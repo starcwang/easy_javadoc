@@ -132,6 +132,8 @@ public class EasyDocConfig {
     private String microsoftKey;
     /** Microsoft 区域 */
     private String microsoftRegion;
+    /** 自定义URL */
+    private String customUrl;
     /**
      * 单词映射
      */
@@ -178,6 +180,7 @@ public class EasyDocConfig {
         timeout = DEFAULT_TIMEOUT;
         appId = null;
         token = null;
+        customUrl = null;
         secretKey = null;
         secretId = null;
         accessKeyId = null;
@@ -664,5 +667,13 @@ public class EasyDocConfig {
 
     public void setTimeout(int timeout) {
         this.timeout = timeout;
+    }
+
+    public String getCustomUrl() {
+        return customUrl;
+    }
+
+    public void setCustomUrl(String customUrl) {
+        this.customUrl = customUrl;
     }
 }

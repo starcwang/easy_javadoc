@@ -20,6 +20,7 @@ import com.star.easydoc.common.util.StringUtil;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.service.translator.impl.AliyunTranslator;
 import com.star.easydoc.service.translator.impl.BaiduTranslator;
+import com.star.easydoc.service.translator.impl.CustomTranslator;
 import com.star.easydoc.service.translator.impl.GoogleFreeTranslator;
 import com.star.easydoc.service.translator.impl.GoogleTranslator;
 import com.star.easydoc.service.translator.impl.JinshanTranslator;
@@ -69,6 +70,7 @@ public class TranslatorService {
                 .put(Consts.GOOGLE_FREE_TRANSLATOR, new GoogleFreeTranslator().init(config))
                 .put(Consts.SIMPLE_SPLITTER, new SimpleSplitterTranslator().init(config))
                 .put(Consts.LOCAL_DICTIONARY, new LocalTranslator().init(config))
+                .put(Consts.CUSTOM_URL, new CustomTranslator().init(config))
                 .build();
             this.config = config;
         }

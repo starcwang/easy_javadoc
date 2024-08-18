@@ -31,7 +31,7 @@ public class Consts {
         Consts.BAIDU_TRANSLATOR, Consts.TENCENT_TRANSLATOR, Consts.ALIYUN_TRANSLATOR, Consts.YOUDAO_AI_TRANSLATOR,
         Consts.MICROSOFT_TRANSLATOR, Consts.MICROSOFT_FREE_TRANSLATOR, Consts.GOOGLE_TRANSLATOR,
         Consts.GOOGLE_FREE_TRANSLATOR, Consts.CHATGLM_GPT, Consts.LOCAL_DICTIONARY, Consts.SIMPLE_SPLITTER,
-        Consts.CLOSE_TRANSLATOR);
+        Consts.CLOSE_TRANSLATOR, Consts.CUSTOM_URL);
 
     /** AI翻译集合 */
     public static final Set<String> AI_TRANSLATOR = ImmutableSet.of(Consts.CHATGLM_GPT);
@@ -84,6 +84,10 @@ public class Consts {
      * 本地词典
      */
     public static final String LOCAL_DICTIONARY = "本地词典";
+    /**
+     * 自定义HTTP接口
+     */
+    public static final String CUSTOM_URL = "自定义HTTP接口";
     /**
      * 仅单词分割
      */

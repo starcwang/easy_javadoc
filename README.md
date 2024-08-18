@@ -6,10 +6,10 @@
 本项目是IntelliJ IDEA的插件，能帮助java\kotlin开发者自动生成javadoc\kdoc文档注释  
 **支持的IDEA版本为 2019.1 及以上**    
 
-![示例1](./doc/k03vffH6Hg.gif)
+![示例1](./doc/jpg/k03vffH6Hg.gif)
   
 支持给中文起名字，类似程序员起名神器  
-![示例2](./doc/zqT2bjDzc0.gif)
+![示例2](./doc/jpg/zqT2bjDzc0.gif)
 
 - 接入多种翻译，只要你方法名起的好，翻译就越准确
 - 可自定义映射，弥补自动翻译的不足
@@ -48,7 +48,7 @@
 
 ## 配置
 打开配置页面
-![配置图](./doc/common-config.png)
+![配置图](./doc/jpg/common-config.png)
 可看到相关配置
 
 ## 默认快捷键（可通过IDEA快捷键设置修改）
@@ -71,17 +71,17 @@
 ## 常见问题
 ### 我的字体
 #### 系统字体 `Comis Sans MS` 
-![系统字体](./doc/settings-font.png)
+![系统字体](./doc/jpg/settings-font.png)
 #### 代码字体 `Monaco` 
-![代码字体](./doc/code-font.png)
+![代码字体](./doc/jpg/code-font.png)
 ### 快捷键( `ctrl \` )不生效
 检查：
 1. 将**一闪一闪的光标**放到类名、方法名或属性名上试试，注意不是选中，也不是鼠标！！！
 2. 检查IDEA的快捷键是否冲突了
 ### 属性单行注释不生效
-这是因为IDEA的默认格式化将单行转成了多行，需要更改IDEA的格式化设置![单行注释](./doc/oneLine.png)
+这是因为IDEA的默认格式化将单行转成了多行，需要更改IDEA的格式化设置![单行注释](./doc/jpg/oneLine.png)
 ### 文档标签@param、@link或者自定义的顺序不对
-这是因为IDEA的默认格式化将文档标签顺序改了，如果非得要自定义的顺序的话，则需要改IDEA如下设置![关闭Javadoc格式化](./doc/closeJavadocFormat.png)
+这是因为IDEA的默认格式化将文档标签顺序改了，如果非得要自定义的顺序的话，则需要改IDEA如下设置![关闭Javadoc格式化](./doc/jpg/closeJavadocFormat.png)
 
 ## 更新履历
 - v4.2.1 2024-08-09
@@ -248,8 +248,8 @@
 ## 支持作者
 如果觉得插件很赞，为你节约了不少时间，那么就请作者喝杯咖啡吧~☕☕☕
 
-| ![微信](./doc/wechat.png) | ![支付宝](./doc/alipay.jpg) |
-| --- | --- |
+| ![微信](./doc/jpg/wechat.png) | ![支付宝](./doc/jpg/alipay.jpg) |
+|-----------------------------|------------------------------|
 
 
 

@@ -82,6 +82,9 @@ public class CommonSettingsConfigurable implements Configurable {
         if (!Objects.equals(config.getChatGlmApiKey(), view.getChatGlmApiKeyTextField().getText())) {
             return true;
         }
+        if (!Objects.equals(config.getCustomUrl(), view.getCustomUrlTextField().getText())) {
+            return true;
+        }
         return false;
     }
 
@@ -100,6 +103,7 @@ public class CommonSettingsConfigurable implements Configurable {
         config.setMicrosoftRegion(view.getMicrosoftRegionTextField().getText());
         config.setGoogleKey(view.getGoogleKeyTextField().getText());
         config.setChatGlmApiKey(view.getChatGlmApiKeyTextField().getText());
+        config.setCustomUrl(StringUtils.strip(view.getCustomUrlTextField().getText()));
         if (config.getWordMap() == null) {
             config.setWordMap(new TreeMap<>());
         }
@@ -155,6 +159,23 @@ public class CommonSettingsConfigurable implements Configurable {
         if (Consts.CHATGLM_GPT.equals(config.getTranslator())) {
             if (StringUtils.isBlank(config.getChatGlmApiKey())) {
                 throw new ConfigurationException("apiKey不能为空");
+            }
+        }
+        if (Consts.CUSTOM_URL.equals(config.getTranslator())) {
+            if (StringUtils.isBlank(config.getCustomUrl())) {
+                throw new ConfigurationException("自定义地址不能为空");
+            }
+            if (!config.getCustomUrl().startsWith("http")) {
+                throw new ConfigurationException("自定义地址只支持http或https接口");
+            }
+            if (!config.getCustomUrl().contains("{from}")) {
+                throw new ConfigurationException("自定义地址需要包含源语言占位符，请查看说明文档");
+            }
+            if (!config.getCustomUrl().contains("{to}")) {
+                throw new ConfigurationException("自定义地址需要包含目标语言占位符，请查看说明文档");
+            }
+            if (!config.getCustomUrl().contains("{query}")) {
+                throw new ConfigurationException("自定义地址需要包含内容占位符，请查看说明文档");
             }
         }
         if (StringUtils.isBlank(view.getTimeoutTextField().getText())
