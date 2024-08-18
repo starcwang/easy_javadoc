@@ -2,12 +2,10 @@ package com.star.easydoc.kdoc.service.variable
 
 import com.google.common.collect.Lists
 import com.google.common.collect.Maps
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.psi.PsiElement
 import com.star.easydoc.config.EasyDocConfig
 import com.star.easydoc.config.EasyDocConfig.VariableType
-import com.star.easydoc.config.EasyDocConfigComponent
 import com.star.easydoc.javadoc.service.variable.VariableGenerator
 import com.star.easydoc.kdoc.service.variable.impl.*
 import groovy.lang.Binding
@@ -23,7 +21,6 @@ import java.util.regex.Pattern
  */
 class KdocVariableGeneratorService {
     private val pattern = Pattern.compile("\\$[a-zA-Z0-9_-]*\\$")
-    private val config = ServiceManager.getService(EasyDocConfigComponent::class.java).state
 
     /**
      * 变量生成器映射
@@ -37,7 +34,8 @@ class KdocVariableGeneratorService {
         "see" to SeeKdocVariableGenerator(),
         "since" to SinceKdocVariableGenerator(),
         "constructor" to ConstructorKdocVariableGenerator(),
-        "version" to VersionKdocVariableGenerator())
+        "version" to VersionKdocVariableGenerator()
+    )
 
     /**
      * 生成
@@ -45,10 +43,12 @@ class KdocVariableGeneratorService {
      * @param psiElement 当前元素
      * @return [java.lang.String]
      */
-    fun generate(psiElement: PsiElement, template: String?,
-                 customValueMap: Map<String?, EasyDocConfig.CustomValue?>,
-                 innerVariableMap: Map<String?, Any?>): String {
-        if (template.isNullOrBlank()) {
+    fun generate(
+        psiElement: PsiElement, template: String?,
+        customValueMap: Map<String?, EasyDocConfig.CustomValue?>,
+        innerVariableMap: Map<String?, Any?>
+    ): String {
+        if (StringUtils.isBlank(template)) {
             return ""
         }
 
@@ -93,7 +93,7 @@ class KdocVariableGeneratorService {
     ): String {
         var value: EasyDocConfig.CustomValue? = null
         for (entry in customValueMap) {
-            if (placeholder.equals(entry.key, ignoreCase = true)) {
+            if (StringUtils.equalsIgnoreCase(placeholder, entry.key)) {
                 value = entry.value
             }
         }
@@ -101,23 +101,22 @@ class KdocVariableGeneratorService {
         if (value == null) {
             return placeholder
         }
-        return when (value.type) {
-            VariableType.STRING -> value.value
-            VariableType.GROOVY -> {
-                return try {
-                    GroovyShell(Binding(innerVariableMap)).evaluate(value.value).toString()
-                } catch (e: Exception) {
-                    LOGGER.error(
-                        String.format(
-                            "自定义变量%s的groovy脚本执行异常，请检查语法是否正确且有正确返回值:%s", placeholder,
-                            value.value
-                        ), e
-                    )
-                    value.value
-                }
+        if (value.type == VariableType.STRING) {
+            return value.value
+        } else if (value.type == VariableType.GROOVY) {
+            return try {
+                GroovyShell(Binding(innerVariableMap)).evaluate(value.value).toString()
+            } catch (e: Exception) {
+                LOGGER.error(
+                    String.format(
+                        "自定义变量%s的groovy脚本执行异常，请检查语法是否正确且有正确返回值:%s", placeholder,
+                        value.value
+                    ), e
+                )
+                value.value
             }
-
-            else -> ""
+        } else {
+            return ""
         }
     }
 

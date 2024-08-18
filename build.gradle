@@ -26,6 +26,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
+// See https://www.jetbrains.com/intellij-repository/releases
 intellij {
     plugins = ['Kotlin']
 //    plugins 'java'
