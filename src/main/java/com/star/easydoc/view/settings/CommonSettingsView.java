@@ -2,6 +2,7 @@ package com.star.easydoc.view.settings;
 
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -93,6 +94,9 @@ public class CommonSettingsView {
     private JBList<Entry<String, String>> typeMapList;
     private JBList<String> projectList;
     private JBList<Entry<String, String>> projectTypeMapList;
+
+    private static final String CUSTOM_HELP_URL
+        = "https://github.com/starcwang/easy_javadoc/wiki/%E8%87%AA%E5%AE%9A%E4%B9%89HTTP%E6%8E%A5%E5%8F%A3";
 
     /**
      * 晚于{@link #createUIComponents}执行
@@ -192,6 +196,17 @@ public class CommonSettingsView {
         translatorBox.addItemListener(e -> {
             JComboBox<?> jComboBox = (JComboBox<?>)e.getSource();
             setVisible(jComboBox.getSelectedItem());
+        });
+
+        customUrlHelpButton.addActionListener(event ->{
+            Desktop dp = Desktop.getDesktop();
+            if (dp.isSupported(Desktop.Action.BROWSE)) {
+                try {
+                    dp.browse(URI.create(CUSTOM_HELP_URL));
+                } catch (IOException e) {
+                    LOGGER.error("open url failed: " + CUSTOM_HELP_URL, e);
+                }
+            }
         });
 
         projectList.addListSelectionListener(e -> refreshProjectWordMap());
