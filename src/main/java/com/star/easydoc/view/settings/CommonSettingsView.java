@@ -96,7 +96,7 @@ public class CommonSettingsView {
     private JBList<Entry<String, String>> projectTypeMapList;
 
     private static final String CUSTOM_HELP_URL
-        = "https://github.com/starcwang/easy_javadoc/wiki/%E8%87%AA%E5%AE%9A%E4%B9%89HTTP%E6%8E%A5%E5%8F%A3";
+        = "https://github.com/starcwang/easy_javadoc/blob/master/doc/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A5%E5%8F%A3%E8%AF%B4%E6%98%8E.md";
 
     /**
      * 晚于{@link #createUIComponents}执行
