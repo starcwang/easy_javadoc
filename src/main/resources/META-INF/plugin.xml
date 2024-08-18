@@ -14,9 +14,9 @@
     ]]></description>
 
     <change-notes><![CDATA[
-      <h3>v4.2.1</h3>
+      <h3>v4.3.0</h3>
       <ul>
-          <li>fix some bugs</li>
+          <li>support custom url</li>
       </ul>
       <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
     ]]>
