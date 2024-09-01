@@ -35,7 +35,7 @@ public class ClassDocGenerator extends AbstractDocGenerator {
 
     private static final String DEFAULT_TEMPLATE = "/**\n"
         + "* $DOC$\n"
-        + "* \n"
+        + "*\n"
         + "* @author $AUTHOR$\n"
         + "* @date $DATE$\n"
         + "*/";

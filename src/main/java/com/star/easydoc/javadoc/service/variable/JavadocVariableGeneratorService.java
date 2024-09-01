@@ -34,7 +34,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class JavadocVariableGeneratorService {
     private static final Logger LOGGER = Logger.getInstance(JavadocVariableGeneratorService.class);
-    private Pattern pattern = Pattern.compile("\\$[a-zA-Z0-9_-]*\\$");
+    private static final Pattern PATTERN = Pattern.compile("\\$[a-zA-Z0-9_-]*\\$");
 
     /**
      * 变量生成器映射
@@ -65,7 +65,7 @@ public class JavadocVariableGeneratorService {
         }
 
         // 匹配占位符
-        Matcher matcher = pattern.matcher(template);
+        Matcher matcher = PATTERN.matcher(template);
         Map<String, String> variableMap = Maps.newHashMap();
         while (matcher.find()) {
             String placeholder = matcher.group();

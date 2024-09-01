@@ -34,14 +34,6 @@ public class MethodDocGenerator extends AbstractDocGenerator {
     private JavadocVariableGeneratorService javadocVariableGeneratorService = ServiceManager.getService(
         JavadocVariableGeneratorService.class);
 
-    private static final String DEFAULT_TEMPLATE = "/**\n"
-        + " * $DOC$\n"
-        + " * \n"
-        + " * $PARAMS$\n"
-        + " * $RETURN$\n"
-        + " * $THROWS$\n"
-        + " */";
-
     @Override
     public String generate(PsiElement psiElement) {
         if (!(psiElement instanceof PsiMethod)) {
@@ -58,7 +50,7 @@ public class MethodDocGenerator extends AbstractDocGenerator {
             return generateWithAI(psiElement);
         }
 
-        String template = DEFAULT_TEMPLATE;
+        String template = getDefaultTemplate(psiMethod);
         if (config.getMethodTemplateConfig() != null
             && Boolean.FALSE.equals(config.getMethodTemplateConfig().getIsDefault())) {
             template = config.getMethodTemplateConfig().getTemplate();
@@ -67,6 +59,28 @@ public class MethodDocGenerator extends AbstractDocGenerator {
         String targetJavadoc = javadocVariableGeneratorService.generate(psiMethod, template,
             config.getMethodTemplateConfig().getCustomMap(), getMethodInnerVariable(psiMethod));
         return merge(psiMethod, targetJavadoc);
+    }
+
+    private String getDefaultTemplate(PsiMethod psiMethod) {
+        String paramsKey = " * $PARAMS$\n";
+        if (psiMethod.getParameterList().getParameters().length == 0) {
+            paramsKey = "";
+        }
+        String returnKey = " * $RETURN$\n";
+        if (psiMethod.getReturnType() == null || psiMethod.getReturnType().getCanonicalText().equals("void")) {
+            returnKey = "";
+        }
+        String throwsKey = " * $THROWS$\n";
+        if (psiMethod.getThrowsList().getReferencedTypes().length == 0) {
+            throwsKey = "";
+        }
+        return "/**\n"
+            + " * $DOC$\n"
+            + " *\n"
+            + paramsKey
+            + returnKey
+            + throwsKey
+            + " */";
     }
 
     private String generateWithAI(PsiElement psiElement) {

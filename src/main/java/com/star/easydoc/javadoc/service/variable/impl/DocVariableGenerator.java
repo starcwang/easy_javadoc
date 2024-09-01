@@ -12,7 +12,7 @@ import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.javadoc.PsiDocComment;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.service.translator.TranslatorService;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
@@ -35,9 +35,11 @@ public class DocVariableGenerator extends AbstractVariableGenerator {
         }
 
         PsiElement[] descriptionElements = docComment.getDescriptionElements();
-        List<String> descTextList = Arrays.stream(descriptionElements).map(PsiElement::getText).collect(
-            Collectors.toList());
-        String result = Joiner.on(StringUtils.EMPTY).skipNulls().join(descTextList);
+        List<String> descTextList = Arrays.stream(descriptionElements).map(PsiElement::getText)
+            .map(StringUtils::strip)
+            .filter(StringUtils::isNotBlank)
+            .collect(Collectors.toList());
+        String result = Joiner.on("\n* ").skipNulls().join(descTextList);
         return StringUtils.isNotBlank(result) ? result : translatorService.translate(((PsiNamedElement)element).getName());
     }
 }
