@@ -39,7 +39,7 @@ public class JavadocVariableGeneratorService {
     /**
      * 变量生成器映射
      */
-    private Map<String, VariableGenerator> variableGeneratorMap = ImmutableMap.<String, VariableGenerator>builder()
+    private final Map<String, VariableGenerator> variableGeneratorMap = ImmutableMap.<String, VariableGenerator>builder()
         .put("author", new AuthorVariableGenerator())
         .put("date", new DateVariableGenerator())
         .put("doc", new DocVariableGenerator())
