@@ -34,7 +34,6 @@ import com.star.easydoc.config.EasyDocConfigComponent;
 import com.star.easydoc.service.translator.TranslatorService;
 import com.star.easydoc.view.inner.SupportView;
 import com.star.easydoc.view.inner.WordMapAddView;
-import gherkin.lexer.Tr;
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -198,7 +197,7 @@ public class CommonSettingsView {
             setVisible(jComboBox.getSelectedItem());
         });
 
-        customUrlHelpButton.addActionListener(event ->{
+        customUrlHelpButton.addActionListener(event -> {
             Desktop dp = Desktop.getDesktop();
             if (dp.isSupported(Desktop.Action.BROWSE)) {
                 try {
