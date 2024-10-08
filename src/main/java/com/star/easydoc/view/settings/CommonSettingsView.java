@@ -17,7 +17,6 @@ import com.alibaba.fastjson2.JSONWriter.Feature;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.intellij.json.JsonFileType;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileChooser.FileChooser;
@@ -106,7 +105,7 @@ public class CommonSettingsView {
         setVisible(translatorBox.getSelectedItem());
 
         importButton.addActionListener(event -> {
-            FileChooserDescriptor descriptor = FileChooserDescriptorFactory.createSingleFileDescriptor(JsonFileType.INSTANCE);
+            FileChooserDescriptor descriptor = FileChooserDescriptorFactory.createSingleFileDescriptor("json");
             descriptor.setForcedToUseIdeaFileChooser(true);
             VirtualFile file = FileChooser.chooseFile(descriptor, null, null);
             if (file == null) {
