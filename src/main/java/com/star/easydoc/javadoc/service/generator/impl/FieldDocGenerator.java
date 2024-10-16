@@ -32,7 +32,9 @@ public class FieldDocGenerator extends AbstractDocGenerator {
     private JavadocVariableGeneratorService javadocVariableGeneratorService = ServiceManager.getService(
         JavadocVariableGeneratorService.class);
 
+    /** 简单模板 */
     private static final String SIMPLE_TEMPLATE = "/** $DOC$ */";
+    /** 文档模板 */
     private static final String DOC_TEMPLATE = "/**\n"
         + " * $DOC$\n"
         + " */";
@@ -68,6 +70,12 @@ public class FieldDocGenerator extends AbstractDocGenerator {
         return merge(psiField, targetJavadoc);
     }
 
+    /**
+     * 用ai生成
+     *
+     * @param psiElement psi元素
+     * @return {@link String }
+     */
     private String generateWithAI(PsiElement psiElement) {
         String prompt;
         try {

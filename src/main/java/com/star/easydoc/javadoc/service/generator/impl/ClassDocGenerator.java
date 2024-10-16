@@ -33,6 +33,7 @@ public class ClassDocGenerator extends AbstractDocGenerator {
     private JavadocVariableGeneratorService javadocVariableGeneratorService = ServiceManager.getService(
         JavadocVariableGeneratorService.class);
 
+    /** 默认模板 */
     private static final String DEFAULT_TEMPLATE = "/**\n"
         + "* $DOC$\n"
         + "*\n"
@@ -66,6 +67,12 @@ public class ClassDocGenerator extends AbstractDocGenerator {
         return merge(psiClass, targetJavadoc);
     }
 
+    /**
+     * 用ai生成
+     *
+     * @param psiElement psi元素
+     * @return {@link String }
+     */
     private String generateWithAI(PsiElement psiElement) {
         String prompt;
         try {
