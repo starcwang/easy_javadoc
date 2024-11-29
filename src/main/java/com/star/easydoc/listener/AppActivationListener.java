@@ -96,8 +96,7 @@ public class AppActivationListener implements ApplicationActivationListener {
             }
         };
 
-        NotificationUtil.notify("关于EasyJavadoc快捷键",
-            "EasyJavadoc默认的快捷键是command(ctrl)+\\,和新版IDEA的AI Assistant插件冲突,请自行修改快捷键");
+        NotificationUtil.notify("关于EasyJavadoc快捷键", "EasyJavadoc默认的快捷键是command(ctrl)+\\,和新版IDEA的AI Assistant插件冲突,请自行修改快捷键");
         NotificationUtil.notify("支持EasyJavadoc", "如果这款小而美的插件为您节约了不少时间，请支持一下开发者！",
             starAction, reviewsAction, payAction);
     }

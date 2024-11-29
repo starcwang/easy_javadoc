@@ -43,11 +43,11 @@ public abstract class AbstractDocGenerator implements DocGenerator {
                 continue;
             }
             PsiDocTag docTag = (PsiDocTag)child;
-            if (docTag.getName().equals("param") || docTag.getName().equals("throws")
-                || docTag.getName().equals("exception")) {
+            if ("param".equals(docTag.getName()) || "throws".equals(docTag.getName())
+                || "exception".equals(docTag.getName())) {
                 if (!docList.isEmpty() && !docList.get(docList.size() - 1).contains("\n")
-                    && !docList.get(docList.size() - 1).trim().equals("*")
-                    && !docList.get(docList.size() - 1).trim().equals("")) {
+                    && !"*".equals(docList.get(docList.size() - 1).trim())
+                    && !docList.get(docList.size() - 1).trim().isEmpty()) {
                     docList.add("\n * ");
                 }
                 docList.add(child.getText());
