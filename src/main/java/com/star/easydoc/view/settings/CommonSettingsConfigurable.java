@@ -18,12 +18,16 @@ import org.jetbrains.annotations.Nls.Capitalization;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * 通用设置 可配置
+ *
  * @author wangchao
  * @date 2019/08/25
  */
 public class CommonSettingsConfigurable implements Configurable {
 
+    /** 配置 */
     private EasyDocConfig config = ServiceManager.getService(EasyDocConfigComponent.class).getState();
+    /** 视图 */
     private CommonSettingsView view = new CommonSettingsView();
 
     @Nls(capitalization = Capitalization.Title)
