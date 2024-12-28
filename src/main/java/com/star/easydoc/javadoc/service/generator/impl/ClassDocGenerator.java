@@ -68,21 +68,27 @@ public class ClassDocGenerator extends AbstractDocGenerator {
     }
 
     /**
-     * 用ai生成
+     * 使用AI生成文档注释
      *
      * @param psiElement psi元素
-     * @return {@link String }
+     * @return 返回生成的字符串 {@link String}
      */
     private String generateWithAI(PsiElement psiElement) {
-        String prompt;
+        String prompt; // 定义提示变量
         try {
+            // 将资源文件中的文本读取为字符串
             prompt = IOUtils.toString(ResourceUtil.getResource(getClass(), "prompts/chatglm", "class.prompt"));
         } catch (IOException e) {
+            // 如果发生IO异常，则抛出运行时异常
             throw new RuntimeException(e);
         }
+        // 替换模板中的作者信息
         prompt = prompt.replace("{author}", getConfig().getAuthor());
+        // 替换模板中的日期信息
         prompt = prompt.replace("{date}", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+        // 替换模板中的代码片段
         prompt = prompt.replace("{code}", psiElement.getText());
+        // 调用GPT服务并返回结果
         return gptService.chat(prompt);
     }
 
