@@ -11,7 +11,7 @@ import com.google.common.collect.Sets;
  * @author wangchao
  * @date 2019/12/08
  */
-public class Consts {
+public final class Consts {
 
     /** 私有构造 */
     private Consts() {}

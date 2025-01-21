@@ -61,6 +61,12 @@ public class MethodDocGenerator extends AbstractDocGenerator {
         return merge(psiMethod, targetJavadoc);
     }
 
+    /**
+     * 获取默认模板
+     *
+     * @param psiMethod PSI 方法
+     * @return {@link String }
+     */
     private String getDefaultTemplate(PsiMethod psiMethod) {
         String paramsKey = " * $PARAMS$\n";
         if (psiMethod.getParameterList().getParameters().length == 0) {
@@ -83,6 +89,12 @@ public class MethodDocGenerator extends AbstractDocGenerator {
             + " */";
     }
 
+    /**
+     * 使用 AI 生成
+     *
+     * @param psiElement PSI 元件
+     * @return {@link String }
+     */
     private String generateWithAI(PsiElement psiElement) {
         String prompt;
         try {

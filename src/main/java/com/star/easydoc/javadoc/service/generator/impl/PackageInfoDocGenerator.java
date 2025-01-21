@@ -6,6 +6,12 @@ import com.star.easydoc.javadoc.service.generator.DocGenerator;
 import com.star.easydoc.service.PackageInfoService;
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * 包信息文档生成器
+ *
+ * @author mixley
+ * @date 2022/07/12
+ */
 public class PackageInfoDocGenerator implements DocGenerator {
 
     @Override
@@ -18,6 +24,12 @@ public class PackageInfoDocGenerator implements DocGenerator {
         return defaultGenerate(psiPackage);
     }
 
+    /**
+     * 默认生成
+     *
+     * @param psiPackage PSI 封装
+     * @return {@link String }
+     */
     private String defaultGenerate(PsiPackage psiPackage) {
         return "/**\n" +
             " * ${" + PackageInfoService.PACKAGE_INFO_DESCRIBE + "} \n" +

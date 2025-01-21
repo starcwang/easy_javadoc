@@ -114,6 +114,13 @@ public class GenerateJavadocAction extends AnAction {
 
     }
 
+    /**
+     * Javadoc处理
+     *
+     * @param project 项目
+     * @param psiFile psi
+     * @param psiElement PSI
+     */
     private void javadocProcess(Project project, PsiFile psiFile, PsiElement psiElement) {
 
         //选中文件夹则判断包里面是否需要创建package-info.java，创建package-info 并携带注释
@@ -146,6 +153,13 @@ public class GenerateJavadocAction extends AnAction {
         writerService.writeJavadoc(project, psiElement, psiDocComment, StringUtil.endCount(comment, '\n'));
     }
 
+    /**
+     * kdoc处理
+     *
+     * @param project 项目
+     * @param psiFile psi
+     * @param psiElement PSI
+     */
     private void kdocProcess(Project project, KtFile psiFile, PsiElement psiElement) {
 
         String comment = kdocGeneratorService.generate(psiElement);
