@@ -10,6 +10,7 @@ import java.util.Collection;
  */
 public class CollectionUtil {
 
+    /** 私有构造 */
     private CollectionUtil() {}
 
     /**

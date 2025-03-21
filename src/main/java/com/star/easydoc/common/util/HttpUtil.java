@@ -41,6 +41,7 @@ public class HttpUtil {
     private static final int CONNECT_TIMEOUT = 1000;
     private static final int SOCKET_TIMEOUT = 1000;
 
+    /** 私有构造 */
     private HttpUtil() {}
 
     /**
@@ -190,6 +191,13 @@ public class HttpUtil {
         return post(url, headers, body, SOCKET_TIMEOUT);
     }
 
+    /**
+     * 获取代理
+     *
+     * @param url url
+     * @return {@link HttpHost}
+     * @throws MalformedURLException 异常
+     */
     private static HttpHost getProxy(String url) throws MalformedURLException {
         List<Proxy> proxies = CommonProxy.getInstance().select(new URL(url));
         // 代理

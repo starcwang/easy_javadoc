@@ -10,6 +10,7 @@ package com.star.easydoc.common.util;
  */
 public class LanguageUtil {
 
+    /** 私有构造 */
     private LanguageUtil() {}
 
     /**

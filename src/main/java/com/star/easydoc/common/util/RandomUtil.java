@@ -13,6 +13,9 @@ import org.apache.commons.lang3.RandomUtils;
  */
 public class RandomUtil extends RandomUtils {
 
+    /** 私有构造 */
+    private RandomUtil() {}
+
     /**
      * 生成一个随机double
      *
