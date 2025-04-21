@@ -17,12 +17,22 @@ import org.jetbrains.kotlin.psi.KtDeclaration;
 import org.jetbrains.kotlin.psi.KtElement;
 
 /**
+ * 写入服务
+ *
  * @author wangchao
  * @date 2019/08/25
  */
 public class WriterService {
     private static final Logger LOGGER = Logger.getInstance(WriterService.class);
 
+    /**
+     * 写入文档注释
+     *
+     * @param project 工程
+     * @param psiElement psi
+     * @param comment 文档注释
+     * @param emptyLineNum 空行数量
+     */
     public void writeJavadoc(Project project, PsiElement psiElement, PsiDocComment comment, int emptyLineNum) {
         try {
             WriteCommandAction.writeCommandAction(project).run(
@@ -64,6 +74,13 @@ public class WriterService {
         }
     }
 
+    /**
+     * 写入
+     *
+     * @param project 工程
+     * @param editor 编辑器
+     * @param text 文本
+     */
     public void write(Project project, Editor editor, String text) {
         if (project == null || editor == null || StringUtils.isBlank(text)) {
             return;
@@ -80,6 +97,13 @@ public class WriterService {
         }
     }
 
+    /**
+     * 写入kdoc
+     *
+     * @param project 工程
+     * @param ktElement kt
+     * @param comment kdoc
+     */
     public void writeKdoc(Project project, KtElement ktElement, KDoc comment) {
         try {
             WriteCommandAction.writeCommandAction(project).run(

@@ -15,12 +15,21 @@ import com.star.easydoc.javadoc.service.JavaDocGeneratorServiceImpl;
 
 /**
  * 创建类, 可能有更便捷的方式创建实体类. 有待优化
+ *
+ * @author wangchao
+ * @date 2025/04/21
  */
 public class PackageInfoService {
     public static final String INFO_FILE_NAME = "package-info.java";
     public static final String PACKAGE_INFO_DESCRIBE = "PACKAGE_INFO_DESCRIBE";
     private static JavaDocGeneratorServiceImpl docGeneratorService = ServiceManager.getService(JavaDocGeneratorServiceImpl.class);
 
+    /**
+     * 处理
+     *
+     * @param psiPackage psi
+     * @param comment 注释
+     */
     public void handle(PsiPackage psiPackage, String comment) {
         try {
             Project project = psiPackage.getProject();
