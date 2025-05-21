@@ -21,6 +21,11 @@ public class EasyDocConfigComponent implements PersistentStateComponent<EasyDocC
     /** 配置 */
     private EasyDocConfig config;
 
+    /**
+     * 获取配置
+     *
+     * @return 配置
+     */
     @Nullable
     @Override
     public EasyDocConfig getState() {
@@ -50,6 +55,11 @@ public class EasyDocConfigComponent implements PersistentStateComponent<EasyDocC
         return config;
     }
 
+    /**
+     * 加载配置
+     *
+     * @param state 配置
+     */
     @Override
     public void loadState(@NotNull EasyDocConfig state) {
         XmlSerializerUtil.copyBean(state, Objects.requireNonNull(getState()));

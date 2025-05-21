@@ -26,6 +26,12 @@ class KdocGeneratorServiceImpl : DocGeneratorService {
         KtProperty::class to KtPropertyDocGenerator()
     )
 
+    /**
+     * 生成
+     *
+     * @param psiElement 元素
+     * @return {@link String }
+     */
     override fun generate(psiElement: PsiElement): String {
         var docGenerator: DocGenerator? = null
         for ((key, value) in docGeneratorMap) {

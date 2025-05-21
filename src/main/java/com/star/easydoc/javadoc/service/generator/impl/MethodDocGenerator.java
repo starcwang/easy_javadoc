@@ -29,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class MethodDocGenerator extends AbstractDocGenerator {
 
+    /** 配置 */
     private EasyDocConfig config = ServiceManager.getService(EasyDocConfigComponent.class).getState();
     private GptService gptService = ServiceManager.getService(GptService.class);
     private JavadocVariableGeneratorService javadocVariableGeneratorService = ServiceManager.getService(
