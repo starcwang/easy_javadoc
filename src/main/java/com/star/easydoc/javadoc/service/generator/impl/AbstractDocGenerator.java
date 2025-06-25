@@ -12,6 +12,8 @@ import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.javadoc.service.generator.DocGenerator;
 
 /**
+ * 抽象文档生成器
+ *
  * @author wangchao
  * @date 2024/03/11
  */

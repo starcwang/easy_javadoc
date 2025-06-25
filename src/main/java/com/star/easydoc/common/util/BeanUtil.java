@@ -17,6 +17,7 @@ public class BeanUtil {
     /** 日志记录器 */
     private static final Logger LOGGER = Logger.getInstance(BeanUtil.class);
 
+    /** 私有构造 */
     private BeanUtil() {}
 
     /**
