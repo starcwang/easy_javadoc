@@ -15,9 +15,10 @@ import com.star.easydoc.service.translator.TranslatorService;
 import org.apache.commons.lang3.StringUtils;
 
 /**
+ * doc 变量生成器
+ *
  * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
- * @version 1.0.0
- * @since 2019-12-07 23:16:00
+ * @date 2025/07/28
  */
 public class DocVariableGenerator extends AbstractVariableGenerator {
     private final TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);

@@ -15,9 +15,10 @@ import com.intellij.psi.PsiTypeElement;
 import com.star.easydoc.common.Consts;
 
 /**
+ * 参见变量生成器
+ *
  * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
- * @version 1.0.0
- * @since 2019-12-07 23:17:00
+ * @date 2025/07/28
  */
 public class SeeVariableGenerator extends AbstractVariableGenerator {
 

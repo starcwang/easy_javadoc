@@ -11,9 +11,10 @@ import com.intellij.psi.PsiMethod;
 import com.star.easydoc.service.translator.TranslatorService;
 
 /**
+ * 异常变量生成器
+ *
  * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
- * @version 1.0.0
- * @since 2019-12-07 23:18:00
+ * @date 2025/07/28
  */
 public class ThrowsVariableGenerator extends AbstractVariableGenerator {
     private final TranslatorService translatorService = ServiceManager.getService(TranslatorService.class);

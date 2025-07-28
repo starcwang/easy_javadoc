@@ -3,9 +3,10 @@ package com.star.easydoc.javadoc.service.variable.impl;
 import com.intellij.psi.PsiElement;
 
 /**
+ * 版本变量生成器
+ *
  * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
- * @version 1.0.0
- * @since 2019-12-07 23:17:00
+ * @date 2025/07/28
  */
 public class VersionVariableGenerator extends AbstractVariableGenerator {
 

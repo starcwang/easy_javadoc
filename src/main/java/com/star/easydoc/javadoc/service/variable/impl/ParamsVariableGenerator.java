@@ -86,7 +86,9 @@ public class ParamsVariableGenerator extends AbstractVariableGenerator {
      * 参数名注释组合
      */
     static class ParamGroup {
+        /** 参数 */
         private String param;
+        /** 描述 */
         private String desc;
 
         public ParamGroup(String param, String desc) {
