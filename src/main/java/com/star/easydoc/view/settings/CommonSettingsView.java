@@ -82,6 +82,13 @@ public class CommonSettingsView {
     private JLabel googleKeyLabel;
     private JTextField chatGlmApiKeyTextField;
     private JLabel chatGlmApiKeyLabel;
+    private JTextField openAiApiKeyTextField;
+    private JLabel openAiApiKeyLabel;
+    private JTextField openAiModelTextField;
+    private JLabel openAiModelLabel;
+    private JTextField openAiBaseUrlTextField;
+    private JLabel openAiBaseUrlLabel;
+
     private JTextField microsoftRegionTextField;
     private JLabel microsoftRegionLabel;
     private JTextField timeoutTextField;
@@ -224,6 +231,9 @@ public class CommonSettingsView {
             microsoftRegionLabel.setVisible(false);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(false);
+            openAiApiKeyLabel.setVisible(false);
+            openAiModelLabel.setVisible(false);
+            openAiBaseUrlLabel.setVisible(false);
             customUrlLabel.setVisible(false);
 
             appIdTextField.setVisible(true);
@@ -238,6 +248,9 @@ public class CommonSettingsView {
             microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(false);
+            openAiApiKeyTextField.setVisible(false);
+            openAiModelTextField.setVisible(false);
+            openAiBaseUrlTextField.setVisible(false);
             customUrlTextField.setVisible(false);
             customUrlHelpButton.setVisible(false);
         } else if (Consts.TENCENT_TRANSLATOR.equals(selectedItem)) {
@@ -253,6 +266,9 @@ public class CommonSettingsView {
             microsoftRegionLabel.setVisible(false);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(false);
+            openAiApiKeyLabel.setVisible(false);
+            openAiModelLabel.setVisible(false);
+            openAiBaseUrlLabel.setVisible(false);
             customUrlLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
@@ -267,6 +283,9 @@ public class CommonSettingsView {
             microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(false);
+            openAiApiKeyTextField.setVisible(false);
+            openAiModelTextField.setVisible(false);
+            openAiBaseUrlTextField.setVisible(false);
             customUrlTextField.setVisible(false);
             customUrlHelpButton.setVisible(false);
         } else if (Consts.ALIYUN_TRANSLATOR.equals(selectedItem)) {
@@ -282,6 +301,8 @@ public class CommonSettingsView {
             microsoftRegionLabel.setVisible(false);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(false);
+            openAiApiKeyLabel.setVisible(false);
+            openAiModelLabel.setVisible(false);
             customUrlLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
@@ -296,6 +317,8 @@ public class CommonSettingsView {
             microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(false);
+            openAiApiKeyTextField.setVisible(false);
+            openAiModelTextField.setVisible(false);
             customUrlTextField.setVisible(false);
             customUrlHelpButton.setVisible(false);
         } else if (Consts.YOUDAO_AI_TRANSLATOR.equals(selectedItem)) {
@@ -311,6 +334,8 @@ public class CommonSettingsView {
             microsoftRegionLabel.setVisible(false);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(false);
+            openAiApiKeyLabel.setVisible(false);
+            openAiModelLabel.setVisible(false);
             customUrlLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
@@ -325,6 +350,8 @@ public class CommonSettingsView {
             microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(false);
+            openAiApiKeyTextField.setVisible(false);
+            openAiModelTextField.setVisible(false);
             customUrlTextField.setVisible(false);
             customUrlHelpButton.setVisible(false);
         } else if (Consts.MICROSOFT_TRANSLATOR.equals(selectedItem)) {
@@ -369,6 +396,8 @@ public class CommonSettingsView {
             microsoftRegionLabel.setVisible(false);
             googleKeyLabel.setVisible(true);
             chatGlmApiKeyLabel.setVisible(false);
+            openAiApiKeyLabel.setVisible(false);
+            openAiModelLabel.setVisible(false);
             customUrlLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
@@ -383,6 +412,8 @@ public class CommonSettingsView {
             microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(true);
             chatGlmApiKeyTextField.setVisible(false);
+            openAiApiKeyTextField.setVisible(false);
+            openAiModelTextField.setVisible(false);
             customUrlTextField.setVisible(false);
             customUrlHelpButton.setVisible(false);
         } else if (Consts.CHATGLM_GPT.equals(selectedItem)) {
@@ -397,6 +428,8 @@ public class CommonSettingsView {
             microsoftKeyLabel.setVisible(false);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(true);
+            openAiApiKeyLabel.setVisible(false);
+            openAiModelLabel.setVisible(false);
             customUrlLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
@@ -410,6 +443,43 @@ public class CommonSettingsView {
             microsoftKeyTextField.setVisible(false);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(true);
+            openAiApiKeyTextField.setVisible(false);
+            openAiModelTextField.setVisible(false);
+            customUrlTextField.setVisible(false);
+            customUrlHelpButton.setVisible(false);
+        } else if (Consts.OPENAI_GPT.equals(selectedItem)) {
+            appIdLabel.setVisible(false);
+            tokenLabel.setVisible(false);
+            secretIdLabel.setVisible(false);
+            secretKeyLabel.setVisible(false);
+            accessKeyIdLabel.setVisible(false);
+            accessKeySecretLabel.setVisible(false);
+            youdaoAppKeyLabel.setVisible(false);
+            youdaoAppSecretLabel.setVisible(false);
+            microsoftKeyLabel.setVisible(false);
+            microsoftRegionLabel.setVisible(false);
+            googleKeyLabel.setVisible(false);
+            chatGlmApiKeyLabel.setVisible(false);
+            openAiApiKeyLabel.setVisible(true);
+            openAiModelLabel.setVisible(true);
+            openAiBaseUrlLabel.setVisible(true);
+            customUrlLabel.setVisible(false);
+
+            appIdTextField.setVisible(false);
+            tokenTextField.setVisible(false);
+            secretIdTextField.setVisible(false);
+            secretKeyTextField.setVisible(false);
+            accessKeyIdTextField.setVisible(false);
+            accessKeySecretTextField.setVisible(false);
+            youdaoAppKeyTextField.setVisible(false);
+            youdaoAppSecretTextField.setVisible(false);
+            microsoftKeyTextField.setVisible(false);
+            microsoftRegionTextField.setVisible(false);
+            googleKeyTextField.setVisible(false);
+            chatGlmApiKeyTextField.setVisible(false);
+            openAiApiKeyTextField.setVisible(true);
+            openAiModelTextField.setVisible(true);
+            openAiBaseUrlTextField.setVisible(true);
             customUrlTextField.setVisible(false);
             customUrlHelpButton.setVisible(false);
         } else if (Consts.CUSTOM_URL.equals(selectedItem)) {
@@ -424,6 +494,8 @@ public class CommonSettingsView {
             microsoftKeyLabel.setVisible(false);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(false);
+            openAiApiKeyLabel.setVisible(false);
+            openAiModelLabel.setVisible(false);
             customUrlLabel.setVisible(true);
 
             appIdTextField.setVisible(false);
@@ -437,6 +509,8 @@ public class CommonSettingsView {
             microsoftKeyTextField.setVisible(false);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(false);
+            openAiApiKeyTextField.setVisible(false);
+            openAiModelTextField.setVisible(false);
             customUrlTextField.setVisible(true);
             customUrlHelpButton.setVisible(true);
         } else {
@@ -452,6 +526,8 @@ public class CommonSettingsView {
             microsoftRegionLabel.setVisible(false);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(false);
+            openAiApiKeyLabel.setVisible(false);
+            openAiModelLabel.setVisible(false);
             customUrlLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
@@ -466,6 +542,8 @@ public class CommonSettingsView {
             microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(false);
+            openAiApiKeyTextField.setVisible(false);
+            openAiModelTextField.setVisible(false);
             customUrlTextField.setVisible(false);
             customUrlHelpButton.setVisible(false);
         }
@@ -573,6 +651,10 @@ public class CommonSettingsView {
         setMicrosoftRegionTextField(config.getMicrosoftRegion());
         setGoogleKeyTextField(config.getGoogleKey());
         setChatGlmApiKeyTextField(config.getChatGlmApiKey());
+        setOpenAiApiKeyTextField(config.getOpenAiApiKey());
+        setOpenAiModelTextField(config.getOpenAiModel());
+        setOpenAiBaseUrlTextField(config.getOpenAiBaseUrl());
+
         setCustomUrlTextField(config.getCustomUrl());
         refreshWordMap();
         projectList.clearSelection();
@@ -719,6 +801,30 @@ public class CommonSettingsView {
     public void setChatGlmApiKeyTextField(String apiKey) {
         this.chatGlmApiKeyTextField.setText(apiKey);
     }
+
+    public JTextField getOpenAiApiKeyTextField() {
+        return openAiApiKeyTextField;
+    }
+
+    public void setOpenAiApiKeyTextField(String apiKey) {
+        this.openAiApiKeyTextField.setText(apiKey);
+    }
+
+    public JTextField getOpenAiModelTextField() {
+        return openAiModelTextField;
+    }
+
+    public void setOpenAiModelTextField(String model) {
+        this.openAiModelTextField.setText(model);
+    }
+    public JTextField getOpenAiBaseUrlTextField() {
+        return openAiBaseUrlTextField;
+    }
+
+    public void setOpenAiBaseUrlTextField(String baseUrl) {
+        this.openAiBaseUrlTextField.setText(baseUrl);
+    }
+
 
     public JTextField getTimeoutTextField() {
         return timeoutTextField;

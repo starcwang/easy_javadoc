@@ -86,6 +86,15 @@ public class CommonSettingsConfigurable implements Configurable {
         if (!Objects.equals(config.getChatGlmApiKey(), view.getChatGlmApiKeyTextField().getText())) {
             return true;
         }
+        if (!Objects.equals(config.getOpenAiApiKey(), view.getOpenAiApiKeyTextField().getText())) {
+            return true;
+        }
+        if (!Objects.equals(config.getOpenAiModel(), view.getOpenAiModelTextField().getText())) {
+            return true;
+        }
+        if (!Objects.equals(config.getOpenAiBaseUrl(), view.getOpenAiBaseUrlTextField().getText())) {
+            return true;
+        }
         if (!Objects.equals(config.getCustomUrl(), view.getCustomUrlTextField().getText())) {
             return true;
         }
@@ -107,6 +116,9 @@ public class CommonSettingsConfigurable implements Configurable {
         config.setMicrosoftRegion(view.getMicrosoftRegionTextField().getText());
         config.setGoogleKey(view.getGoogleKeyTextField().getText());
         config.setChatGlmApiKey(view.getChatGlmApiKeyTextField().getText());
+        config.setOpenAiApiKey(view.getOpenAiApiKeyTextField().getText());
+        config.setOpenAiModel(view.getOpenAiModelTextField().getText());
+        config.setOpenAiBaseUrl(StringUtils.strip(view.getOpenAiBaseUrlTextField().getText()));
         config.setCustomUrl(StringUtils.strip(view.getCustomUrlTextField().getText()));
         if (config.getWordMap() == null) {
             config.setWordMap(new TreeMap<>());
@@ -163,6 +175,17 @@ public class CommonSettingsConfigurable implements Configurable {
         if (Consts.CHATGLM_GPT.equals(config.getTranslator())) {
             if (StringUtils.isBlank(config.getChatGlmApiKey())) {
                 throw new ConfigurationException("apiKey不能为空");
+            }
+        }
+        if (Consts.OPENAI_GPT.equals(config.getTranslator())) {
+            if (StringUtils.isBlank(config.getOpenAiApiKey())) {
+                throw new ConfigurationException("OpenAI apiKey不能为空");
+            }
+            if (StringUtils.isBlank(config.getOpenAiModel())) {
+                throw new ConfigurationException("OpenAI 模型不能为空");
+            }
+            if (StringUtils.isNotBlank(config.getOpenAiBaseUrl()) && !config.getOpenAiBaseUrl().startsWith("http")) {
+                throw new ConfigurationException("OpenAI Base URL 只支持 http 或 https");
             }
         }
         if (Consts.CUSTOM_URL.equals(config.getTranslator())) {

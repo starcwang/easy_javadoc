@@ -126,6 +126,12 @@ public class EasyDocConfig {
      * chatglmApiKey
      */
     private String chatGlmApiKey;
+    /** OpenAI apiKey */
+    private String openAiApiKey;
+    /** OpenAI 模型 */
+    private String openAiModel;
+    /** OpenAI Base URL */
+    private String openAiBaseUrl;
     /**
      * 微软key
      */
@@ -187,6 +193,10 @@ public class EasyDocConfig {
         accessKeySecret = null;
         youdaoAppKey = null;
         youdaoAppSecret = null;
+        chatGlmApiKey = null;
+        openAiApiKey = null;
+        openAiModel = null;
+        openAiBaseUrl = null;
         wordMap = new TreeMap<>();
         projectWordMap = new TreeMap<>();
         classTemplateConfig = new TemplateConfig();
@@ -643,6 +653,30 @@ public class EasyDocConfig {
 
     public void setChatGlmApiKey(String chatGlmApiKey) {
         this.chatGlmApiKey = chatGlmApiKey;
+    }
+
+    public String getOpenAiApiKey() {
+        return openAiApiKey;
+    }
+
+    public void setOpenAiApiKey(String openAiApiKey) {
+        this.openAiApiKey = openAiApiKey;
+    }
+
+    public String getOpenAiModel() {
+        return openAiModel;
+    }
+
+    public String getOpenAiBaseUrl() {
+        return openAiBaseUrl;
+    }
+
+    public void setOpenAiBaseUrl(String openAiBaseUrl) {
+        this.openAiBaseUrl = openAiBaseUrl;
+    }
+
+    public void setOpenAiModel(String openAiModel) {
+        this.openAiModel = openAiModel;
     }
 
     public String getCoverMode() {
