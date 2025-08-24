@@ -132,6 +132,8 @@ public class EasyDocConfig {
     private String openAiModel;
     /** OpenAI Base URL */
     private String openAiBaseUrl;
+    /** DeepLX Base URL */
+    private String deepLxBaseUrl;
     /**
      * 微软key
      */
@@ -197,6 +199,7 @@ public class EasyDocConfig {
         openAiApiKey = null;
         openAiModel = null;
         openAiBaseUrl = null;
+        deepLxBaseUrl = null;
         wordMap = new TreeMap<>();
         projectWordMap = new TreeMap<>();
         classTemplateConfig = new TemplateConfig();
@@ -673,6 +676,14 @@ public class EasyDocConfig {
 
     public void setOpenAiBaseUrl(String openAiBaseUrl) {
         this.openAiBaseUrl = openAiBaseUrl;
+    }
+
+    public String getDeepLxBaseUrl() {
+        return deepLxBaseUrl;
+    }
+
+    public void setDeepLxBaseUrl(String deepLxBaseUrl) {
+        this.deepLxBaseUrl = deepLxBaseUrl;
     }
 
     public void setOpenAiModel(String openAiModel) {

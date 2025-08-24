@@ -95,6 +95,9 @@ public class CommonSettingsConfigurable implements Configurable {
         if (!Objects.equals(config.getOpenAiBaseUrl(), view.getOpenAiBaseUrlTextField().getText())) {
             return true;
         }
+        if (!Objects.equals(config.getDeepLxBaseUrl(), view.getDeepLxBaseUrlTextField().getText())) {
+            return true;
+        }
         if (!Objects.equals(config.getCustomUrl(), view.getCustomUrlTextField().getText())) {
             return true;
         }
@@ -119,6 +122,7 @@ public class CommonSettingsConfigurable implements Configurable {
         config.setOpenAiApiKey(view.getOpenAiApiKeyTextField().getText());
         config.setOpenAiModel(view.getOpenAiModelTextField().getText());
         config.setOpenAiBaseUrl(StringUtils.strip(view.getOpenAiBaseUrlTextField().getText()));
+        config.setDeepLxBaseUrl(StringUtils.strip(view.getDeepLxBaseUrlTextField().getText()));
         config.setCustomUrl(StringUtils.strip(view.getCustomUrlTextField().getText()));
         if (config.getWordMap() == null) {
             config.setWordMap(new TreeMap<>());
@@ -203,6 +207,11 @@ public class CommonSettingsConfigurable implements Configurable {
             }
             if (!config.getCustomUrl().contains("{query}")) {
                 throw new ConfigurationException("自定义地址需要包含{query}占位符，请查看说明文档");
+            }
+        }
+        if (Consts.DEEPLX_TRANSLATOR.equals(config.getTranslator())) {
+            if (StringUtils.isNotBlank(config.getDeepLxBaseUrl()) && !config.getDeepLxBaseUrl().startsWith("http")) {
+                throw new ConfigurationException("DeepLX 地址只支持 http 或 https");
             }
         }
         if (StringUtils.isBlank(view.getTimeoutTextField().getText())
