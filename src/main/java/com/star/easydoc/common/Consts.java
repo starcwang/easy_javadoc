@@ -30,7 +30,7 @@ public final class Consts {
     public static final Set<String> ENABLE_TRANSLATOR_SET = ImmutableSet.of(Consts.YOUDAO_TRANSLATOR,
         Consts.BAIDU_TRANSLATOR, Consts.TENCENT_TRANSLATOR, Consts.ALIYUN_TRANSLATOR, Consts.YOUDAO_AI_TRANSLATOR,
         Consts.MICROSOFT_TRANSLATOR, Consts.MICROSOFT_FREE_TRANSLATOR, Consts.GOOGLE_TRANSLATOR,
-        Consts.GOOGLE_FREE_TRANSLATOR, Consts.CHATGLM_GPT, Consts.OPENAI_GPT, Consts.LOCAL_DICTIONARY, Consts.SIMPLE_SPLITTER,
+        Consts.GOOGLE_FREE_TRANSLATOR, Consts.CHATGLM_GPT, Consts.OPENAI_GPT, Consts.OPENAI_TRANSLATOR, Consts.LOCAL_DICTIONARY, Consts.SIMPLE_SPLITTER,
         Consts.CLOSE_TRANSLATOR, Consts.CUSTOM_URL, Consts.DEEPLX_TRANSLATOR);
 
     /** AI翻译集合 */
@@ -84,6 +84,10 @@ public final class Consts {
      * OpenAI API
      */
     public static final String OPENAI_GPT = "OpenAI API";
+    /**
+     * OpenAI 翻译（复用 OpenAI 配置，走翻译流程）
+     */
+    public static final String OPENAI_TRANSLATOR = "OpenAI 翻译";
     /**
      * 本地词典
      */

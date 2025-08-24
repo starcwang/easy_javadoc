@@ -65,6 +65,7 @@
                 <item value="谷歌免费翻译"/>
                 <item value="智谱清言"/>
                 <item value="OpenAI API"/>
+                <item value="OpenAI 翻译"/>
                 <item value="DeepLX 翻译"/>
                 <item value="本地词典"/>
                 <item value="自定义HTTP接口"/>

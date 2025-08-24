@@ -520,6 +520,46 @@ public class CommonSettingsView {
             openAiBaseUrlTextField.setVisible(true);
             customUrlTextField.setVisible(false);
             customUrlHelpButton.setVisible(false);
+        } else if (Consts.OPENAI_TRANSLATOR.equals(selectedItem)) {
+            // 复用 OpenAI 配置，显示三项
+            appIdLabel.setVisible(false);
+            tokenLabel.setVisible(false);
+            secretIdLabel.setVisible(false);
+            secretKeyLabel.setVisible(false);
+            accessKeyIdLabel.setVisible(false);
+            accessKeySecretLabel.setVisible(false);
+            youdaoAppKeyLabel.setVisible(false);
+            youdaoAppSecretLabel.setVisible(false);
+            microsoftKeyLabel.setVisible(false);
+            microsoftRegionLabel.setVisible(false);
+            googleKeyLabel.setVisible(false);
+            chatGlmApiKeyLabel.setVisible(false);
+            openAiApiKeyLabel.setVisible(true);
+            openAiModelLabel.setVisible(true);
+            openAiBaseUrlLabel.setVisible(true);
+            customUrlLabel.setVisible(false);
+            deepLxBaseUrlLabel.setVisible(false);
+            deepLxTokenLabel.setVisible(false);
+
+            appIdTextField.setVisible(false);
+            tokenTextField.setVisible(false);
+            secretIdTextField.setVisible(false);
+            secretKeyTextField.setVisible(false);
+            accessKeyIdTextField.setVisible(false);
+            accessKeySecretTextField.setVisible(false);
+            youdaoAppKeyTextField.setVisible(false);
+            youdaoAppSecretTextField.setVisible(false);
+            microsoftKeyTextField.setVisible(false);
+            microsoftRegionTextField.setVisible(false);
+            googleKeyTextField.setVisible(false);
+            chatGlmApiKeyTextField.setVisible(false);
+            openAiApiKeyTextField.setVisible(true);
+            openAiModelTextField.setVisible(true);
+            openAiBaseUrlTextField.setVisible(true);
+            customUrlTextField.setVisible(false);
+            deepLxBaseUrlTextField.setVisible(false);
+            deepLxTokenTextField.setVisible(false);
+            customUrlHelpButton.setVisible(false);
         } else if (Consts.CUSTOM_URL.equals(selectedItem)) {
             appIdLabel.setVisible(false);
             tokenLabel.setVisible(false);

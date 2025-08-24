@@ -185,7 +185,7 @@ public class CommonSettingsConfigurable implements Configurable {
                 throw new ConfigurationException("apiKey不能为空");
             }
         }
-        if (Consts.OPENAI_GPT.equals(config.getTranslator())) {
+        if (Consts.OPENAI_GPT.equals(config.getTranslator()) || Consts.OPENAI_TRANSLATOR.equals(config.getTranslator())) {
             if (StringUtils.isBlank(config.getOpenAiApiKey())) {
                 throw new ConfigurationException("OpenAI apiKey不能为空");
             }
