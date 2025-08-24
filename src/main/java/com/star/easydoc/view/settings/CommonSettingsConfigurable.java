@@ -98,6 +98,9 @@ public class CommonSettingsConfigurable implements Configurable {
         if (!Objects.equals(config.getDeepLxBaseUrl(), view.getDeepLxBaseUrlTextField().getText())) {
             return true;
         }
+        if (!Objects.equals(config.getDeepLxToken(), view.getDeepLxTokenTextField().getText())) {
+            return true;
+        }
         if (!Objects.equals(config.getCustomUrl(), view.getCustomUrlTextField().getText())) {
             return true;
         }
@@ -123,6 +126,7 @@ public class CommonSettingsConfigurable implements Configurable {
         config.setOpenAiModel(view.getOpenAiModelTextField().getText());
         config.setOpenAiBaseUrl(StringUtils.strip(view.getOpenAiBaseUrlTextField().getText()));
         config.setDeepLxBaseUrl(StringUtils.strip(view.getDeepLxBaseUrlTextField().getText()));
+        config.setDeepLxToken(StringUtils.strip(view.getDeepLxTokenTextField().getText()));
         config.setCustomUrl(StringUtils.strip(view.getCustomUrlTextField().getText()));
         if (config.getWordMap() == null) {
             config.setWordMap(new TreeMap<>());

@@ -91,6 +91,8 @@ public class CommonSettingsView {
 
     private JTextField deepLxBaseUrlTextField;
     private JLabel deepLxBaseUrlLabel;
+    private JTextField deepLxTokenTextField;
+    private JLabel deepLxTokenLabel;
 
     private JTextField microsoftRegionTextField;
     private JLabel microsoftRegionLabel;
@@ -239,6 +241,7 @@ public class CommonSettingsView {
             openAiBaseUrlLabel.setVisible(false);
             customUrlLabel.setVisible(false);
             deepLxBaseUrlLabel.setVisible(false);
+            deepLxTokenLabel.setVisible(false);
 
             appIdTextField.setVisible(true);
             tokenTextField.setVisible(true);
@@ -257,6 +260,7 @@ public class CommonSettingsView {
             openAiBaseUrlTextField.setVisible(false);
             customUrlTextField.setVisible(false);
             deepLxBaseUrlTextField.setVisible(false);
+            deepLxTokenTextField.setVisible(false);
             customUrlHelpButton.setVisible(false);
         } else if (Consts.TENCENT_TRANSLATOR.equals(selectedItem)) {
             appIdLabel.setVisible(false);
@@ -310,8 +314,10 @@ public class CommonSettingsView {
             chatGlmApiKeyLabel.setVisible(false);
             openAiApiKeyLabel.setVisible(false);
             openAiModelLabel.setVisible(false);
+            openAiBaseUrlLabel.setVisible(false);
             customUrlLabel.setVisible(false);
             deepLxBaseUrlLabel.setVisible(false);
+            deepLxTokenLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
             tokenTextField.setVisible(false);
@@ -327,8 +333,10 @@ public class CommonSettingsView {
             chatGlmApiKeyTextField.setVisible(false);
             openAiApiKeyTextField.setVisible(false);
             openAiModelTextField.setVisible(false);
+            openAiBaseUrlTextField.setVisible(false);
             customUrlTextField.setVisible(false);
             deepLxBaseUrlTextField.setVisible(false);
+            deepLxTokenTextField.setVisible(false);
             customUrlHelpButton.setVisible(false);
         } else if (Consts.YOUDAO_AI_TRANSLATOR.equals(selectedItem)) {
             appIdLabel.setVisible(false);
@@ -345,8 +353,10 @@ public class CommonSettingsView {
             chatGlmApiKeyLabel.setVisible(false);
             openAiApiKeyLabel.setVisible(false);
             openAiModelLabel.setVisible(false);
+            openAiBaseUrlLabel.setVisible(false);
             customUrlLabel.setVisible(false);
             deepLxBaseUrlLabel.setVisible(false);
+            deepLxTokenLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
             tokenTextField.setVisible(false);
@@ -362,8 +372,10 @@ public class CommonSettingsView {
             chatGlmApiKeyTextField.setVisible(false);
             openAiApiKeyTextField.setVisible(false);
             openAiModelTextField.setVisible(false);
+            openAiBaseUrlTextField.setVisible(false);
             customUrlTextField.setVisible(false);
             deepLxBaseUrlTextField.setVisible(false);
+            deepLxTokenTextField.setVisible(false);
             customUrlHelpButton.setVisible(false);
         } else if (Consts.MICROSOFT_TRANSLATOR.equals(selectedItem)) {
             appIdLabel.setVisible(false);
@@ -378,6 +390,7 @@ public class CommonSettingsView {
             microsoftRegionLabel.setVisible(true);
             googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(false);
+            openAiBaseUrlLabel.setVisible(false);
             customUrlLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
@@ -392,6 +405,7 @@ public class CommonSettingsView {
             microsoftRegionTextField.setVisible(true);
             googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(false);
+            openAiBaseUrlTextField.setVisible(false);
             customUrlTextField.setVisible(false);
             deepLxBaseUrlTextField.setVisible(false);
             customUrlHelpButton.setVisible(false);
@@ -410,6 +424,7 @@ public class CommonSettingsView {
             chatGlmApiKeyLabel.setVisible(false);
             openAiApiKeyLabel.setVisible(false);
             openAiModelLabel.setVisible(false);
+            openAiBaseUrlLabel.setVisible(false);
             customUrlLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
@@ -426,6 +441,7 @@ public class CommonSettingsView {
             chatGlmApiKeyTextField.setVisible(false);
             openAiApiKeyTextField.setVisible(false);
             openAiModelTextField.setVisible(false);
+            openAiBaseUrlTextField.setVisible(false);
             customUrlTextField.setVisible(false);
             deepLxBaseUrlTextField.setVisible(false);
             customUrlHelpButton.setVisible(false);
@@ -443,6 +459,7 @@ public class CommonSettingsView {
             chatGlmApiKeyLabel.setVisible(true);
             openAiApiKeyLabel.setVisible(false);
             openAiModelLabel.setVisible(false);
+            openAiBaseUrlLabel.setVisible(false);
             customUrlLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
@@ -458,6 +475,7 @@ public class CommonSettingsView {
             chatGlmApiKeyTextField.setVisible(true);
             openAiApiKeyTextField.setVisible(false);
             openAiModelTextField.setVisible(false);
+            openAiBaseUrlTextField.setVisible(false);
             customUrlTextField.setVisible(false);
             deepLxBaseUrlTextField.setVisible(false);
             customUrlHelpButton.setVisible(false);
@@ -479,6 +497,7 @@ public class CommonSettingsView {
             openAiBaseUrlLabel.setVisible(true);
             customUrlLabel.setVisible(false);
             deepLxBaseUrlLabel.setVisible(false);
+            deepLxTokenLabel.setVisible(false);
 
 
             appIdTextField.setVisible(false);
@@ -495,6 +514,7 @@ public class CommonSettingsView {
             chatGlmApiKeyTextField.setVisible(false);
             openAiApiKeyTextField.setVisible(true);
             deepLxBaseUrlTextField.setVisible(false);
+            deepLxTokenTextField.setVisible(false);
 
             openAiModelTextField.setVisible(true);
             openAiBaseUrlTextField.setVisible(true);
@@ -514,7 +534,10 @@ public class CommonSettingsView {
             chatGlmApiKeyLabel.setVisible(false);
             openAiApiKeyLabel.setVisible(false);
             openAiModelLabel.setVisible(false);
+            openAiBaseUrlLabel.setVisible(false);
             customUrlLabel.setVisible(true);
+            deepLxBaseUrlLabel.setVisible(false);
+            deepLxTokenLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
             tokenTextField.setVisible(false);
@@ -529,11 +552,14 @@ public class CommonSettingsView {
             chatGlmApiKeyTextField.setVisible(false);
             openAiApiKeyTextField.setVisible(false);
             openAiModelTextField.setVisible(false);
+            openAiBaseUrlTextField.setVisible(false);
             customUrlTextField.setVisible(true);
+            deepLxBaseUrlTextField.setVisible(false);
+            deepLxTokenTextField.setVisible(false);
             customUrlHelpButton.setVisible(true);
         } else if (Consts.DEEPLX_TRANSLATOR.equals(selectedItem)) {
             appIdLabel.setVisible(false);
-            tokenLabel.setVisible(true);
+            tokenLabel.setVisible(false);
             secretIdLabel.setVisible(false);
             secretKeyLabel.setVisible(false);
             accessKeyIdLabel.setVisible(false);
@@ -549,9 +575,10 @@ public class CommonSettingsView {
             openAiBaseUrlLabel.setVisible(false);
             customUrlLabel.setVisible(false);
             deepLxBaseUrlLabel.setVisible(true);
+            deepLxTokenLabel.setVisible(true);
 
             appIdTextField.setVisible(false);
-            tokenTextField.setVisible(true);
+            tokenTextField.setVisible(false);
             secretIdTextField.setVisible(false);
             secretKeyTextField.setVisible(false);
             accessKeyIdTextField.setVisible(false);
@@ -567,6 +594,7 @@ public class CommonSettingsView {
             openAiBaseUrlTextField.setVisible(false);
             customUrlTextField.setVisible(false);
             deepLxBaseUrlTextField.setVisible(true);
+            deepLxTokenTextField.setVisible(true);
             customUrlHelpButton.setVisible(false);
         } else {
             appIdLabel.setVisible(false);
@@ -583,8 +611,10 @@ public class CommonSettingsView {
             chatGlmApiKeyLabel.setVisible(false);
             openAiApiKeyLabel.setVisible(false);
             openAiModelLabel.setVisible(false);
+            openAiBaseUrlLabel.setVisible(false);
             customUrlLabel.setVisible(false);
             deepLxBaseUrlLabel.setVisible(false);
+            deepLxTokenLabel.setVisible(false);
 
             appIdTextField.setVisible(false);
             tokenTextField.setVisible(false);
@@ -600,8 +630,10 @@ public class CommonSettingsView {
             chatGlmApiKeyTextField.setVisible(false);
             openAiApiKeyTextField.setVisible(false);
             openAiModelTextField.setVisible(false);
+            openAiBaseUrlTextField.setVisible(false);
             customUrlTextField.setVisible(false);
             deepLxBaseUrlTextField.setVisible(false);
+            deepLxTokenTextField.setVisible(false);
             customUrlHelpButton.setVisible(false);
         }
     }
@@ -712,6 +744,7 @@ public class CommonSettingsView {
         setOpenAiModelTextField(config.getOpenAiModel());
         setOpenAiBaseUrlTextField(config.getOpenAiBaseUrl());
         setDeepLxBaseUrlTextField(config.getDeepLxBaseUrl());
+        setDeepLxTokenTextField(config.getDeepLxToken());
 
         setCustomUrlTextField(config.getCustomUrl());
         refreshWordMap();
@@ -906,6 +939,14 @@ public class CommonSettingsView {
 
     public void setDeepLxBaseUrlTextField(String url) {
         this.deepLxBaseUrlTextField.setText(url);
+    }
+
+    public JTextField getDeepLxTokenTextField() {
+        return deepLxTokenTextField;
+    }
+
+    public void setDeepLxTokenTextField(String token) {
+        this.deepLxTokenTextField.setText(token);
     }
 }
 

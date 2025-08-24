@@ -39,8 +39,8 @@ public class DeepLXTranslator extends AbstractTranslator {
         String json = null;
         try {
             Map<String, String> headers = Maps.newHashMap();
-            if (StringUtils.isNotBlank(getConfig().getToken())) {
-                headers.put("Authorization", "Bearer " + getConfig().getToken());
+            if (StringUtils.isNotBlank(getConfig().getDeepLxToken())) {
+                headers.put("Authorization", "Bearer " + getConfig().getDeepLxToken());
             }
             JSONObject body = new JSONObject();
             body.put("text", query);
