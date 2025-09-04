@@ -10,6 +10,7 @@ import com.alibaba.fastjson2.JSONObject;
 
 import com.google.common.collect.Maps;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.psi.PsiElement;
 import com.star.easydoc.common.util.HttpUtil;
 import org.apache.commons.lang3.StringUtils;
 
@@ -89,12 +90,12 @@ public class MicrosoftFreeTranslator extends AbstractTranslator {
     }
 
     @Override
-    protected String translateCh2En(String text) {
+    protected String translateCh2En(String text, PsiElement psiElement) {
         return translate(CH2EN_URL, text);
     }
 
     @Override
-    protected String translateEn2Ch(String text) {
+    protected String translateEn2Ch(String text, PsiElement psiElement) {
         return translate(EN2CH_URL, text);
     }
 

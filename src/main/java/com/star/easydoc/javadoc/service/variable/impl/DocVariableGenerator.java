@@ -32,7 +32,7 @@ public class DocVariableGenerator extends AbstractVariableGenerator {
 
         // force模式
         if (docComment == null || EasyDocConfig.COVER_MODE_FORCE.equals(getConfig().getCoverMode())) {
-            return translatorService.translate(((PsiNamedElement)element).getName());
+            return translatorService.translate(((PsiNamedElement)element).getName(), element);
         }
 
         PsiElement[] descriptionElements = docComment.getDescriptionElements();
@@ -41,6 +41,6 @@ public class DocVariableGenerator extends AbstractVariableGenerator {
             .filter(StringUtils::isNotBlank)
             .collect(Collectors.toList());
         String result = Joiner.on("\n* ").skipNulls().join(descTextList);
-        return StringUtils.isNotBlank(result) ? result : translatorService.translate(((PsiNamedElement)element).getName());
+        return StringUtils.isNotBlank(result) ? result : translatorService.translate(((PsiNamedElement)element).getName(), element);
     }
 }

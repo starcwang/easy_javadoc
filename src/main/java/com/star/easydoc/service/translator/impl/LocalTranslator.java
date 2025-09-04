@@ -11,6 +11,7 @@ import com.alibaba.fastjson2.TypeReference;
 
 import com.google.common.collect.Maps;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.psi.PsiElement;
 import com.intellij.util.ResourceUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -30,13 +31,13 @@ public class LocalTranslator extends AbstractTranslator {
     private final Object lock = new Object();
 
     @Override
-    protected String translateCh2En(String text) {
+    protected String translateCh2En(String text, PsiElement psiElement) {
         initLocalMap();
         return ch2EnMap.getOrDefault(text, text);
     }
 
     @Override
-    protected String translateEn2Ch(String text) {
+    protected String translateEn2Ch(String text, PsiElement psiElement) {
         initLocalMap();
         String[] splits = text.split(StringUtils.SPACE);
         return Arrays.stream(splits).map(en2ChMap::get).filter(StringUtils::isNotBlank)

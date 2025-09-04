@@ -38,7 +38,7 @@ public class ReturnVariableGenerator extends AbstractVariableGenerator {
             } else if (getConfig().isLinkMethodReturnType()) {
                 return "@return " + returnName.replaceAll("[^<> ,]+", "{@link $0 }");
             } else if (getConfig().isDocMethodReturnType()) {
-                return "@return " + translatorService.translateWithClass(returnName, returns.getType().getCanonicalText(), element.getProject());
+                return "@return " + translatorService.translateWithClass(returnName, returns.getType().getCanonicalText(), element.getProject(), element);
             }
             return String.format("@return {@link %s }", returnName);
         }

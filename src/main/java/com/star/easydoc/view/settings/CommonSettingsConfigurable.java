@@ -14,7 +14,6 @@ import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.config.EasyDocConfigComponent;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.Nls.Capitalization;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -30,7 +29,7 @@ public class CommonSettingsConfigurable implements Configurable {
     /** 视图 */
     private CommonSettingsView view = new CommonSettingsView();
 
-    @Nls(capitalization = Capitalization.Title)
+    @Nls
     @Override
     public String getDisplayName() {
         return "EasyDoc";

@@ -57,14 +57,14 @@ public class ParamsVariableGenerator extends AbstractVariableGenerator {
             PsiDocTag psiDocTag = psiDocTagMap.get(paramName);
             if (psiDocTag == null || psiDocTag.getDataElements().length < 2) {
                 // 不存在则插入一个需要翻译的
-                paramGroupList.add(new ParamGroup(paramName, translatorService.translate(paramName)));
+                paramGroupList.add(new ParamGroup(paramName, translatorService.translate(paramName, element)));
                 continue;
             }
             PsiElement eleParamDesc = psiDocTag.getDataElements()[1];
             String desc = eleParamDesc.getText();
             if (StringUtils.isEmpty(desc) || EasyDocConfig.COVER_MODE_FORCE.equals(getConfig().getCoverMode())) {
                 // 不存在注释或强制覆盖则翻译
-                paramGroupList.add(new ParamGroup(paramName, translatorService.translate(paramName)));
+                paramGroupList.add(new ParamGroup(paramName, translatorService.translate(paramName, element)));
             } else {
                 // 如果已经存在注释则直接返回
                 paramGroupList.add(new ParamGroup(paramName, desc));

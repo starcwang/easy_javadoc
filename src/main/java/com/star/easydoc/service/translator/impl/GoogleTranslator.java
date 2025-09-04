@@ -6,6 +6,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.psi.PsiElement;
 import com.star.easydoc.common.util.HttpUtil;
 import org.apache.commons.lang3.StringUtils;
 
@@ -24,12 +25,12 @@ public class GoogleTranslator extends AbstractTranslator {
         = "https://translation.googleapis.com/language/translate/v2?q=%s&source=zh&target=en&key=%s&format=text";
 
     @Override
-    public String translateEn2Ch(String text) {
+    public String translateEn2Ch(String text, PsiElement psiElement) {
         return translate(EN2CH_URL, text);
     }
 
     @Override
-    public String translateCh2En(String text) {
+    public String translateCh2En(String text, PsiElement psiElement) {
         return translate(CH2EN_URL, text);
     }
 

@@ -1,5 +1,6 @@
 package com.star.easydoc.service.translator.impl;
 
+import com.intellij.psi.PsiElement;
 import com.star.easydoc.common.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 
@@ -12,12 +13,12 @@ import org.apache.commons.lang3.StringUtils;
 public class SimpleSplitterTranslator extends AbstractTranslator {
 
     @Override
-    protected String translateCh2En(String text) {
+    protected String translateCh2En(String text, PsiElement psiElement) {
         return StringUtils.join(StringUtil.split(text), StringUtils.SPACE);
     }
 
     @Override
-    protected String translateEn2Ch(String text) {
+    protected String translateEn2Ch(String text, PsiElement psiElement) {
         return StringUtils.join(StringUtil.split(text), StringUtils.SPACE);
     }
 

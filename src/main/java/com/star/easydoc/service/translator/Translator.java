@@ -1,6 +1,8 @@
 package com.star.easydoc.service.translator;
 
+import com.intellij.psi.PsiElement;
 import com.star.easydoc.config.EasyDocConfig;
+import java.util.Map;
 
 /**
  * 翻译
@@ -14,17 +16,19 @@ public interface Translator {
      * 英译中
      *
      * @param text 文本
+     * @param psiElement 所在位置
      * @return {@link java.lang.String}
      */
-    String en2Ch(String text);
+    String en2Ch(String text, PsiElement psiElement);
 
     /**
      * 中译英
      *
      * @param text 文本
+     * @param psiElement 所在位置
      * @return {@link java.lang.String}
      */
-    String ch2En(String text);
+    String ch2En(String text, PsiElement psiElement);
 
     /**
      * 初始化

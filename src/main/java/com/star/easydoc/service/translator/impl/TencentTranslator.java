@@ -14,6 +14,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.annotation.JSONField;
 
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.psi.PsiElement;
 import com.star.easydoc.common.util.HttpUtil;
 import org.apache.commons.lang3.StringUtils;
 
@@ -27,13 +28,13 @@ public class TencentTranslator extends AbstractTranslator {
     private static final Logger LOGGER = Logger.getInstance(TencentTranslator.class);
 
     @Override
-    public String translateEn2Ch(String text) {
+    public String translateEn2Ch(String text, PsiElement psiElement) {
         TencentResponse response = get(text, "zh");
         return response == null ? StringUtils.EMPTY : response.getTargetText();
     }
 
     @Override
-    public String translateCh2En(String text) {
+    public String translateCh2En(String text, PsiElement psiElement) {
         TencentResponse response = get(text, "en");
         return response == null ? StringUtils.EMPTY : response.getTargetText();
     }

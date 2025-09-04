@@ -31,7 +31,7 @@ public class ThrowsVariableGenerator extends AbstractVariableGenerator {
         }
         return exceptionTypeList.stream()
             .map(type -> "@throws " + type.getName() + " "
-                + translatorService.translateWithClass(type.getName(), type.getCanonicalText(), element.getProject()))
+                + translatorService.translateWithClass(type.getName(), type.getCanonicalText(), element.getProject(), element))
             .collect(Collectors.joining("\n"));
     }
 }

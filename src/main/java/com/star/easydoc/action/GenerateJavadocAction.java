@@ -79,13 +79,15 @@ public class GenerateJavadocAction extends AnAction {
         }
 
         // 选中翻译功能
+        PsiElement psiElement = anActionEvent.getData(LangDataKeys.PSI_ELEMENT);
         Editor editor = anActionEvent.getData(LangDataKeys.EDITOR);
+        PsiFile psiFile = anActionEvent.getData(LangDataKeys.PSI_FILE);
         if (editor != null) {
             String selectedText = editor.getSelectionModel().getSelectedText(true);
             if (StringUtils.isNotBlank(selectedText)) {
                 // 中译英
                 if (LanguageUtil.isAllChinese(selectedText)) {
-                    writerService.write(project, editor, translatorService.translateCh2En(selectedText));
+                    writerService.write(project, editor, translatorService.translateCh2En(selectedText, psiElement));
                 }
                 // 自动翻译
                 else {
@@ -93,15 +95,13 @@ public class GenerateJavadocAction extends AnAction {
                     if (!selectedText.contains(StringUtils.SPACE)) {
                         eng = StringUtils.join(StringUtil.split(selectedText), StringUtils.SPACE);
                     }
-                    String result = translatorService.autoTranslate(eng);
+                    String result = translatorService.autoTranslate(eng, psiElement);
                     new TranslateResultView(result).show();
                 }
                 return;
             }
         }
 
-        PsiFile psiFile = anActionEvent.getData(LangDataKeys.PSI_FILE);
-        PsiElement psiElement = anActionEvent.getData(LangDataKeys.PSI_ELEMENT);
         if (psiFile == null || psiElement == null) {
             return;
         }
@@ -126,7 +126,7 @@ public class GenerateJavadocAction extends AnAction {
         //选中文件夹则判断包里面是否需要创建package-info.java，创建package-info 并携带注释
         if (psiElement instanceof PsiDirectory) {
             PsiPackage psiPackage = JavaDirectoryService.getInstance().getPackage((PsiDirectory)psiElement);
-            String comment = translatorService.autoTranslate(psiPackage.getName());
+            String comment = translatorService.autoTranslate(psiPackage.getName(), psiElement);
             packageInfoService.handle(psiPackage, comment);
             return;
         }
@@ -134,7 +134,7 @@ public class GenerateJavadocAction extends AnAction {
         if (psiFile != null && PackageInfoService.INFO_FILE_NAME.equals(psiFile.getName())) {
             PsiDirectory psiDirectory = psiFile.getParent();
             PsiPackage psiPackage = JavaDirectoryService.getInstance().getPackage(psiDirectory);
-            String comment = translatorService.autoTranslate(psiPackage.getName());
+            String comment = translatorService.autoTranslate(psiPackage.getName(), psiElement);
             packageInfoService.handle(psiPackage, comment);
             return;
         }

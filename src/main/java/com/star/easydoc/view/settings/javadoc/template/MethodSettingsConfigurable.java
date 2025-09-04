@@ -11,7 +11,6 @@ import com.star.easydoc.config.EasyDocConfigComponent;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.Nls.Capitalization;
 
 /**
  * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>
@@ -22,7 +21,7 @@ public class MethodSettingsConfigurable extends AbstractTemplateConfigurable<Met
     private EasyDocConfig config = ServiceManager.getService(EasyDocConfigComponent.class).getState();
     private MethodSettingsView view = new MethodSettingsView(config);
 
-    @Nls(capitalization = Capitalization.Title)
+    @Nls
     @Override
     public String getDisplayName() {
         return "EasyDocMethodTemplate";

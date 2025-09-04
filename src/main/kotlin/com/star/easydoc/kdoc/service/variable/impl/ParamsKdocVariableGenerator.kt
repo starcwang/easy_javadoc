@@ -53,7 +53,8 @@ class ParamsKdocVariableGenerator : AbstractKdocVariableGenerator() {
                 paramsDoc.add(
                     "${if (paramsDoc.isEmpty()) "" else "* "}@param $thisParam ${
                         translatorService.translate(
-                            param
+                            param,
+                            element
                         )
                     }"
                 )

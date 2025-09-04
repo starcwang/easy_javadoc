@@ -11,6 +11,7 @@ import com.alibaba.fastjson2.JSON;
 
 import com.google.common.collect.Maps;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.psi.PsiElement;
 import com.star.easydoc.common.util.HttpUtil;
 import org.apache.commons.lang3.StringUtils;
 
@@ -26,12 +27,12 @@ public class YoudaoAiTranslator extends AbstractTranslator {
     private static final String YOUDAO_URL = "https://openapi.youdao.com/api";
 
     @Override
-    public String translateEn2Ch(String text) {
+    public String translateEn2Ch(String text, PsiElement psiElement) {
         return translate(text, "en", "zh-CHS");
     }
 
     @Override
-    public String translateCh2En(String text) {
+    public String translateCh2En(String text, PsiElement psiElement) {
         return translate(text, "zh-CHS", "en");
     }
 

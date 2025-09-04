@@ -93,7 +93,7 @@ public class GenerateAllJavadocAction extends AnAction {
             }
             //执行
             Map<PsiPackage, String> packMap = packages.stream()
-                .collect(Collectors.toMap(s -> s, s -> translatorService.autoTranslate(s.getName())));
+                .collect(Collectors.toMap(s -> s, s -> translatorService.autoTranslate(s.getName(), psiElement)));
             //显示列表，一个个的修改后再提交写入更好
 
             PackageDescribeView packageDescribeView = new PackageDescribeView(packMap);

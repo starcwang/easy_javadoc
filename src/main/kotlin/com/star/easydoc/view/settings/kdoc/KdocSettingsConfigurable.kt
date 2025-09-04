@@ -5,7 +5,6 @@ import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.options.ConfigurationException
 import com.star.easydoc.config.EasyDocConfigComponent
 import org.jetbrains.annotations.Nls
-import org.jetbrains.annotations.Nls.Capitalization
 import javax.swing.JComponent
 
 /**
@@ -58,7 +57,7 @@ class KdocSettingsConfigurable : Configurable {
         }
     }
 
-    @Nls(capitalization = Capitalization.Title)
+    @Nls
     override fun getDisplayName(): String {
         return "EasyDocKdoc"
     }

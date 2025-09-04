@@ -6,6 +6,7 @@ import java.util.Objects;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.annotation.JSONField;
 
+import com.intellij.psi.PsiElement;
 import com.star.easydoc.common.util.HttpUtil;
 import org.apache.commons.lang3.StringUtils;
 
@@ -20,7 +21,7 @@ public class JinshanTranslator extends AbstractTranslator {
     private static final String URL = "http://dict-co.iciba.com/api/dictionary.php?key=1E55091D2F202FA617472001B3AF0D39&type=json&w=%s";
 
     @Override
-    public String translateEn2Ch(String text) {
+    public String translateEn2Ch(String text, PsiElement psiElement) {
         try {
             JinshanResponse response = JSON.parseObject(HttpUtil.get(String.format(URL, HttpUtil.encode(text)),
                 getConfig().getTimeout()), JinshanResponse.class);
@@ -31,7 +32,7 @@ public class JinshanTranslator extends AbstractTranslator {
     }
 
     @Override
-    public String translateCh2En(String text) {
+    public String translateCh2En(String text, PsiElement psiElement) {
         // TODO: 2020-8-27  
         return null;
     }

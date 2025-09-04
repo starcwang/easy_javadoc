@@ -82,7 +82,7 @@ public class TranslatorService {
      * @param source 源
      * @return {@link String}
      */
-    public String translate(String source) {
+    public String translate(String source, PsiElement psiElement) {
         // 如果自定义了完整的映射，直接使用完整的映射返回
         String custom = getFromCustom(source);
         if (StringUtils.isNotBlank(custom)) {
@@ -96,7 +96,7 @@ public class TranslatorService {
             for (String word : words) {
                 String res = getFromCustom(word);
                 if (StringUtils.isBlank(res)) {
-                    res = getFromOthers(word);
+                    res = getFromOthers(word, psiElement);
                 }
                 if (StringUtils.isBlank(res)) {
                     res = word;
@@ -106,7 +106,7 @@ public class TranslatorService {
             return sb.toString();
         } else {
             // 没有自定义单词，使用整句翻译，翻译更准确
-            return getFromOthers(StringUtils.join(words, StringUtils.SPACE));
+            return getFromOthers(StringUtils.join(words, StringUtils.SPACE), psiElement);
         }
     }
 
@@ -116,34 +116,34 @@ public class TranslatorService {
      * @param source 源
      * @return {@link String}
      */
-    public String translateWithClass(String source, String className, Project project) {
+    public String translateWithClass(String source, String className, Project project, PsiElement element) {
         // 开关判断
         if (EasyDocConfig.ONLY_TRANSLATE.equals(config.getDocPriority())) {
-            return translate(source);
+            return translate(source, element);
         }
 
         if (StringUtils.isNotBlank(className)) {
             PsiClass aClass = JavaPsiFacade.getInstance(project).findClass(className,
                 GlobalSearchScope.projectScope(project));
             if (aClass == null) {
-                return translate(source);
+                return translate(source, element);
             }
             PsiDocComment docComment = aClass.getDocComment();
             if (docComment == null) {
-                return translate(source);
+                return translate(source, element);
             }
             PsiElement[] descriptionElements = docComment.getDescriptionElements();
-            for (PsiElement element : descriptionElements) {
-                if (element instanceof PsiDocTokenImpl) {
-                    String doc = element.getText().replaceAll("[ \\n\\t*]+", "");
+            for (PsiElement e : descriptionElements) {
+                if (e instanceof PsiDocTokenImpl) {
+                    String doc = e.getText().replaceAll("[ \\n\\t*]+", "");
                     if (StringUtils.isNotBlank(doc)) {
                         return doc;
                     }
                 }
             }
-            return translate(source);
+            return translate(source, element);
         } else {
-            return translate(source);
+            return translate(source, element);
         }
     }
 
@@ -151,14 +151,15 @@ public class TranslatorService {
      * 自动翻译
      *
      * @param source 源
+     * @param psiElement 元素
      * @return {@link String}
      */
-    public String autoTranslate(String source) {
+    public String autoTranslate(String source, PsiElement psiElement) {
         Translator translator = translatorMap.get(config.getTranslator());
         if (Objects.isNull(translator)) {
             return StringUtils.EMPTY;
         }
-        return translator.en2Ch(source.replace("\n", " "));
+        return translator.en2Ch(source.replace("\n", " "), psiElement);
     }
 
     /**
@@ -167,11 +168,11 @@ public class TranslatorService {
      * @param source 源中文
      * @return {@link String}
      */
-    public String translateCh2En(String source) {
+    public String translateCh2En(String source, PsiElement psiElement) {
         if (StringUtils.isBlank(source)) {
             return "";
         }
-        String ch = translatorMap.get(config.getTranslator()).ch2En(source);
+        String ch = translatorMap.get(config.getTranslator()).ch2En(source, psiElement);
         String[] chs = StringUtils.split(ch);
         List<String> chList = chs == null ? Lists.newArrayList() : Lists.newArrayList(chs);
         chList = chList.stream()
@@ -218,12 +219,12 @@ public class TranslatorService {
         return ObjectUtils.firstNonNull(map.get(word), map.get(word.toLowerCase()));
     }
 
-    private String getFromOthers(String word) {
+    private String getFromOthers(String word, PsiElement psiElement) {
         Translator translator = translatorMap.get(config.getTranslator());
         if (Objects.isNull(translator)) {
             return StringUtils.EMPTY;
         }
-        String res = translator.en2Ch(word);
+        String res = translator.en2Ch(word, psiElement);
         if (res != null) {
             res = res.replace("的", "");
         }

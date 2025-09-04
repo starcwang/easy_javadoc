@@ -9,6 +9,7 @@ import com.intellij.notification.NotificationAction;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.psi.PsiElement;
 import com.star.easydoc.common.util.NotificationUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,13 +30,13 @@ public class YoudaoTranslator extends AbstractTranslator {
     private static final long THRESHOLD = 60 * 60 * 1000L;
 
     @Override
-    public String translateEn2Ch(String text) {
+    public String translateEn2Ch(String text, PsiElement psiElement) {
         LOGGER.error("youdao free translate has bean disabled by official, please apply for a private account");
         return "";
     }
 
     @Override
-    public String translateCh2En(String text) {
+    public String translateCh2En(String text, PsiElement psiElement) {
         LOGGER.error("youdao free translate has bean disabled by official, please apply for a private account");
         return "";
     }

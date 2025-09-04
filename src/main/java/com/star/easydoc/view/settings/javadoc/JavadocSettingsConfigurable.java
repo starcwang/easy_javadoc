@@ -10,7 +10,6 @@ import com.intellij.openapi.options.ConfigurationException;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.config.EasyDocConfigComponent;
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.Nls.Capitalization;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -22,7 +21,7 @@ public class JavadocSettingsConfigurable implements Configurable {
     private EasyDocConfig config = ServiceManager.getService(EasyDocConfigComponent.class).getState();
     private JavadocSettingsView view = new JavadocSettingsView();
 
-    @Nls(capitalization = Capitalization.Title)
+    @Nls
     @Override
     public String getDisplayName() {
         return "EasyDocJavadoc";

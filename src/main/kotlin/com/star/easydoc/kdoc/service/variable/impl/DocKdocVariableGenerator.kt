@@ -18,7 +18,7 @@ class DocKdocVariableGenerator : AbstractKdocVariableGenerator() {
     private val translatorService = ServiceManager.getService(com.star.easydoc.service.translator.TranslatorService::class.java)
     override fun generate(element: PsiElement): String {
         if (element is KtDeclaration) {
-            val doc = translatorService.translate((element as PsiNamedElement).name).trim()
+            val doc = translatorService.translate((element as PsiNamedElement).name, element).trim()
             val docComment = (element as KtDeclaration).docComment
             if (docComment != null) {
                 val docElements = docComment.children
