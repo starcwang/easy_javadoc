@@ -21,12 +21,14 @@ import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.service.translator.impl.AliyunTranslator;
 import com.star.easydoc.service.translator.impl.BaiduTranslator;
 import com.star.easydoc.service.translator.impl.CustomTranslator;
+import com.star.easydoc.service.translator.impl.DeepLXTranslator;
 import com.star.easydoc.service.translator.impl.GoogleFreeTranslator;
 import com.star.easydoc.service.translator.impl.GoogleTranslator;
 import com.star.easydoc.service.translator.impl.JinshanTranslator;
 import com.star.easydoc.service.translator.impl.LocalTranslator;
 import com.star.easydoc.service.translator.impl.MicrosoftFreeTranslator;
 import com.star.easydoc.service.translator.impl.MicrosoftTranslator;
+import com.star.easydoc.service.translator.impl.OpenAiTranslator;
 import com.star.easydoc.service.translator.impl.SimpleSplitterTranslator;
 import com.star.easydoc.service.translator.impl.TencentTranslator;
 import com.star.easydoc.service.translator.impl.YoudaoAiTranslator;
@@ -68,6 +70,8 @@ public class TranslatorService {
                 .put(Consts.MICROSOFT_FREE_TRANSLATOR, new MicrosoftFreeTranslator().init(config))
                 .put(Consts.GOOGLE_TRANSLATOR, new GoogleTranslator().init(config))
                 .put(Consts.GOOGLE_FREE_TRANSLATOR, new GoogleFreeTranslator().init(config))
+                .put(Consts.DEEPLX_TRANSLATOR, new DeepLXTranslator().init(config))
+                .put(Consts.OPENAI_TRANSLATOR, new OpenAiTranslator().init(config))
                 .put(Consts.SIMPLE_SPLITTER, new SimpleSplitterTranslator().init(config))
                 .put(Consts.LOCAL_DICTIONARY, new LocalTranslator().init(config))
                 .put(Consts.CUSTOM_URL, new CustomTranslator().init(config))

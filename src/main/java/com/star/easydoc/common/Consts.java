@@ -30,11 +30,11 @@ public final class Consts {
     public static final Set<String> ENABLE_TRANSLATOR_SET = ImmutableSet.of(Consts.YOUDAO_TRANSLATOR,
         Consts.BAIDU_TRANSLATOR, Consts.TENCENT_TRANSLATOR, Consts.ALIYUN_TRANSLATOR, Consts.YOUDAO_AI_TRANSLATOR,
         Consts.MICROSOFT_TRANSLATOR, Consts.MICROSOFT_FREE_TRANSLATOR, Consts.GOOGLE_TRANSLATOR,
-        Consts.GOOGLE_FREE_TRANSLATOR, Consts.CHATGLM_GPT, Consts.LOCAL_DICTIONARY, Consts.SIMPLE_SPLITTER,
-        Consts.CLOSE_TRANSLATOR, Consts.CUSTOM_URL);
+        Consts.GOOGLE_FREE_TRANSLATOR, Consts.CHATGLM_GPT, Consts.OPENAI_GPT, Consts.OPENAI_TRANSLATOR, Consts.LOCAL_DICTIONARY, Consts.SIMPLE_SPLITTER,
+        Consts.CLOSE_TRANSLATOR, Consts.CUSTOM_URL, Consts.DEEPLX_TRANSLATOR);
 
     /** AI翻译集合 */
-    public static final Set<String> AI_TRANSLATOR = ImmutableSet.of(Consts.CHATGLM_GPT);
+    public static final Set<String> AI_TRANSLATOR = ImmutableSet.of(Consts.CHATGLM_GPT, Consts.OPENAI_GPT);
 
     /**
      * 腾讯翻译
@@ -81,6 +81,14 @@ public final class Consts {
      */
     public static final String CHATGLM_GPT = "智谱清言";
     /**
+     * OpenAI API
+     */
+    public static final String OPENAI_GPT = "OpenAI API";
+    /**
+     * OpenAI 翻译（复用 OpenAI 配置，走翻译流程）
+     */
+    public static final String OPENAI_TRANSLATOR = "OpenAI 翻译";
+    /**
      * 本地词典
      */
     public static final String LOCAL_DICTIONARY = "本地词典";
@@ -96,4 +104,9 @@ public final class Consts {
      * 关闭翻译
      */
     public static final String CLOSE_TRANSLATOR = "关闭（只使用自定义翻译）";
+    /**
+     * DeepLX 翻译
+     */
+    public static final String DEEPLX_TRANSLATOR = "DeepLX 翻译";
 }
+
