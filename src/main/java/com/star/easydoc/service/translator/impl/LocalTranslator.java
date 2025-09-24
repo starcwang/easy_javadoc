@@ -54,7 +54,7 @@ public class LocalTranslator extends AbstractTranslator {
             }
 
             try {
-                String json = IOUtils.toString(ResourceUtil.getResource(getClass(), "", "words.json"), StandardCharsets.UTF_8);
+                String json = IOUtils.toString(ResourceUtil.getResourceAsStream(getClass().getClassLoader(), "", "words.json"), StandardCharsets.UTF_8);
                 Map<String, String> jsonMap = JSON.parseObject(json, new TypeReference<Map<String, String>>() {});
                 en2ChMap = Maps.newHashMap();
                 ch2EnMap = Maps.newHashMap();

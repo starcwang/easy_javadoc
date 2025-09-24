@@ -84,6 +84,9 @@
 这是因为IDEA的默认格式化将文档标签顺序改了，如果非得要自定义的顺序的话，则需要改IDEA如下设置![关闭Javadoc格式化](./doc/jpg/closeJavadocFormat.png)
 
 ## 更新履历
+- v4.4.1 2025-09-24
+  - 升级java、kotlin、intelliJ-plugin版本
+  - 最低支持IDEA版本2023.1
 - v4.4.0 2025-09-04
   - 自定义http接口支持传入type参数
 - v4.3.1 2024-09-01

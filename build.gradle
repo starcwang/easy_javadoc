@@ -1,7 +1,8 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.7.3'
-    id 'org.jetbrains.kotlin.jvm' version '1.3.72'
+    id 'org.jetbrains.intellij' version '1.17.4'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.22'
+    id 'maven-publish'
 }
 
 apply plugin: "java"
@@ -9,30 +10,49 @@ apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'kotlin'
 
 group 'com.star.easydoc'
-version '4.4.0'
+version '4.4.1'
+
+// 设置 Java 版本为 17
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+// 配置源集使用 Java 17
+compileJava {
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+    options.encoding = 'UTF-8'
+}
+
+// Kotlin 编译选项
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "17"
+        apiVersion = "1.8"
+        languageVersion = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
 
 repositories {
     mavenCentral()
+    maven { url 'https://www.jetbrains.com/intellij-repository/releases' }
+    maven { url 'https://www.jetbrains.com/intellij-repository/snapshots' }
+    gradlePluginPortal()
 }
-
-compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 // See https://www.jetbrains.com/intellij-repository/releases
 intellij {
-    plugins = ['Kotlin']
+    plugins = ['Kotlin', 'java']
 //    plugins 'java'
-    version '2019.1'
-    pluginName 'Easy Javadoc'
-    updateSinceUntilBuild false
+    version='2023.1'
+    type='IC'
 }
 
 dependencies {
@@ -41,16 +61,17 @@ dependencies {
 }
 
 //配置编码格式
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = "UTF-8"
 }
 
 
-task fatJar(type: Jar) {
+tasks.register('fatJar', Jar) {
     manifest.from jar.manifest
-    classifier = 'all'
+    archiveClassifier.set('all')
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     with jar
 }
