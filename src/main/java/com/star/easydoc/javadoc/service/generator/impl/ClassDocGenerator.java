@@ -78,7 +78,8 @@ public class ClassDocGenerator extends AbstractDocGenerator {
         String prompt; // 定义提示变量
         try {
             // 将资源文件中的文本读取为字符串
-            prompt = IOUtils.toString(ResourceUtil.getResourceAsStream(getClass().getClassLoader(), "prompts/chatglm", "class.prompt"), StandardCharsets.UTF_8);
+            String folder = Consts.OPENAI_GPT.equals(config.getTranslator()) ? "prompts/openai" : "prompts/chatglm";
+            prompt = IOUtils.toString(ResourceUtil.getResourceAsStream(getClass().getClassLoader(), folder, "class.prompt"), StandardCharsets.UTF_8);
         } catch (IOException e) {
             // 如果发生IO异常，则抛出运行时异常
             throw new RuntimeException(e);
