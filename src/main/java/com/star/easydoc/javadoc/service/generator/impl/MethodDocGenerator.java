@@ -99,7 +99,8 @@ public class MethodDocGenerator extends AbstractDocGenerator {
     private String generateWithAI(PsiElement psiElement) {
         String prompt;
         try {
-            prompt = IOUtils.toString(ResourceUtil.getResource(getClass(), "prompts/chatglm", "method.prompt"));
+            String folder = Consts.OPENAI_GPT.equals(config.getTranslator()) ? "prompts/openai" : "prompts/chatglm";
+            prompt = IOUtils.toString(ResourceUtil.getResource(getClass(), folder, "method.prompt"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
