@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiClass;
@@ -18,6 +19,7 @@ import com.star.easydoc.common.Consts;
 import com.star.easydoc.common.util.CollectionUtil;
 import com.star.easydoc.common.util.StringUtil;
 import com.star.easydoc.config.EasyDocConfig;
+import com.star.easydoc.config.EasyDocConfigComponent;
 import com.star.easydoc.service.translator.impl.AliyunTranslator;
 import com.star.easydoc.service.translator.impl.BaiduTranslator;
 import com.star.easydoc.service.translator.impl.CustomTranslator;
@@ -77,12 +79,23 @@ public class TranslatorService {
     }
 
     /**
+     * 确保已初始化，如果未初始化则自动加载配置
+     */
+    private void ensureInitialized() {
+        if (this.config == null) {
+            EasyDocConfig easyDocConfig = ServiceManager.getService(EasyDocConfigComponent.class).getState();
+            init(easyDocConfig);
+        }
+    }
+
+    /**
      * 英译中
      *
      * @param source 源
      * @return {@link String}
      */
     public String translate(String source, PsiElement psiElement) {
+        ensureInitialized();
         // 如果自定义了完整的映射，直接使用完整的映射返回
         String custom = getFromCustom(source);
         if (StringUtils.isNotBlank(custom)) {
@@ -125,6 +138,7 @@ public class TranslatorService {
      * @return {@link String}
      */
     public String translateWithClass(String source, String className, Project project, PsiElement element) {
+        ensureInitialized();
         // 开关判断
         if (EasyDocConfig.ONLY_TRANSLATE.equals(config.getDocPriority())) {
             return translate(source, element);
@@ -163,6 +177,7 @@ public class TranslatorService {
      * @return {@link String}
      */
     public String autoTranslate(String source, PsiElement psiElement) {
+        ensureInitialized();
         Translator translator = translatorMap.get(config.getTranslator());
         if (Objects.isNull(translator)) {
             return StringUtils.EMPTY;
@@ -177,6 +192,7 @@ public class TranslatorService {
      * @return {@link String}
      */
     public String translateCh2En(String source, PsiElement psiElement) {
+        ensureInitialized();
         if (StringUtils.isBlank(source)) {
             return "";
         }
@@ -251,6 +267,7 @@ public class TranslatorService {
     }
 
     public void clearCache() {
+        ensureInitialized();
         translatorMap.values().forEach(Translator::clearCache);
     }
 }
