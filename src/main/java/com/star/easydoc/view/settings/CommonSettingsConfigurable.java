@@ -88,6 +88,10 @@ public class CommonSettingsConfigurable implements Configurable {
         if (!Objects.equals(config.getCustomUrl(), view.getCustomUrlTextField().getText())) {
             return true;
         }
+        if (!Objects.equals(config.getCustomHttpMethod(),
+            String.valueOf(view.getCustomHttpMethodBox().getSelectedItem()))) {
+            return true;
+        }
         return false;
     }
 
@@ -107,6 +111,7 @@ public class CommonSettingsConfigurable implements Configurable {
         config.setGoogleKey(view.getGoogleKeyTextField().getText());
         config.setChatGlmApiKey(view.getChatGlmApiKeyTextField().getText());
         config.setCustomUrl(StringUtils.strip(view.getCustomUrlTextField().getText()));
+        config.setCustomHttpMethod(String.valueOf(view.getCustomHttpMethodBox().getSelectedItem()));
         if (config.getWordMap() == null) {
             config.setWordMap(new TreeMap<>());
         }

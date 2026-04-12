@@ -134,6 +134,8 @@ public class EasyDocConfig {
     private String microsoftRegion;
     /** 自定义URL */
     private String customUrl;
+    /** 自定义HTTP方法（GET/POST） */
+    private String customHttpMethod = "GET";
     /**
      * 单词映射
      */
@@ -181,6 +183,7 @@ public class EasyDocConfig {
         appId = null;
         token = null;
         customUrl = null;
+        customHttpMethod = "GET";
         secretKey = null;
         secretId = null;
         accessKeyId = null;
@@ -675,5 +678,13 @@ public class EasyDocConfig {
 
     public void setCustomUrl(String customUrl) {
         this.customUrl = customUrl;
+    }
+
+    public String getCustomHttpMethod() {
+        return customHttpMethod;
+    }
+
+    public void setCustomHttpMethod(String customHttpMethod) {
+        this.customHttpMethod = customHttpMethod;
     }
 }

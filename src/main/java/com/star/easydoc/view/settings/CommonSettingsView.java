@@ -89,6 +89,8 @@ public class CommonSettingsView {
     private JTextField customUrlTextField;
     private JLabel customUrlLabel;
     private JButton customUrlHelpButton;
+    private JComboBox<String> customHttpMethodBox;
+    private JLabel customHttpMethodLabel;
     private JBList<Entry<String, String>> typeMapList;
     private JBList<String> projectList;
     private JBList<Entry<String, String>> projectTypeMapList;
@@ -211,263 +213,72 @@ public class CommonSettingsView {
     }
 
     private void setVisible(Object selectedItem) {
+        appIdLabel.setVisible(false);
+        tokenLabel.setVisible(false);
+        secretIdLabel.setVisible(false);
+        secretKeyLabel.setVisible(false);
+        accessKeyIdLabel.setVisible(false);
+        accessKeySecretLabel.setVisible(false);
+        youdaoAppKeyLabel.setVisible(false);
+        youdaoAppSecretLabel.setVisible(false);
+        microsoftKeyLabel.setVisible(false);
+        microsoftRegionLabel.setVisible(false);
+        googleKeyLabel.setVisible(false);
+        chatGlmApiKeyLabel.setVisible(false);
+        customUrlLabel.setVisible(false);
+        appIdTextField.setVisible(false);
+        tokenTextField.setVisible(false);
+        secretIdTextField.setVisible(false);
+        secretKeyTextField.setVisible(false);
+        accessKeyIdTextField.setVisible(false);
+        accessKeySecretTextField.setVisible(false);
+        youdaoAppKeyTextField.setVisible(false);
+        youdaoAppSecretTextField.setVisible(false);
+        microsoftKeyTextField.setVisible(false);
+        microsoftRegionTextField.setVisible(false);
+        googleKeyTextField.setVisible(false);
+        chatGlmApiKeyTextField.setVisible(false);
+        customUrlTextField.setVisible(false);
+        customUrlHelpButton.setVisible(false);
+        customHttpMethodBox.setVisible(false);
+        customHttpMethodLabel.setVisible(false);
+
         if (Consts.BAIDU_TRANSLATOR.equals(selectedItem)) {
             appIdLabel.setVisible(true);
             tokenLabel.setVisible(true);
-            secretIdLabel.setVisible(false);
-            secretKeyLabel.setVisible(false);
-            accessKeyIdLabel.setVisible(false);
-            accessKeySecretLabel.setVisible(false);
-            youdaoAppKeyLabel.setVisible(false);
-            youdaoAppSecretLabel.setVisible(false);
-            microsoftKeyLabel.setVisible(false);
-            microsoftRegionLabel.setVisible(false);
-            googleKeyLabel.setVisible(false);
-            chatGlmApiKeyLabel.setVisible(false);
-            customUrlLabel.setVisible(false);
-
             appIdTextField.setVisible(true);
             tokenTextField.setVisible(true);
-            secretIdTextField.setVisible(false);
-            secretKeyTextField.setVisible(false);
-            accessKeyIdTextField.setVisible(false);
-            accessKeySecretTextField.setVisible(false);
-            youdaoAppKeyTextField.setVisible(false);
-            youdaoAppSecretTextField.setVisible(false);
-            microsoftKeyTextField.setVisible(false);
-            microsoftRegionTextField.setVisible(false);
-            googleKeyTextField.setVisible(false);
-            chatGlmApiKeyTextField.setVisible(false);
-            customUrlTextField.setVisible(false);
-            customUrlHelpButton.setVisible(false);
         } else if (Consts.TENCENT_TRANSLATOR.equals(selectedItem)) {
-            appIdLabel.setVisible(false);
-            tokenLabel.setVisible(false);
             secretIdLabel.setVisible(true);
             secretKeyLabel.setVisible(true);
-            accessKeyIdLabel.setVisible(false);
-            accessKeySecretLabel.setVisible(false);
-            youdaoAppKeyLabel.setVisible(false);
-            youdaoAppSecretLabel.setVisible(false);
-            microsoftKeyLabel.setVisible(false);
-            microsoftRegionLabel.setVisible(false);
-            googleKeyLabel.setVisible(false);
-            chatGlmApiKeyLabel.setVisible(false);
-            customUrlLabel.setVisible(false);
-
-            appIdTextField.setVisible(false);
-            tokenTextField.setVisible(false);
             secretIdTextField.setVisible(true);
             secretKeyTextField.setVisible(true);
-            accessKeyIdTextField.setVisible(false);
-            accessKeySecretTextField.setVisible(false);
-            youdaoAppKeyTextField.setVisible(false);
-            youdaoAppSecretTextField.setVisible(false);
-            microsoftKeyTextField.setVisible(false);
-            microsoftRegionTextField.setVisible(false);
-            googleKeyTextField.setVisible(false);
-            chatGlmApiKeyTextField.setVisible(false);
-            customUrlTextField.setVisible(false);
-            customUrlHelpButton.setVisible(false);
         } else if (Consts.ALIYUN_TRANSLATOR.equals(selectedItem)) {
-            appIdLabel.setVisible(false);
-            tokenLabel.setVisible(false);
-            secretIdLabel.setVisible(false);
-            secretKeyLabel.setVisible(false);
             accessKeyIdLabel.setVisible(true);
             accessKeySecretLabel.setVisible(true);
-            youdaoAppKeyLabel.setVisible(false);
-            youdaoAppSecretLabel.setVisible(false);
-            microsoftKeyLabel.setVisible(false);
-            microsoftRegionLabel.setVisible(false);
-            googleKeyLabel.setVisible(false);
-            chatGlmApiKeyLabel.setVisible(false);
-            customUrlLabel.setVisible(false);
-
-            appIdTextField.setVisible(false);
-            tokenTextField.setVisible(false);
-            secretIdTextField.setVisible(false);
-            secretKeyTextField.setVisible(false);
             accessKeyIdTextField.setVisible(true);
             accessKeySecretTextField.setVisible(true);
-            youdaoAppKeyTextField.setVisible(false);
-            youdaoAppSecretTextField.setVisible(false);
-            microsoftKeyTextField.setVisible(false);
-            microsoftRegionTextField.setVisible(false);
-            googleKeyTextField.setVisible(false);
-            chatGlmApiKeyTextField.setVisible(false);
-            customUrlTextField.setVisible(false);
-            customUrlHelpButton.setVisible(false);
         } else if (Consts.YOUDAO_AI_TRANSLATOR.equals(selectedItem)) {
-            appIdLabel.setVisible(false);
-            tokenLabel.setVisible(false);
-            secretIdLabel.setVisible(false);
-            secretKeyLabel.setVisible(false);
-            accessKeyIdLabel.setVisible(false);
-            accessKeySecretLabel.setVisible(false);
             youdaoAppKeyLabel.setVisible(true);
             youdaoAppSecretLabel.setVisible(true);
-            microsoftKeyLabel.setVisible(false);
-            microsoftRegionLabel.setVisible(false);
-            googleKeyLabel.setVisible(false);
-            chatGlmApiKeyLabel.setVisible(false);
-            customUrlLabel.setVisible(false);
-
-            appIdTextField.setVisible(false);
-            tokenTextField.setVisible(false);
-            secretIdTextField.setVisible(false);
-            secretKeyTextField.setVisible(false);
-            accessKeyIdTextField.setVisible(false);
-            accessKeySecretTextField.setVisible(false);
             youdaoAppKeyTextField.setVisible(true);
             youdaoAppSecretTextField.setVisible(true);
-            microsoftKeyTextField.setVisible(false);
-            microsoftRegionTextField.setVisible(false);
-            googleKeyTextField.setVisible(false);
-            chatGlmApiKeyTextField.setVisible(false);
-            customUrlTextField.setVisible(false);
-            customUrlHelpButton.setVisible(false);
         } else if (Consts.MICROSOFT_TRANSLATOR.equals(selectedItem)) {
-            appIdLabel.setVisible(false);
-            tokenLabel.setVisible(false);
-            secretIdLabel.setVisible(false);
-            secretKeyLabel.setVisible(false);
-            accessKeyIdLabel.setVisible(false);
-            accessKeySecretLabel.setVisible(false);
-            youdaoAppKeyLabel.setVisible(false);
-            youdaoAppSecretLabel.setVisible(false);
             microsoftKeyLabel.setVisible(true);
             microsoftRegionLabel.setVisible(true);
-            googleKeyLabel.setVisible(false);
-            chatGlmApiKeyLabel.setVisible(false);
-            customUrlLabel.setVisible(false);
-
-            appIdTextField.setVisible(false);
-            tokenTextField.setVisible(false);
-            secretIdTextField.setVisible(false);
-            secretKeyTextField.setVisible(false);
-            accessKeyIdTextField.setVisible(false);
-            accessKeySecretTextField.setVisible(false);
-            youdaoAppKeyTextField.setVisible(false);
-            youdaoAppSecretTextField.setVisible(false);
             microsoftKeyTextField.setVisible(true);
             microsoftRegionTextField.setVisible(true);
-            googleKeyTextField.setVisible(false);
-            chatGlmApiKeyTextField.setVisible(false);
-            customUrlTextField.setVisible(false);
-            customUrlHelpButton.setVisible(false);
         } else if (Consts.GOOGLE_TRANSLATOR.equals(selectedItem)) {
-            appIdLabel.setVisible(false);
-            tokenLabel.setVisible(false);
-            secretIdLabel.setVisible(false);
-            secretKeyLabel.setVisible(false);
-            accessKeyIdLabel.setVisible(false);
-            accessKeySecretLabel.setVisible(false);
-            youdaoAppKeyLabel.setVisible(false);
-            youdaoAppSecretLabel.setVisible(false);
-            microsoftKeyLabel.setVisible(false);
-            microsoftRegionLabel.setVisible(false);
             googleKeyLabel.setVisible(true);
-            chatGlmApiKeyLabel.setVisible(false);
-            customUrlLabel.setVisible(false);
-
-            appIdTextField.setVisible(false);
-            tokenTextField.setVisible(false);
-            secretIdTextField.setVisible(false);
-            secretKeyTextField.setVisible(false);
-            accessKeyIdTextField.setVisible(false);
-            accessKeySecretTextField.setVisible(false);
-            youdaoAppKeyTextField.setVisible(false);
-            youdaoAppSecretTextField.setVisible(false);
-            microsoftKeyTextField.setVisible(false);
-            microsoftRegionTextField.setVisible(false);
             googleKeyTextField.setVisible(true);
-            chatGlmApiKeyTextField.setVisible(false);
-            customUrlTextField.setVisible(false);
-            customUrlHelpButton.setVisible(false);
         } else if (Consts.CHATGLM_GPT.equals(selectedItem)) {
-            appIdLabel.setVisible(false);
-            tokenLabel.setVisible(false);
-            secretIdLabel.setVisible(false);
-            secretKeyLabel.setVisible(false);
-            accessKeyIdLabel.setVisible(false);
-            accessKeySecretLabel.setVisible(false);
-            youdaoAppKeyLabel.setVisible(false);
-            youdaoAppSecretLabel.setVisible(false);
-            microsoftKeyLabel.setVisible(false);
-            googleKeyLabel.setVisible(false);
             chatGlmApiKeyLabel.setVisible(true);
-            customUrlLabel.setVisible(false);
-
-            appIdTextField.setVisible(false);
-            tokenTextField.setVisible(false);
-            secretIdTextField.setVisible(false);
-            secretKeyTextField.setVisible(false);
-            accessKeyIdTextField.setVisible(false);
-            accessKeySecretTextField.setVisible(false);
-            youdaoAppKeyTextField.setVisible(false);
-            youdaoAppSecretTextField.setVisible(false);
-            microsoftKeyTextField.setVisible(false);
-            googleKeyTextField.setVisible(false);
             chatGlmApiKeyTextField.setVisible(true);
-            customUrlTextField.setVisible(false);
-            customUrlHelpButton.setVisible(false);
         } else if (Consts.CUSTOM_URL.equals(selectedItem)) {
-            appIdLabel.setVisible(false);
-            tokenLabel.setVisible(false);
-            secretIdLabel.setVisible(false);
-            secretKeyLabel.setVisible(false);
-            accessKeyIdLabel.setVisible(false);
-            accessKeySecretLabel.setVisible(false);
-            youdaoAppKeyLabel.setVisible(false);
-            youdaoAppSecretLabel.setVisible(false);
-            microsoftKeyLabel.setVisible(false);
-            googleKeyLabel.setVisible(false);
-            chatGlmApiKeyLabel.setVisible(false);
             customUrlLabel.setVisible(true);
-
-            appIdTextField.setVisible(false);
-            tokenTextField.setVisible(false);
-            secretIdTextField.setVisible(false);
-            secretKeyTextField.setVisible(false);
-            accessKeyIdTextField.setVisible(false);
-            accessKeySecretTextField.setVisible(false);
-            youdaoAppKeyTextField.setVisible(false);
-            youdaoAppSecretTextField.setVisible(false);
-            microsoftKeyTextField.setVisible(false);
-            googleKeyTextField.setVisible(false);
-            chatGlmApiKeyTextField.setVisible(false);
-            customUrlTextField.setVisible(true);
             customUrlHelpButton.setVisible(true);
-        } else {
-            appIdLabel.setVisible(false);
-            tokenLabel.setVisible(false);
-            secretIdLabel.setVisible(false);
-            secretKeyLabel.setVisible(false);
-            accessKeyIdLabel.setVisible(false);
-            accessKeySecretLabel.setVisible(false);
-            youdaoAppKeyLabel.setVisible(false);
-            youdaoAppSecretLabel.setVisible(false);
-            microsoftKeyLabel.setVisible(false);
-            microsoftRegionLabel.setVisible(false);
-            googleKeyLabel.setVisible(false);
-            chatGlmApiKeyLabel.setVisible(false);
-            customUrlLabel.setVisible(false);
-
-            appIdTextField.setVisible(false);
-            tokenTextField.setVisible(false);
-            secretIdTextField.setVisible(false);
-            secretKeyTextField.setVisible(false);
-            accessKeyIdTextField.setVisible(false);
-            accessKeySecretTextField.setVisible(false);
-            youdaoAppKeyTextField.setVisible(false);
-            youdaoAppSecretTextField.setVisible(false);
-            microsoftKeyTextField.setVisible(false);
-            microsoftRegionTextField.setVisible(false);
-            googleKeyTextField.setVisible(false);
-            chatGlmApiKeyTextField.setVisible(false);
-            customUrlTextField.setVisible(false);
-            customUrlHelpButton.setVisible(false);
+            customHttpMethodLabel.setVisible(true);
+            customHttpMethodBox.setVisible(true);
         }
     }
 
@@ -574,6 +385,7 @@ public class CommonSettingsView {
         setGoogleKeyTextField(config.getGoogleKey());
         setChatGlmApiKeyTextField(config.getChatGlmApiKey());
         setCustomUrlTextField(config.getCustomUrl());
+        setCustomHttpMethod(config.getCustomHttpMethod());
         refreshWordMap();
         projectList.clearSelection();
         refreshProjectWordMap();
@@ -734,5 +546,16 @@ public class CommonSettingsView {
 
     public void setCustomUrlTextField(String customUrl) {
         this.customUrlTextField.setText(customUrl);
+    }
+
+    public JComboBox<String> getCustomHttpMethodBox() {
+        return customHttpMethodBox;
+    }
+
+    public void setCustomHttpMethod(String httpMethod) {
+        if (httpMethod == null) {
+            httpMethod = "GET";
+        }
+        this.customHttpMethodBox.setSelectedItem(httpMethod);
     }
 }

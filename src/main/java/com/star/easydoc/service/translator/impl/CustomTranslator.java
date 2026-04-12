@@ -3,6 +3,7 @@ package com.star.easydoc.service.translator.impl;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 
+import com.google.common.collect.ImmutableMap;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
@@ -44,7 +45,13 @@ public class CustomTranslator extends AbstractTranslator {
         String url = getConfig().getCustomUrl().replace("{from}", from).replace("{to}", to)
             .replace("{query}", HttpUtil.encode(query)).replace("{type}", type);
         try {
-            json = HttpUtil.get(url, getConfig().getTimeout());
+            if ("POST".equalsIgnoreCase(getConfig().getCustomHttpMethod())) {
+                String body = JSON.toJSONString(ImmutableMap.of(
+                    "from", from, "to", to, "query", query, "type", type));
+                json = HttpUtil.postJson(url, null, body, getConfig().getTimeout());
+            } else {
+                json = HttpUtil.get(url, getConfig().getTimeout());
+            }
             JSONObject response = JSON.parseObject(json);
             if (response == null || response.getInteger("code") != 0) {
                 LOGGER.error(String.format("custom translate error:url:%s,response:%s", url, json));
