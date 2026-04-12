@@ -88,17 +88,6 @@ public class CommonSettingsView {
     private JLabel openAiApiUrlLabel;
     private JTextField openAiModelTextField;
     private JLabel openAiModelLabel;
-    private JTextField openAiApiKeyTextField;
-    private JLabel openAiApiKeyLabel;
-    private JTextField openAiModelTextField;
-    private JLabel openAiModelLabel;
-    private JTextField openAiBaseUrlTextField;
-    private JLabel openAiBaseUrlLabel;
-
-    private JTextField deepLxBaseUrlTextField;
-    private JLabel deepLxBaseUrlLabel;
-    private JTextField deepLxTokenTextField;
-    private JLabel deepLxTokenLabel;
 
     private JTextField microsoftRegionTextField;
     private JLabel microsoftRegionLabel;
