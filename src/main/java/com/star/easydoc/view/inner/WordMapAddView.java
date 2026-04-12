@@ -7,6 +7,8 @@ import javax.swing.*;
 
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
+
+import org.apache.commons.lang3.ObjectUtils;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -39,13 +41,11 @@ public class WordMapAddView extends DialogWrapper {
         if (sourceTextField.getText() == null || sourceTextField.getText().length() <= 0) {
             return new ValidationInfo("请输入原单词", sourceTextField);
         }
-        if (targetTextField.getText() == null || targetTextField.getText().length() <= 0) {
-            return new ValidationInfo("请输入转换后的单词", targetTextField);
-        }
         return super.doValidate();
     }
 
     public Map.Entry<String, String> getMapping() {
-        return new SimpleEntry<>(sourceTextField.getText().toLowerCase(), targetTextField.getText());
+        String targetText = ObjectUtils.defaultIfNull(targetTextField.getText(), "");
+        return new SimpleEntry<>(sourceTextField.getText().toLowerCase(), targetText);
     }
 }

@@ -94,14 +94,22 @@ public class TranslatorService {
             // 有自定义单词，使用默认模式，单个单词翻译
             StringBuilder sb = new StringBuilder();
             for (String word : words) {
-                String res = getFromCustom(word);
-                if (StringUtils.isBlank(res)) {
-                    res = getFromOthers(word, psiElement);
+                // 检查单词是否在映射表中（包括映射值为空的情况）
+                if (containsCustomWord(word)) {
+                    // 在映射表中，直接使用映射值（可能为空，表示跳过翻译）
+                    String res = getFromCustom(word);
+                    if (StringUtils.isNotBlank(res)) {
+                        sb.append(res);
+                    }
+                    // 如果映射值为空，则跳过该单词（不追加任何内容）
+                } else {
+                    // 不在映射表中，使用其他翻译器翻译
+                    String res = getFromOthers(word, psiElement);
+                    if (StringUtils.isBlank(res)) {
+                        res = word;
+                    }
+                    sb.append(res);
                 }
-                if (StringUtils.isBlank(res)) {
-                    res = word;
-                }
-                sb.append(res);
             }
             return sb.toString();
         } else {
@@ -212,6 +220,17 @@ public class TranslatorService {
      */
     private boolean hasCustomWord(List<String> words) {
         return CollectionUtil.containsAny(config.getWordMapWithProject().keySet(), words);
+    }
+
+    /**
+     * 检查单词是否在映射表中（包括映射值为空的情况）
+     *
+     * @param word 单词
+     * @return boolean
+     */
+    private boolean containsCustomWord(String word) {
+        Map<String, String> map = config.getWordMapWithProject();
+        return map.containsKey(word) || map.containsKey(word.toLowerCase());
     }
 
     private String getFromCustom(String word) {
