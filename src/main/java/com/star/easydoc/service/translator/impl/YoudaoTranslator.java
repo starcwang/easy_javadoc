@@ -31,13 +31,13 @@ public class YoudaoTranslator extends AbstractTranslator {
 
     @Override
     public String translateEn2Ch(String text, PsiElement psiElement) {
-        LOGGER.error("youdao free translate has bean disabled by official, please apply for a private account");
+        LOGGER.error("youdao free translate has been disabled by official, please apply for a private account");
         return "";
     }
 
     @Override
     public String translateCh2En(String text, PsiElement psiElement) {
-        LOGGER.error("youdao free translate has bean disabled by official, please apply for a private account");
+        LOGGER.error("youdao free translate has been disabled by official, please apply for a private account");
         return "";
     }
 
