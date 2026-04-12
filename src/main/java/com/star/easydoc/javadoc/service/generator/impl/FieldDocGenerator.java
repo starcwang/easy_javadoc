@@ -1,6 +1,7 @@
 package com.star.easydoc.javadoc.service.generator.impl;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
@@ -79,7 +80,7 @@ public class FieldDocGenerator extends AbstractDocGenerator {
     private String generateWithAI(PsiElement psiElement) {
         String prompt;
         try {
-            prompt = IOUtils.toString(ResourceUtil.getResource(getClass(), "prompts/chatglm", "field.prompt"));
+            prompt = IOUtils.toString(ResourceUtil.getResourceAsStream(getClass().getClassLoader(), "prompts/chatglm", "field.prompt"), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

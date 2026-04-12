@@ -1,6 +1,7 @@
 package com.star.easydoc.javadoc.service.generator.impl;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -99,7 +100,7 @@ public class MethodDocGenerator extends AbstractDocGenerator {
     private String generateWithAI(PsiElement psiElement) {
         String prompt;
         try {
-            prompt = IOUtils.toString(ResourceUtil.getResource(getClass(), "prompts/chatglm", "method.prompt"));
+            prompt = IOUtils.toString(ResourceUtil.getResourceAsStream(getClass().getClassLoader(), "prompts/chatglm", "method.prompt"), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

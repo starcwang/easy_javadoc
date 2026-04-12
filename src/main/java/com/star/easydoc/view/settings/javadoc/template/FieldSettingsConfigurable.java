@@ -1,9 +1,7 @@
 package com.star.easydoc.view.settings.javadoc.template;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.TreeMap;
-import java.util.function.Predicate;
 
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.options.ConfigurationException;
@@ -60,9 +58,7 @@ public class FieldSettingsConfigurable extends AbstractTemplateConfigurable<Fiel
             }
             String temp = StringUtils.strip(view.getTemplate());
             if (!temp.startsWith("/**") || !temp.endsWith("*/")) {
-                if (!Arrays.stream(temp.split("\n")).allMatch(s -> s.strip().startsWith("///"))) {
-                    throw new ConfigurationException("模板格式不正确，正确的javadoc应该以\"/**\"开始以\"*/\"结束，或者markdown doc，每行以 /// 开头");
-                }
+                throw new ConfigurationException("模板格式不正确，正确的javadoc应该以\"/**\"开头，以\"*/\"结束");
             }
         }
     }
