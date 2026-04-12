@@ -126,6 +126,12 @@ public class EasyDocConfig {
      * chatglmApiKey
      */
     private String chatGlmApiKey;
+    /** 通用大模型API密钥 */
+    private String openAiApiKey;
+    /** 通用大模型API地址 */
+    private String openAiApiUrl = "https://api.openai.com/v1";
+    /** 通用大模型模型名称 */
+    private String openAiModel = "gpt-4o";
     /**
      * 微软key
      */
@@ -184,6 +190,9 @@ public class EasyDocConfig {
         token = null;
         customUrl = null;
         customHttpMethod = "GET";
+        openAiApiKey = null;
+        openAiApiUrl = "https://api.openai.com/v1";
+        openAiModel = "gpt-4o";
         secretKey = null;
         secretId = null;
         accessKeyId = null;
@@ -686,5 +695,29 @@ public class EasyDocConfig {
 
     public void setCustomHttpMethod(String customHttpMethod) {
         this.customHttpMethod = customHttpMethod;
+    }
+
+    public String getOpenAiApiKey() {
+        return openAiApiKey;
+    }
+
+    public void setOpenAiApiKey(String openAiApiKey) {
+        this.openAiApiKey = openAiApiKey;
+    }
+
+    public String getOpenAiApiUrl() {
+        return openAiApiUrl;
+    }
+
+    public void setOpenAiApiUrl(String openAiApiUrl) {
+        this.openAiApiUrl = openAiApiUrl;
+    }
+
+    public String getOpenAiModel() {
+        return openAiModel;
+    }
+
+    public void setOpenAiModel(String openAiModel) {
+        this.openAiModel = openAiModel;
     }
 }

@@ -92,6 +92,15 @@ public class CommonSettingsConfigurable implements Configurable {
             String.valueOf(view.getCustomHttpMethodBox().getSelectedItem()))) {
             return true;
         }
+        if (!Objects.equals(config.getOpenAiApiKey(), view.getOpenAiApiKeyTextField().getText())) {
+            return true;
+        }
+        if (!Objects.equals(config.getOpenAiApiUrl(), view.getOpenAiApiUrlTextField().getText())) {
+            return true;
+        }
+        if (!Objects.equals(config.getOpenAiModel(), view.getOpenAiModelTextField().getText())) {
+            return true;
+        }
         return false;
     }
 
@@ -112,6 +121,9 @@ public class CommonSettingsConfigurable implements Configurable {
         config.setChatGlmApiKey(view.getChatGlmApiKeyTextField().getText());
         config.setCustomUrl(StringUtils.strip(view.getCustomUrlTextField().getText()));
         config.setCustomHttpMethod(String.valueOf(view.getCustomHttpMethodBox().getSelectedItem()));
+        config.setOpenAiApiKey(view.getOpenAiApiKeyTextField().getText());
+        config.setOpenAiApiUrl(view.getOpenAiApiUrlTextField().getText());
+        config.setOpenAiModel(view.getOpenAiModelTextField().getText());
         if (config.getWordMap() == null) {
             config.setWordMap(new TreeMap<>());
         }
@@ -167,6 +179,17 @@ public class CommonSettingsConfigurable implements Configurable {
         if (Consts.CHATGLM_GPT.equals(config.getTranslator())) {
             if (StringUtils.isBlank(config.getChatGlmApiKey())) {
                 throw new ConfigurationException("apiKey不能为空");
+            }
+        }
+        if (Consts.OPENAI_GPT.equals(config.getTranslator())) {
+            if (StringUtils.isBlank(config.getOpenAiApiKey())) {
+                throw new ConfigurationException("API密钥不能为空");
+            }
+            if (StringUtils.isBlank(config.getOpenAiApiUrl())) {
+                throw new ConfigurationException("API地址不能为空");
+            }
+            if (StringUtils.isBlank(config.getOpenAiModel())) {
+                throw new ConfigurationException("API模型不能为空");
             }
         }
         if (Consts.CUSTOM_URL.equals(config.getTranslator())) {
