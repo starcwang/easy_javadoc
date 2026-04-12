@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -44,8 +46,19 @@ public class ChatGlmGptSupplier extends AbstractGptSupplier {
 
         String response = HttpUtil.postJson(URL, headers, JSON.toJSONString(request), TIMEOUT);
 
-        String result = JSON.parseObject(response).getJSONArray("choices").getJSONObject(0).getJSONObject("message")
-            .getString("content");
+        JSONObject responseObject = JSON.parseObject(response);
+        if (responseObject == null) {
+            throw new RuntimeException("ChatGLM response is empty");
+        }
+        JSONArray choices = responseObject.getJSONArray("choices");
+        if (choices == null || choices.isEmpty()) {
+            String errorMsg = responseObject.getString("error");
+            if (StringUtils.isNotBlank(errorMsg)) {
+                throw new RuntimeException("ChatGLM API error: " + errorMsg);
+            }
+            throw new RuntimeException("ChatGLM response missing 'choices', raw response: " + response);
+        }
+        String result = choices.getJSONObject(0).getJSONObject("message").getString("content");
 
         return "/**" + StringUtils.substringBeforeLast(StringUtils.substringAfterLast(result, "/**"), "*/") + "*/";
     }
