@@ -19,7 +19,7 @@
     ]]>
     </change-notes>
 
-    <idea-version since-build="191"/>
+    <idea-version since-build="231"/>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
