@@ -1,5 +1,7 @@
 package com.star.easydoc.view.inner;
 
+import java.awt.*;
+
 import javax.swing.*;
 
 import com.intellij.openapi.ui.DialogWrapper;
@@ -20,6 +22,8 @@ public class TranslateResultView extends DialogWrapper {
         init();
         setTitle("翻译结果");
         textArea.setSize(800, 800);
+        // 设置支持中文的字体，避免乱码
+        textArea.setFont(new Font("Dialog", Font.PLAIN, 12));
         textArea.setText(text);
     }
 

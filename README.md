@@ -85,6 +85,10 @@
 这是因为IDEA的默认格式化将文档标签顺序改了，如果非得要自定义的顺序的话，则需要改IDEA如下设置![关闭Javadoc格式化](./doc/jpg/closeJavadocFormat.png)
 
 ## 更新履历
+- v4.5.2 2026-04-14
+  - 修复 Lombok 插件兼容性问题（ClassCastException）
+  - 修复翻译结果弹窗中文乱码问题
+  - 修复生成注释时换行问题
 - v4.5.1 2026-04-14
   - 忽略TypeVariableImpl审核问题
 - v4.5.0 2026-04-12

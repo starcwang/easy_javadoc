@@ -12,7 +12,6 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiParameter;
-import com.intellij.psi.impl.source.PsiMethodImpl;
 import com.intellij.psi.javadoc.PsiDocComment;
 import com.intellij.psi.javadoc.PsiDocTag;
 import com.star.easydoc.config.EasyDocConfig;
@@ -40,7 +39,7 @@ public class ParamsVariableGenerator extends AbstractVariableGenerator {
         }
 
         List<ParamGroup> paramGroupList = new ArrayList<>();
-        PsiDocComment docComment = ((PsiMethodImpl)element).getDocComment();
+        PsiDocComment docComment = ((PsiMethod)element).getDocComment();
         // {"paramName":PsiDocTag}
         Map<String, PsiDocTag> psiDocTagMap = new HashMap<>();
         if (docComment != null) {
