@@ -85,6 +85,8 @@
 这是因为IDEA的默认格式化将文档标签顺序改了，如果非得要自定义的顺序的话，则需要改IDEA如下设置![关闭Javadoc格式化](./doc/jpg/closeJavadocFormat.png)
 
 ## 更新履历
+- v4.5.1 2026-04-14
+  - 忽略TypeVariableImpl审核问题
 - v4.5.0 2026-04-12
   - 支持通用大模型接口（OpenAI格式），兼容 OpenAI、DeepSeek、通义千问、Moonshot 等 🎉
   - 自定义HTTP接口支持POST方法
