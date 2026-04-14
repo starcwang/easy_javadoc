@@ -24,6 +24,10 @@ class KtPropertyDocGenerator : DocGenerator {
         if (psiElement !is KtProperty) {
             return StringUtils.EMPTY
         }
+        // 检查字段是否在排除列表中
+        if (isExcludedField(psiElement.name)) {
+            return StringUtils.EMPTY
+        }
         return if (config.kdocFieldTemplateConfig != null && config.kdocFieldTemplateConfig.isDefault
         ) {
             defaultGenerate(psiElement)
@@ -81,4 +85,24 @@ class KtPropertyDocGenerator : DocGenerator {
         return map
     }
 
+    /**
+     * 检查字段是否在排除列表中
+     *
+     * @param fieldName 字段名
+     * @return 是否排除
+     */
+    private fun isExcludedField(fieldName: String?): Boolean {
+        if (fieldName == null) {
+            return false
+        }
+        val excludeFieldNames = config.excludeFieldNames
+        if (StringUtils.isBlank(excludeFieldNames)) {
+            return false
+        }
+        val excludedFields = excludeFieldNames.split(",")
+            .map { it.trim() }
+            .filter { StringUtils.isNotBlank(it) }
+            .toSet()
+        return excludedFields.contains(fieldName)
+    }
 }

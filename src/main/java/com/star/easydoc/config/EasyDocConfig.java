@@ -174,6 +174,8 @@ public class EasyDocConfig {
     private Boolean genAllField;
     /** 批量生成是否递归内部类 */
     private Boolean genAllInnerClass;
+    /** 排除的字段名列表（逗号分隔，如：serialVersionUID,log,logger） */
+    private String excludeFieldNames = "serialVersionUID";
 
     public void reset() {
         author = "admin";
@@ -615,6 +617,14 @@ public class EasyDocConfig {
 
     public void setGenAllInnerClass(Boolean genAllInnerClass) {
         this.genAllInnerClass = genAllInnerClass;
+    }
+
+    public String getExcludeFieldNames() {
+        return excludeFieldNames;
+    }
+
+    public void setExcludeFieldNames(String excludeFieldNames) {
+        this.excludeFieldNames = excludeFieldNames;
     }
 
     public String getVersion() {

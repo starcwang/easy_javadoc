@@ -2,7 +2,10 @@ package com.star.easydoc.javadoc.service.generator.impl;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.Maps;
 import com.intellij.openapi.components.ServiceManager;
@@ -46,6 +49,12 @@ public class FieldDocGenerator extends AbstractDocGenerator {
             return StringUtils.EMPTY;
         }
         PsiField psiField = (PsiField)psiElement;
+        
+        // 检查字段是否在排除列表中
+        if (isExcludedField(psiField.getName())) {
+            return StringUtils.EMPTY;
+        }
+        
         PsiDocComment docComment = psiField.getDocComment();
         if (EasyDocConfig.COVER_MODE_IGNORE.equals(config.getCoverMode()) && docComment != null) {
             return null;
@@ -107,5 +116,23 @@ public class FieldDocGenerator extends AbstractDocGenerator {
     @Override
     protected EasyDocConfig getConfig() {
         return config;
+    }
+
+    /**
+     * 检查字段是否在排除列表中
+     *
+     * @param fieldName 字段名
+     * @return 是否排除
+     */
+    private boolean isExcludedField(String fieldName) {
+        String excludeFieldNames = config.getExcludeFieldNames();
+        if (StringUtils.isBlank(excludeFieldNames)) {
+            return false;
+        }
+        Set<String> excludedFields = Arrays.stream(excludeFieldNames.split(","))
+            .map(String::trim)
+            .filter(StringUtils::isNotBlank)
+            .collect(Collectors.toSet());
+        return excludedFields.contains(fieldName);
     }
 }
