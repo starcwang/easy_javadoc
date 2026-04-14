@@ -76,7 +76,3 @@ tasks.register('fatJar', Jar) {
     with jar
 }
 
-runPluginVerifier {
-    ignoredProblems.set(file("verifier-ignored-problems.txt"))
-}
-
