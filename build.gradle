@@ -1,3 +1,5 @@
+import org.jetbrains.intellij.tasks.PatchPluginXmlTask
+
 plugins {
     id 'java'
     id 'org.jetbrains.intellij' version '1.17.4'
@@ -10,7 +12,7 @@ apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'kotlin'
 
 group 'com.star.easydoc'
-version '4.5.2'
+version '4.5.3'
 
 // 设置 Java 版本为 17
 java {
@@ -53,6 +55,12 @@ intellij {
 //    plugins 'java'
     version='2023.1'
     type='IC'
+}
+
+// 配置插件版本兼容性 - 不限制上限版本
+tasks.withType(PatchPluginXmlTask).configureEach {
+    sinceBuild.set("231")
+    untilBuild.set("")
 }
 
 dependencies {
