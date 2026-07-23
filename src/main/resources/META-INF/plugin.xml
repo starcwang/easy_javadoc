@@ -14,22 +14,6 @@
     ]]></description>
 
     <change-notes><![CDATA[
-            <h3>v4.5.5</h3>
-      <ul>
-        <li>Fix Settings tree crashes for all EasyDoc configurables (Javadoc/Kdoc/templates)</li>
-        <li>Lazy-load settings views; isModified skips UI when page not opened</li>
-      </ul>
-      <h3>v4.5.4</h3>
-      <ul>
-        <li>修复打开 EasyDoc 设置界面时 NPE 导致界面无法加载的问题</li>
-      </ul>
-      <h3>v4.5.2</h3>
-      <ul>
-        <li>修复 Lombok 插件兼容性问题（ClassCastException）</li>
-        <li>修复翻译结果弹窗中文乱码问题</li>
-        <li>修复生成注释时换行问题</li>
-      </ul>
-      <h3>v4.5.1</h3>
       <a href="https://github.com/starcwang/easy_javadoc">easy_javadoc source code and document</a><br>
     ]]>
     </change-notes>
