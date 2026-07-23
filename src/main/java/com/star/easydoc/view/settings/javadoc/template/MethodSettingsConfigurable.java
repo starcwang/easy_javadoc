@@ -19,7 +19,8 @@ import org.jetbrains.annotations.Nls;
  */
 public class MethodSettingsConfigurable extends AbstractTemplateConfigurable<MethodSettingsView> {
     private EasyDocConfig config = ServiceManager.getService(EasyDocConfigComponent.class).getState();
-    private MethodSettingsView view = new MethodSettingsView(config);
+    /** Lazy: Settings tree instantiates Configurable without building UI */
+    private MethodSettingsView view;
 
     @Nls
     @Override
@@ -29,11 +30,17 @@ public class MethodSettingsConfigurable extends AbstractTemplateConfigurable<Met
 
     @Override
     public MethodSettingsView getView() {
+        if (view == null) {
+            view = new MethodSettingsView(config);
+        }
         return view;
     }
 
     @Override
     public boolean isModified() {
+        if (view == null) {
+            return false;
+        }
         TemplateConfig templateConfig = config.getMethodTemplateConfig();
         if (!Objects.equals(templateConfig.getIsDefault(), view.isDefault())) {
             return true;
@@ -46,17 +53,18 @@ public class MethodSettingsConfigurable extends AbstractTemplateConfigurable<Met
 
     @Override
     public void apply() throws ConfigurationException {
+        MethodSettingsView settingsView = getView();
         TemplateConfig templateConfig = config.getMethodTemplateConfig();
-        templateConfig.setIsDefault(view.isDefault());
-        templateConfig.setTemplate(view.getTemplate());
+        templateConfig.setIsDefault(settingsView.isDefault());
+        templateConfig.setTemplate(settingsView.getTemplate());
         if (templateConfig.getCustomMap() == null) {
             templateConfig.setCustomMap(new TreeMap<>());
         }
-        if (!view.isDefault()) {
-            if (StringUtils.isBlank(view.getTemplate())) {
+        if (!settingsView.isDefault()) {
+            if (StringUtils.isBlank(settingsView.getTemplate())) {
                 throw new ConfigurationException("使用自定义模板，模板不能为空");
             }
-            String temp = StringUtils.strip(view.getTemplate());
+            String temp = StringUtils.strip(settingsView.getTemplate());
             if (!temp.startsWith("/**") || !temp.endsWith("*/")) {
                 throw new ConfigurationException("模板格式不正确，正确的javadoc应该以\"/**\"开头，以\"*/\"结束");
             }
@@ -65,12 +73,13 @@ public class MethodSettingsConfigurable extends AbstractTemplateConfigurable<Met
 
     @Override
     public void reset() {
+        MethodSettingsView settingsView = getView();
         TemplateConfig templateConfig = config.getMethodTemplateConfig();
         if (BooleanUtils.isTrue(templateConfig.getIsDefault())) {
-            view.setDefault(true);
+            settingsView.setDefault(true);
         } else {
-            view.setDefault(false);
+            settingsView.setDefault(false);
         }
-        view.setTemplate(templateConfig.getTemplate());
+        settingsView.setTemplate(templateConfig.getTemplate());
     }
 }

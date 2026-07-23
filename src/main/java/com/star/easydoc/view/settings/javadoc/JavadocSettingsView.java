@@ -38,6 +38,12 @@ public class JavadocSettingsView {
     private JLabel coverModeLabel;
 
     public JavadocSettingsView() {
+        // GUI Designer injects $ before this body. Guard incomplete form wiring.
+        if (simpleDocButton == null || normalDocButton == null || methodReturnCodeTypeButton == null
+            || methodReturnLinkTypeButton == null || methodReturnDocTypeButton == null
+            || docFirstRadioButton == null || onlyTranslateRadioButton == null || coverModeBox == null) {
+            return;
+        }
         simpleDocButton.addChangeListener(e -> {
             JRadioButton button = (JRadioButton)e.getSource();
             if (button.isSelected()) {

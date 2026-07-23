@@ -73,6 +73,8 @@ class KtMethodSettingsView(config: EasyDocConfig) : AbstractTemplateSettingsView
     }
 
     init {
+        // GUI Designer injects $ before this body. Guard incomplete form wiring.
+        if (this::defaultRadioButton.isInitialized && this::customRadioButton.isInitialized) {
         // 添加单选按钮事件
         defaultRadioButton.addChangeListener { e: ChangeEvent ->
             val button = e.source as JRadioButton
@@ -99,6 +101,7 @@ class KtMethodSettingsView(config: EasyDocConfig) : AbstractTemplateSettingsView
                 innerScrollPane.isEnabled = true
                 innerVariablePanel.isEnabled = true
             }
+        }
         }
     }
 

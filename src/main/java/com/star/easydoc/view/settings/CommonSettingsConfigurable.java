@@ -50,68 +50,71 @@ public class CommonSettingsConfigurable implements Configurable {
 
     @Override
     public boolean isModified() {
-        if (!Objects.equals(config.getTranslator(), getView().getTranslatorBox().getSelectedItem())) {
+        if (view == null) {
+            return false;
+        }
+        if (!Objects.equals(config.getTranslator(), view.getTranslatorBox().getSelectedItem())) {
             return true;
         }
-        if (!Objects.equals(String.valueOf(config.getTimeout()), getView().getTimeoutTextField().getText())) {
+        if (!Objects.equals(String.valueOf(config.getTimeout()), view.getTimeoutTextField().getText())) {
             return true;
         }
-        if (!Objects.equals(config.getAppId(), getView().getAppIdTextField().getText())) {
+        if (!Objects.equals(config.getAppId(), view.getAppIdTextField().getText())) {
             return true;
         }
-        if (!Objects.equals(config.getToken(), getView().getTokenTextField().getText())) {
+        if (!Objects.equals(config.getToken(), view.getTokenTextField().getText())) {
             return true;
         }
-        if (!Objects.equals(config.getSecretKey(), getView().getSecretKeyTextField().getText())) {
+        if (!Objects.equals(config.getSecretKey(), view.getSecretKeyTextField().getText())) {
             return true;
         }
-        if (!Objects.equals(config.getSecretId(), getView().getSecretIdTextField().getText())) {
+        if (!Objects.equals(config.getSecretId(), view.getSecretIdTextField().getText())) {
             return true;
         }
-        if (!Objects.equals(config.getAccessKeyId(), getView().getAccessKeyIdTextField().getText())) {
+        if (!Objects.equals(config.getAccessKeyId(), view.getAccessKeyIdTextField().getText())) {
             return true;
         }
-        if (!Objects.equals(config.getAccessKeySecret(), getView().getAccessKeySecretTextField().getText())) {
+        if (!Objects.equals(config.getAccessKeySecret(), view.getAccessKeySecretTextField().getText())) {
             return true;
         }
-        if (!Objects.equals(config.getYoudaoAppKey(), getView().getYoudaoAppKeyTextField().getText())) {
+        if (!Objects.equals(config.getYoudaoAppKey(), view.getYoudaoAppKeyTextField().getText())) {
             return true;
         }
-        if (!Objects.equals(config.getYoudaoAppSecret(), getView().getYoudaoAppSecretTextField().getText())) {
+        if (!Objects.equals(config.getYoudaoAppSecret(), view.getYoudaoAppSecretTextField().getText())) {
             return true;
         }
-        if (!Objects.equals(config.getMicrosoftKey(), getView().getMicrosoftKeyTextField().getText())) {
+        if (!Objects.equals(config.getMicrosoftKey(), view.getMicrosoftKeyTextField().getText())) {
             return true;
         }
-        if (!Objects.equals(config.getMicrosoftRegion(), getView().getMicrosoftRegionTextField().getText())) {
+        if (!Objects.equals(config.getMicrosoftRegion(), view.getMicrosoftRegionTextField().getText())) {
             return true;
         }
-        if (!Objects.equals(config.getGoogleKey(), getView().getGoogleKeyTextField().getText())) {
+        if (!Objects.equals(config.getGoogleKey(), view.getGoogleKeyTextField().getText())) {
             return true;
         }
-        if (!Objects.equals(config.getChatGlmApiKey(), getView().getChatGlmApiKeyTextField().getText())) {
+        if (!Objects.equals(config.getChatGlmApiKey(), view.getChatGlmApiKeyTextField().getText())) {
             return true;
         }
-        if (!Objects.equals(config.getOpenAiApiKey(), getView().getOpenAiApiKeyTextField().getText())) {
+        if (!Objects.equals(config.getOpenAiApiKey(), view.getOpenAiApiKeyTextField().getText())) {
             return true;
         }
-        if (!Objects.equals(config.getOpenAiModel(), getView().getOpenAiModelTextField().getText())) {
+        if (!Objects.equals(config.getOpenAiModel(), view.getOpenAiModelTextField().getText())) {
             return true;
         }
-        if (!Objects.equals(config.getCustomUrl(), getView().getCustomUrlTextField().getText())) {
+        if (!Objects.equals(config.getCustomUrl(), view.getCustomUrlTextField().getText())) {
             return true;
         }
         if (!Objects.equals(config.getCustomHttpMethod(),
-            String.valueOf(getView().getCustomHttpMethodBox().getSelectedItem()))) {
+            String.valueOf(view.getCustomHttpMethodBox().getSelectedItem()))) {
             return true;
         }
-        if (!Objects.equals(config.getOpenAiApiKey(), getView().getOpenAiApiKeyTextField().getText())) {
+        if (!Objects.equals(config.getOpenAiApiKey(), view.getOpenAiApiKeyTextField().getText())) {
             return true;
         }
-        if (!Objects.equals(config.getOpenAiApiUrl(), getView().getOpenAiApiUrlTextField().getText())) {
+        if (!Objects.equals(config.getOpenAiApiUrl(), view.getOpenAiApiUrlTextField().getText())) {
             return true;
         }
-        if (!Objects.equals(config.getOpenAiModel(), getView().getOpenAiModelTextField().getText())) {
+        if (!Objects.equals(config.getOpenAiModel(), view.getOpenAiModelTextField().getText())) {
             return true;
         }
         return false;
@@ -119,24 +122,25 @@ public class CommonSettingsConfigurable implements Configurable {
 
     @Override
     public void apply() throws ConfigurationException {
-        config.setTranslator(String.valueOf(getView().getTranslatorBox().getSelectedItem()));
-        config.setAppId(getView().getAppIdTextField().getText());
-        config.setToken(getView().getTokenTextField().getText());
-        config.setSecretKey(getView().getSecretKeyTextField().getText());
-        config.setSecretId(getView().getSecretIdTextField().getText());
-        config.setAccessKeyId(getView().getAccessKeyIdTextField().getText());
-        config.setAccessKeySecret(getView().getAccessKeySecretTextField().getText());
-        config.setYoudaoAppKey(getView().getYoudaoAppKeyTextField().getText());
-        config.setYoudaoAppSecret(getView().getYoudaoAppSecretTextField().getText());
-        config.setMicrosoftKey(getView().getMicrosoftKeyTextField().getText());
-        config.setMicrosoftRegion(getView().getMicrosoftRegionTextField().getText());
-        config.setGoogleKey(getView().getGoogleKeyTextField().getText());
-        config.setChatGlmApiKey(getView().getChatGlmApiKeyTextField().getText());
-        config.setCustomUrl(StringUtils.strip(getView().getCustomUrlTextField().getText()));
-        config.setCustomHttpMethod(String.valueOf(getView().getCustomHttpMethodBox().getSelectedItem()));
-        config.setOpenAiApiKey(getView().getOpenAiApiKeyTextField().getText());
-        config.setOpenAiApiUrl(getView().getOpenAiApiUrlTextField().getText());
-        config.setOpenAiModel(getView().getOpenAiModelTextField().getText());
+        CommonSettingsView view = getView();
+        config.setTranslator(String.valueOf(view.getTranslatorBox().getSelectedItem()));
+        config.setAppId(view.getAppIdTextField().getText());
+        config.setToken(view.getTokenTextField().getText());
+        config.setSecretKey(view.getSecretKeyTextField().getText());
+        config.setSecretId(view.getSecretIdTextField().getText());
+        config.setAccessKeyId(view.getAccessKeyIdTextField().getText());
+        config.setAccessKeySecret(view.getAccessKeySecretTextField().getText());
+        config.setYoudaoAppKey(view.getYoudaoAppKeyTextField().getText());
+        config.setYoudaoAppSecret(view.getYoudaoAppSecretTextField().getText());
+        config.setMicrosoftKey(view.getMicrosoftKeyTextField().getText());
+        config.setMicrosoftRegion(view.getMicrosoftRegionTextField().getText());
+        config.setGoogleKey(view.getGoogleKeyTextField().getText());
+        config.setChatGlmApiKey(view.getChatGlmApiKeyTextField().getText());
+        config.setCustomUrl(StringUtils.strip(view.getCustomUrlTextField().getText()));
+        config.setCustomHttpMethod(String.valueOf(view.getCustomHttpMethodBox().getSelectedItem()));
+        config.setOpenAiApiKey(view.getOpenAiApiKeyTextField().getText());
+        config.setOpenAiApiUrl(view.getOpenAiApiUrlTextField().getText());
+        config.setOpenAiModel(view.getOpenAiModelTextField().getText());
         if (config.getWordMap() == null) {
             config.setWordMap(new TreeMap<>());
         }
@@ -222,11 +226,11 @@ public class CommonSettingsConfigurable implements Configurable {
                 throw new ConfigurationException("自定义地址需要包含{query}占位符，请查看说明文档");
             }
         }
-        if (StringUtils.isBlank(getView().getTimeoutTextField().getText())
-            || !getView().getTimeoutTextField().getText().matches("^[1-9][0-9]*$")) {
+        if (StringUtils.isBlank(view.getTimeoutTextField().getText())
+            || !view.getTimeoutTextField().getText().matches("^[1-9][0-9]*$")) {
             throw new ConfigurationException("超时时间必须为数字");
         }
-        config.setTimeout(Integer.parseInt(getView().getTimeoutTextField().getText()));
+        config.setTimeout(Integer.parseInt(view.getTimeoutTextField().getText()));
     }
 
     @Override
