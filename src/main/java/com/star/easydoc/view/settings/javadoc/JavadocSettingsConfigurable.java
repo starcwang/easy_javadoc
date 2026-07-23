@@ -19,7 +19,15 @@ import org.jetbrains.annotations.Nullable;
 public class JavadocSettingsConfigurable implements Configurable {
 
     private EasyDocConfig config = ServiceManager.getService(EasyDocConfigComponent.class).getState();
-    private JavadocSettingsView view = new JavadocSettingsView();
+    /** Lazy: Settings tree instantiates Configurable without building UI */
+    private JavadocSettingsView view;
+
+    private JavadocSettingsView getView() {
+        if (view == null) {
+            view = new JavadocSettingsView();
+        }
+        return view;
+    }
 
     @Nls
     @Override
@@ -30,11 +38,14 @@ public class JavadocSettingsConfigurable implements Configurable {
     @Nullable
     @Override
     public JComponent createComponent() {
-        return view.getComponent();
+        return getView().getComponent();
     }
 
     @Override
     public boolean isModified() {
+        if (view == null) {
+            return false;
+        }
         if (!Objects.equals(config.getAuthor(), view.getAuthorTextField().getText())) {
             return true;
         }
@@ -58,12 +69,13 @@ public class JavadocSettingsConfigurable implements Configurable {
 
     @Override
     public void apply() throws ConfigurationException {
-        config.setAuthor(view.getAuthorTextField().getText());
-        config.setDateFormat(view.getDateFormatTextField().getText());
-        config.setSimpleFieldDoc(view.getSimpleDocButton().isSelected());
-        config.setMethodReturnType(view.getMethodReturnType());
-        config.setDocPriority(view.getDocPriority());
-        config.setCoverMode(String.valueOf(view.getCoverModeBox().getSelectedItem()));
+        JavadocSettingsView settingsView = getView();
+        config.setAuthor(settingsView.getAuthorTextField().getText());
+        config.setDateFormat(settingsView.getDateFormatTextField().getText());
+        config.setSimpleFieldDoc(settingsView.getSimpleDocButton().isSelected());
+        config.setMethodReturnType(settingsView.getMethodReturnType());
+        config.setDocPriority(settingsView.getDocPriority());
+        config.setCoverMode(String.valueOf(settingsView.getCoverModeBox().getSelectedItem()));
 
         if (config.getAuthor() == null) {
             throw new ConfigurationException("作者不能为null");
@@ -89,6 +101,6 @@ public class JavadocSettingsConfigurable implements Configurable {
 
     @Override
     public void reset() {
-        view.refresh();
+        getView().refresh();
     }
 }

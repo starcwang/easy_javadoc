@@ -99,6 +99,12 @@ public class ClassSettingsView extends AbstractTemplateSettingsView {
 
     public ClassSettingsView(EasyDocConfig config) {
         super(config);
+        // GUI Designer injects $ before this body. Guard incomplete form wiring.
+        if (defaultRadioButton == null || customRadioButton == null || templateTextArea == null
+            || customTable == null || templatePanel == null || customVariablePanel == null
+            || innerTable == null || innerScrollPane == null || innerVariablePanel == null) {
+            return;
+        }
         // 添加单选按钮事件
         defaultRadioButton.addChangeListener(e -> {
             JRadioButton button = (JRadioButton)e.getSource();

@@ -31,20 +31,23 @@ class KdocSettingsView {
     private lateinit var kdocParamTypeLabel: JLabel
 
     init {
-        simpleDocButton.addChangeListener { e: ChangeEvent ->
-            val button = e.source as JRadioButton
-            if (button.isSelected) {
-                normalDocButton.isSelected = false
-            } else {
-                normalDocButton.isSelected = true
+        // GUI Designer injects $ before this body. Guard incomplete form wiring.
+        if (this::simpleDocButton.isInitialized && this::normalDocButton.isInitialized) {
+            simpleDocButton.addChangeListener { e: ChangeEvent ->
+                val button = e.source as JRadioButton
+                if (button.isSelected) {
+                    normalDocButton.isSelected = false
+                } else {
+                    normalDocButton.isSelected = true
+                }
             }
-        }
-        normalDocButton.addChangeListener { e: ChangeEvent ->
-            val button = e.source as JRadioButton
-            if (button.isSelected) {
-                simpleDocButton.isSelected = false
-            } else {
-                simpleDocButton.isSelected = true
+            normalDocButton.addChangeListener { e: ChangeEvent ->
+                val button = e.source as JRadioButton
+                if (button.isSelected) {
+                    simpleDocButton.isSelected = false
+                } else {
+                    simpleDocButton.isSelected = true
+                }
             }
         }
     }
