@@ -24,7 +24,6 @@ import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.CollectionListModel;
-import com.intellij.ui.ListCellRendererWrapper;
 import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.components.JBList;
 import com.star.easydoc.common.Consts;
@@ -109,9 +108,19 @@ public class CommonSettingsView {
      * 晚于{@link #createUIComponents}执行
      */
     public CommonSettingsView() {
+        // GUI Designer injects $ before this body, which calls createUIComponents().
+        // Guard so Settings can still open if form wiring is incomplete on newer IDEs.
         refreshWordMap();
         refreshProjectWordMap();
-        setVisible(translatorBox.getSelectedItem());
+        if (translatorBox != null) {
+            setVisible(translatorBox.getSelectedItem());
+        }
+
+        if (importButton == null || exportButton == null || resetButton == null || clearButton == null
+            || starButton == null || reviewsButton == null || payButton == null || translatorBox == null
+            || customUrlHelpButton == null || projectList == null) {
+            return;
+        }
 
         importButton.addActionListener(event -> {
             FileChooserDescriptor descriptor = FileChooserDescriptorFactory.createSingleFileDescriptor("json");
@@ -312,10 +321,16 @@ public class CommonSettingsView {
 
         typeMapList = new JBList<>(new CollectionListModel<>(Lists.newArrayList()));
         typeMapList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        typeMapList.setCellRenderer(new ListCellRendererWrapper<Entry<String, String>>() {
+        typeMapList.setCellRenderer(new DefaultListCellRenderer() {
             @Override
-            public void customize(JList list, Entry<String, String> value, int index, boolean selected, boolean hasFocus) {
-                setText(value.getKey() + " -> " + value.getValue());
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof Entry) {
+                    Entry<?, ?> entry = (Entry<?, ?>) value;
+                    setText(entry.getKey() + " -> " + entry.getValue());
+                }
+                return this;
             }
         });
 
@@ -340,10 +355,16 @@ public class CommonSettingsView {
 
         projectTypeMapList = new JBList<>(new CollectionListModel<>(Lists.newArrayList()));
         projectTypeMapList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        projectTypeMapList.setCellRenderer(new ListCellRendererWrapper<Entry<String, String>>() {
+        projectTypeMapList.setCellRenderer(new DefaultListCellRenderer() {
             @Override
-            public void customize(JList list, Entry<String, String> value, int index, boolean selected, boolean hasFocus) {
-                setText(value.getKey() + " -> " + value.getValue());
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof Entry) {
+                    Entry<?, ?> entry = (Entry<?, ?>) value;
+                    setText(entry.getKey() + " -> " + entry.getValue());
+                }
+                return this;
             }
         });
 
@@ -374,10 +395,15 @@ public class CommonSettingsView {
         projectList = new JBList<>(new CollectionListModel<>(Lists.newArrayList()));
         projectList.setModel(new CollectionListModel<>(config.getProjectWordMap().keySet()));
         projectList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        projectList.setCellRenderer(new ListCellRendererWrapper<String>() {
+        projectList.setCellRenderer(new DefaultListCellRenderer() {
             @Override
-            public void customize(JList list, String value, int index, boolean selected, boolean hasFocus) {
-                setText(value);
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value != null) {
+                    setText(String.valueOf(value));
+                }
+                return this;
             }
         });
         projectList.setSelectedIndex(0);
@@ -415,12 +441,16 @@ public class CommonSettingsView {
     }
 
     private void refreshWordMap() {
-        if (null != config && config.getWordMap() != null) {
-            typeMapList.setModel(new CollectionListModel<>(Lists.newArrayList(config.getWordMap().entrySet())));
+        if (typeMapList == null || config == null || config.getWordMap() == null) {
+            return;
         }
+        typeMapList.setModel(new CollectionListModel<>(Lists.newArrayList(config.getWordMap().entrySet())));
     }
 
     private void refreshProjectWordMap() {
+        if (projectList == null || projectTypeMapList == null || config == null) {
+            return;
+        }
         String projectName = projectList.getSelectedValue();
         SortedMap<String, TreeMap<String, String>> projectWordMap = config.getProjectWordMap();
         if (projectWordMap == null) {
