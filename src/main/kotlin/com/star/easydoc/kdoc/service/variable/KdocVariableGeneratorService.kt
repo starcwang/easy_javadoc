@@ -61,7 +61,7 @@ class KdocVariableGeneratorService {
             if (StringUtils.isBlank(key)) {
                 return ""
             }
-            val variableGenerator = variableGeneratorMap[key.toLowerCase()]
+            val variableGenerator = variableGeneratorMap[key.lowercase()]
             if (variableGenerator == null) {
                 variableMap[placeholder] = generateCustomVariable(customValueMap, innerVariableMap, placeholder)
             } else {

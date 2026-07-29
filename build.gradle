@@ -1,21 +1,18 @@
-import org.jetbrains.intellij.tasks.PatchPluginXmlTask
-
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '1.17.4'
+    id 'org.jetbrains.intellij.platform' version '2.13.1'
     id 'org.jetbrains.kotlin.jvm' version '1.9.22'
     id 'maven-publish'
 }
 
-apply plugin: "java"
-apply plugin: 'org.jetbrains.intellij'
-apply plugin: 'kotlin'
+group = 'com.star.easydoc'
+version = '4.5.6'
 
-group 'com.star.easydoc'
-version '4.5.5'
-
-// 设置 Java 版本为 17
+// IntelliJ IDEA 2023.1 使用 Java 17
 java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
@@ -30,42 +27,49 @@ compileJava {
 // Kotlin 编译选项
 compileKotlin {
     kotlinOptions {
-        jvmTarget = "17"
-        apiVersion = "1.8"
-        languageVersion = "1.8"
+        jvmTarget = '17'
+        apiVersion = '1.8'
+        languageVersion = '1.8'
     }
 }
+
 compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "17"
-    }
+    kotlinOptions.jvmTarget = '17'
 }
 
 repositories {
     mavenCentral()
-    maven { url 'https://www.jetbrains.com/intellij-repository/releases' }
-    maven { url 'https://www.jetbrains.com/intellij-repository/snapshots' }
-    gradlePluginPortal()
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
-// See https://github.com/JetBrains/gradle-intellij-plugin/
-// See https://www.jetbrains.com/intellij-repository/releases
-intellij {
-    plugins = ['Kotlin', 'java']
-//    plugins 'java'
-    version='2023.1'
-    type='IC'
-}
-
-// 配置插件版本兼容性 - 不限制上限版本
-tasks.withType(PatchPluginXmlTask).configureEach {
-    sinceBuild.set("231")
-    untilBuild.set("")
+intellijPlatform {
+    pluginConfiguration {
+        ideaVersion {
+            sinceBuild = '231'
+        }
+    }
 }
 
 dependencies {
     implementation 'com.alibaba.fastjson2:fastjson2:2.0.61'
     implementation 'com.auth0:java-jwt:4.4.0'
+    testImplementation 'junit:junit:4.13.2'
+
+    intellijPlatform {
+        intellijIdeaCommunity('2023.1') {
+            useInstaller = false
+        }
+        bundledPlugin 'com.intellij.java'
+        bundledPlugin 'org.jetbrains.kotlin'
+    }
+}
+
+intellijPlatformTesting.runIde {
+    runIde2026 {
+        localPath = file('/Applications/IntelliJ IDEA.app')
+    }
 }
 
 //配置编码格式
@@ -83,4 +87,3 @@ tasks.register('fatJar', Jar) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     with jar
 }
-

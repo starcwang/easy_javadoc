@@ -85,6 +85,9 @@
 这是因为IDEA的默认格式化将文档标签顺序改了，如果非得要自定义的顺序的话，则需要改IDEA如下设置![关闭Javadoc格式化](./doc/jpg/closeJavadocFormat.png)
 
 ## 更新履历
+- v4.5.6 2026-07-29
+  - 支持IDEA 2023.1（231）及以上版本，不限制最高版本
+  - 升级Gradle和IntelliJ Platform Gradle Plugin，并使用IDEA 2026.1.4（261）验证
 - v4.5.5 2026-07-23
   - 延迟加载每个 ClassSettingsView; 修复打开 EasyDoc 设置界面时 NPE 导致界面无法加载的问题（#196）
 - v4.5.4 2026-07-23
