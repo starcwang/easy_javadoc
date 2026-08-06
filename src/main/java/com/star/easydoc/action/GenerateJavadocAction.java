@@ -162,7 +162,7 @@ public class GenerateJavadocAction extends AnAction {
      */
     private void kdocProcess(Project project, KtFile psiFile, PsiElement psiElement) {
 
-        String comment = kdocGeneratorService.generate(psiElement);
+        String comment = normalizeKdoc(kdocGeneratorService.generate(psiElement));
         if (StringUtils.isEmpty(comment)) {
             return;
         }
@@ -170,5 +170,9 @@ public class GenerateJavadocAction extends AnAction {
         PsiComment psiDocComment = factory.createComment(comment);
 
         writerService.writeKdoc(project, (KtElement)psiElement, (KDoc)psiDocComment);
+    }
+
+    static String normalizeKdoc(String comment) {
+        return StringUtils.strip(comment);
     }
 }
