@@ -278,6 +278,9 @@
 - [@kings1990](https://github.com/kings1990)
 - [@mixley](https://github.com/mixley)
 - [@kuolemax](https://github.com/kuolemax)
+- [@aaaaaaaaaaaaaa](https://github.com/aaaaaaaaaaaaaa)
+- [@useername](https://github.com/useername)
+- [@lihaojiee](https://github.com/lihaojiee)
     
 ## 支持作者
 如果觉得插件很赞，为你节约了不少时间，那么就请作者喝杯咖啡吧~☕☕☕
