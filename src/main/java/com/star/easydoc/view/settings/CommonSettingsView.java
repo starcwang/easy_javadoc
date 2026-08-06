@@ -305,6 +305,7 @@ public class CommonSettingsView {
             openAiModelTextField.setVisible(true);
         } else if (Consts.CUSTOM_URL.equals(selectedItem)) {
             customUrlLabel.setVisible(true);
+            customUrlTextField.setVisible(true);
             customUrlHelpButton.setVisible(true);
             customHttpMethodLabel.setVisible(true);
             customHttpMethodBox.setVisible(true);

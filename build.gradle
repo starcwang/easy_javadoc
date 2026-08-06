@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.star.easydoc'
-version = '4.5.6'
+version = '4.5.7'
 
 // IntelliJ IDEA 2023.1 使用 Java 17
 java {
@@ -54,6 +54,8 @@ intellijPlatform {
 
 dependencies {
     implementation 'com.alibaba.fastjson2:fastjson2:2.0.61'
+    implementation 'org.apache.commons:commons-lang3:3.20.0'
+    implementation 'commons-io:commons-io:2.22.0'
     implementation 'com.auth0:java-jwt:4.4.0'
     testImplementation 'junit:junit:4.13.2'
 
