@@ -16,7 +16,7 @@ import com.intellij.psi.javadoc.PsiDocComment;
 import com.intellij.psi.javadoc.PsiDocTag;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.service.translator.TranslatorService;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author <a href="mailto:wangchao.star@gmail.com">wangchao</a>

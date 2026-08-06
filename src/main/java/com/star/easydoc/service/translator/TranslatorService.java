@@ -20,19 +20,7 @@ import com.star.easydoc.common.util.CollectionUtil;
 import com.star.easydoc.common.util.StringUtil;
 import com.star.easydoc.config.EasyDocConfig;
 import com.star.easydoc.config.EasyDocConfigComponent;
-import com.star.easydoc.service.translator.impl.AliyunTranslator;
-import com.star.easydoc.service.translator.impl.BaiduTranslator;
-import com.star.easydoc.service.translator.impl.CustomTranslator;
-import com.star.easydoc.service.translator.impl.GoogleFreeTranslator;
-import com.star.easydoc.service.translator.impl.GoogleTranslator;
-import com.star.easydoc.service.translator.impl.JinshanTranslator;
-import com.star.easydoc.service.translator.impl.LocalTranslator;
-import com.star.easydoc.service.translator.impl.MicrosoftFreeTranslator;
-import com.star.easydoc.service.translator.impl.MicrosoftTranslator;
-import com.star.easydoc.service.translator.impl.SimpleSplitterTranslator;
-import com.star.easydoc.service.translator.impl.TencentTranslator;
-import com.star.easydoc.service.translator.impl.YoudaoAiTranslator;
-import com.star.easydoc.service.translator.impl.YoudaoTranslator;
+import com.star.easydoc.service.translator.impl.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -73,6 +61,7 @@ public class TranslatorService {
                 .put(Consts.SIMPLE_SPLITTER, new SimpleSplitterTranslator().init(config))
                 .put(Consts.LOCAL_DICTIONARY, new LocalTranslator().init(config))
                 .put(Consts.CUSTOM_URL, new CustomTranslator().init(config))
+                .put(Consts.OPENAI_GPT, new OpenAiTranslator().init(config))
                 .build();
             this.config = config;
         }

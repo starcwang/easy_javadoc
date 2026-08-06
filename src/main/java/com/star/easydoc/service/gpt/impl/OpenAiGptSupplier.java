@@ -10,7 +10,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.star.easydoc.common.util.HttpUtil;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 通用大模型（OpenAI格式）
