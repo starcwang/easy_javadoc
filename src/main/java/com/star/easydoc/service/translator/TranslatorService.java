@@ -55,7 +55,7 @@ public class TranslatorService {
                 .put(Consts.YOUDAO_AI_TRANSLATOR, new YoudaoAiTranslator().init(config))
                 .put(Consts.YOUDAO_TRANSLATOR, new YoudaoTranslator().init(config))
                 .put(Consts.MICROSOFT_TRANSLATOR, new MicrosoftTranslator().init(config))
-                .put(Consts.MICROSOFT_FREE_TRANSLATOR, new MicrosoftFreeTranslator().init(config))
+                .put(Consts.MICROSOFT_FREE_TRANSLATOR, new BingFreeTranslator().init(config))
                 .put(Consts.GOOGLE_TRANSLATOR, new GoogleTranslator().init(config))
                 .put(Consts.GOOGLE_FREE_TRANSLATOR, new GoogleFreeTranslator().init(config))
                 .put(Consts.SIMPLE_SPLITTER, new SimpleSplitterTranslator().init(config))

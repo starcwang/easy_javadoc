@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.star.easydoc'
-version = '4.5.8'
+version = '4.5.9'
 
 // IntelliJ IDEA 2023.1 使用 Java 17
 java {
